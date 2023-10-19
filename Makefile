@@ -1,4 +1,4 @@
 all:
-	g++ -w -o dictionary -Iinclude src/*.cpp *.cpp -Llib -lraylib -lopengl32 -lgdi32 -lwinmm && dictionary
+	g++ -w -o CrossRoad -Iinclude src/*.cpp *.cpp -Llib -lraylib -lopengl32 -lgdi32 -lwinmm && CrossRoad
 clean:
 	-del *.exe 
