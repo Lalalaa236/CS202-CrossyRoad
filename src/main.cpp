@@ -1,14 +1,10 @@
 #include <iostream>
 #include"raylib.h"
-#include"FE.h"
-using namespace std;
 
-const int screenW = 1512;
-const int screenH = 982;
+using namespace std;
 
 int main()
 {
-	InitWindow(screenW, screenH, "Crossing Road");  
-	CreateMenu(screenW, screenH);
+	cout << "Hello World" << endl;
 	return 0;
 }
