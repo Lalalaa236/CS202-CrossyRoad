@@ -2,10 +2,11 @@
 
 class Obstacle {
 public:
-    virtual void move() {} = 0;
-    virtual void makeSound(){} = 0;
-    virtual bool checkType(); 
-    virtual ~Obstacle() {}
+    virtual void move(float x, float y);
+    virtual void makeSound();
+    virtual bool checkType();
+    virtual ~Obstacle();
+    virtual bool CheckOutOfScreen();
 private:
     float speed;
     float x, y;
