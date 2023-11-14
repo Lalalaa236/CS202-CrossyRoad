@@ -1,5 +1,6 @@
 #include "menuState.h"
 #include "gamestate.h"  
+#include"settingState.h"
 #include"raylib.h"
 #include<utility>
 
@@ -11,7 +12,8 @@ MenuState::MenuState() {
         button[2] = LoadTexture("../CS202-CROSSROAD/image/menu/leader.png");
         button[3] = LoadTexture("../CS202-CROSSROAD/image/menu/prize.png");
         button[4] = LoadTexture("../CS202-CROSSROAD/image/menu/play.png");
-        name = LoadTexture("../CS202-CROSSROAD/image/menu/name.png");
+        name = LoadTexture("../CS202-CROSSROAD/image/menu/name.png");  
+        shouldPopState = false;
 }   
 
 
@@ -24,12 +26,14 @@ void MenuState::handleEvents() {
         
                 for (int i = 0; i < 5; i++){
                         if (CheckCollisionPointRec(mousePosition,{a[i].x,a[i].y,button[i].width * 0.3f, button[i].height * 0.3f})){
-                                // switch(i){
-                                // case 0:
+                                switch(i){
+                                case 0:
                                 //         //nextState = new instruction();
-                                //         break;
-                                // case 1:
-                                //         break;
+                                        //shouldPo
+                                        break;
+                                case 1:
+                                        nextState = new settingState();
+                                        break;
                                 // case 2:
                                 //         break;
                                 // case 3:
@@ -40,13 +44,15 @@ void MenuState::handleEvents() {
                                 //         break;
                                 // default:
                                 //         break;
-                                // }
+                                 }
                         }
                 }
                 if (CheckCollisionPointRec(mousePosition,{a[5].x,a[5].y,name.width * 1.0f,name.height*1.0f})){
                 
                 }
+                
         }
+        
 }
 
 void MenuState::update() {
@@ -81,13 +87,14 @@ void MenuState::draw() const {
 
 }
 
-State* MenuState::getNextState() const {
-        return nextState;
-}
 
 bool MenuState::shouldPop() const {
         return shouldPopState;
 }
 
 MenuState::~MenuState() {
+        if (nextState != nullptr){
+                delete nextState;
+        }
+        nextState = nullptr;
 }

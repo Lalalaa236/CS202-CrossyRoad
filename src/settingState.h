@@ -9,11 +9,9 @@ public:
     void update() override;
     void draw() const override;
     ~settingState();
-    State* getNextState() const;
     bool shouldPop() const override;
 private:
-    State* nextState = nullptr;
     Texture2D background;
-    Texture2D button[6];
-    Texture2D name;
+    Texture2D settingBoard;
+    Texture2D closeButton;
 };

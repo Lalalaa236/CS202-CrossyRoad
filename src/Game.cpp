@@ -18,23 +18,24 @@ Game::~Game() {
 
 void Game::run() {
     // Game loop
-    while (!WindowShouldClose()) {
-        
-        State* currentState = stateStack.top();
-        currentState->handleEvents();
-        currentState->update();
-        currentState->draw();
-        
-        
-        State* nextState = currentState->getNextState();
+    while (!WindowShouldClose() && !stateStack.empty()) {
+    State* currentState = stateStack.top();
+    currentState->setState();
+    currentState->update();
+    currentState->draw();
+    currentState->handleEvents();
 
-        // Switch to the next state if needed
-        if (nextState != nullptr) {
-            stateStack.push(nextState);
-           
-        }        
+    State* newState = currentState->getNextState();
+    //std::cout <<"**" << currentState << std::endl;
 
+    if (currentState->shouldPop()) {
+        delete currentState;
+        stateStack.pop();
+    } 
+    if (newState != nullptr) {
+        //std::cout <<"*" << newState << std::endl;
+        stateStack.push(newState);
     }
-
+}
     CloseWindow();
 }

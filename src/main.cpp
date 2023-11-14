@@ -8,7 +8,6 @@ int main() {
     const int screenHeight = 982;
     InitWindow(screenWidth, screenHeight, "Crossing Road");
     SetTargetFPS(60);
-    
     Game game;
     game.run();
 	return 0;
