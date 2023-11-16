@@ -10,8 +10,10 @@ public:
     void draw() const override;
     ~settingState();
     bool shouldPop() const override;
+    void init() override;
 private:
-    Texture2D background;
-    Texture2D settingBoard;
-    Texture2D closeButton;
+    Texture2D* background;
+    Texture2D* settingBoard;
+    Texture2D* closeButton;
+    Texture2D* sound[5];
 };

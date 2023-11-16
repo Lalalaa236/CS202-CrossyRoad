@@ -1,21 +1,33 @@
 #include "menuState.h"
 #include "gamestate.h"  
 #include"settingState.h"
+#include"highscoreState.h"
 #include"raylib.h"
 #include<utility>
+#include"TextureHolder.h"
 
 
-MenuState::MenuState() {
-        background = LoadTexture("../CS202-CROSSROAD/image/menu/bg.png");
-        button[0] = LoadTexture("../CS202-CROSSROAD/image/menu/about.png");
-        button[1] = LoadTexture("../CS202-CROSSROAD/image/menu/setting.png");
-        button[2] = LoadTexture("../CS202-CROSSROAD/image/menu/leader.png");
-        button[3] = LoadTexture("../CS202-CROSSROAD/image/menu/prize.png");
-        button[4] = LoadTexture("../CS202-CROSSROAD/image/menu/play.png");
-        name = LoadTexture("../CS202-CROSSROAD/image/menu/name.png");  
+MenuState::MenuState() { 
         shouldPopState = false;
 }   
 
+void MenuState::init(){
+        // background = LoadTexture("../CS202-CROSSROAD/image/menu/bg.png");
+        // button[0] = LoadTexture("../CS202-CROSSROAD/image/menu/about.png");
+        // button[1] = LoadTexture("../CS202-CROSSROAD/image/menu/setting.png");
+        // button[2] = LoadTexture("../CS202-CROSSROAD/image/menu/leader.png");
+        // button[3] = LoadTexture("../CS202-CROSSROAD/image/menu/prize.png");
+        // button[4] = LoadTexture("../CS202-CROSSROAD/image/menu/play.png");
+        // name = LoadTexture("../CS202-CROSSROAD/image/menu/name.png"); 
+        
+        background = &TextureHolder::getHolder().get(Textures::BACKGROUND_MENU);
+        button[0] =  &TextureHolder::getHolder().get(Textures::BUTTON_0);
+        button[1] = &TextureHolder::getHolder().get(Textures::BUTTON_1);
+        button[2] = &TextureHolder::getHolder().get(Textures::BUTTON_2);
+        button[3] = &TextureHolder::getHolder().get(Textures::BUTTON_3);
+        button[4] = &TextureHolder::getHolder().get(Textures::BUTTON_4);
+        name = &TextureHolder::getHolder().get(Textures::NAME_LOGO); 
+}
 
 void MenuState::handleEvents() {
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
@@ -25,7 +37,7 @@ void MenuState::handleEvents() {
                 Vector2 a[6]={{33,24},{1352,28},{63,802},{1352,804},{660,647},{244,191}};
         
                 for (int i = 0; i < 5; i++){
-                        if (CheckCollisionPointRec(mousePosition,{a[i].x,a[i].y,button[i].width * 0.3f, button[i].height * 0.3f})){
+                        if (CheckCollisionPointRec(mousePosition,{a[i].x,a[i].y,button[i]->width * 0.3f, button[i]->height * 0.3f})){
                                 switch(i){
                                 case 0:
                                 //         //nextState = new instruction();
@@ -33,11 +45,14 @@ void MenuState::handleEvents() {
                                         break;
                                 case 1:
                                         nextState = new settingState();
+                                        nextState->init();
                                         break;
                                 // case 2:
                                 //         break;
-                                // case 3:
-                                //         break;
+                                case 3:
+                                        nextState = new highScoreState();
+                                        nextState->init();
+                                        break;
                                 // case 4:
                                 //         break;
                                 // case 5:
@@ -47,7 +62,7 @@ void MenuState::handleEvents() {
                                  }
                         }
                 }
-                if (CheckCollisionPointRec(mousePosition,{a[5].x,a[5].y,name.width * 1.0f,name.height*1.0f})){
+                if (CheckCollisionPointRec(mousePosition,{a[5].x,a[5].y,name->width * 1.0f,name->height*1.0f})){
                 
                 }
                 
@@ -61,27 +76,27 @@ void MenuState::update() {
 
 void MenuState::draw() const {
      
-        float scaleWidth = (float)GetScreenWidth()/ background.width;
-        float scaleHeight = (float)GetScreenHeight() / background.height;
+        float scaleWidth = (float)GetScreenWidth()/ background->width;
+        float scaleHeight = (float)GetScreenHeight() / background->height;
         BeginDrawing();
         ClearBackground(RAYWHITE);
         // Draw background image
         DrawTexturePro(
-            background,            
-            {0, 0, float(background.width), float(background.height)}, 
-            {0, 0, background.width *  scaleWidth, background.height * scaleHeight},            
+            *background,            
+            {0, 0, float(background->width), float(background->height)}, 
+            {0, 0, background->width *  scaleWidth, background->height * scaleHeight},            
             {0, 0},       
             0,                     
             WHITE                                      
         );
         Vector2 a[5]={{33,24},{1352,28},{63,802},{1352,804},{660,647}};
         for (int i = 0; i < 5; i++)
-        DrawTextureEx(button[i],
+        DrawTextureEx(*button[i],
                       a[i],  // Position
                       0,                   // Rotation angle
                       0.3,               // Scale
                       WHITE);              // Tint color
-        DrawTexture(name, 244, 191, WHITE);
+        DrawTexture(*name, 244, 191, WHITE);
 
         EndDrawing();
 

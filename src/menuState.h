@@ -10,9 +10,10 @@ public:
     void draw() const override;
     ~MenuState();
     bool shouldPop() const override;
+    void init() override;
 private:
-    Texture2D background;
-    Texture2D button[6];
-    Texture2D name;
+    Texture2D* background;
+    Texture2D* button[6];
+    Texture2D* name;
 };
 

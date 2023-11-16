@@ -9,6 +9,7 @@ public:
     virtual bool shouldPop() const = 0;
     State* getNextState() const;
     void setState();
+    virtual void init() = 0;
 protected:
     bool shouldPopState = false;
     State* nextState = nullptr;
