@@ -48,7 +48,7 @@ void Game::loadAllTexture(){
     TextureHolder::getHolder().load(Textures::CLOSE_BUTTON, "../CS202-CROSSROAD/image/general/closeButton.png");
     TextureHolder::getHolder().load(Textures::BACKGROUND_MENU, "../CS202-CROSSROAD/image/menu/bg.png");
     TextureHolder::getHolder().load(Textures::BUTTON_0, "../CS202-CROSSROAD/image/menu/about.png");
-    TextureHolder::getHolder().load(Textures::BUTTON_1, "../CS202-CROSSROAD/image/menu/about.png");
+    TextureHolder::getHolder().load(Textures::BUTTON_1, "../CS202-CROSSROAD/image/menu/setting.png");
     TextureHolder::getHolder().load(Textures::BUTTON_2, "../CS202-CROSSROAD/image/menu/leader.png");
     TextureHolder::getHolder().load(Textures::BUTTON_3, "../CS202-CROSSROAD/image/menu/prize.png");
     TextureHolder::getHolder().load(Textures::BUTTON_4, "../CS202-CROSSROAD/image/menu/play.png");
