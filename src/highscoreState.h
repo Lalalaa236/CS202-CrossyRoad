@@ -7,7 +7,7 @@ public:
     highScoreState();
     void handleEvents() override;
     void update() override;
-    void draw() const override;
+    void draw() override;
     ~highScoreState();
     bool shouldPop() const override;
     void init() override;

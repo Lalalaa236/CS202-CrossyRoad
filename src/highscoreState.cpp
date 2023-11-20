@@ -25,7 +25,7 @@ void highScoreState::update(){
 
 }
 
-void highScoreState::draw() const{
+void highScoreState::draw(){
     float scaleWidth = (float)GetScreenWidth()/ background->width;
     float scaleHeight = (float)GetScreenHeight() / background->height;
     BeginDrawing();

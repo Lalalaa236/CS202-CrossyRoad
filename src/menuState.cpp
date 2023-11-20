@@ -7,19 +7,11 @@
 #include"TextureHolder.h"
 
 
-MenuState::MenuState() { 
+MenuState::MenuState(Game& game) : game(game) { 
         shouldPopState = false;
 }   
 
-void MenuState::init(){
-        // background = LoadTexture("../CS202-CROSSROAD/image/menu/bg.png");
-        // button[0] = LoadTexture("../CS202-CROSSROAD/image/menu/about.png");
-        // button[1] = LoadTexture("../CS202-CROSSROAD/image/menu/setting.png");
-        // button[2] = LoadTexture("../CS202-CROSSROAD/image/menu/leader.png");
-        // button[3] = LoadTexture("../CS202-CROSSROAD/image/menu/prize.png");
-        // button[4] = LoadTexture("../CS202-CROSSROAD/image/menu/play.png");
-        // name = LoadTexture("../CS202-CROSSROAD/image/menu/name.png"); 
-        
+void MenuState::init(){        
         background = &TextureHolder::getHolder().get(Textures::BACKGROUND_MENU);
         button[0] =  &TextureHolder::getHolder().get(Textures::BUTTON_0);
         button[1] = &TextureHolder::getHolder().get(Textures::BUTTON_1);
@@ -44,7 +36,7 @@ void MenuState::handleEvents() {
                                         //shouldPo
                                         break;
                                 case 1:
-                                        nextState = new settingState();
+                                        nextState = new settingState(game);
                                         nextState->init();
                                         break;
                                 // case 2:
@@ -74,7 +66,7 @@ void MenuState::update() {
     // Update logic for the menu state
 }
 
-void MenuState::draw() const {
+void MenuState::draw() {
      
         float scaleWidth = (float)GetScreenWidth()/ background->width;
         float scaleHeight = (float)GetScreenHeight() / background->height;
