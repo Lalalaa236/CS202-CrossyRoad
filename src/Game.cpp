@@ -6,13 +6,27 @@
 
 
 Game::Game() {
+    if(GetWindowHandle())
+        return;
     stateStack.push(new MenuState(*this));
     soundEnabled = true;
     volume = 1.0f;
+    const int screenWidth = 1512;
+    const int screenHeight = 982;
+    InitWindow(screenWidth, screenHeight, "Crossing Road");
+    SetTargetFPS(60);
+    loadAllTexture();
+    stateStack.top()->init();
+    InitAudioDevice();
+    bgMusic = LoadMusicStream("image/Sound/bgMusic.mp3");
+    PlayMusicStream(bgMusic);
 }
 
 Game::~Game() {
     // Cleanup
+    if(!GetWindowHandle())
+        return;
+    CloseWindow();
     while (!stateStack.empty()) {
         delete stateStack.top();
         stateStack.pop();
@@ -65,22 +79,13 @@ void Game::loadAllTexture(){
     
 }
 void Game::run() {
-    const int screenWidth = 1512;
-    const int screenHeight = 982;
-    InitWindow(screenWidth, screenHeight, "Crossing Road");
-    SetTargetFPS(60);
-    loadAllTexture();
-    stateStack.top()->init();
-    InitAudioDevice();
-    bgMusic = LoadMusicStream("image/Sound/bgMusic.mp3");
-    PlayMusicStream(bgMusic);
     while (!WindowShouldClose() && !stateStack.empty()) {
         UpdateMusicStream(bgMusic);
         State* currentState = stateStack.top();
         currentState->setState();
+        currentState->handleEvents();
         currentState->update();
         currentState->draw();
-        currentState->handleEvents();
 
         State* newState = currentState->getNextState();
 
@@ -92,6 +97,5 @@ void Game::run() {
 
             stateStack.push(newState);
         }
-}
-    CloseWindow();
+    }
 }
