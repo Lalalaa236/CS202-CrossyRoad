@@ -85,6 +85,13 @@ void Game::loadAllTexture() {
 
     TextureHolder::getHolder().load(Textures::INSTRUCTION_1, "image/instruction/instruction1.png");
     TextureHolder::getHolder().load(Textures::INSTRUCTION_2, "image/instruction/instruction2.png");
+
+    TextureHolder::getHolder().load(Textures::GRASS, "image/gamestate/grass.png");
+    TextureHolder::getHolder().load(Textures::ROAD, "image/gamestate/line.png");
+
+    TextureHolder::getHolder().load(Textures::RED_LIGHT, "image/gamestate/RedLight.png");
+    TextureHolder::getHolder().load(Textures::YELLOW_LIGHT, "image/gamestate/YellowLight.png");
+    TextureHolder::getHolder().load(Textures::GREEN_LIGHT, "image/gamestate/GreenLight.png");
 }
 
 void Game::run() {
@@ -93,8 +100,8 @@ void Game::run() {
         State* currentState = stateStack.top();
         currentState->setState();
         currentState->handleEvents();
-        currentState->update();
         currentState->draw();
+        currentState->update();
 
         State* newState = currentState->getNextState();
 
