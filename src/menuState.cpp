@@ -33,8 +33,8 @@ void MenuState::handleEvents() {
             if (CheckCollisionPointRec(mousePosition, { a[i].x,a[i].y,button[i]->width * 0.3f, button[i]->height * 0.3f })) {
                 switch (i) {
                 case 0:
-                    //         //nextState = new instruction();
-                            //shouldPo
+                    nextState = new InstructionState();
+                    nextState->init();
                     break;
                 case 1:
                     nextState = new settingState(game);
@@ -47,8 +47,8 @@ void MenuState::handleEvents() {
                     nextState->init();
                     break;
                 case 4:
-                    nextState = new InstructionState();
-                    nextState->init();
+                    // nextState = new InstructionState();
+                    // nextState->init();
                     break;
                     // case 5:
                     //         break;
