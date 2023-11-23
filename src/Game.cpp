@@ -20,7 +20,7 @@ Game::Game() {
 
     InitAudioDevice();
     bgMusic = LoadMusicStream("image/Sound/bgMusic.mp3");
-    PlayMusicStream(bgMusic);
+    // PlayMusicStream(bgMusic);
 }
 
 Game::~Game() {
@@ -96,8 +96,8 @@ void Game::run() {
         State* currentState = stateStack.top();
         currentState->setState();
         currentState->handleEvents();
-        currentState->update();
         currentState->draw();
+        currentState->update();
 
         State* newState = currentState->getNextState();
 

@@ -47,8 +47,8 @@ void MenuState::handleEvents() {
                     nextState->init();
                     break;
                 case 4:
-                    // nextState = new InstructionState();
-                    // nextState->init();
+                    nextState = new GameState();
+                    nextState->init();
                     break;
                     // case 5:
                     //         break;

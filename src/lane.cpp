@@ -1,46 +1,78 @@
 #include "lane.h"
+#include <iostream>
 
 Lane::Lane(float y, int id) 
 : y(y)
 {
-    id = rand() % 2;
-    switch(id)
+    static int cnt = 0;
+    this->id = rand() % 2;
+    switch(this->id)
     {
         case 0:
-            texture = &TextureHolder::getHolder().get(Textures::ROAD);
-            trafficLight = new TrafficLight();
-            break;
+            if(cnt == 5)
+            {
+                texture = &TextureHolder::getHolder().get(Textures::GRASS);
+                cnt = 0;
+                break;
+            }
+            else
+            {
+                texture = &TextureHolder::getHolder().get(Textures::ROAD);
+                trafficLight = nullptr; //new TrafficLight();
+                cnt++;
+                break;
+            }
         case 1:
-            texture = &TextureHolder::getHolder().get(Textures::GRASS);
-            trafficLight = nullptr;
-            break;
+            if(cnt == 3)
+            {
+                texture = &TextureHolder::getHolder().get(Textures::ROAD);
+                trafficLight = nullptr;
+                cnt = 0;
+                break;
+            }
+            else
+            {
+                texture = &TextureHolder::getHolder().get(Textures::GRASS);
+                trafficLight = nullptr; //new TrafficLight();
+                cnt++;
+                break;
+            }
         default:
             texture = nullptr;
             trafficLight = nullptr;
             break;
     }
+    // static int i = 0;
+    // if(i++ < 12)
+    //     std::cout << "Lane constructor called" << std::endl;
 }
 
-void Lane::addObstacle(Obstacle* obstacle) {
+void Lane::addObstacle(Obstacle* obstacle) 
+{
     obstacles.push_back(obstacle);
 }
 
-void Lane::draw() {
+void Lane::draw() 
+{
     DrawTextureEx(*texture, {0, y}, 0, 1, WHITE);
-    if (trafficLight != nullptr) {
-        trafficLight->draw();
-    }
+    // if(trafficLight) 
+    //     trafficLight->draw();
     // for (auto obstacle : obstacles) {
     //     obstacle->draw();
     // }
+    // static int i = 0;
+    // if(i++ < 12)
+    //     std::cout << "Lane draw called" << std::endl;
 }
 
-Lane::~Lane() {
-    while(obstacles.size()) {
-        delete obstacles.front();
-        obstacles.pop_front();
-    }
-    delete trafficLight;
+Lane::~Lane() 
+{
+    // while(obstacles.size()) 
+    // {
+    //     delete obstacles.front();
+    //     obstacles.pop_front();
+    // }
+    // delete trafficLight;
 }
 
 void Lane::setY(float y) 
