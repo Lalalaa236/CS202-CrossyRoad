@@ -7,6 +7,10 @@ TrafficLight::TrafficLight() {
     this->timer = 0.0;
     this->redTimer = 5.0;
     this->greenTimer = 7.0;
+    
+    red = &TextureHolder::getHolder().get(Textures::RED_LIGHT);
+    yellow = &TextureHolder::getHolder().get(Textures::YELLOW_LIGHT);
+    green = &TextureHolder::getHolder().get(Textures::GREEN_LIGHT);
 }
 
 TrafficLight::TrafficLight(bool state, double redTimer, double greenTimer) {
@@ -18,6 +22,10 @@ TrafficLight::TrafficLight(bool state, double redTimer, double greenTimer) {
     this->timer = 0.0;
     this->redTimer = redTimer;
     this->greenTimer = greenTimer;
+
+    red = &TextureHolder::getHolder().get(Textures::RED_LIGHT);
+    yellow = &TextureHolder::getHolder().get(Textures::YELLOW_LIGHT);
+    green = &TextureHolder::getHolder().get(Textures::GREEN_LIGHT);
 }
 
 TrafficLight::~TrafficLight() {

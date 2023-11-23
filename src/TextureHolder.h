@@ -40,7 +40,12 @@ namespace Textures
 
         // Lanes
         GRASS,
-        ROAD
+        ROAD,
+
+        // Lights
+        RED_LIGHT,
+        YELLOW_LIGHT,
+        GREEN_LIGHT,
     };
 }
 

@@ -13,30 +13,28 @@ Lane::Lane(float y, int id)
             {
                 texture = &TextureHolder::getHolder().get(Textures::GRASS);
                 cnt = 0;
-                break;
             }
             else
             {
                 texture = &TextureHolder::getHolder().get(Textures::ROAD);
                 trafficLight = nullptr; //new TrafficLight();
                 cnt++;
-                break;
             }
+            break;
         case 1:
             if(cnt == 3)
             {
                 texture = &TextureHolder::getHolder().get(Textures::ROAD);
                 trafficLight = nullptr;
                 cnt = 0;
-                break;
             }
             else
             {
                 texture = &TextureHolder::getHolder().get(Textures::GRASS);
                 trafficLight = nullptr; //new TrafficLight();
                 cnt++;
-                break;
             }
+            break;
         default:
             texture = nullptr;
             trafficLight = nullptr;

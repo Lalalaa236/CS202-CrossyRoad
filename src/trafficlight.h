@@ -1,7 +1,7 @@
 #ifndef TRAFFIC_LIGHT_H
 #define TRAFFIC_LIGHT_H
 
-#include "raylib.h"
+#include "TextureHolder.h"
 #include <cassert>
 
 class TrafficLight {
@@ -9,6 +9,9 @@ private:
     bool lightState = false;    // false = red, true = green
     double timer = 0.0;         // timer for light state
     double redTimer = 0.0, greenTimer = 0.0;    // timers for red and green lights
+    Texture2D* red;
+    Texture2D* yellow;
+    Texture2D* green;
 
 public:
     // Constructor and Destructor
