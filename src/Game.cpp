@@ -3,6 +3,7 @@
 #include "State.h"
 #include"TextureHolder.h"
 #include <iostream>
+#include "GameSettings.h"  
 
 
 Game::Game() {
@@ -12,11 +13,8 @@ Game::Game() {
     soundEnabled = true;
     volume = 1.0f;
 
-    const int screenWidth = 1512;
-    const int screenHeight = 982;
-
-    InitWindow(screenWidth, screenHeight, "Crossing Road");
-    SetTargetFPS(60);
+    InitWindow(settings::SCREEN_WIDTH, settings::SCREEN_HEIGHT, "Crossing Road");
+    SetTargetFPS(settings::SCREEN_FPS);
     loadAllTexture();
     stateStack.top()->init();
 

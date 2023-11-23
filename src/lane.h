@@ -2,10 +2,8 @@
 #define LANE_H
 
 #include "Obstacle.h"
-#include "TrafficLight.h"
+#include "trafficlight.h"
 #include <deque>
-
-using namespace std;
 
 class Lane {
     public:
@@ -17,7 +15,7 @@ class Lane {
     private:
         float y;
         int id;
-        deque <Obstacle*> obstacles;
+        std::deque<Obstacle*> obstacles;
         TrafficLight* trafficLight;
 };
 
