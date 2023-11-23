@@ -32,3 +32,27 @@ std::pair<float, float> Player::getPosition()
 {
     return position;
 }
+
+void Player::move(Direction direction)
+{
+    switch(direction)
+    {
+        case Direction::UP:
+            up();
+            break;
+        case Direction::DOWN:
+            down();
+            break;
+        case Direction::LEFT:
+            left();
+            break;
+        case Direction::RIGHT:
+            right();
+            break;
+    }
+}
+
+bool Player::getIsAlive()
+{
+    return isAlive;
+}
