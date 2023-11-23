@@ -9,9 +9,13 @@
 class Lane {
     public:
         Lane(float y, int id);
+        ~Lane();
+
+        void setY(float y);
+        
         void addObstacle(Obstacle* obstacle);
         void draw();
-        ~Lane();
+        float getY() const;
 
     private:
         const Texture2D* texture;

@@ -43,3 +43,12 @@ Lane::~Lane() {
     delete trafficLight;
 }
 
+void Lane::setY(float y) 
+{
+    this->y = y;
+}
+
+float Lane::getY() const
+{
+    return y;
+}
