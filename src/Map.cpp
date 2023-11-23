@@ -1,8 +1,8 @@
 #include "Map.h"
 #include <iostream>
 
-Map::Map()
-: speed(0.5f)
+Map::Map(float speed)
+: speed(speed)
 {
     for(int i = 0; i < 12; ++i)
     {
@@ -31,7 +31,7 @@ void Map::update()
         lanes.pop_back();
         Lane* lane = new Lane(lanes.front()->getY() - 95.0f, 0);
         lanes.push_front(lane);
-        std::cout << lanes.front()->getY() << std::endl;
+        // std::cout << lanes.front()->getY() << std::endl;
     }
     // static int i = 0;
     // if(i++ == 0)

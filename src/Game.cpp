@@ -20,7 +20,7 @@ Game::Game() {
 
     InitAudioDevice();
     bgMusic = LoadMusicStream("image/Sound/bgMusic.mp3");
-    // PlayMusicStream(bgMusic);
+    PlayMusicStream(bgMusic);
 }
 
 Game::~Game() {

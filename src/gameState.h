@@ -10,6 +10,7 @@ class GameState : public State
     private:
         Player* player;
         Map* map;
+        float speed;
     public:
         GameState();
         ~GameState();

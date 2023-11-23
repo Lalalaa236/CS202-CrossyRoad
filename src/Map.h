@@ -9,7 +9,7 @@ class Map
         std::deque<Lane*> lanes;
         float speed;
     public:
-        Map();
+        Map(float speed);
         void draw();
         void update();
         void setSpeed(float speed);

@@ -8,19 +8,21 @@
 
 class Lane {
     public:
-        Lane(float y, int id);
+        Lane(float y, float mapSpeed);
         ~Lane();
 
         void setY(float y);
+        float getY() const;
+        void setSpeed(float mapSpeed);
         
         void addObstacle(Obstacle* obstacle);
         void draw();
-        float getY() const;
+        void update();
 
     private:
         const Texture2D* texture;
         float y;
-        int id;
+        float mapSpeed;
         std::deque<Obstacle*> obstacles;
         TrafficLight* trafficLight;
 };

@@ -6,6 +6,7 @@
 
 class TrafficLight {
 private:
+    std::pair<float, float> position;   // position of traffic light
     bool lightState = false;    // false = red, true = green
     double timer = 0.0;         // timer for light state
     double redTimer = 0.0, greenTimer = 0.0;    // timers for red and green lights
@@ -15,7 +16,7 @@ private:
 
 public:
     // Constructor and Destructor
-    TrafficLight();
+    TrafficLight(float x, float y);
     TrafficLight(bool state, double redTimer, double greenTimer);
     virtual ~TrafficLight();
 
@@ -23,6 +24,8 @@ public:
     bool getLightState() const;
     void setLightState(bool state);
     double getTimer() const;
+    std::pair<float, float> getPosition() const;
+    void setY(float y);
 
     // Methods
     void draw();

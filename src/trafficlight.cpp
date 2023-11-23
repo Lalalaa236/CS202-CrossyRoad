@@ -1,13 +1,16 @@
 #include "trafficlight.h"
+#include <iostream>
 
 // Constructor and Destructor
 
-TrafficLight::TrafficLight() {
+TrafficLight::TrafficLight(float x, float y) 
+: position({x, y})
+{
     this->lightState = false;
     this->timer = 0.0;
     this->redTimer = 5.0;
     this->greenTimer = 7.0;
-    
+
     red = &TextureHolder::getHolder().get(Textures::RED_LIGHT);
     yellow = &TextureHolder::getHolder().get(Textures::YELLOW_LIGHT);
     green = &TextureHolder::getHolder().get(Textures::GREEN_LIGHT);
@@ -46,12 +49,23 @@ double TrafficLight::getTimer() const {
     return this->timer;
 }
 
+std::pair<float, float> TrafficLight::getPosition() const {
+    return this->position;
+}
+
 // Methods
 
 void TrafficLight::draw() {
-    // TODO: Draw the traffic light
+    if (lightState == false)
+        DrawTextureEx(*red, {position.first, position.second - 40}, 0, 1, WHITE);
+    else 
+        DrawTextureEx(*green, {position.first, position.second - 40}, 0, 1, WHITE);
 }
 
 void TrafficLight::update() {
     // TODO: Update the traffic light
+}
+
+void TrafficLight::setY(float y) {
+    this->position.second = y;
 }

@@ -2,11 +2,12 @@
 #include <iostream>
 
 GameState::GameState()
+: speed(0.0f)
 {
-    map = new Map();
+    map = new Map(speed);
     player = nullptr;
     shouldPopState = false;
-    std::cout << "GameState constructor called" << std::endl;
+    // std::cout << "GameState constructor called" << std::endl;
 }
 
 GameState::~GameState()
@@ -21,9 +22,9 @@ bool GameState::shouldPop() const
 
 void GameState::draw()
 {
-    static int i = 0;
-    if(i++ == 0)
-        std::cout << "GameState draw called" << std::endl;
+    // static int i = 0;
+    // if(i++ == 0)
+    //     std::cout << "GameState draw called" << std::endl;
     BeginDrawing();
     ClearBackground(RAYWHITE);
     map->draw();
@@ -33,9 +34,9 @@ void GameState::draw()
 
 void GameState::update()
 {
-    static int i = 0;
-    if(i++ == 0)
-        std::cout << "GameState update called" << std::endl;
+    // static int i = 0;
+    // if(i++ == 0)
+    //     std::cout << "GameState update called" << std::endl;
     map->update();
     // player->update();
 }
@@ -47,6 +48,11 @@ void GameState::init()
 
 void GameState::handleEvents()
 {
+    if(speed == 0.0f && (IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_W)))
+    {
+        speed = 0.6f;
+        map->setSpeed(speed);
+    }
     if(IsKeyPressed(KEY_P))
         shouldPopState = true;
 }
