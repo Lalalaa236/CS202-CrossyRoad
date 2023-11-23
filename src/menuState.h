@@ -1,6 +1,6 @@
 #pragma once
-#include"raylib.h"
-#include"State.h"
+#include "raylib.h"
+#include "State.h"
 
 class Game;
 class MenuState : public State {

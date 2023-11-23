@@ -61,11 +61,15 @@ void settingState::handleEvents() {
         }
     }
 
-    if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
+    if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON))
         isDragging = false;
-    }
 
     if (isDragging) {
+        // Turn on the sound if it was off
+        if (!game.getSoundState()) {
+            game.toggleSound();
+        }
+
         Vector2 mousePosition = GetMousePosition();
 
         // Calculate the new position of the dot based on the mouse position and the drag offset
@@ -73,14 +77,17 @@ void settingState::handleEvents() {
 
         // Ensure the dot stays within the bounds of the slider
         if (dotPosition.x < 613) {
-            dotPosition.x = 613;
+            dotPosition.x = 614;
         }
         else if (dotPosition.x > 613 + sound[2]->width - 27) {
             dotPosition.x = 613 + sound[2]->width - 27;
         }
 
         // Calculate the new volume based on the position of the dot
-        float newVolume = (dotPosition.x - 613) / (sound[2]->width - 27);
+        float newVolume = (dotPosition.x - 613) / (sound[2]->width);
+
+        if (newVolume > 1.0f) newVolume = 1.0f;
+        if (newVolume < 0.0f) newVolume = 0.0f;
 
         // Set the new volume value in your application
         game.setVolume(newVolume);
@@ -96,6 +103,7 @@ void settingState::setDot(float volume) {
     dotPosition.x = 613 + initialVolume * (sound[2]->width - 27);
     dotPosition.y = 491;
 }
+
 void settingState::draw() {
     float scaleWidth = (float)GetScreenWidth() / background->width;
     float scaleHeight = (float)GetScreenHeight() / background->height;
@@ -124,6 +132,7 @@ void settingState::draw() {
         game.setVolume(0.0f);
         setDot(0.0f);
     }
+
     DrawTexture(*sound[2], 613, 500, WHITE);
     Rectangle sourceRec = { 0, 0, static_cast<float>(dotPosition.x - 613), static_cast<float>(sound[3]->height) };
     Rectangle destRec = { 613, 500, static_cast<float>(dotPosition.x - 613), static_cast<float>(sound[3]->height) };
