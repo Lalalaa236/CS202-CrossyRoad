@@ -2,7 +2,7 @@
 #include"State.h"
 #include"raylib.h"
 
-class highScoreState : public State{
+class highScoreState : public State {
 public:
     highScoreState();
     void handleEvents() override;

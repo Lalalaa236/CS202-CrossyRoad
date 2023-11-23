@@ -11,6 +11,8 @@ namespace Textures
     {
         //general 
         CLOSE_BUTTON,
+        NEXT_BUTTON,
+        PREVIOUS_BUTTON,
 
         //Menu
         BACKGROUND_MENU,
@@ -20,7 +22,7 @@ namespace Textures
         BUTTON_3,
         BUTTON_4,
         NAME_LOGO,
-        
+
         //setting
         TABLE_SETTING,
         SOUND_ON,
@@ -30,8 +32,11 @@ namespace Textures
         DOT,
 
         //high score
-        TABLE_HIGHSCORE
-       
+        TABLE_HIGHSCORE,
+
+        // Inscruction
+        INSTRUCTION_1,
+        INSTRUCTION_2
     };
 }
 
@@ -41,13 +46,13 @@ private:
     static TextureHolder gTextureHolder;
     std::map<Textures::ID, std::unique_ptr<Texture2D>> mTextureMap;
     TextureHolder();
-    TextureHolder(const TextureHolder &) = delete;
-    TextureHolder &operator=(const TextureHolder &) = delete;
+    TextureHolder(const TextureHolder&) = delete;
+    TextureHolder& operator=(const TextureHolder&) = delete;
 
 public:
-    static TextureHolder &getHolder();      
+    static TextureHolder& getHolder();
     ~TextureHolder();
-    void load(Textures::ID id, const std::string &filename);
-    Texture2D &get(Textures::ID id);
-    const Texture2D &get(Textures::ID id) const;
+    void load(Textures::ID id, const std::string& filename);
+    Texture2D& get(Textures::ID id);
+    const Texture2D& get(Textures::ID id) const;
 };
