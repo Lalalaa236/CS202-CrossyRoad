@@ -4,6 +4,7 @@
 #include "Obstacle.h"
 #include "trafficlight.h"
 #include <deque>
+#include "TextureHolder.h"
 
 class Lane {
     public:
@@ -13,6 +14,7 @@ class Lane {
         ~Lane();
 
     private:
+        const Texture2D* texture;
         float y;
         int id;
         std::deque<Obstacle*> obstacles;

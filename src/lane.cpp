@@ -1,10 +1,24 @@
 #include "lane.h"
 
-using namespace std;
-
-Lane::Lane(float y, int id) {
-    this->y= 100;
-    this->id= 0;
+Lane::Lane(float y, int id) 
+: y(y)
+{
+    id = rand() % 2;
+    switch(id)
+    {
+        case 0:
+            texture = &TextureHolder::getHolder().get(Textures::ROAD);
+            trafficLight = new TrafficLight();
+            break;
+        case 1:
+            texture = &TextureHolder::getHolder().get(Textures::GRASS);
+            trafficLight = nullptr;
+            break;
+        default:
+            texture = nullptr;
+            trafficLight = nullptr;
+            break;
+    }
 }
 
 void Lane::addObstacle(Obstacle* obstacle) {
@@ -12,7 +26,13 @@ void Lane::addObstacle(Obstacle* obstacle) {
 }
 
 void Lane::draw() {
-
+    DrawTextureEx(*texture, {0, y}, 0, 1, WHITE);
+    if (trafficLight != nullptr) {
+        trafficLight->draw();
+    }
+    // for (auto obstacle : obstacles) {
+    //     obstacle->draw();
+    // }
 }
 
 Lane::~Lane() {
@@ -20,5 +40,6 @@ Lane::~Lane() {
         delete obstacles.front();
         obstacles.pop_front();
     }
+    delete trafficLight;
 }
 

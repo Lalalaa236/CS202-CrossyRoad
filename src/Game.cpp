@@ -85,6 +85,9 @@ void Game::loadAllTexture() {
 
     TextureHolder::getHolder().load(Textures::INSTRUCTION_1, "image/instruction/instruction1.png");
     TextureHolder::getHolder().load(Textures::INSTRUCTION_2, "image/instruction/instruction2.png");
+
+    TextureHolder::getHolder().load(Textures::GRASS, "image/gamestate/grass.png");
+    TextureHolder::getHolder().load(Textures::ROAD, "image/gamestate/line.png");
 }
 
 void Game::run() {

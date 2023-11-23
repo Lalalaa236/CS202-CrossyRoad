@@ -36,7 +36,11 @@ namespace Textures
 
         // Inscruction
         INSTRUCTION_1,
-        INSTRUCTION_2
+        INSTRUCTION_2,
+
+        // Lanes
+        GRASS,
+        ROAD
     };
 }
 
