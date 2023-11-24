@@ -92,6 +92,25 @@ void Game::loadAllTexture() {
     TextureHolder::getHolder().load(Textures::RED_LIGHT, "image/gamestate/RedLight.png");
     TextureHolder::getHolder().load(Textures::YELLOW_LIGHT, "image/gamestate/YellowLight.png");
     TextureHolder::getHolder().load(Textures::GREEN_LIGHT, "image/gamestate/GreenLight.png");
+
+    TextureHolder::getHolder().load(Textures::BIRD_1, "image/Bird/frame_1.png");
+    TextureHolder::getHolder().load(Textures::BIRD_2, "image/Bird/frame_2.png");
+    TextureHolder::getHolder().load(Textures::BIRD_3, "image/Bird/frame_3.png");
+    TextureHolder::getHolder().load(Textures::BIRD_4, "image/Bird/frame_4.png");
+    TextureHolder::getHolder().load(Textures::BIRD_5, "image/Bird/frame_5.png");
+    TextureHolder::getHolder().load(Textures::BIRD_6, "image/Bird/frame_6.png");
+    TextureHolder::getHolder().load(Textures::BIRD_7, "image/Bird/frame_7.png");
+    TextureHolder::getHolder().load(Textures::BIRD_8, "image/Bird/frame_8.png");
+
+    TextureHolder::getHolder().load(Textures::CAT_1, "image/Cat/frame-1.png");
+    TextureHolder::getHolder().load(Textures::CAT_2, "image/Cat/frame-2.png");
+    TextureHolder::getHolder().load(Textures::CAT_3, "image/Cat/frame-3.png");
+    TextureHolder::getHolder().load(Textures::CAT_4, "image/Cat/frame-4.png");
+    TextureHolder::getHolder().load(Textures::CAT_5, "image/Cat/frame-5.png");
+    TextureHolder::getHolder().load(Textures::CAT_6, "image/Cat/frame-6.png");
+    TextureHolder::getHolder().load(Textures::CAT_7, "image/Cat/frame-7.png");
+    TextureHolder::getHolder().load(Textures::CAT_8, "image/Cat/frame-8.png");
+
 }
 
 void Game::run() {

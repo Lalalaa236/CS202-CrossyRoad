@@ -15,16 +15,17 @@ class Lane {
         float getY() const;
         void setSpeed(float mapSpeed);
         
-        void addObstacle(Obstacle* obstacle);
+        void addObstacle();
         void draw();
         void update();
-
     private:
+        float randomSpeed;
         const Texture2D* texture;
         float y;
         float mapSpeed;
         std::deque<Obstacle*> obstacles;
         TrafficLight* trafficLight;
+        bool isSafe;
 };
 
 #endif

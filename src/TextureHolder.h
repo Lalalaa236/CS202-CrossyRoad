@@ -46,6 +46,26 @@ namespace Textures
         RED_LIGHT,
         YELLOW_LIGHT,
         GREEN_LIGHT,
+
+        //Bird
+        BIRD_1,
+        BIRD_2,
+        BIRD_3,
+        BIRD_4,
+        BIRD_5,
+        BIRD_6,
+        BIRD_7,
+        BIRD_8,
+
+        //cat
+        CAT_1,
+        CAT_2,
+        CAT_3,
+        CAT_4,
+        CAT_5,
+        CAT_6,
+        CAT_7,
+        CAT_8,
     };
 }
 

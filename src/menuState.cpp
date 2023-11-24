@@ -50,10 +50,6 @@ void MenuState::handleEvents() {
                     nextState = new GameState();
                     nextState->init();
                     break;
-                    // case 5:
-                    //         break;
-                    // default:
-                    //         break;
                 }
             }
         }
