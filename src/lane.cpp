@@ -1,7 +1,10 @@
 #include "lane.h"
 #include"Bird.h"
 #include"Cat.h"
+#include"Dog.h"
 #include <iostream>
+#include<vector>
+
 
 Lane::Lane(float y, float mapSpeed) 
 : y(y), mapSpeed(mapSpeed)
@@ -55,18 +58,21 @@ Lane::Lane(float y, float mapSpeed)
 }
 void Lane::addObstacle()
 {
-    int r = rand() % 2;
+    int r = rand() % 5;
     if (r == 0) return;   
     if (isSafe) {
         Obstacle* tmp = nullptr;
         for (int i = 1; i <= r; i++){
-            int randomType = rand() % 2;
+            int randomType = rand() % 3;
             switch (randomType){
                 case 0: 
                     tmp = new Bird({0,this->y},randomSpeed);
                     break;
                 case 1:
                     tmp = new Cat({0,this->y},randomSpeed);
+                    break;
+                case 2:
+                    tmp = new Dog({0,this->y},randomSpeed);
                     break;
                 default:
                     break;
@@ -76,6 +82,8 @@ void Lane::addObstacle()
         
     }
 }
+
+
 void Lane::draw() 
 {
     DrawTextureEx(*texture, {0, y}, 0, 1, WHITE);
@@ -85,9 +93,13 @@ void Lane::draw()
         trafficLight->setY(y);
         trafficLight->draw();
     }
-    for (auto obstacle : obstacles) {
+    
+
+    
+    for (const auto& obstacle : obstacles) {
         obstacle->draw();
     }
+ 
     // static int i = 0;
 }
 

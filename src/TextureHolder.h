@@ -66,6 +66,31 @@ namespace Textures
         CAT_6,
         CAT_7,
         CAT_8,
+
+        //dog
+        DOG_1,
+        DOG_2,
+        DOG_3,
+        DOG_4,
+        DOG_5,
+        DOG_6,
+        DOG_7,
+        DOG_8,
+        DOG_9,
+        DOG_10,
+        DOG_11,
+        DOG_12,
+        DOG_13,
+        DOG_14,
+        DOG_15,
+        DOG_16,
+        DOG_17,
+        DOG_18,
+        DOG_19,
+        DOG_20,
+        DOG_21,
+
+
     };
 }
 

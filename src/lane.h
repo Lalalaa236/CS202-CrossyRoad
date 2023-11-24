@@ -18,6 +18,7 @@ class Lane {
         void addObstacle();
         void draw();
         void update();
+       
     private:
         float randomSpeed;
         const Texture2D* texture;

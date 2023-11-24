@@ -111,6 +111,29 @@ void Game::loadAllTexture() {
     TextureHolder::getHolder().load(Textures::CAT_7, "image/Cat/frame-7.png");
     TextureHolder::getHolder().load(Textures::CAT_8, "image/Cat/frame-8.png");
 
+    TextureHolder::getHolder().load(Textures::DOG_1, "image/Dog/frame-1.png");
+    TextureHolder::getHolder().load(Textures::DOG_2, "image/Dog/frame-2.png");
+    TextureHolder::getHolder().load(Textures::DOG_3, "image/Dog/frame-3.png");
+    TextureHolder::getHolder().load(Textures::DOG_4, "image/Dog/frame-4.png");
+    TextureHolder::getHolder().load(Textures::DOG_5, "image/Dog/frame-5.png");
+    TextureHolder::getHolder().load(Textures::DOG_6, "image/Dog/frame-6.png");
+    TextureHolder::getHolder().load(Textures::DOG_7, "image/Dog/frame-7.png");
+    TextureHolder::getHolder().load(Textures::DOG_8, "image/Dog/frame-8.png");
+    TextureHolder::getHolder().load(Textures::DOG_9, "image/Dog/frame-9.png");
+    TextureHolder::getHolder().load(Textures::DOG_10, "image/Dog/frame-10.png");
+    TextureHolder::getHolder().load(Textures::DOG_11, "image/Dog/frame-11.png");
+    TextureHolder::getHolder().load(Textures::DOG_12, "image/Dog/frame-12.png");
+    TextureHolder::getHolder().load(Textures::DOG_13, "image/Dog/frame-13.png");
+    TextureHolder::getHolder().load(Textures::DOG_14, "image/Dog/frame-14.png");
+    TextureHolder::getHolder().load(Textures::DOG_15, "image/Dog/frame-15.png");
+    TextureHolder::getHolder().load(Textures::DOG_16, "image/Dog/frame-16.png");
+    TextureHolder::getHolder().load(Textures::DOG_17, "image/Dog/frame-17.png");
+    TextureHolder::getHolder().load(Textures::DOG_18, "image/Dog/frame-18.png");
+    TextureHolder::getHolder().load(Textures::DOG_19, "image/Dog/frame-19.png");
+    TextureHolder::getHolder().load(Textures::DOG_20, "image/Dog/frame-20.png");
+    
+    
+
 }
 
 void Game::run() {
