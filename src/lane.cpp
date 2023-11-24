@@ -18,7 +18,7 @@ Lane::Lane(float y, float mapSpeed)
             else
             {
                 texture = &TextureHolder::getHolder().get(Textures::ROAD);
-                trafficLight = new TrafficLight(90, this->y);
+                trafficLight = new TrafficLight(5, this->y - 25);
                 cnt++;
             }
             break;
@@ -26,7 +26,7 @@ Lane::Lane(float y, float mapSpeed)
             if(cnt == 3)
             {
                 texture = &TextureHolder::getHolder().get(Textures::ROAD);
-                trafficLight = new TrafficLight(90, this->y);
+                trafficLight = new TrafficLight(5, this->y - 25);
                 cnt = 0;
             }
             else
@@ -55,7 +55,7 @@ void Lane::draw()
     // DrawRectangleLinesEx({0, y, 1511, 95}, 2, BLACK);
     if(trafficLight)
     {
-        trafficLight->setY(y);
+        trafficLight->setY(y - 25);
         trafficLight->draw();
     }
     // for (auto obstacle : obstacles) {
