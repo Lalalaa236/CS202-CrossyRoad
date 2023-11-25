@@ -90,6 +90,22 @@ namespace Textures
         DOG_20,
         DOG_21,
 
+        //Tiger
+        TIGER_1,
+        TIGER_2,
+        TIGER_3,
+        TIGER_4,
+        TIGER_5,
+        TIGER_6,
+        
+        //RabBit
+        RABBIT_1,
+        RABBIT_2,
+        RABBIT_3,
+        RABBIT_4,
+        RABBIT_5,
+        RABBIT_6,
+
 
     };
 }

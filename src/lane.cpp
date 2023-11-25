@@ -2,8 +2,11 @@
 #include"Bird.h"
 #include"Cat.h"
 #include"Dog.h"
+#include"GameSettings.h"
 #include <iostream>
 #include<vector>
+#include"Rabbit.h"
+#include"Tiger.h"
 
 
 Lane::Lane(float y, float mapSpeed) 
@@ -62,17 +65,24 @@ void Lane::addObstacle()
     if (r == 0) return;   
     if (isSafe) {
         Obstacle* tmp = nullptr;
+        float dis = (settings::SCREEN_WIDTH / r * 1.0);
         for (int i = 1; i <= r; i++){
-            int randomType = rand() % 3;
+            int randomType = rand() % 5;;
             switch (randomType){
                 case 0: 
-                    tmp = new Bird({0,this->y},randomSpeed);
+                    tmp = new Bird({dis*(i-1),this->y},randomSpeed);
                     break;
                 case 1:
-                    tmp = new Cat({0,this->y},randomSpeed);
+                    tmp = new Cat({dis *(i-1),this->y},randomSpeed);
                     break;
                 case 2:
-                    tmp = new Dog({0,this->y},randomSpeed);
+                    tmp = new Dog({dis*(i-1),this->y},randomSpeed);
+                    break;
+                case 3:
+                    tmp = new Tiger({dis*(i-1),this->y},randomSpeed);
+                    break;
+                case 4:
+                    tmp = new Rabbit({dis*(i-1),this->y},randomSpeed);
                     break;
                 default:
                     break;
@@ -96,7 +106,7 @@ void Lane::draw()
     
 
     
-    for (const auto& obstacle : obstacles) {
+    for (auto obstacle : obstacles) {
         obstacle->draw();
     }
  
