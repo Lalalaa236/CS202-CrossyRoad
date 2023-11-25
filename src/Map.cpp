@@ -13,8 +13,10 @@ Map::Map(float speed)
 
 void Map::draw()
 {
-    for(auto lane : lanes)
+    for(auto lane : lanes){
         lane->draw();
+        lane->update();
+    }
     // static int i = 0;
     // if(i++ == 0)
     //     std::cout << "Map draw called" << std::endl;
@@ -23,8 +25,9 @@ void Map::draw()
 
 void Map::update()
 {
-    for(auto lane : lanes)
+    for(auto lane : lanes){
         lane->setY(lane->getY() + speed);
+    }
     if(lanes.back()->getY() > 982.0f)
     {
         delete lanes.back();

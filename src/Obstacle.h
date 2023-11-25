@@ -1,13 +1,17 @@
 #pragma once
+#include"raylib.h"
 
 class Obstacle {
 public:
-    virtual void move(float x, float y);
-    virtual void makeSound();
-    virtual bool checkType();
+    Obstacle(const Vector2& pos, float speed);
     virtual ~Obstacle();
-    virtual bool CheckOutOfScreen();
+    virtual void draw() = 0;
+    float getSpeed() const;
+    Vector2 getPos();
+    void setPos(float x, float y);
+    virtual void update(float y) = 0;
+    bool checkOutOfScreen() const;
 private:
     float speed;
-    float x, y;
+    Vector2 position;
 };
