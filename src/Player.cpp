@@ -89,5 +89,5 @@ void Player::setMapSpeed(float mapSpeed)
 
 void Player::draw()
 {
-    DrawRectanglePro(boxCollision, {position.first, position.second}, 0, RED);
+    DrawRectangleRec(boxCollision, RED);
 }
