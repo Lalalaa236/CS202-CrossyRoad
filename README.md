@@ -30,7 +30,7 @@ This project is an implementation of the classic Crossy Road game using Object-O
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/your-username/cs202-crossy-road.git
+git clone https://github.com/Lalalaa236/cs202-crossy-road.git
 ```
 
 2. Navigate to the project directory:
