@@ -3,7 +3,7 @@
 #include <limits>
 
 GameState::GameState()
-: speed(0.0f)
+: speed(0.0f), count(0)
 {
     map = new Map(speed);
     player = new Player(1512.0/2 - settings::GRID_SIZE.first/2, 982.0 - settings::GRID_SIZE.second, speed);
@@ -54,9 +54,10 @@ void GameState::init()
 
 void GameState::handleEvents()
 {
-    if(player->getPosition().second < 982.0/4)
+    if(player->getPosition().second < 982.0f / 2)
     {
-        speed = 3.6f;
+        float deltaSpeed = (982 / 2 - (int)player->getPosition().second) % 3 * 0.2f;
+        speed += deltaSpeed;
         map->setSpeed(speed);
         player->setMapSpeed(speed);
     }
@@ -75,17 +76,34 @@ void GameState::handleEvents()
         map->setSpeed(speed);
         player->setMapSpeed(speed);
     }
-    if(speed != 3.6f)
+    if(GetTime() - count > 0.2f)
     {
         if(IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_W))
+        {
+            count = GetTime();
             player->move(Player::Direction::UP);
+        }
         else if(IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S))
+        {
+            count = GetTime();
             player->move(Player::Direction::DOWN);
+        }
         else if(IsKeyPressed(KEY_LEFT) || IsKeyPressed(KEY_A))
+        {
+            count = GetTime();
             player->move(Player::Direction::LEFT);
+        }
         else if(IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D))
+        {
+            count = GetTime();
             player->move(Player::Direction::RIGHT);
+        }
     }
     if(IsKeyPressed(KEY_P))
         shouldPopState = true;
+    if(IsKeyDown(KEY_LEFT_ALT) || IsKeyDown(KEY_RIGHT_ALT))
+        ShowCursor();
+    else
+        HideCursor();
+
 }

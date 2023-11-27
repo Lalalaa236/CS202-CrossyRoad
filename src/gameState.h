@@ -11,6 +11,7 @@ class GameState : public State
         Player* player;
         Map* map;
         float speed;
+        float count;
     public:
         GameState();
         ~GameState();
