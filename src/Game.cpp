@@ -86,6 +86,8 @@ void Game::loadAllTexture() {
     TextureHolder::getHolder().load(Textures::INSTRUCTION_1, "image/instruction/instruction1.png");
     TextureHolder::getHolder().load(Textures::INSTRUCTION_2, "image/instruction/instruction2.png");
 
+    TextureHolder::getHolder().load(Textures::SKIN_TABLE, "image/skinState/skinBoard.png");
+
     TextureHolder::getHolder().load(Textures::GRASS, "image/gamestate/grass.png");
     TextureHolder::getHolder().load(Textures::ROAD, "image/gamestate/line.png");
 
@@ -138,14 +140,18 @@ void Game::loadAllTexture() {
     TextureHolder::getHolder().load(Textures::TIGER_4, "image/Tiger/frame-4.png");
     TextureHolder::getHolder().load(Textures::TIGER_5, "image/Tiger/frame-5.png");
     TextureHolder::getHolder().load(Textures::TIGER_6, "image/Tiger/frame-6.png");
-  
-    
+
+
     TextureHolder::getHolder().load(Textures::RABBIT_1, "image/Rabbit/frame-1.png");
     TextureHolder::getHolder().load(Textures::RABBIT_2, "image/Rabbit/frame-2.png");
     TextureHolder::getHolder().load(Textures::RABBIT_3, "image/Rabbit/frame-3.png");
     TextureHolder::getHolder().load(Textures::RABBIT_4, "image/Rabbit/frame-4.png");
     TextureHolder::getHolder().load(Textures::RABBIT_5, "image/Rabbit/frame-5.png");
-    TextureHolder::getHolder().load(Textures::RABBIT_6, "image/Rabbit/frame-6.png");    
+    TextureHolder::getHolder().load(Textures::RABBIT_6, "image/Rabbit/frame-6.png");
+
+    TextureHolder::getHolder().load(Textures::SKIN_1_MAIN, "image/SpriteMan/main.png");
+    TextureHolder::getHolder().load(Textures::SKIN_1_UP, "image/SpriteMan/up/player_up_sheet.png");
+
 
 }
 

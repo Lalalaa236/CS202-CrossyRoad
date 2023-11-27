@@ -1,5 +1,6 @@
 #include "menuState.h"
 #include "gamestate.h"  
+#include "skinState.h"
 #include "settingState.h"
 #include "highscoreState.h"
 #include "instruction.h"
@@ -32,20 +33,31 @@ void MenuState::handleEvents() {
         for (int i = 0; i < 5; i++) {
             if (CheckCollisionPointRec(mousePosition, { a[i].x,a[i].y,button[i]->width * 0.3f, button[i]->height * 0.3f })) {
                 switch (i) {
+
+                    /// Intruction button (top left)
                 case 0:
                     nextState = new InstructionState();
                     nextState->init();
                     break;
+
+                    /// Setting button (top right)
                 case 1:
                     nextState = new settingState(game);
                     nextState->init();
                     break;
-                    // case 2:
-                    //         break;
+
+                case 2:
+                    nextState = new SkinState();
+                    nextState->init();
+                    break;
+
+                    /// High score button (bottom right)
                 case 3:
                     nextState = new highScoreState();
                     nextState->init();
                     break;
+
+                    /// Play button (middle)
                 case 4:
                     nextState = new GameState();
                     nextState->init();

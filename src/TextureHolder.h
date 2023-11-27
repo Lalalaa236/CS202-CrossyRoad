@@ -38,6 +38,9 @@ namespace Textures
         INSTRUCTION_1,
         INSTRUCTION_2,
 
+        // Skin
+        SKIN_TABLE,
+
         // Lanes
         GRASS,
         ROAD,
@@ -97,8 +100,8 @@ namespace Textures
         TIGER_4,
         TIGER_5,
         TIGER_6,
-        
-        //RabBit
+
+        //Rabbit
         RABBIT_1,
         RABBIT_2,
         RABBIT_3,
@@ -106,7 +109,9 @@ namespace Textures
         RABBIT_5,
         RABBIT_6,
 
-
+        // Man Sprite 1
+        SKIN_1_MAIN,
+        SKIN_1_UP,
     };
 }
 
