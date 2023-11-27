@@ -7,26 +7,27 @@
 #include "TextureHolder.h"
 
 class Lane {
-    public:
-        Lane(float y, float mapSpeed);
-        ~Lane();
+public:
+    Lane(float y, float mapSpeed);
+    ~Lane();
 
-        void setY(float y);
-        float getY() const;
-        void setSpeed(float mapSpeed);
-        
-        void addObstacle();
-        void draw();
-        void update();
-       
-    private:
-        float randomSpeed;
-        const Texture2D* texture;
-        float y;
-        float mapSpeed;
-        std::deque<Obstacle*> obstacles;
-        TrafficLight* trafficLight;
-        bool isSafe;
+    void setY(float y);
+    float getY() const;
+    void setSpeed(float mapSpeed);
+
+    void addObstacle();
+    void draw();
+    void update();
+
+private:
+    float y;
+    float mapSpeed;
+    float randomSpeed;
+    bool isSafe;
+
+    const Texture2D* texture;
+    std::deque<Obstacle*> obstacles;
+    TrafficLight* trafficLight;
 };
 
 #endif
