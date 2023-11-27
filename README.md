@@ -20,11 +20,11 @@ This project is an implementation of the classic Crossy Road game using Object-O
 
 ## Requirements
 
-- **Programming Language**: The project is implemented in C++, and it requires C++11 or later.
+- **Programming Language**: The project is implemented in C++, so ensure that you have a C++ compiler that supports C++11 features installed on your system.
 
 - **External Libraries**: raylib
 
-- **Dependencies**: Nothing
+- **Dependencies**: **Make** - The project utilizes a Makefile for compilation. Make sure you have the `make` utility installed on your machine.
 
 ## Getting Started
 
@@ -38,7 +38,30 @@ git clone https://github.com/your-username/cs202-crossy-road.git
 cd cs202-crossy-road
 ```
 
-3. Use make to compile whole source code and run it.
+## Compile and Run
+
+1. Compile the code using the provided Makefile:
+```bash
+make
+```
+This command will compile the source code and generate the executable `CrossyRoad.exe`.
+
+2. Run the game:
+```bash
+./CrossyRoad.exe
+```
+The game should start, and you can now enjoy playing Crossy Road.
+
+## Clean Up
+To clean up the compiled files and start fresh, you can use the following command:
+```bash
+make clean
+```
+
+This will remove the generated executable and any intermediate files.
+
+## Customization
+If you need to customize the compilation process or make any adjustments, you can modify the Makefile to suit your needs.
 
 ## Contributing
 If you would like to contribute to the project, please follow these guidelines:
@@ -56,4 +79,4 @@ If you would like to contribute to the project, please follow these guidelines:
 - And lastly, thank to CS202 teachers: Hồ Tuấn Thanh and Nguyễn Lê Hoàng Dũng for supporting us in this project.
 
 ## Contact
-For any inquiries or feedback, please contact our group 7 at Issues tab. Thank you.
+If you encounter any issues during the compilation or execution of the game, refer to the documentation or contact the project owner for assistance. For any inquiries or feedback, please contact our group 7 at Issues tab. Thank you.
