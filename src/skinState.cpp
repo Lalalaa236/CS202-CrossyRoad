@@ -1,32 +1,8 @@
 #include "skinState.h"
 #include <iostream>
 
-void SkinState::drawAnimation() {
-    Texture2D* skinSpriteSheet = &TextureHolder::getHolder().get(Textures::SKIN_1_UP);
-
-    int numFrames = 4;
-    float frameRate = 4.0f;
-
-    int frameWidth = skinSpriteSheet->width / numFrames;
-    int frameHeight = skinSpriteSheet->height;
-
-    // std::cerr << frameWidth << " " << frameHeight << std::endl;
-
-    Rectangle* frames = new Rectangle[numFrames];
-
-    for (int i = 0; i < numFrames; i++) {
-        frames[i].x = frameWidth * i;
-        frames[i].y = 0;
-        frames[i].width = frameWidth;
-        frames[i].height = frameHeight;
-    }
-
-    animation.spriteSheet = *skinSpriteSheet;
-    animation.frameRectangles = frames;
-    animation.numFrames = numFrames;
-    animation.frameRate = frameRate;
-    animation.currentFrame = 0;
-    animation.elapsedTime = 0.0f;
+void SkinState::setAnimation(int skinIndex, Textures::ID skinID) {
+    animation[skinIndex].setAnimation(skinID, 4, 4.0f);
 }
 
 SkinState::SkinState() {
@@ -43,14 +19,13 @@ void SkinState::init() {
     nextButton = &TextureHolder::getHolder().get(Textures::NEXT_BUTTON);
     prevButton = &TextureHolder::getHolder().get(Textures::PREVIOUS_BUTTON);
 
-    skin[0] = &TextureHolder::getHolder().get(Textures::SKIN_1_MAIN);
-    drawAnimation();
+    setAnimation(0, Textures::SKIN_1_DOWN);
+    setAnimation(1, Textures::SKIN_2_DOWN);
 
-    // skin[0] = &TextureHolder::getHolder().get(Textures::SKIN_1);
-    // skin[1] = &TextureHolder::getHolder().get(Textures::SKIN_2);
-    // skin[2] = &TextureHolder::getHolder().get(Textures::SKIN_3);
-    // skin[3] = &TextureHolder::getHolder().get(Textures::SKIN_4);
-    // skin[4] = &TextureHolder::getHolder().get(Textures::SKIN_5);
+    // Placeholder
+    setAnimation(2, Textures::SKIN_1_DOWN);
+    setAnimation(3, Textures::SKIN_2_DOWN);
+    setAnimation(4, Textures::SKIN_1_DOWN);
 
     currentSkin = 0;
 }
@@ -106,18 +81,20 @@ void SkinState::draw() {
     DrawTexture(*skinBoard, 319, 81, WHITE);
     // DrawTexture(*skin[currentSkin], 500, 500, WHITE);
 
-    animation.elapsedTime += GetFrameTime();
-    if (animation.elapsedTime >= 1.0f / animation.frameRate) {
-        animation.currentFrame++;
-        animation.elapsedTime = 0.0f;
-        if (animation.currentFrame > animation.numFrames - 1) {
-            animation.currentFrame = 0;
+    std::cerr << animation[currentSkin].elapsedTime << std::endl;
+
+    animation[currentSkin].elapsedTime += GetFrameTime();
+    if (animation[currentSkin].elapsedTime >= 1.0f / animation[currentSkin].frameRate) {
+        animation[currentSkin].currentFrame++;
+        animation[currentSkin].elapsedTime = 0.0f;
+        if (animation[currentSkin].currentFrame > animation[currentSkin].numFrames - 1) {
+            animation[currentSkin].currentFrame = 0;
         }
     }
 
     DrawTextureRec(
-        animation.spriteSheet,
-        animation.frameRectangles[animation.currentFrame],
+        animation[currentSkin].spriteSheet,
+        animation[currentSkin].frameRectangles[animation[currentSkin].currentFrame],
         { 640, 400 },
         WHITE
     );

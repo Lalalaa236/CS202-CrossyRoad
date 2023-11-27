@@ -109,9 +109,11 @@ namespace Textures
         RABBIT_5,
         RABBIT_6,
 
-        // Man Sprite 1
-        SKIN_1_MAIN,
+        // SKIN
         SKIN_1_UP,
+        SKIN_1_DOWN,
+        SKIN_2_UP,
+        SKIN_2_DOWN,
     };
 }
 

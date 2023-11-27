@@ -4,6 +4,8 @@
 #include "raylib.h"
 #include "TextureHolder.h"
 
+#include <iostream>
+
 struct Animation {
     Texture2D spriteSheet;
     Rectangle* frameRectangles = nullptr;
@@ -37,12 +39,55 @@ struct Animation {
             frameRectangles[i] = other.frameRectangles[i];
         }
     }
+
+    Animation& operator=(const Animation& other) {
+        if (this != &other) {
+            delete[] frameRectangles;
+
+            spriteSheet = other.spriteSheet;
+            numFrames = other.numFrames;
+            frameRate = other.frameRate;
+            currentFrame = other.currentFrame;
+            elapsedTime = other.elapsedTime;
+
+            frameRectangles = new Rectangle[numFrames];
+            for (int i = 0; i < numFrames; i++) {
+                frameRectangles[i] = other.frameRectangles[i];
+            }
+        }
+        return *this;
+    }
+
+    void setAnimation(Textures::ID skinID, int numFrames, float frameRate) {
+        Texture2D* skinSpriteSheet = &TextureHolder::getHolder().get(skinID);
+
+        int frameWidth = skinSpriteSheet->width / numFrames;
+        int frameHeight = skinSpriteSheet->height;
+
+        std::cerr << frameWidth << " " << frameHeight << std::endl;
+
+        Rectangle* frames = new Rectangle[numFrames];
+
+        for (int i = 0; i < numFrames; i++) {
+            frames[i].x = frameWidth * i;
+            frames[i].y = 0;
+            frames[i].width = frameWidth;
+            frames[i].height = frameHeight;
+        }
+
+        spriteSheet = *skinSpriteSheet;
+        frameRectangles = frames;
+        this->numFrames = numFrames;
+        this->frameRate = frameRate;
+        currentFrame = 0;
+        elapsedTime = 0.0f;
+    }
 };
 
 /// @brief Use to change the skin of the player
 class SkinState : public State {
 private:
-    Animation animation;
+    Animation animation[5];
 
     Texture2D* background;
     Texture2D* skinBoard;
@@ -50,10 +95,9 @@ private:
     Texture2D* nextButton;
     Texture2D* prevButton;
 
-    Texture2D* skin[5];
     int currentSkin;
 
-    void drawAnimation();
+    void setAnimation(int skinIndex, Textures::ID skinID);
 public:
     SkinState();
     ~SkinState();
