@@ -54,9 +54,18 @@ void GameState::init()
 
 void GameState::handleEvents()
 {
+    if(player->getPosition().second > 982.0f)
+        player->setIsAlive(false);
+
+    if(player->getIsAlive() == false)
+    {
+        shouldPopState = true;
+        return;
+    }
+
     if(player->getPosition().second < 982.0f / 2)
     {
-        float deltaSpeed = (982 / 2 - (int)player->getPosition().second) % 3 * 0.2f;
+        float deltaSpeed = (982 / 2 - (int)player->getPosition().second) / 300 * 0.2f;
         speed += deltaSpeed;
         map->setSpeed(speed);
         player->setMapSpeed(speed);
