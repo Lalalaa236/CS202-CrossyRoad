@@ -8,9 +8,8 @@
 #include <iostream>
 #include <vector>
 
-
 Lane::Lane(float y, float mapSpeed) : y(y), mapSpeed(mapSpeed) {
-    randomSpeed = GetRandomValue(1.0f, 3.0f);
+    randomSpeed = GetRandomValue(3.0f, 6.0f);
 
     static int cnt = 0;
     int random = rand() % 2;
@@ -54,7 +53,6 @@ Lane::Lane(float y, float mapSpeed) : y(y), mapSpeed(mapSpeed) {
     }
 
     addObstacle();
-    //std::cerr <<"lane " << y << std::endl;
 }
 
 Lane::~Lane() {
@@ -72,26 +70,27 @@ void Lane::addObstacle() {
 
     if (isSafe) {
         Obstacle* tmp = nullptr;
-        float dis = (settings::SCREEN_WIDTH / r * 1.0);
+        float distance = (settings::SCREEN_WIDTH / r * 1.0);
 
         for (int i = 1; i <= r; i++) {
             int randomType = rand() % 5;
+            float x = distance * (i - 1);
 
             switch (randomType) {
             case 0:
-                tmp = new Bird({ dis * (i - 1), this->y }, randomSpeed);
+                tmp = new Bird({ x, this->y }, randomSpeed);
                 break;
             case 1:
-                tmp = new Cat({ dis * (i - 1), this->y }, randomSpeed);
+                tmp = new Cat({ x, this->y }, randomSpeed);
                 break;
             case 2:
-                tmp = new Dog({ dis * (i - 1), this->y }, randomSpeed);
+                tmp = new Dog({ x, this->y }, randomSpeed);
                 break;
             case 3:
-                tmp = new Tiger({ dis * (i - 1), this->y }, randomSpeed);
+                tmp = new Tiger({ x, this->y }, randomSpeed);
                 break;
             case 4:
-                tmp = new Rabbit({ dis * (i - 1), this->y }, randomSpeed);
+                tmp = new Rabbit({ x, this->y }, randomSpeed);
                 break;
             default:
                 break;
@@ -102,7 +101,6 @@ void Lane::addObstacle() {
 
     }
 }
-
 
 void Lane::draw() {
     DrawTextureEx(*texture, { 0, y }, 0, 1, WHITE);

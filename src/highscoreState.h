@@ -5,12 +5,15 @@
 class highScoreState : public State {
 public:
     highScoreState();
-    void handleEvents() override;
-    void update() override;
-    void draw() override;
     ~highScoreState();
-    bool shouldPop() const override;
+
     void init() override;
+
+    bool shouldPop() const override;
+    void handleEvents() override;
+
+    void draw() override;
+    void update() override;
 private:
     Texture2D* background;
     Texture2D* highScoreBoard;

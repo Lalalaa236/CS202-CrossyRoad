@@ -19,6 +19,7 @@ public:
         LEFT,
         RIGHT
     };
+
     Player(float x, float y);
     Player(float x, float y, bool isAlive);
 
