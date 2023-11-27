@@ -153,8 +153,6 @@ void Game::loadAllTexture() {
     TextureHolder::getHolder().load(Textures::SKIN_1_DOWN, "image/skin/1/down/sprite.png");
     TextureHolder::getHolder().load(Textures::SKIN_2_UP, "image/skin/2/up/sprite.png");
     TextureHolder::getHolder().load(Textures::SKIN_2_DOWN, "image/skin/2/down/sprite.png");
-
-
 }
 
 void Game::run() {
