@@ -1,19 +1,15 @@
 #include "Map.h"
 #include <iostream>
 
-Map::Map(float speed)
-: speed(speed)
-{
-    for(int i = 0; i < 12; ++i)
-    {
+Map::Map(float speed) : speed(speed) {
+    for (int i = 0; i < 12; ++i) {
         Lane* lane = new Lane(-158.0f + i * 95.0f, i);
         lanes.push_back(lane);
     }
 }
 
-void Map::draw()
-{
-    for(auto lane : lanes){
+void Map::draw() {
+    for (auto lane : lanes) {
         lane->draw();
         lane->update();
     }
@@ -25,10 +21,10 @@ void Map::draw()
 
 void Map::update()
 {
-    for(auto lane : lanes){
+    for (auto lane : lanes) {
         lane->setY(lane->getY() + speed);
     }
-    if(lanes.back()->getY() > 982.0f)
+    if (lanes.back()->getY() > 982.0f)
     {
         delete lanes.back();
         lanes.pop_back();
@@ -41,15 +37,13 @@ void Map::update()
     //     std::cout << "Map update called" << std::endl;
 }
 
-void Map::setSpeed(float speed)
-{
+void Map::setSpeed(float speed) {
     this->speed = speed;
 }
 
-Map::~Map()
-{
-    for(auto lane : lanes)
-    {
+Map::~Map() {
+    for (auto lane : lanes) {
         delete lane;
     }
+    lanes.clear();
 }
