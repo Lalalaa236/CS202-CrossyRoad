@@ -39,4 +39,5 @@ void Bird::draw() {
     // Draw the current frame of the sprite at the updated position with  size
     DrawTextureEx(*txt[curFrame],this->getPos(), 0.0f, scale, WHITE);
     
+    setBoxCollision(this->getPos().x, this->getPos().y, txt[curFrame]);
 }
