@@ -7,13 +7,16 @@ class Game;
 class settingState : public State{
 public:
     settingState(Game& game);
+    ~settingState();
+    void init() override;
+    
+    bool shouldPop() const override;
     void handleEvents() override;
+    
+    void setDot(float volume);
+    
     void update() override;
     void draw() override;
-    ~settingState();
-    bool shouldPop() const override;
-    void init() override;
-    void setDot(float volume);
 private:
     Game& game;
     Texture2D* background;
