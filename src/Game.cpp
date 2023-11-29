@@ -154,9 +154,9 @@ void Game::run() {
         UpdateMusicStream(bgMusic);
         State* currentState = stateStack.top();
         currentState->setState();
-        currentState->handleEvents();
         currentState->draw();
         currentState->update();
+        currentState->handleEvents();
 
         State* newState = currentState->getNextState();
 

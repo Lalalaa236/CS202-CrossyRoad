@@ -91,6 +91,9 @@ void Player::update()
     position.second += mapSpeed;
     boxCollision.y += mapSpeed;
 
+    if(targetPosition.first < 0 || targetPosition.first > 1512 - 82)
+        return;
+
     if((position.first + hSpeed > targetPosition.first) && hSpeed < 0.0f)
     {
         position.first += hSpeed;

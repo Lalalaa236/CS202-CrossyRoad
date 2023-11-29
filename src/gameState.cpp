@@ -42,7 +42,7 @@ void GameState::update()
     // static int i = 0;
     // if(i++ == 0)
     //     std::cout << "GameState update called" << std::endl;
-    if(start)
+    if(start && !over)
         map->update();
     player->update();
     // player->update();
