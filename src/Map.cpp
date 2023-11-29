@@ -4,10 +4,19 @@
 Map::Map(float speed)
 : speed(speed)
 {
-    for(int i = 0; i < 12; ++i)
+    int j = rand() % 4 + 1;
+    int i = 0;
+    // std::cout << "j = " << j << std::endl;
+    for(; i < 12 - j; ++i)
     {
-        Lane* lane = new Lane(-158.0f + i * 95.0f, i);
+        Lane* lane = new Lane(-158.0f + i * 95.0f, speed);
         lanes.push_back(lane);
+    }
+    for(int k = 1; k <= j; ++k)
+    {
+        Lane* lane = new Lane(-158.0f + i * 95.0f, speed, Lane::LaneType::GRASS, 0);
+        lanes.push_back(lane);
+        ++i;
     }
 }
 
@@ -15,7 +24,6 @@ void Map::draw()
 {
     for(auto lane : lanes){
         lane->draw();
-        lane->update();
     }
     // static int i = 0;
     // if(i++ == 0)
@@ -25,9 +33,11 @@ void Map::draw()
 
 void Map::update()
 {
-    for(auto lane : lanes){
+    for(auto lane : lanes)
+    {
         lane->setY(lane->getY() + speed);
     }
+
     if(lanes.back()->getY() > 982.0f)
     {
         delete lanes.back();
@@ -35,6 +45,11 @@ void Map::update()
         Lane* lane = new Lane(lanes.front()->getY() - 95.0f, 0);
         lanes.push_front(lane);
         // std::cout << lanes.front()->getY() << std::endl;
+    }
+    
+    for(auto lane : lanes)
+    {
+        lane->update();
     }
     // static int i = 0;
     // if(i++ == 0)
@@ -52,4 +67,14 @@ Map::~Map()
     {
         delete lane;
     }
+}
+
+bool Map::CheckCollisionPLayer(Rectangle playerBoxCollision)
+{
+    for(auto lane : lanes)
+    {
+        if(lane->CheckCollisionPLayer(playerBoxCollision))
+            return true;
+    }
+    return false;
 }

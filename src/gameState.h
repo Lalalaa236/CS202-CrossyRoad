@@ -11,6 +11,16 @@ class GameState : public State
         Player* player;
         Map* map;
         float speed;
+        float count;
+        bool start;
+        bool over;
+
+        void checkOutOfScreen();
+        void checkCollision();
+        void setMapSpeed();
+        void checkPlayerAlive();
+        void handleInput();
+        void checkEndOfGame();
     public:
         GameState();
         ~GameState();

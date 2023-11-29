@@ -24,3 +24,16 @@ bool Obstacle::checkOutOfScreen() const{
     if (position.x < 0 || position.x > settings::SCREEN_WIDTH) return true;
     return false;
 }
+
+void Obstacle::setBoxCollision(float x, float y, Texture2D* txt, float scale)
+{
+    boxCollision.x = x;
+    boxCollision.y = y;
+    boxCollision.width = txt->width * scale;
+    boxCollision.height = txt->height * scale;
+}
+
+Rectangle Obstacle::getBoxCollision() const
+{
+    return boxCollision;
+}
