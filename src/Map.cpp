@@ -4,10 +4,19 @@
 Map::Map(float speed)
 : speed(speed)
 {
-    for(int i = 0; i < 12; ++i)
+    int j = rand() % 4 + 1;
+    int i = 0;
+    // std::cout << "j = " << j << std::endl;
+    for(; i < 12 - j; ++i)
     {
-        Lane* lane = new Lane(-158.0f + i * 95.0f, i);
+        Lane* lane = new Lane(-158.0f + i * 95.0f, speed);
         lanes.push_back(lane);
+    }
+    for(int k = 1; k <= j; ++k)
+    {
+        Lane* lane = new Lane(-158.0f + i * 95.0f, speed, Lane::LaneType::GRASS, 0);
+        lanes.push_back(lane);
+        ++i;
     }
 }
 

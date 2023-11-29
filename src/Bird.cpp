@@ -56,5 +56,5 @@ void Bird::draw() {
     
     setBoxCollision(this->getPos().x, this->getPos().y, txt[curFrame], scale);
 
-    DrawRectangleLines(boxCollision.x, boxCollision.y, boxCollision.width, boxCollision.height, RED);
+    // DrawRectangleLines(boxCollision.x, boxCollision.y, boxCollision.width, boxCollision.height, RED);
 }

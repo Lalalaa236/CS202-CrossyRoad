@@ -59,6 +59,33 @@ Lane::Lane(float y, float mapSpeed)
     //std::cerr <<"lane " << y << std::endl;
 
 }
+
+Lane::Lane(float y, float mapSpeed, LaneType laneType, int numObstacles)
+: y(y), mapSpeed(mapSpeed)
+{
+    randomSpeed = GetRandomValue(1.0f, 3.0f);
+    switch(laneType)
+    {
+        case LaneType::GRASS:
+            texture = &TextureHolder::getHolder().get(Textures::GRASS);
+            trafficLight = nullptr;
+            isSafe = true;
+            break;
+        case LaneType::ROAD:
+            texture = &TextureHolder::getHolder().get(Textures::ROAD);
+            trafficLight = new TrafficLight(5, this->y - 25);
+            isSafe = false;
+            break;
+        default:
+            texture = nullptr;
+            trafficLight = nullptr;
+            break;
+    }
+
+    addObstacle(numObstacles);
+    // std::cout << "lmao" << std::endl;
+}
+
 void Lane::addObstacle()
 {
     int r = rand() % 5;
@@ -90,6 +117,40 @@ void Lane::addObstacle()
             if (tmp) obstacles.push_back(tmp);
         }
         
+    }
+}
+
+void Lane::addObstacle(int n)
+{
+    if(n == 0)
+        return;
+    float dis = (settings::SCREEN_WIDTH / n * 1.0);
+    for (int i = 1; i <= n; ++i)
+    {
+        Obstacle* tmp = nullptr;
+        int randomType = rand() % 5;
+        switch (randomType)
+        {
+            case 0: 
+                tmp = new Bird({dis*(i-1),this->y},randomSpeed);
+                break;
+            case 1:
+                tmp = new Cat({dis *(i-1),this->y},randomSpeed);
+                break;
+            case 2:
+                tmp = new Dog({dis*(i-1),this->y},randomSpeed);
+                break;
+            case 3:
+                tmp = new Tiger({dis*(i-1),this->y},randomSpeed);
+                break;
+            case 4:
+                tmp = new Rabbit({dis*(i-1),this->y},randomSpeed);
+                break;
+            default:
+                break;
+        }
+        if(tmp) 
+            obstacles.push_back(tmp);
     }
 }
 
