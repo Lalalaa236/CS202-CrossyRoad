@@ -17,5 +17,5 @@ private:
     Vector2 position;
 protected:
     Rectangle boxCollision;
-    void setBoxCollision(float x, float y, Texture2D* txt);
+    void setBoxCollision(float x, float y, Texture2D* txt, float scale);
 };

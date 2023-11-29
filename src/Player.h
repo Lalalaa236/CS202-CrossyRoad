@@ -34,10 +34,6 @@ class Player
         void setIsAlive(bool isAlive);
         void setMapSpeed(float mapSpeed);
         Rectangle getBoxCollision() const;
-        // std::pair<float, float> getTargetPosition() const;
-        // void setTargetPosition(std::pair<float, float> targetPosition);
-        // void setVSpeed(float vSpeed);
-        // void setHSpeed(float hSpeed);
 
         void move(Direction direction);
         void update();

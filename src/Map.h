@@ -13,6 +13,7 @@ class Map
         void draw();
         void update();
         void setSpeed(float speed);
+        bool CheckCollisionPLayer(Rectangle playerBoxCollision);
         ~Map();
 };
 

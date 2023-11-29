@@ -53,3 +53,13 @@ Map::~Map()
         delete lane;
     }
 }
+
+bool Map::CheckCollisionPLayer(Rectangle playerBoxCollision)
+{
+    for(auto lane : lanes)
+    {
+        if(lane->CheckCollisionPLayer(playerBoxCollision))
+            return true;
+    }
+    return false;
+}

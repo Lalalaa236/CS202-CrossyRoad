@@ -3,10 +3,10 @@
 #include <limits>
 
 GameState::GameState()
-: speed(0.0f), count(0)
+: speed(0.0f), count(0), start(false), over(false)
 {
     map = new Map(speed);
-    player = new Player(1512.0/2 - settings::GRID_SIZE.first/2, 982.0 - settings::GRID_SIZE.second, speed);
+    player = new Player(1512.0/2 - 82/2, 982.0 - settings::GRID_SIZE.second, speed);
     shouldPopState = false;
     HideCursor();
     // std::cout << "GameState constructor called" << std::endl;
@@ -53,16 +53,35 @@ void GameState::init()
 }
 
 void GameState::handleEvents()
+{   
+    if(!over)
+    {
+        setMapSpeed();
+        if(start)
+        {
+            checkOutOfScreen();
+            checkCollision();
+            checkPlayerAlive();
+            handleInput();
+        }
+    }
+    checkEndOfGame();
+}
+
+void GameState::checkOutOfScreen()
 {
     if(player->getPosition().second > 982.0f)
         player->setIsAlive(false);
+}
 
-    if(player->getIsAlive() == false)
-    {
-        shouldPopState = true;
-        return;
-    }
+void GameState::checkCollision()
+{
+    if(map->CheckCollisionPLayer(player->getBoxCollision()))
+        player->setIsAlive(false);
+}
 
+void GameState::setMapSpeed()
+{
     if(player->getPosition().second < 982.0f / 2)
     {
         float deltaSpeed = (982 / 2 - (int)player->getPosition().second) / 300 * 0.2f;
@@ -72,19 +91,36 @@ void GameState::handleEvents()
     }
     else
     {
-        if(speed != 0.0f && speed != 0.6f)
+        if(speed != 0.0f && speed != 1.2f)
         {
-            speed = 0.6f;
+            speed = 1.2f;
             map->setSpeed(speed);
             player->setMapSpeed(speed);
         }
     }
+
     if(speed == 0.0f && (IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_W) || IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S) || IsKeyPressed(KEY_LEFT) || IsKeyPressed(KEY_A) || IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D)))
     {
-        speed = 0.6f;
+        speed = 1.2f;
+        map->setSpeed(speed);
+        player->setMapSpeed(speed);
+        start = true;
+    }
+}
+
+void GameState::checkPlayerAlive()
+{
+    if(!player->getIsAlive())
+    {
+        over = true;
+        speed = 0.0f;
         map->setSpeed(speed);
         player->setMapSpeed(speed);
     }
+}
+
+void GameState::handleInput()
+{
     if(GetTime() - count > 0.2f)
     {
         if(IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_W))
@@ -108,11 +144,14 @@ void GameState::handleEvents()
             player->move(Player::Direction::RIGHT);
         }
     }
+}
+
+void GameState::checkEndOfGame()
+{
     if(IsKeyPressed(KEY_P))
         shouldPopState = true;
     if(IsKeyDown(KEY_LEFT_ALT) || IsKeyDown(KEY_RIGHT_ALT))
         ShowCursor();
     else
         HideCursor();
-
 }

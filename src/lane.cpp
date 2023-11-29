@@ -147,3 +147,13 @@ void Lane::setSpeed(float mapSpeed)
 {
     this->mapSpeed = mapSpeed;
 }
+
+bool Lane::CheckCollisionPLayer(Rectangle playerBoxCollision)
+{
+    for (auto obstacle : obstacles) 
+    {
+        if (CheckCollisionRecs(obstacle->getBoxCollision(), playerBoxCollision)) 
+            return true;
+    }
+    return false;
+}

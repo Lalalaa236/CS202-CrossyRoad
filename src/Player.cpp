@@ -5,8 +5,8 @@ Player::Player(float x, float y, float mapSpeed)
 {
     boxCollision.x = x;
     boxCollision.y = y;
-    boxCollision.width = settings::GRID_SIZE.first;
-    boxCollision.height = settings::GRID_SIZE.second;
+    boxCollision.width = 82;
+    boxCollision.height = 82;
 }
 
 Player::Player(float x, float y, bool isAlive)

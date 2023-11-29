@@ -18,6 +18,7 @@ class Lane {
         void addObstacle();
         void draw();
         void update();
+        bool CheckCollisionPLayer(Rectangle playerBoxCollision);
        
     private:
         float randomSpeed;

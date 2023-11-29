@@ -25,11 +25,12 @@ bool Obstacle::checkOutOfScreen() const{
     return false;
 }
 
-void Obstacle::setBoxCollision(float x, float y, Texture2D* txt){
+void Obstacle::setBoxCollision(float x, float y, Texture2D* txt, float scale)
+{
     boxCollision.x = x;
     boxCollision.y = y;
-    boxCollision.width = txt->width;
-    boxCollision.height = txt->height;
+    boxCollision.width = txt->width * scale;
+    boxCollision.height = txt->height * scale;
 }
 
 Rectangle Obstacle::getBoxCollision() const
