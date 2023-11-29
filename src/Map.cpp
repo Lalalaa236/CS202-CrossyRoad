@@ -15,7 +15,6 @@ void Map::draw()
 {
     for(auto lane : lanes){
         lane->draw();
-        lane->update();
     }
     // static int i = 0;
     // if(i++ == 0)
@@ -25,9 +24,11 @@ void Map::draw()
 
 void Map::update()
 {
-    for(auto lane : lanes){
+    for(auto lane : lanes)
+    {
         lane->setY(lane->getY() + speed);
     }
+
     if(lanes.back()->getY() > 982.0f)
     {
         delete lanes.back();
@@ -35,6 +36,11 @@ void Map::update()
         Lane* lane = new Lane(lanes.front()->getY() - 95.0f, 0);
         lanes.push_front(lane);
         // std::cout << lanes.front()->getY() << std::endl;
+    }
+    
+    for(auto lane : lanes)
+    {
+        lane->update();
     }
     // static int i = 0;
     // if(i++ == 0)
