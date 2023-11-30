@@ -5,24 +5,30 @@
 #include "Player.h"
 #include "Map.h"
 
-class GameState : public State {
-private:
-    Player* player;
-    Map* map;
-    float speed;
+class GameState : public State
+{
+    private:
+        Player* player;
+        Map* map;
+        float speed;
+        float count;
+        bool start;
+        bool over;
 
-    int score;
-    int highScore;
-public:
-    GameState();
-    ~GameState();
-
-    void init() override;
-    bool shouldPop() const override;
-    void handleEvents() override;
-
-    void update() override;
-    void draw() override;
+        void checkOutOfScreen();
+        void checkCollision();
+        void setMapSpeed();
+        void checkPlayerAlive();
+        void handleInput();
+        void checkEndOfGame();
+    public:
+        GameState();
+        ~GameState();
+        void draw() override;
+        void update() override;
+        bool shouldPop() const override;
+        void init() override;
+        void handleEvents() override;
 };
 
 #endif

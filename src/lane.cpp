@@ -63,8 +63,34 @@ Lane::~Lane() {
     delete trafficLight;
 }
 
+Lane::Lane(float y, float mapSpeed, LaneType laneType, int numObstacles)
+: y(y), mapSpeed(mapSpeed)
+{
+    randomSpeed = GetRandomValue(1.0f, 3.0f);
+    switch(laneType)
+    {
+        case LaneType::GRASS:
+            texture = &TextureHolder::getHolder().get(Textures::GRASS);
+            trafficLight = nullptr;
+            isSafe = true;
+            break;
+        case LaneType::ROAD:
+            texture = &TextureHolder::getHolder().get(Textures::ROAD);
+            trafficLight = new TrafficLight(5, this->y - 25);
+            isSafe = false;
+            break;
+        default:
+            texture = nullptr;
+            trafficLight = nullptr;
+            break;
+    }
 
-void Lane::addObstacle() {
+    addObstacle(numObstacles);
+    // std::cout << "lmao" << std::endl;
+}
+
+void Lane::addObstacle()
+{
     int r = rand() % 5;
     if (r == 0) return;
 
@@ -102,8 +128,44 @@ void Lane::addObstacle() {
     }
 }
 
-void Lane::draw() {
-    DrawTextureEx(*texture, { 0, y }, 0, 1, WHITE);
+void Lane::addObstacle(int n)
+{
+    if(n == 0)
+        return;
+    float dis = (settings::SCREEN_WIDTH / n * 1.0);
+    for (int i = 1; i <= n; ++i)
+    {
+        Obstacle* tmp = nullptr;
+        int randomType = rand() % 5;
+        switch (randomType)
+        {
+            case 0: 
+                tmp = new Bird({dis*(i-1),this->y},randomSpeed);
+                break;
+            case 1:
+                tmp = new Cat({dis *(i-1),this->y},randomSpeed);
+                break;
+            case 2:
+                tmp = new Dog({dis*(i-1),this->y},randomSpeed);
+                break;
+            case 3:
+                tmp = new Tiger({dis*(i-1),this->y},randomSpeed);
+                break;
+            case 4:
+                tmp = new Rabbit({dis*(i-1),this->y},randomSpeed);
+                break;
+            default:
+                break;
+        }
+        if(tmp) 
+            obstacles.push_back(tmp);
+    }
+}
+
+
+void Lane::draw() 
+{
+    DrawTextureEx(*texture, {0, y}, 0, 1, WHITE);
     // DrawRectangleLinesEx({0, y, 1511, 95}, 2, BLACK);
     if (trafficLight) {
         trafficLight->setY(y - 25);
@@ -136,4 +198,14 @@ void Lane::update() {
 
 void Lane::setSpeed(float mapSpeed) {
     this->mapSpeed = mapSpeed;
+}
+
+bool Lane::CheckCollisionPLayer(Rectangle playerBoxCollision)
+{
+    for (auto obstacle : obstacles) 
+    {
+        if (CheckCollisionRecs(obstacle->getBoxCollision(), playerBoxCollision)) 
+            return true;
+    }
+    return false;
 }
