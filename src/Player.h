@@ -26,10 +26,6 @@ class Player
         void left();
         void right();
     public:
-        enum class Skin
-        {
-            SKIN_1
-        };
         enum class Direction
         {
             UP,
@@ -42,9 +38,10 @@ class Player
         
         std::pair<float, float> getPosition() const;
         bool getIsAlive() const;
+        Rectangle getBoxCollision() const;
         void setIsAlive(bool isAlive);
         void setMapSpeed(float mapSpeed);
-        Rectangle getBoxCollision() const;
+        void setSkin(Textures::ID skin);
 
         void move(Direction direction);
         void update();

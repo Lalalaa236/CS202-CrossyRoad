@@ -216,3 +216,8 @@ void Player::draw()
 // {
 //     this->hSpeed = hSpeed;
 // }
+
+void Player::setSkin(Textures::ID skin)
+{
+    atlas = &TextureHolder::getHolder().get(skin);
+}

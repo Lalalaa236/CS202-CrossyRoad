@@ -6,7 +6,7 @@ GameState::GameState()
 : speed(0.0f), count(0), start(false), over(false)
 {
     map = new Map(speed);
-    player = new Player(1512.0/2 - 82/2, 982.0 - settings::GRID_SIZE.second, speed, Textures::ID::SKIN_2);
+    player = new Player(1512.0/2 - 82/2, 982.0 - settings::GRID_SIZE.second, speed, Textures::ID::SKIN_1);
     shouldPopState = false;
     HideCursor();
     // std::cout << "GameState constructor called" << std::endl;
@@ -83,12 +83,13 @@ void GameState::checkCollision()
 
 void GameState::setMapSpeed()
 {
-    if(player->getPosition().second < 982.0f / 2)
+    if(player->getPosition().second < 982.0f / 2.0f)
     {
-        float deltaSpeed = (982 / 2 - (int)player->getPosition().second) / 300 * 0.2f;
+        float deltaSpeed = (982.0f / 2.0f - player->getPosition().second) / 300 * 0.2f;
         speed += deltaSpeed;
         map->setSpeed(speed);
         player->setMapSpeed(speed);
+        player->setSkin(Textures::ID::SKIN_2);
     }
     else
     {
@@ -97,6 +98,7 @@ void GameState::setMapSpeed()
             speed = 1.2f;
             map->setSpeed(speed);
             player->setMapSpeed(speed);
+            player->setSkin(Textures::ID::SKIN_1);
         }
     }
 
