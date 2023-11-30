@@ -6,7 +6,7 @@ GameState::GameState()
 : speed(0.0f), count(0), start(false), over(false)
 {
     map = new Map(speed);
-    player = new Player(1512.0/2 - 82/2, 982.0 - settings::GRID_SIZE.second, speed);
+    player = new Player(1512.0/2 - 82/2, 982.0 - settings::GRID_SIZE.second, speed, Textures::ID::SKIN_2);
     shouldPopState = false;
     HideCursor();
     // std::cout << "GameState constructor called" << std::endl;
@@ -131,7 +131,7 @@ void GameState::handleInput()
         }
         else if(IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S))
         {
-            count = GetTime();
+            
             player->move(Player::Direction::DOWN);
         }
         else if(IsKeyPressed(KEY_LEFT) || IsKeyPressed(KEY_A))

@@ -106,7 +106,9 @@ namespace Textures
         RABBIT_5,
         RABBIT_6,
 
-
+        // Skin
+        SKIN_1,
+        SKIN_2
     };
 }
 

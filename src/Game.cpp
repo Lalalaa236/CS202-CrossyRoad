@@ -20,7 +20,7 @@ Game::Game() {
 
     InitAudioDevice();
     bgMusic = LoadMusicStream("image/Sound/bgMusic.mp3");
-    PlayMusicStream(bgMusic);
+    // PlayMusicStream(bgMusic);
 }
 
 Game::~Game() {
@@ -145,8 +145,10 @@ void Game::loadAllTexture() {
     TextureHolder::getHolder().load(Textures::RABBIT_3, "image/Rabbit/frame-3.png");
     TextureHolder::getHolder().load(Textures::RABBIT_4, "image/Rabbit/frame-4.png");
     TextureHolder::getHolder().load(Textures::RABBIT_5, "image/Rabbit/frame-5.png");
-    TextureHolder::getHolder().load(Textures::RABBIT_6, "image/Rabbit/frame-6.png");    
+    TextureHolder::getHolder().load(Textures::RABBIT_6, "image/Rabbit/frame-6.png");
 
+    TextureHolder::getHolder().load(Textures::SKIN_1, "image/skin/1/full.png");
+    TextureHolder::getHolder().load(Textures::SKIN_2, "image/skin/2/full.png");
 }
 
 void Game::run() {
