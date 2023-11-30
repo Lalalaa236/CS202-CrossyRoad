@@ -27,12 +27,18 @@ Game::~Game() {
     // Cleanup
     if (!GetWindowHandle())
         return;
+
     CloseWindow();
+
     while (!stateStack.empty()) {
         delete stateStack.top();
         stateStack.pop();
     }
+
+    UnloadMusicStream(bgMusic);
+    CloseAudioDevice();
 }
+
 void Game::toggleSound() {
     soundEnabled = !soundEnabled;
 
@@ -60,6 +66,7 @@ void Game::setVolume(float newVolume) {
 void Game::setSoundState(bool ok) {
     soundEnabled = ok;
 }
+
 void Game::loadAllTexture() {
     TextureHolder::getHolder().load(Textures::CLOSE_BUTTON, "image/general/closeButton.png");
     TextureHolder::getHolder().load(Textures::NEXT_BUTTON, "image/general/nextButton.png");
@@ -87,6 +94,7 @@ void Game::loadAllTexture() {
     TextureHolder::getHolder().load(Textures::INSTRUCTION_2, "image/instruction/instruction2.png");
 
     TextureHolder::getHolder().load(Textures::SKIN_TABLE, "image/skin/skinBoard.png");
+    TextureHolder::getHolder().load(Textures::CONFIRM_BUTTON, "image/skin/confirmButton.png");
 
     TextureHolder::getHolder().load(Textures::GRASS, "image/gamestate/grass.png");
     TextureHolder::getHolder().load(Textures::ROAD, "image/gamestate/line.png");

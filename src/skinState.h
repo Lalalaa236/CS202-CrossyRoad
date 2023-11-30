@@ -3,6 +3,7 @@
 #include "State.h"
 #include "raylib.h"
 #include "TextureHolder.h"
+#include "player.h"
 
 #include <iostream>
 
@@ -64,7 +65,7 @@ struct Animation {
         int frameWidth = skinSpriteSheet->width / numFrames;
         int frameHeight = skinSpriteSheet->height;
 
-        std::cerr << frameWidth << " " << frameHeight << std::endl;
+        // std::cerr << frameWidth << " " << frameHeight << std::endl;
 
         Rectangle* frames = new Rectangle[numFrames];
 
@@ -94,6 +95,7 @@ private:
     Texture2D* closeButton;
     Texture2D* nextButton;
     Texture2D* prevButton;
+    Texture2D* setButton;
 
     int currentSkin;
 

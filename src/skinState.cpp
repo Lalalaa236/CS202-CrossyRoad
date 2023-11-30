@@ -13,11 +13,12 @@ SkinState::~SkinState() {
 }
 
 void SkinState::init() {
-    background = &TextureHolder::getHolder().get(Textures::BACKGROUND_MENU);
     skinBoard = &TextureHolder::getHolder().get(Textures::SKIN_TABLE);
+    background = &TextureHolder::getHolder().get(Textures::BACKGROUND_MENU);
     closeButton = &TextureHolder::getHolder().get(Textures::CLOSE_BUTTON);
     nextButton = &TextureHolder::getHolder().get(Textures::NEXT_BUTTON);
     prevButton = &TextureHolder::getHolder().get(Textures::PREVIOUS_BUTTON);
+    setButton = &TextureHolder::getHolder().get(Textures::CONFIRM_BUTTON);
 
     setAnimation(0, Textures::SKIN_1_DOWN);
     setAnimation(1, Textures::SKIN_2_DOWN);
@@ -55,6 +56,14 @@ void SkinState::handleEvents() {
             shouldPopState = true;
         }
     }
+
+    // Set button
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+        Vector2 mousePosition = GetMousePosition();
+        if (CheckCollisionPointRec(mousePosition, { 590, 720, setButton->width * 1.0f,setButton->height * 1.0f })) {
+
+        }
+    }
 }
 
 void SkinState::update() {
@@ -78,11 +87,10 @@ void SkinState::draw() {
         WHITE
     );
 
-    DrawTexture(*skinBoard, 319, 81, WHITE);
+    DrawTexture(*skinBoard, 305, 79, WHITE);
     // DrawTexture(*skin[currentSkin], 500, 500, WHITE);
 
-    std::cerr << animation[currentSkin].elapsedTime << std::endl;
-
+    // Draw the animation of skin
     animation[currentSkin].elapsedTime += GetFrameTime();
     if (animation[currentSkin].elapsedTime >= 1.0f / animation[currentSkin].frameRate) {
         animation[currentSkin].currentFrame++;
@@ -95,14 +103,15 @@ void SkinState::draw() {
     DrawTextureRec(
         animation[currentSkin].spriteSheet,
         animation[currentSkin].frameRectangles[animation[currentSkin].currentFrame],
-        { 640, 400 },
+        { 620, 400 },
         WHITE
     );
 
-    DrawTexture(*nextButton, 1090, 500, WHITE);
-    DrawTexture(*prevButton, 300, 500, WHITE);
-
-    DrawTexture(*closeButton, 1113, 202, WHITE);
+    // Draw button
+    DrawTexture(*nextButton, 1097, 500, WHITE);
+    DrawTexture(*prevButton, 280, 500, WHITE);
+    DrawTexture(*closeButton, 1087, 202, WHITE);
+    DrawTexture(*setButton, 590, 720, WHITE);
 
     EndDrawing();
 }
