@@ -97,7 +97,7 @@ private:
     Texture2D* prevButton;
     Texture2D* setButton;
 
-    int currentSkin;
+    int currentSkin = 0;
 
     void setAnimation(int skinIndex, Textures::ID skinID);
 public:

@@ -61,7 +61,23 @@ void SkinState::handleEvents() {
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         Vector2 mousePosition = GetMousePosition();
         if (CheckCollisionPointRec(mousePosition, { 590, 720, setButton->width * 1.0f,setButton->height * 1.0f })) {
+            // Set the skin to player
+            switch (currentSkin) {
+            case 0: // Skin 1
 
+                break;
+            case 1: // Skin 2
+                break;
+            case 2: // Skin 3
+                break;
+            case 3: // Skin 4
+                break;
+            case 4: // Skin 5
+                break;
+            }
+
+            // Pop the state
+            shouldPopState = true;
         }
     }
 }

@@ -72,7 +72,6 @@ void Game::loadAllTexture() {
     TextureHolder::getHolder().load(Textures::NEXT_BUTTON, "image/general/nextButton.png");
     TextureHolder::getHolder().load(Textures::PREVIOUS_BUTTON, "image/general/previousButton.png");
 
-
     TextureHolder::getHolder().load(Textures::BACKGROUND_MENU, "image/menu/bg.png");
     TextureHolder::getHolder().load(Textures::BUTTON_0, "image/menu/about.png");
     TextureHolder::getHolder().load(Textures::BUTTON_1, "image/menu/setting.png");

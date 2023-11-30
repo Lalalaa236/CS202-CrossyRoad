@@ -9,16 +9,16 @@ public:
     Vector2 getPos();
     float getSpeed() const;
     void setPos(float x, float y);
-
     bool checkOutOfScreen() const;
+    Rectangle getBoxCollision() const;
 
     virtual void draw() = 0;
     virtual void update(float y) = 0;
-    bool checkOutOfScreen() const;
-    Rectangle getBoxCollision() const;
+
 private:
     float speed;
     Vector2 position;
+
 protected:
     Rectangle boxCollision;
     void setBoxCollision(float x, float y, Texture2D* txt, float scale);
