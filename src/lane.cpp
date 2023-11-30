@@ -7,6 +7,11 @@
 #include<vector>
 #include"Rabbit.h"
 #include"Tiger.h"
+#include"Bike.h"
+#include"Cab.h"
+#include"Car.h"
+#include"Taxi.h"
+#include"Truck.h"
 
 
 Lane::Lane(float y, float mapSpeed) 
@@ -91,6 +96,36 @@ void Lane::addObstacle()
         }
         
     }
+
+    if (!isSafe) {
+        Obstacle* tmp = nullptr;
+        float dis = (settings::SCREEN_WIDTH / r * 1.0);
+        for (int i = 1; i <= r; i++){
+            int randomType = rand() % 5;
+            switch (randomType){
+                case 0:
+                    tmp = new Bike({dis*(i-1),this->y-50},randomSpeed);
+                    break;
+                case 1:
+                    tmp = new Cab({dis *(i-1),this->y-50},randomSpeed);
+                    break;
+                case 2:
+                    tmp = new Car({dis*(i-1),this->y-50},randomSpeed);
+                    break;
+                case 3:
+                    tmp = new Taxi({dis*(i-1),this->y-50},randomSpeed);
+                    break;
+                case 4:
+                    tmp = new Truck({dis*(i-1),this->y-50},randomSpeed);
+                    break;
+                default:
+                    break;
+            }
+            if (tmp) obstacles.push_back(tmp);
+        }
+       
+    }
+
 }
 
 
@@ -105,7 +140,6 @@ void Lane::draw()
     }
     
 
-    
     for (auto obstacle : obstacles) {
         obstacle->draw();
     }
