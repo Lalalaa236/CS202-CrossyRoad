@@ -30,7 +30,7 @@ void InstructionState::handleEvents() {
     // Next and previous button
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         Vector2 mousePosition = GetMousePosition();
-        if (CheckCollisionPointRec(mousePosition, { 1113, 500, nextButton->width * 1.0f,nextButton->height * 1.0f })) {
+        if (CheckCollisionPointRec(mousePosition, { 1090, 500, nextButton->width * 1.0f,nextButton->height * 1.0f })) {
             currentImage++;
             if (currentImage > 1) currentImage = 0;
         }
@@ -70,7 +70,7 @@ void InstructionState::draw() {
 
     if (currentImage == 0) {
         DrawTexture(*instructionImages[0], 319, 81, WHITE);
-        DrawTexture(*nextButton, 1113, 500, WHITE);
+        DrawTexture(*nextButton, 1090, 500, WHITE);
         DrawTexture(*closeButton, 1113, 202, WHITE);
     }
     else {

@@ -20,9 +20,8 @@ Map::Map(float speed)
     }
 }
 
-void Map::draw()
-{
-    for(auto lane : lanes){
+void Map::draw() {
+    for (auto lane : lanes) {
         lane->draw();
     }
     // static int i = 0;
@@ -56,17 +55,15 @@ void Map::update()
     //     std::cout << "Map update called" << std::endl;
 }
 
-void Map::setSpeed(float speed)
-{
+void Map::setSpeed(float speed) {
     this->speed = speed;
 }
 
-Map::~Map()
-{
-    for(auto lane : lanes)
-    {
+Map::~Map() {
+    for (auto lane : lanes) {
         delete lane;
     }
+    lanes.clear();
 }
 
 bool Map::CheckCollisionPLayer(Rectangle playerBoxCollision)

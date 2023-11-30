@@ -27,12 +27,18 @@ Game::~Game() {
     // Cleanup
     if (!GetWindowHandle())
         return;
+
     CloseWindow();
+
     while (!stateStack.empty()) {
         delete stateStack.top();
         stateStack.pop();
     }
+
+    UnloadMusicStream(bgMusic);
+    CloseAudioDevice();
 }
+
 void Game::toggleSound() {
     soundEnabled = !soundEnabled;
 
@@ -60,11 +66,11 @@ void Game::setVolume(float newVolume) {
 void Game::setSoundState(bool ok) {
     soundEnabled = ok;
 }
+
 void Game::loadAllTexture() {
     TextureHolder::getHolder().load(Textures::CLOSE_BUTTON, "image/general/closeButton.png");
     TextureHolder::getHolder().load(Textures::NEXT_BUTTON, "image/general/nextButton.png");
     TextureHolder::getHolder().load(Textures::PREVIOUS_BUTTON, "image/general/previousButton.png");
-
 
     TextureHolder::getHolder().load(Textures::BACKGROUND_MENU, "image/menu/bg.png");
     TextureHolder::getHolder().load(Textures::BUTTON_0, "image/menu/about.png");
@@ -85,6 +91,9 @@ void Game::loadAllTexture() {
 
     TextureHolder::getHolder().load(Textures::INSTRUCTION_1, "image/instruction/instruction1.png");
     TextureHolder::getHolder().load(Textures::INSTRUCTION_2, "image/instruction/instruction2.png");
+
+    TextureHolder::getHolder().load(Textures::SKIN_TABLE, "image/skin/skinBoard.png");
+    TextureHolder::getHolder().load(Textures::CONFIRM_BUTTON, "image/skin/confirmButton.png");
 
     TextureHolder::getHolder().load(Textures::GRASS, "image/gamestate/grass.png");
     TextureHolder::getHolder().load(Textures::ROAD, "image/gamestate/line.png");
@@ -138,15 +147,19 @@ void Game::loadAllTexture() {
     TextureHolder::getHolder().load(Textures::TIGER_4, "image/Tiger/frame-4.png");
     TextureHolder::getHolder().load(Textures::TIGER_5, "image/Tiger/frame-5.png");
     TextureHolder::getHolder().load(Textures::TIGER_6, "image/Tiger/frame-6.png");
-  
-    
+
+
     TextureHolder::getHolder().load(Textures::RABBIT_1, "image/Rabbit/frame-1.png");
     TextureHolder::getHolder().load(Textures::RABBIT_2, "image/Rabbit/frame-2.png");
     TextureHolder::getHolder().load(Textures::RABBIT_3, "image/Rabbit/frame-3.png");
     TextureHolder::getHolder().load(Textures::RABBIT_4, "image/Rabbit/frame-4.png");
     TextureHolder::getHolder().load(Textures::RABBIT_5, "image/Rabbit/frame-5.png");
-    TextureHolder::getHolder().load(Textures::RABBIT_6, "image/Rabbit/frame-6.png");    
+    TextureHolder::getHolder().load(Textures::RABBIT_6, "image/Rabbit/frame-6.png");
 
+    TextureHolder::getHolder().load(Textures::SKIN_1_UP, "image/skin/1/up/sprite.png");
+    TextureHolder::getHolder().load(Textures::SKIN_1_DOWN, "image/skin/1/down/sprite.png");
+    TextureHolder::getHolder().load(Textures::SKIN_2_UP, "image/skin/2/up/sprite.png");
+    TextureHolder::getHolder().load(Textures::SKIN_2_DOWN, "image/skin/2/down/sprite.png");
 }
 
 void Game::run() {

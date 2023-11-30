@@ -12,20 +12,17 @@ GameState::GameState()
     // std::cout << "GameState constructor called" << std::endl;
 }
 
-GameState::~GameState()
-{
+GameState::~GameState() {
     delete map;
     delete player;
     ShowCursor();
 }
 
-bool GameState::shouldPop() const
-{
+bool GameState::shouldPop() const {
     return shouldPopState;
 }
 
-void GameState::draw()
-{
+void GameState::draw() {
     // static int i = 0;
     // if(i++ == 0)
     //     std::cout << "GameState draw called" << std::endl;
@@ -37,8 +34,7 @@ void GameState::draw()
     // player->draw();
 }
 
-void GameState::update()
-{
+void GameState::update() {
     // static int i = 0;
     // if(i++ == 0)
     //     std::cout << "GameState update called" << std::endl;
@@ -48,8 +44,7 @@ void GameState::update()
     // player->update();
 }
 
-void GameState::init()
-{
+void GameState::init() {
     nextState = nullptr;
 }
 

@@ -76,8 +76,8 @@ void settingState::handleEvents() {
         dotPosition.x = mousePosition.x - dragOffset.x;
 
         // Ensure the dot stays within the bounds of the slider
-        if (dotPosition.x < 613) {
-            dotPosition.x = 614;
+        if (dotPosition.x < 615) {
+            dotPosition.x = 615;
         }
         else if (dotPosition.x > 613 + sound[2]->width - 27) {
             dotPosition.x = 613 + sound[2]->width - 27;
@@ -109,6 +109,7 @@ void settingState::draw() {
     float scaleHeight = (float)GetScreenHeight() / background->height;
     BeginDrawing();
     ClearBackground(RAYWHITE);
+
     // Draw background image
     DrawTexturePro(
         *background,
@@ -118,6 +119,7 @@ void settingState::draw() {
         0,
         WHITE
     );
+
     DrawTexture(*settingBoard, 319, 81, WHITE);
     DrawTexture(*closeButton, 1113, 202, WHITE);
     if (game.getSoundState()) {

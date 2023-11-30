@@ -9,12 +9,12 @@ namespace Textures
 {
     enum ID
     {
-        //general 
+        // general 
         CLOSE_BUTTON,
         NEXT_BUTTON,
         PREVIOUS_BUTTON,
 
-        //Menu
+        // Menu
         BACKGROUND_MENU,
         BUTTON_0,
         BUTTON_1,
@@ -23,7 +23,7 @@ namespace Textures
         BUTTON_4,
         NAME_LOGO,
 
-        //setting
+        // setting
         TABLE_SETTING,
         SOUND_ON,
         SOUND_OFF,
@@ -31,12 +31,16 @@ namespace Textures
         GREEN_BAR,
         DOT,
 
-        //high score
+        // high score
         TABLE_HIGHSCORE,
 
         // Inscruction
         INSTRUCTION_1,
         INSTRUCTION_2,
+
+        // skin
+        SKIN_TABLE,
+        CONFIRM_BUTTON,
 
         // Lanes
         GRASS,
@@ -97,8 +101,8 @@ namespace Textures
         TIGER_4,
         TIGER_5,
         TIGER_6,
-        
-        //RabBit
+
+        //Rabbit
         RABBIT_1,
         RABBIT_2,
         RABBIT_3,
@@ -106,7 +110,11 @@ namespace Textures
         RABBIT_5,
         RABBIT_6,
 
-
+        // SKIN
+        SKIN_1_UP,
+        SKIN_1_DOWN,
+        SKIN_2_UP,
+        SKIN_2_DOWN,
     };
 }
 

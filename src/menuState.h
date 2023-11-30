@@ -6,12 +6,15 @@ class Game;
 class MenuState : public State {
 public:
     MenuState(Game& game);
+    ~MenuState();
+
+    void init() override;
+
+    bool shouldPop() const override;
     void handleEvents() override;
+
     void update() override;
     void draw() override;
-    ~MenuState();
-    bool shouldPop() const override;
-    void init() override;
 private:
     Game& game;
     Texture2D* background;
