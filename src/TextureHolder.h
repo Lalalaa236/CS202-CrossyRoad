@@ -128,7 +128,10 @@ private:
 public:
     static TextureHolder &getHolder();
     ~TextureHolder();
-    void load(Textures::ID id, const std::string &filename);
-    Texture2D &get(Textures::ID id);
-    const Texture2D &get(Textures::ID id) const;
+
+    void load(Textures::ID id, const std::string& filename);
+    Texture2D& get(Textures::ID id);
+    const Texture2D& get(Textures::ID id) const;
+
+    void clear();
 };
