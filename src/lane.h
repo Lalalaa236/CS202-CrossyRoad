@@ -15,6 +15,7 @@ private:
     std::deque<Obstacle *> obstacles;
     TrafficLight *trafficLight;
     bool isSafe;
+    bool direction; // true = right, false = left
 
 public:
     enum LaneType { ROAD, GRASS };
@@ -30,7 +31,7 @@ public:
     void addObstacle(int n);
     void draw();
     void update();
-    bool CheckCollisionPLayer(Rectangle playerBoxCollision);
+    bool CheckCollisionPlayer(Rectangle playerBoxCollision);
 };
 
 #endif

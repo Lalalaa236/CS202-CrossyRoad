@@ -30,9 +30,8 @@ void MenuState::handleEvents() {
         Vector2 a[6] = {{33, 24}, {1352, 28}, {63, 802}, {1352, 804}, {660, 647}, {244, 191}};
 
         for (int i = 0; i < 5; i++) {
-            if (CheckCollisionPointRec(
-                    mousePosition,
-                    {a[i].x, a[i].y, button[i]->width * 0.3f, button[i]->height * 0.3f})) {
+            if (CheckCollisionPointRec(mousePosition,
+                                       {a[i].x, a[i].y, button[i]->width * 0.3f, button[i]->height * 0.3f})) {
                 switch (i) {
 
                     /// Intruction button (top left)
@@ -67,8 +66,7 @@ void MenuState::handleEvents() {
             }
         }
 
-        if (CheckCollisionPointRec(mousePosition,
-                                   {a[5].x, a[5].y, name->width * 1.0f, name->height * 1.0f})) {
+        if (CheckCollisionPointRec(mousePosition, {a[5].x, a[5].y, name->width * 1.0f, name->height * 1.0f})) {
         }
     }
 }

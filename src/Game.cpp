@@ -85,8 +85,7 @@ void Game::loadAllTexture() {
     TextureHolder::getHolder().load(Textures::GREEN_BAR, "image/Setting/greenBar.png");
     TextureHolder::getHolder().load(Textures::DOT, "image/Setting/dot.png");
 
-    TextureHolder::getHolder().load(Textures::TABLE_HIGHSCORE,
-                                    "image/highscore/highScoreBoard.png");
+    TextureHolder::getHolder().load(Textures::TABLE_HIGHSCORE, "image/highscore/highScoreBoard.png");
 
     TextureHolder::getHolder().load(Textures::INSTRUCTION_1, "image/instruction/instruction1.png");
     TextureHolder::getHolder().load(Textures::INSTRUCTION_2, "image/instruction/instruction2.png");

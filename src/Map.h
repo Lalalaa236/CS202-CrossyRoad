@@ -13,7 +13,7 @@ public:
     void draw();
     void update();
     void setSpeed(float speed);
-    bool CheckCollisionPLayer(Rectangle playerBoxCollision);
+    bool CheckCollisionPlayer(Rectangle playerBoxCollision);
     ~Map();
 };
 

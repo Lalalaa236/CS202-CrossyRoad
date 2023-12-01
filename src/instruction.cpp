@@ -30,16 +30,12 @@ void InstructionState::handleEvents() {
     // Next and previous button
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         Vector2 mousePosition = GetMousePosition();
-        if (CheckCollisionPointRec(
-                mousePosition,
-                {1090, 500, nextButton->width * 1.0f, nextButton->height * 1.0f})) {
+        if (CheckCollisionPointRec(mousePosition, {1090, 500, nextButton->width * 1.0f, nextButton->height * 1.0f})) {
             currentImage++;
             if (currentImage > 1)
                 currentImage = 0;
         }
-        if (CheckCollisionPointRec(
-                mousePosition,
-                {300, 500, prevButton->width * 1.0f, prevButton->height * 1.0f})) {
+        if (CheckCollisionPointRec(mousePosition, {300, 500, prevButton->width * 1.0f, prevButton->height * 1.0f})) {
             currentImage--;
             if (currentImage < 0)
                 currentImage = 1;
@@ -49,9 +45,7 @@ void InstructionState::handleEvents() {
     // Close button
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         Vector2 mousePosition = GetMousePosition();
-        if (CheckCollisionPointRec(
-                mousePosition,
-                {1113, 202, closeButton->width * 1.0f, closeButton->height * 1.0f})) {
+        if (CheckCollisionPointRec(mousePosition, {1113, 202, closeButton->width * 1.0f, closeButton->height * 1.0f})) {
             shouldPopState = true;
         }
     }

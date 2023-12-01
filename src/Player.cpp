@@ -1,8 +1,7 @@
 #include "Player.h"
 
 Player::Player(float x, float y, float mapSpeed)
-    : position({x, y}), targetPosition({x, y}), isAlive(true), mapSpeed(mapSpeed), vSpeed(0.0f),
-      hSpeed(0.0f) {
+    : position({x, y}), targetPosition({x, y}), isAlive(true), mapSpeed(mapSpeed), vSpeed(0.0f), hSpeed(0.0f) {
     boxCollision.x = x;
     boxCollision.y = y;
     boxCollision.width = 82;

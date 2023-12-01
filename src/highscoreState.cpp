@@ -18,9 +18,7 @@ void highScoreState::init() {
 void highScoreState::handleEvents() {
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         Vector2 mousePosition = GetMousePosition();
-        if (CheckCollisionPointRec(
-                mousePosition,
-                {1113, 202, closeButton->width * 1.0f, closeButton->height * 1.0f})) {
+        if (CheckCollisionPointRec(mousePosition, {1113, 202, closeButton->width * 1.0f, closeButton->height * 1.0f})) {
             shouldPopState = true;
         }
     }

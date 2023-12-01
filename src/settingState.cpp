@@ -23,14 +23,11 @@ void settingState::init() {
 void settingState::handleEvents() {
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         Vector2 mousePosition = GetMousePosition();
-        if (CheckCollisionPointRec(
-                mousePosition,
-                {1113, 202, closeButton->width * 1.0f, closeButton->height * 1.0f})) {
+        if (CheckCollisionPointRec(mousePosition, {1113, 202, closeButton->width * 1.0f, closeButton->height * 1.0f})) {
             shouldPopState = true;
         }
 
-        if (CheckCollisionPointRec(mousePosition,
-                                   {445, 449, sound[0]->width * 1.0f, sound[1]->height * 1.0f})) {
+        if (CheckCollisionPointRec(mousePosition, {445, 449, sound[0]->width * 1.0f, sound[1]->height * 1.0f})) {
             game.toggleSound();
         }
 
@@ -57,8 +54,7 @@ void settingState::handleEvents() {
         Vector2 mousePosition = GetMousePosition();
 
         // Check if the mouse is pressed on the slider
-        if (CheckCollisionPointRec(mousePosition,
-                                   {613, 500, sound[2]->width * 1.0f, sound[2]->height * 1.0f})) {
+        if (CheckCollisionPointRec(mousePosition, {613, 500, sound[2]->width * 1.0f, sound[2]->height * 1.0f})) {
             isDragging = true;
             dragOffset.x = mousePosition.x - dotPosition.x;
             dragOffset.y = mousePosition.y - dotPosition.y;
@@ -138,14 +134,8 @@ void settingState::draw() {
     }
 
     DrawTexture(*sound[2], 613, 500, WHITE);
-    Rectangle sourceRec = {0,
-                           0,
-                           static_cast<float>(dotPosition.x - 613),
-                           static_cast<float>(sound[3]->height)};
-    Rectangle destRec = {613,
-                         500,
-                         static_cast<float>(dotPosition.x - 613),
-                         static_cast<float>(sound[3]->height)};
+    Rectangle sourceRec = {0, 0, static_cast<float>(dotPosition.x - 613), static_cast<float>(sound[3]->height)};
+    Rectangle destRec = {613, 500, static_cast<float>(dotPosition.x - 613), static_cast<float>(sound[3]->height)};
     DrawTexturePro(*sound[3], sourceRec, destRec, {0, 0}, 0, WHITE);
     DrawTexture(*sound[4], dotPosition.x, dotPosition.y, WHITE);
     EndDrawing();

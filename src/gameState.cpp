@@ -65,7 +65,7 @@ void GameState::checkOutOfScreen() {
 }
 
 void GameState::checkCollision() {
-    if (map->CheckCollisionPLayer(player->getBoxCollision()))
+    if (map->CheckCollisionPlayer(player->getBoxCollision()))
         player->setIsAlive(false);
 }
 
@@ -83,9 +83,9 @@ void GameState::setMapSpeed() {
         }
     }
 
-    if (speed == 0.0f && (IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_W) || IsKeyPressed(KEY_DOWN) ||
-                          IsKeyPressed(KEY_S) || IsKeyPressed(KEY_LEFT) || IsKeyPressed(KEY_A) ||
-                          IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D))) {
+    if (speed == 0.0f &&
+        (IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_W) || IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S) ||
+         IsKeyPressed(KEY_LEFT) || IsKeyPressed(KEY_A) || IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D))) {
         speed = 1.2f;
         map->setSpeed(speed);
         player->setMapSpeed(speed);

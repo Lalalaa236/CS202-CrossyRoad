@@ -6,14 +6,14 @@
 
 class Rabbit : public Obstacle {
 private:
-    std::vector<Texture2D*> txt; // Vector of Texture2D (frames)
+    std::vector<Texture2D *> txt; // Vector of Texture2D (frames)
 
     int numsFrame, curFrame; // Store frames to draw
     float frameTime;
 
 public:
     //Constructor
-    Rabbit(const Vector2& pos, float Speed);
+    Rabbit(const Vector2 &pos, float Speed);
     ~Rabbit();
     void draw() override;
     void update(float y) override;

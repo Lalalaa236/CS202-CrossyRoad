@@ -11,9 +11,14 @@
 
 Lane::Lane(float y, float mapSpeed) : y(y), mapSpeed(mapSpeed) {
     randomSpeed = GetRandomValue(3.0f, 6.0f);
+    direction = rand() % 2;
+
+    if (direction == 0)
+        randomSpeed = -randomSpeed;
 
     static int cnt = 0;
     int random = rand() % 2;
+
     switch (random) {
     case 0:
         if (cnt == 5) {
@@ -58,9 +63,13 @@ Lane::~Lane() {
     delete trafficLight;
 }
 
-Lane::Lane(float y, float mapSpeed, LaneType laneType, int numObstacles)
-    : y(y), mapSpeed(mapSpeed) {
+Lane::Lane(float y, float mapSpeed, LaneType laneType, int numObstacles) : y(y), mapSpeed(mapSpeed) {
     randomSpeed = GetRandomValue(1.0f, 3.0f);
+    direction = rand() % 2;
+
+    if (direction == 0)
+        randomSpeed = -randomSpeed;
+
     switch (laneType) {
     case LaneType::GRASS:
         texture = &TextureHolder::getHolder().get(Textures::GRASS);
@@ -83,13 +92,13 @@ Lane::Lane(float y, float mapSpeed, LaneType laneType, int numObstacles)
 }
 
 void Lane::addObstacle() {
-    int r = rand() % 5;
+    int r = rand() % 4;
     if (r == 0)
         return;
 
+    float distance = (settings::SCREEN_WIDTH / r * 1.0);
     if (isSafe) {
         Obstacle *tmp = nullptr;
-        float distance = (settings::SCREEN_WIDTH / r * 1.0);
 
         for (int i = 1; i <= r; i++) {
             int randomType = rand() % 5;
@@ -122,31 +131,35 @@ void Lane::addObstacle() {
 }
 
 void Lane::addObstacle(int n) {
-    if (n == 0)
+    if (n <= 0)
         return;
+
     float dis = (settings::SCREEN_WIDTH / n * 1.0);
     for (int i = 1; i <= n; ++i) {
         Obstacle *tmp = nullptr;
         int randomType = rand() % 5;
+        float x = dis * (i - 1);
+
         switch (randomType) {
         case 0:
-            tmp = new Bird({dis * (i - 1), this->y}, randomSpeed);
+            tmp = new Bird({x, this->y}, randomSpeed);
             break;
         case 1:
-            tmp = new Cat({dis * (i - 1), this->y}, randomSpeed);
+            tmp = new Cat({x, this->y}, randomSpeed);
             break;
         case 2:
-            tmp = new Dog({dis * (i - 1), this->y}, randomSpeed);
+            tmp = new Dog({x, this->y}, randomSpeed);
             break;
         case 3:
-            tmp = new Tiger({dis * (i - 1), this->y}, randomSpeed);
+            tmp = new Tiger({x, this->y}, randomSpeed);
             break;
         case 4:
-            tmp = new Rabbit({dis * (i - 1), this->y}, randomSpeed);
+            tmp = new Rabbit({x, this->y}, randomSpeed);
             break;
         default:
             break;
         }
+
         if (tmp)
             obstacles.push_back(tmp);
     }
@@ -188,10 +201,11 @@ void Lane::setSpeed(float mapSpeed) {
     this->mapSpeed = mapSpeed;
 }
 
-bool Lane::CheckCollisionPLayer(Rectangle playerBoxCollision) {
+bool Lane::CheckCollisionPlayer(Rectangle playerBoxCollision) {
     for (auto obstacle : obstacles) {
         if (CheckCollisionRecs(obstacle->getBoxCollision(), playerBoxCollision))
             return true;
     }
+
     return false;
 }

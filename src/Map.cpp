@@ -58,9 +58,9 @@ Map::~Map() {
     lanes.clear();
 }
 
-bool Map::CheckCollisionPLayer(Rectangle playerBoxCollision) {
+bool Map::CheckCollisionPlayer(Rectangle playerBoxCollision) {
     for (auto lane : lanes) {
-        if (lane->CheckCollisionPLayer(playerBoxCollision))
+        if (lane->CheckCollisionPlayer(playerBoxCollision))
             return true;
     }
     return false;
