@@ -7,8 +7,9 @@ using namespace std;
 #include <thread>
 
 int main() {
-    Game game;
-    game.run();
+    Game* game = new Game();
+    game->run();
 
+    delete game;
     return 0;
 }

@@ -103,7 +103,7 @@ void GameState::checkPlayerAlive() {
 }
 
 void GameState::handleInput() {
-    if (GetTime() - count > 0.2f) {
+    if (GetTime() - count > 0.1f) {
         if (IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_W)) {
             count = GetTime();
             player->move(Player::Direction::UP);

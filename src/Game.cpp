@@ -12,11 +12,16 @@ Game::Game() {
     soundEnabled = true;
     volume = 1.0f;
 
+    // Initialization for window
     InitWindow(settings::SCREEN_WIDTH, settings::SCREEN_HEIGHT, "Crossing Road");
     SetTargetFPS(settings::SCREEN_FPS);
+    SetWindowIcon(LoadImage("image/menu/name.png"));
+
+    // Initialization for texture
     loadAllTexture();
     stateStack.top()->init();
 
+    // Initialization for audio
     InitAudioDevice();
     bgMusic = LoadMusicStream("image/Sound/bgMusic.mp3");
     PlayMusicStream(bgMusic);
@@ -36,6 +41,8 @@ Game::~Game() {
 
     UnloadMusicStream(bgMusic);
     CloseAudioDevice();
+
+    TextureHolder::getHolder().clear();
 }
 
 void Game::toggleSound() {
@@ -43,7 +50,8 @@ void Game::toggleSound() {
 
     if (soundEnabled) {
         PlayMusicStream(bgMusic);
-    } else {
+    }
+    else {
         StopMusicStream(bgMusic);
     }
 }
@@ -162,20 +170,20 @@ void Game::loadAllTexture() {
 void Game::run() {
     while (!WindowShouldClose() && !stateStack.empty()) {
         UpdateMusicStream(bgMusic);
-        State *currentState = stateStack.top();
+        State* currentState = stateStack.top();
         currentState->setState();
         currentState->draw();
         currentState->update();
         currentState->handleEvents();
 
-        State *newState = currentState->getNextState();
+        State* newState = currentState->getNextState();
 
         if (currentState->shouldPop()) {
             delete currentState;
             stateStack.pop();
         }
-        if (newState != nullptr) {
 
+        if (newState != nullptr) {
             stateStack.push(newState);
         }
     }
