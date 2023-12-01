@@ -39,20 +39,28 @@ void SkinState::handleEvents() {
     // Next and previous button
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         Vector2 mousePosition = GetMousePosition();
-        if (CheckCollisionPointRec(mousePosition, { 1090, 500, nextButton->width * 1.0f,nextButton->height * 1.0f })) {
+        if (CheckCollisionPointRec(
+                mousePosition,
+                {1090, 500, nextButton->width * 1.0f, nextButton->height * 1.0f})) {
             currentSkin++;
-            if (currentSkin > 4) currentSkin = 0;
+            if (currentSkin > 4)
+                currentSkin = 0;
         }
-        if (CheckCollisionPointRec(mousePosition, { 300, 500, prevButton->width * 1.0f,prevButton->height * 1.0f })) {
+        if (CheckCollisionPointRec(
+                mousePosition,
+                {300, 500, prevButton->width * 1.0f, prevButton->height * 1.0f})) {
             currentSkin--;
-            if (currentSkin < 0) currentSkin = 4;
+            if (currentSkin < 0)
+                currentSkin = 4;
         }
     }
 
     // Close button
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         Vector2 mousePosition = GetMousePosition();
-        if (CheckCollisionPointRec(mousePosition, { 1113, 202, closeButton->width * 1.0f,closeButton->height * 1.0f })) {
+        if (CheckCollisionPointRec(
+                mousePosition,
+                {1113, 202, closeButton->width * 1.0f, closeButton->height * 1.0f})) {
             shouldPopState = true;
         }
     }
@@ -60,7 +68,8 @@ void SkinState::handleEvents() {
     // Set button
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         Vector2 mousePosition = GetMousePosition();
-        if (CheckCollisionPointRec(mousePosition, { 590, 720, setButton->width * 1.0f,setButton->height * 1.0f })) {
+        if (CheckCollisionPointRec(mousePosition,
+                                   {590, 720, setButton->width * 1.0f, setButton->height * 1.0f})) {
             // Set the skin to player
             switch (currentSkin) {
             case 0: // Skin 1
@@ -83,10 +92,7 @@ void SkinState::handleEvents() {
 }
 
 void SkinState::update() {
-
 }
-
-
 
 void SkinState::draw() {
     float scaleWidth = (float)GetScreenWidth() / background->width;
@@ -94,14 +100,12 @@ void SkinState::draw() {
 
     BeginDrawing();
     ClearBackground(RAYWHITE);
-    DrawTexturePro(
-        *background,
-        { 0, 0, float(background->width), float(background->height) },
-        { 0, 0, background->width * scaleWidth, background->height * scaleHeight },
-        { 0, 0 },
-        0,
-        WHITE
-    );
+    DrawTexturePro(*background,
+                   {0, 0, float(background->width), float(background->height)},
+                   {0, 0, background->width * scaleWidth, background->height * scaleHeight},
+                   {0, 0},
+                   0,
+                   WHITE);
 
     DrawTexture(*skinBoard, 305, 79, WHITE);
     // DrawTexture(*skin[currentSkin], 500, 500, WHITE);
@@ -116,12 +120,10 @@ void SkinState::draw() {
         }
     }
 
-    DrawTextureRec(
-        animation[currentSkin].spriteSheet,
-        animation[currentSkin].frameRectangles[animation[currentSkin].currentFrame],
-        { 620, 400 },
-        WHITE
-    );
+    DrawTextureRec(animation[currentSkin].spriteSheet,
+                   animation[currentSkin].frameRectangles[animation[currentSkin].currentFrame],
+                   {620, 400},
+                   WHITE);
 
     // Draw button
     DrawTexture(*nextButton, 1097, 500, WHITE);

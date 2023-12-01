@@ -1,15 +1,15 @@
 #pragma once
 
 #include "State.h"
-#include "raylib.h"
 #include "TextureHolder.h"
 #include "player.h"
+#include "raylib.h"
 
 #include <iostream>
 
 struct Animation {
     Texture2D spriteSheet;
-    Rectangle* frameRectangles = nullptr;
+    Rectangle *frameRectangles = nullptr;
     int numFrames;
     float frameRate;
     int currentFrame;
@@ -28,7 +28,7 @@ struct Animation {
         delete[] frameRectangles;
     }
 
-    Animation(const Animation& other) {
+    Animation(const Animation &other) {
         spriteSheet = other.spriteSheet;
         numFrames = other.numFrames;
         frameRate = other.frameRate;
@@ -41,7 +41,7 @@ struct Animation {
         }
     }
 
-    Animation& operator=(const Animation& other) {
+    Animation &operator=(const Animation &other) {
         if (this != &other) {
             delete[] frameRectangles;
 
@@ -60,14 +60,14 @@ struct Animation {
     }
 
     void setAnimation(Textures::ID skinID, int numFrames, float frameRate) {
-        Texture2D* skinSpriteSheet = &TextureHolder::getHolder().get(skinID);
+        Texture2D *skinSpriteSheet = &TextureHolder::getHolder().get(skinID);
 
         int frameWidth = skinSpriteSheet->width / numFrames;
         int frameHeight = skinSpriteSheet->height;
 
         // std::cerr << frameWidth << " " << frameHeight << std::endl;
 
-        Rectangle* frames = new Rectangle[numFrames];
+        Rectangle *frames = new Rectangle[numFrames];
 
         for (int i = 0; i < numFrames; i++) {
             frames[i].x = frameWidth * i;
@@ -90,16 +90,17 @@ class SkinState : public State {
 private:
     Animation animation[5];
 
-    Texture2D* background;
-    Texture2D* skinBoard;
-    Texture2D* closeButton;
-    Texture2D* nextButton;
-    Texture2D* prevButton;
-    Texture2D* setButton;
+    Texture2D *background;
+    Texture2D *skinBoard;
+    Texture2D *closeButton;
+    Texture2D *nextButton;
+    Texture2D *prevButton;
+    Texture2D *setButton;
 
     int currentSkin = 0;
 
     void setAnimation(int skinIndex, Textures::ID skinID);
+
 public:
     SkinState();
     ~SkinState();

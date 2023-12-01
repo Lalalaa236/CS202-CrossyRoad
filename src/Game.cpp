@@ -1,10 +1,9 @@
 #include "Game.h"
-#include "menustate.h" 
+#include "GameSettings.h"
 #include "State.h"
-#include"TextureHolder.h"
+#include "TextureHolder.h"
+#include "menustate.h"
 #include <iostream>
-#include "GameSettings.h"  
-
 
 Game::Game() {
     if (GetWindowHandle())
@@ -44,8 +43,7 @@ void Game::toggleSound() {
 
     if (soundEnabled) {
         PlayMusicStream(bgMusic);
-    }
-    else {
+    } else {
         StopMusicStream(bgMusic);
     }
 }
@@ -87,7 +85,8 @@ void Game::loadAllTexture() {
     TextureHolder::getHolder().load(Textures::GREEN_BAR, "image/Setting/greenBar.png");
     TextureHolder::getHolder().load(Textures::DOT, "image/Setting/dot.png");
 
-    TextureHolder::getHolder().load(Textures::TABLE_HIGHSCORE, "image/highscore/highScoreBoard.png");
+    TextureHolder::getHolder().load(Textures::TABLE_HIGHSCORE,
+                                    "image/highscore/highScoreBoard.png");
 
     TextureHolder::getHolder().load(Textures::INSTRUCTION_1, "image/instruction/instruction1.png");
     TextureHolder::getHolder().load(Textures::INSTRUCTION_2, "image/instruction/instruction2.png");
@@ -148,7 +147,6 @@ void Game::loadAllTexture() {
     TextureHolder::getHolder().load(Textures::TIGER_5, "image/Tiger/frame-5.png");
     TextureHolder::getHolder().load(Textures::TIGER_6, "image/Tiger/frame-6.png");
 
-
     TextureHolder::getHolder().load(Textures::RABBIT_1, "image/Rabbit/frame-1.png");
     TextureHolder::getHolder().load(Textures::RABBIT_2, "image/Rabbit/frame-2.png");
     TextureHolder::getHolder().load(Textures::RABBIT_3, "image/Rabbit/frame-3.png");
@@ -165,13 +163,13 @@ void Game::loadAllTexture() {
 void Game::run() {
     while (!WindowShouldClose() && !stateStack.empty()) {
         UpdateMusicStream(bgMusic);
-        State* currentState = stateStack.top();
+        State *currentState = stateStack.top();
         currentState->setState();
         currentState->draw();
         currentState->update();
         currentState->handleEvents();
 
-        State* newState = currentState->getNextState();
+        State *newState = currentState->getNextState();
 
         if (currentState->shouldPop()) {
             delete currentState;

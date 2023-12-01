@@ -1,9 +1,9 @@
-#include"State.h"
+#include "State.h"
 
-State* State::getNextState() const {
+State *State::getNextState() const {
     return nextState;
 }
 
-void State::setState(){
+void State::setState() {
     nextState = nullptr;
 }

@@ -16,6 +16,7 @@ INSTALL_DIR := ~/Desktop/$(EXEC)
 SRC_DIR = src
 # SRCS := $(sort $(shell find $(SRC_DIR) -name '*.cpp'))
 SRCS := $(wildcard $(SRC_DIR)/*.cpp)
+SRCS +=$(wildcard $(SRC_DIR)/**/*.cpp)
 
 # Includes
 INCLUDE_DIR = include
@@ -137,7 +138,10 @@ COMPDBS := $(OBJS:.o=.json)
 
 # All files (sources and headers)
 CPP_SRCS := $(wildcard $(SRC_DIR)/*.cpp)
-HEADER_SRCS := $(wildcard $(INCLUDE_DIR)/*.h $(INCLUDE_DIR)/*.hpp $(INCLUDE_DIR)/*.inl)
+CPP_SRCS += $(wildcard $(SRC_DIR)/**/*.cpp)
+
+HEADER_SRCS := $(wildcard $(SRC_DIR)/*.h $(SRC_DIR)/*.hpp $(INCLUDE_DIR)/*.h $(INCLUDE_DIR)/*.hpp $(INCLUDE_DIR)/*.inl)
+HEADER_SRCS += $(wildcard $(SRC_DIR)/**/*.h $(SRC_DIR)/**/*.hpp $(INCLUDE_DIR)/**/*.h $(INCLUDE_DIR)/**/*.hpp $(INCLUDE_DIR)/**/*.inl)
 
 FILES := $(CPP_SRCS) $(HEADER_SRCS)
 

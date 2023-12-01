@@ -1,9 +1,9 @@
 #pragma once
-#include"raylib.h"
+#include "raylib.h"
 
 class Obstacle {
 public:
-    Obstacle(const Vector2& pos, float speed);
+    Obstacle(const Vector2 &pos, float speed);
     virtual ~Obstacle();
 
     Vector2 getPos();
@@ -21,5 +21,5 @@ private:
 
 protected:
     Rectangle boxCollision;
-    void setBoxCollision(float x, float y, Texture2D* txt, float scale);
+    void setBoxCollision(float x, float y, Texture2D *txt, float scale);
 };

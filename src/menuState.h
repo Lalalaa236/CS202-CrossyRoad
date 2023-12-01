@@ -1,11 +1,11 @@
 #pragma once
-#include "raylib.h"
 #include "State.h"
+#include "raylib.h"
 
 class Game;
 class MenuState : public State {
 public:
-    MenuState(Game& game);
+    MenuState(Game &game);
     ~MenuState();
 
     void init() override;
@@ -15,10 +15,10 @@ public:
 
     void update() override;
     void draw() override;
-private:
-    Game& game;
-    Texture2D* background;
-    Texture2D* button[6];
-    Texture2D* name;
-};
 
+private:
+    Game &game;
+    Texture2D *background;
+    Texture2D *button[6];
+    Texture2D *name;
+};
