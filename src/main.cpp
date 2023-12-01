@@ -1,10 +1,10 @@
 #include "Game.h"
 #include "raylib.h"
-#include<vector>
+#include <vector>
 using namespace std;
 
-#include <thread>
 #include <chrono>
+#include <thread>
 
 int main() {
     Game game;

@@ -1,15 +1,14 @@
 #include "menuState.h"
-#include "gamestate.h"  
-#include "skinState.h"
-#include "settingState.h"
+#include "TextureHolder.h"
+#include "gamestate.h"
 #include "highscoreState.h"
 #include "instruction.h"
-#include "TextureHolder.h"
 #include "raylib.h"
+#include "settingState.h"
+#include "skinState.h"
 #include <utility>
 
-
-MenuState::MenuState(Game& game) : game(game) {
+MenuState::MenuState(Game &game) : game(game) {
     shouldPopState = false;
 }
 
@@ -28,10 +27,11 @@ void MenuState::handleEvents() {
         // Get mouse position
         Vector2 mousePosition = GetMousePosition();
 
-        Vector2 a[6] = { {33,24},{1352,28},{63,802},{1352,804},{660,647},{244,191} };
+        Vector2 a[6] = {{33, 24}, {1352, 28}, {63, 802}, {1352, 804}, {660, 647}, {244, 191}};
 
         for (int i = 0; i < 5; i++) {
-            if (CheckCollisionPointRec(mousePosition, { a[i].x,a[i].y,button[i]->width * 0.3f, button[i]->height * 0.3f })) {
+            if (CheckCollisionPointRec(mousePosition,
+                                       {a[i].x, a[i].y, button[i]->width * 0.3f, button[i]->height * 0.3f})) {
                 switch (i) {
 
                     /// Intruction button (top left)
@@ -66,8 +66,7 @@ void MenuState::handleEvents() {
             }
         }
 
-        if (CheckCollisionPointRec(mousePosition, { a[5].x,a[5].y,name->width * 1.0f,name->height * 1.0f })) {
-
+        if (CheckCollisionPointRec(mousePosition, {a[5].x, a[5].y, name->width * 1.0f, name->height * 1.0f})) {
         }
     }
 }
@@ -83,27 +82,23 @@ void MenuState::draw() {
     BeginDrawing();
     ClearBackground(RAYWHITE);
     // Draw background image
-    DrawTexturePro(
-        *background,
-        { 0, 0, float(background->width), float(background->height) },
-        { 0, 0, background->width * scaleWidth, background->height * scaleHeight },
-        { 0, 0 },
-        0,
-        WHITE
-    );
-    Vector2 a[5] = { {33,24},{1352,28},{63,802},{1352,804},{660,647} };
+    DrawTexturePro(*background,
+                   {0, 0, float(background->width), float(background->height)},
+                   {0, 0, background->width * scaleWidth, background->height * scaleHeight},
+                   {0, 0},
+                   0,
+                   WHITE);
+    Vector2 a[5] = {{33, 24}, {1352, 28}, {63, 802}, {1352, 804}, {660, 647}};
     for (int i = 0; i < 5; i++)
         DrawTextureEx(*button[i],
-            a[i],  // Position
-            0,                   // Rotation angle
-            0.3,               // Scale
-            WHITE);              // Tint color
+                      a[i],   // Position
+                      0,      // Rotation angle
+                      0.3,    // Scale
+                      WHITE); // Tint color
     DrawTexture(*name, 244, 191, WHITE);
 
     EndDrawing();
-
 }
-
 
 bool MenuState::shouldPop() const {
     return shouldPopState;

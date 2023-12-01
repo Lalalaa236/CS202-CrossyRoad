@@ -1,8 +1,8 @@
 #pragma once
 
-#include"raylib.h"
+#include "raylib.h"
+#include "settingState.h"
 #include <stack>
-#include"settingState.h"
 
 class State;
 
@@ -25,5 +25,5 @@ private:
     float volume;
     bool soundEnabled;
 
-    std::stack<State*> stateStack;
+    std::stack<State *> stateStack;
 };
