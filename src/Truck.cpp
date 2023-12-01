@@ -32,7 +32,7 @@ void Truck::draw() {
         setPos(0,tmp.y);
     }
 
-    float scale = 0.3f;
+    float scale = 0.4f;
 
     // Draw the current frame of the sprite at the updated position with size
     DrawTextureEx(*txt[curFrame],this->getPos(), 0.0f, scale, WHITE);

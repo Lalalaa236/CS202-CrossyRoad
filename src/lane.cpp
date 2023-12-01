@@ -104,19 +104,19 @@ void Lane::addObstacle()
             int randomType = rand() % 5;
             switch (randomType){
                 case 0:
-                    tmp = new Bike({dis*(i-1),this->y-50},randomSpeed);
+                    tmp = new Bike({dis*(i-1),this->y},randomSpeed);
                     break;
                 case 1:
-                    tmp = new Cab({dis *(i-1),this->y-50},randomSpeed);
+                    tmp = new Cab({dis *(i-1),this->y},randomSpeed);
                     break;
                 case 2:
-                    tmp = new Car({dis*(i-1),this->y-50},randomSpeed);
+                    tmp = new Car({dis*(i-1),this->y},randomSpeed);
                     break;
                 case 3:
-                    tmp = new Taxi({dis*(i-1),this->y-50},randomSpeed);
+                    tmp = new Taxi({dis*(i-1),this->y},randomSpeed);
                     break;
                 case 4:
-                    tmp = new Truck({dis*(i-1),this->y-50},randomSpeed);
+                    tmp = new Truck({dis*(i-1),this->y},randomSpeed);
                     break;
                 default:
                     break;
