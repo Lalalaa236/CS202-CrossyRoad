@@ -113,6 +113,46 @@ enum ID {
     SKIN_1_DOWN,
     SKIN_2_UP,
     SKIN_2_DOWN,
+
+    //Vehicle
+    BIKE_1,
+    BIKE_2,
+    BIKE_3,
+    BIKE_4,
+    BIKE_5,
+    BIKE_6,
+    BIKE_7,
+    BIKE_8,
+    BIKE_9,
+    BIKE_10,
+
+    //Cab
+    CAB_1,
+    CAB_2,
+    CAB_3,
+    CAB_4,
+    CAB_5,
+
+    //Car
+    CAR_1,
+    CAR_2,
+    CAR_3,
+    CAR_4,
+    CAR_5,
+
+    //truck
+    TRUCK_1,
+    TRUCK_2,
+    TRUCK_3,
+    TRUCK_4,
+    TRUCK_5,
+
+    //taxi
+    TAXI_1,
+    TAXI_2,
+    TAXI_3,
+    TAXI_4,
+    TAXI_5,
 };
 }
 

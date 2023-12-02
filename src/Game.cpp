@@ -164,6 +164,43 @@ void Game::loadAllTexture() {
     TextureHolder::getHolder().load(Textures::SKIN_1_DOWN, "image/skin/1/down/sprite.png");
     TextureHolder::getHolder().load(Textures::SKIN_2_UP, "image/skin/2/up/sprite.png");
     TextureHolder::getHolder().load(Textures::SKIN_2_DOWN, "image/skin/2/down/sprite.png");
+
+    TextureHolder::getHolder().load(Textures::BIKE_1, "assets/image/Bike/frame_1.png");
+    TextureHolder::getHolder().load(Textures::BIKE_2, "assets/image/Bike/frame_2.png");
+    TextureHolder::getHolder().load(Textures::BIKE_3, "assets/image/Bike/frame_3.png");
+    TextureHolder::getHolder().load(Textures::BIKE_4, "assets/image/Bike/frame_4.png");
+    TextureHolder::getHolder().load(Textures::BIKE_5, "assets/image/Bike/frame_5.png");
+    TextureHolder::getHolder().load(Textures::BIKE_6, "assets/image/Bike/frame_6.png");
+    TextureHolder::getHolder().load(Textures::BIKE_7, "assets/image/Bike/frame_7.png");
+    TextureHolder::getHolder().load(Textures::BIKE_8, "assets/image/Bike/frame_8.png");
+    TextureHolder::getHolder().load(Textures::BIKE_9, "assets/image/Bike/frame_9.png");
+    TextureHolder::getHolder().load(Textures::BIKE_10, "assets/image/Bike/frame_10.png");
+
+    TextureHolder::getHolder().load(Textures::CAB_1, "assets/image/Cab/frame_1.png");
+    TextureHolder::getHolder().load(Textures::CAB_2, "assets/image/Cab/frame_2.png");
+    TextureHolder::getHolder().load(Textures::CAB_3, "assets/image/Cab/frame_3.png");
+    TextureHolder::getHolder().load(Textures::CAB_4, "assets/image/Cab/frame_4.png");
+    TextureHolder::getHolder().load(Textures::CAB_5, "assets/image/Cab/frame_5.png");
+
+    TextureHolder::getHolder().load(Textures::CAR_1, "assets/image/Car/frame_1.png");
+    TextureHolder::getHolder().load(Textures::CAR_2, "assets/image/Car/frame_2.png");
+    TextureHolder::getHolder().load(Textures::CAR_3, "assets/image/Car/frame_3.png");
+    TextureHolder::getHolder().load(Textures::CAR_4, "assets/image/Car/frame_4.png");
+    TextureHolder::getHolder().load(Textures::CAR_5, "assets/image/Car/frame_5.png");
+
+    TextureHolder::getHolder().load(Textures::TRUCK_1, "assets/image/Truck/frame_1.png");
+    TextureHolder::getHolder().load(Textures::TRUCK_2, "assets/image/Truck/frame_2.png");
+    TextureHolder::getHolder().load(Textures::TRUCK_3, "assets/image/Truck/frame_3.png");
+    TextureHolder::getHolder().load(Textures::TRUCK_4, "assets/image/Truck/frame_4.png");
+    TextureHolder::getHolder().load(Textures::TRUCK_5, "assets/image/Truck/frame_5.png");
+
+    TextureHolder::getHolder().load(Textures::TAXI_1, "assets/image/Taxi/frame_1.png");
+    TextureHolder::getHolder().load(Textures::TAXI_2, "assets/image/Taxi/frame_2.png");
+    TextureHolder::getHolder().load(Textures::TAXI_3, "assets/image/Taxi/frame_3.png");
+    TextureHolder::getHolder().load(Textures::TAXI_4, "assets/image/Taxi/frame_4.png");
+    TextureHolder::getHolder().load(Textures::TAXI_5, "assets/image/Taxi/frame_5.png");
+
+
 }
 
 void Game::run() {
