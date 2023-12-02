@@ -155,13 +155,13 @@ all: $(BIN_DIR)/$(EXEC)
 # Build executable
 $(BIN_DIR)/$(EXEC): $(OBJS)
 	@echo "Building executable: $@"
-	@mkdir -p $(@D)
+	@mkdir -p "$(@D)"
 	@$(CXX) $(LDFLAGS) $^ $(LDLIBS) -o $@
 
 # Compile C++ source files
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@echo "Compiling: $<"
-	@mkdir -p $(@D)
+	@mkdir -p "$(@D)"
 	@$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(WARNINGS) -c $< -o $@
 
 # Include automatically generated dependencies
