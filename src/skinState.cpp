@@ -62,7 +62,7 @@ void SkinState::handleEvents() {
     // Set button
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         Vector2 mousePosition = GetMousePosition();
-        if (CheckCollisionPointRec(mousePosition, {590, 720, setButton->width * 1.0f, setButton->height * 1.0f})) {
+        if (CheckCollisionPointRec(mousePosition, {680, 700, setButton->width * 1.0f, setButton->height * 1.0f})) {
             // Set the skin to player
             switch (currentSkin) {
             case 0: // Skin 1
@@ -122,7 +122,7 @@ void SkinState::draw() {
     DrawTexture(*nextButton, 1097, 500, WHITE);
     DrawTexture(*prevButton, 280, 500, WHITE);
     DrawTexture(*closeButton, 1087, 202, WHITE);
-    DrawTexture(*setButton, 590, 720, WHITE);
+    DrawTexture(*setButton, 680, 700, WHITE);
 
     EndDrawing();
 }
