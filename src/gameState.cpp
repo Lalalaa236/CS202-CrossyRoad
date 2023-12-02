@@ -10,6 +10,33 @@ GameState::GameState() : speed(0.0f), count(0), start(false), over(false) {
     // std::cout << "GameState constructor called" << std::endl;
 }
 
+GameState::GameState(const GameState& gameState) {
+    map = new Map(*gameState.map);
+    player = new Player(*gameState.player);
+    speed = gameState.speed;
+    count = gameState.count;
+    start = gameState.start;
+    over = gameState.over;
+    shouldPopState = gameState.shouldPopState;
+}
+
+GameState& GameState::operator=(const GameState& gameState) {
+    if (this == &gameState)
+        return *this;
+
+    delete map;
+    delete player;
+    map = new Map(*gameState.map);
+    player = new Player(*gameState.player);
+    speed = gameState.speed;
+    count = gameState.count;
+    start = gameState.start;
+    over = gameState.over;
+    shouldPopState = gameState.shouldPopState;
+
+    return *this;
+}
+
 GameState::~GameState() {
     delete map;
     delete player;
@@ -75,7 +102,8 @@ void GameState::setMapSpeed() {
         speed += deltaSpeed;
         map->setSpeed(speed);
         player->setMapSpeed(speed);
-    } else {
+    }
+    else {
         if (speed != 0.0f && speed != 1.2f) {
             speed = 1.2f;
             map->setSpeed(speed);
@@ -85,7 +113,7 @@ void GameState::setMapSpeed() {
 
     if (speed == 0.0f &&
         (IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_W) || IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S) ||
-         IsKeyPressed(KEY_LEFT) || IsKeyPressed(KEY_A) || IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D))) {
+            IsKeyPressed(KEY_LEFT) || IsKeyPressed(KEY_A) || IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D))) {
         speed = 1.2f;
         map->setSpeed(speed);
         player->setMapSpeed(speed);
@@ -104,19 +132,22 @@ void GameState::checkPlayerAlive() {
 
 void GameState::handleInput()
 {
-    if(GetTime() - count > 0.15f)
+    if (GetTime() - count > 0.15f)
     {
-        if(IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_W))
+        if (IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_W))
         {
             count = GetTime();
             player->move(Player::Direction::UP);
-        } else if (IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S)) {
+        }
+        else if (IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S)) {
             count = GetTime();
             player->move(Player::Direction::DOWN);
-        } else if (IsKeyPressed(KEY_LEFT) || IsKeyPressed(KEY_A)) {
+        }
+        else if (IsKeyPressed(KEY_LEFT) || IsKeyPressed(KEY_A)) {
             count = GetTime();
             player->move(Player::Direction::LEFT);
-        } else if (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D)) {
+        }
+        else if (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D)) {
             count = GetTime();
             player->move(Player::Direction::RIGHT);
         }
