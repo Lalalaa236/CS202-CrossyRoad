@@ -9,11 +9,11 @@
 class Lane {
 private:
     float randomSpeed;
-    const Texture2D *texture;
+    const Texture2D* texture;
     float y;
     float mapSpeed;
-    std::deque<Obstacle *> obstacles;
-    TrafficLight *trafficLight;
+    std::deque<Obstacle*> obstacles;
+    TrafficLight* trafficLight;
     bool isSafe;
     bool direction; // true = right, false = left
 

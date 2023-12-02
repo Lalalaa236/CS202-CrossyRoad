@@ -161,7 +161,6 @@ $(BIN_DIR)/$(EXEC): $(OBJS)
 # Compile C++ source files
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@echo "Compiling: $<"
-	@echo "$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(WARNINGS) -c $< -o $@"
 	@mkdir -p $(@D)
 	@$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(WARNINGS) -c $< -o $@
 
@@ -172,34 +171,34 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 .PHONY: install
 install: all copyassets
 	@echo "Packaging program to $(INSTALL_DIR)"
-	@mkdir -p $(INSTALL_DIR) && cp -r $(BIN_DIR)/. $(INSTALL_DIR)
+	@mkdir -p "$(INSTALL_DIR)" && cp -r "$(BIN_DIR)/." "$(INSTALL_DIR)"
 
 # Build and run
 .PHONY: run
 run: all
 	@echo "Starting program: $(BIN_DIR)/$(EXEC)"
-	@cd $(BIN_DIR) && ./$(EXEC)
+	@cd "$(BIN_DIR)" && ./$(EXEC)
 
 # Copy assets to bin directory for selected platform
 .PHONY: copyassets
 copyassets:
 	@echo "Copying assets from $(ASSETS_DIR) and $(ASSETS_OS_DIR) to $(BIN_DIR)"
-	@mkdir -p $(BIN_DIR)
-	@cp -r $(ASSETS_DIR)/. $(BIN_DIR)/
-	@cp -r $(ASSETS_OS_DIR)/. $(BIN_DIR)/ 2> /dev/null || :
+	@mkdir -p "$(BIN_DIR)"
+	@cp -r "$(ASSETS_DIR)/." "$(BIN_DIR)/"
+	@cp -r "$(ASSETS_OS_DIR)/." "$(BIN_DIR)/" 2> /dev/null || :
 
 # Clean all assets from bin directories for all platforms
 .PHONY: cleanassets
 cleanassets:
 	@echo "Cleaning assets for all platforms"
-	@find $(BIN_DIR_ROOT) -mindepth 3 ! -name $(EXEC) -delete
+	@find "$(BIN_DIR_ROOT)" -mindepth 3 ! -name $(EXEC) -delete; 
 
 # Clean build and bin directories for all platforms
 .PHONY: clean
 clean:
 	@echo "Cleaning $(BUILD_DIR_ROOT) and $(BIN_DIR_ROOT) directories"
-	@$(RM) -r $(BUILD_DIR_ROOT)
-	@$(RM) -r $(BIN_DIR_ROOT)
+	@$(RM) -r "$(BUILD_DIR_ROOT)"
+	@$(RM) -r "$(BIN_DIR_ROOT)"
 
 .PHONY: compdb
 compdb: $(BUILD_DIR_ROOT)/compile_commands.json

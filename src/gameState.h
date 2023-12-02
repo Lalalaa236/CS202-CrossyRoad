@@ -7,8 +7,8 @@
 
 class GameState : public State {
 private:
-    Player *player;
-    Map *map;
+    Player* player;
+    Map* map;
     float speed;
     float count;
     bool start;
@@ -23,7 +23,10 @@ private:
 
 public:
     GameState();
+    GameState(const GameState& gameState);
+    GameState& operator=(const GameState& gameState);
     ~GameState();
+
     void draw() override;
     void update() override;
     bool shouldPop() const override;

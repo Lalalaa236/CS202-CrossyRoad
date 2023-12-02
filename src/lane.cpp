@@ -26,7 +26,8 @@ Lane::Lane(float y, float mapSpeed) : y(y), mapSpeed(mapSpeed) {
             trafficLight = nullptr;
             cnt = 0;
             isSafe = true;
-        } else {
+        }
+        else {
             texture = &TextureHolder::getHolder().get(Textures::ROAD);
             trafficLight = new TrafficLight(5, this->y - 25);
             cnt++;
@@ -39,7 +40,8 @@ Lane::Lane(float y, float mapSpeed) : y(y), mapSpeed(mapSpeed) {
             trafficLight = new TrafficLight(5, this->y - 25);
             cnt = 0;
             isSafe = false;
-        } else {
+        }
+        else {
             texture = &TextureHolder::getHolder().get(Textures::GRASS);
             trafficLight = nullptr;
             cnt++;
@@ -98,7 +100,7 @@ void Lane::addObstacle() {
 
     float distance = (settings::SCREEN_WIDTH / r * 1.0);
     if (isSafe) {
-        Obstacle *tmp = nullptr;
+        Obstacle* tmp = nullptr;
 
         for (int i = 1; i <= r; i++) {
             int randomType = rand() % 5;
@@ -106,19 +108,19 @@ void Lane::addObstacle() {
 
             switch (randomType) {
             case 0:
-                tmp = new Bird({x, this->y}, randomSpeed);
+                tmp = new Bird({ x, this->y }, randomSpeed);
                 break;
             case 1:
-                tmp = new Cat({x, this->y}, randomSpeed);
+                tmp = new Cat({ x, this->y }, randomSpeed);
                 break;
             case 2:
-                tmp = new Dog({x, this->y}, randomSpeed);
+                tmp = new Dog({ x, this->y }, randomSpeed);
                 break;
             case 3:
-                tmp = new Tiger({x, this->y}, randomSpeed);
+                tmp = new Tiger({ x, this->y }, randomSpeed);
                 break;
             case 4:
-                tmp = new Rabbit({x, this->y}, randomSpeed);
+                tmp = new Rabbit({ x, this->y }, randomSpeed);
                 break;
             default:
                 break;
@@ -136,25 +138,25 @@ void Lane::addObstacle(int n) {
 
     float dis = (settings::SCREEN_WIDTH / n * 1.0);
     for (int i = 1; i <= n; ++i) {
-        Obstacle *tmp = nullptr;
+        Obstacle* tmp = nullptr;
         int randomType = rand() % 5;
         float x = dis * (i - 1);
 
         switch (randomType) {
         case 0:
-            tmp = new Bird({x, this->y}, randomSpeed);
+            tmp = new Bird({ x, this->y }, randomSpeed);
             break;
         case 1:
-            tmp = new Cat({x, this->y}, randomSpeed);
+            tmp = new Cat({ x, this->y }, randomSpeed);
             break;
         case 2:
-            tmp = new Dog({x, this->y}, randomSpeed);
+            tmp = new Dog({ x, this->y }, randomSpeed);
             break;
         case 3:
-            tmp = new Tiger({x, this->y}, randomSpeed);
+            tmp = new Tiger({ x, this->y }, randomSpeed);
             break;
         case 4:
-            tmp = new Rabbit({x, this->y}, randomSpeed);
+            tmp = new Rabbit({ x, this->y }, randomSpeed);
             break;
         default:
             break;
@@ -166,7 +168,7 @@ void Lane::addObstacle(int n) {
 }
 
 void Lane::draw() {
-    DrawTextureEx(*texture, {0, y}, 0, 1, WHITE);
+    DrawTextureEx(*texture, { 0, y }, 0, 1, WHITE);
     // DrawRectangleLinesEx({0, y, 1511, 95}, 2, BLACK);
     if (trafficLight) {
         trafficLight->setY(y - 25);
