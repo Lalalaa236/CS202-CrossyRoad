@@ -5,7 +5,11 @@
 #include "animal/Dog.h"
 #include "animal/Rabbit.h"
 #include "animal/Tiger.h"
-
+#include "Vehicle/Bike.h"
+#include "Vehicle/Cab.h"
+#include "Vehicle/Car.h"
+#include "Vehicle/Truck.h"
+#include "Vehicle/Taxi.h"
 #include <iostream>
 #include <vector>
 
@@ -129,41 +133,96 @@ void Lane::addObstacle() {
             if (tmp)
                 obstacles.push_back(tmp);
         }
+    }else{
+        Obstacle* tmp = nullptr;
+        for (int i = 1; i <= r; i++) {
+            int randomType = rand() % 5;
+            float x = distance * (i - 1);
+
+            switch (randomType) {
+            case 0:
+                tmp = new Bike({ x, this->y - 35}, randomSpeed);
+                break;
+            case 1:
+                tmp = new Cab({ x, this->y}, randomSpeed);
+                break;  
+            case 2:
+                tmp = new Car({ x, this->y + 10}, randomSpeed);
+                break; 
+            case 3:
+                tmp = new Truck({ x, this->y - 10}, randomSpeed);
+                break; 
+            case 4:
+                tmp = new Taxi({ x, this->y + 20}, randomSpeed);
+                break; 
+            }
+                if (tmp)
+                obstacles.push_back(tmp);
+        }
     }
 }
 
 void Lane::addObstacle(int n) {
     if (n <= 0)
         return;
-
-    float dis = (settings::SCREEN_WIDTH / n * 1.0);
-    for (int i = 1; i <= n; ++i) {
+    
+    float distance = (settings::SCREEN_WIDTH / n * 1.0);
+    if (isSafe) {
         Obstacle* tmp = nullptr;
-        int randomType = rand() % 5;
-        float x = dis * (i - 1);
 
-        switch (randomType) {
-        case 0:
-            tmp = new Bird({ x, this->y }, randomSpeed);
-            break;
-        case 1:
-            tmp = new Cat({ x, this->y }, randomSpeed);
-            break;
-        case 2:
-            tmp = new Dog({ x, this->y }, randomSpeed);
-            break;
-        case 3:
-            tmp = new Tiger({ x, this->y }, randomSpeed);
-            break;
-        case 4:
-            tmp = new Rabbit({ x, this->y }, randomSpeed);
-            break;
-        default:
-            break;
+        for (int i = 1; i <= n; i++) {
+            int randomType = rand() % 5;
+            float x = distance * (i - 1);
+
+            switch (randomType) {
+            case 0:
+                tmp = new Bird({ x, this->y }, randomSpeed);
+                break;
+            case 1:
+                tmp = new Cat({ x, this->y }, randomSpeed);
+                break;
+            case 2:
+                tmp = new Dog({ x, this->y }, randomSpeed);
+                break;
+            case 3:
+                tmp = new Tiger({ x, this->y }, randomSpeed);
+                break;
+            case 4:
+                tmp = new Rabbit({ x, this->y }, randomSpeed);
+                break;
+            default:
+                break;
+            }
+
+            if (tmp)
+                obstacles.push_back(tmp);
         }
+    }else{
+        Obstacle* tmp = nullptr;
+        for (int i = 1; i <= n; i++) {
+            int randomType = rand() % 4;
+            float x = distance * (i - 1);
 
-        if (tmp)
-            obstacles.push_back(tmp);
+            switch (randomType) {
+            case 0:
+                tmp = new Bike({ x, this->y - 35}, randomSpeed);
+                break;
+            case 1:
+                tmp = new Cab({ x, this->y}, randomSpeed);
+                break;
+            case 2:
+                tmp = new Car({ x, this->y + 10}, randomSpeed);
+                break;
+            case 3:
+                tmp = new Truck({ x, this->y - 10}, randomSpeed);
+                break;
+            case 4:
+                tmp = new Taxi({ x, this->y + 20}, randomSpeed);
+                break;
+            }
+                if (tmp)
+                obstacles.push_back(tmp);
+        }
     }
 }
 
