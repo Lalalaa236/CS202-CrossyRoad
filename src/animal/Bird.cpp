@@ -12,6 +12,7 @@ Bird::Bird(const Vector2& pos, float speed) : Obstacle(pos, speed), numsFrame(8)
 }
 
 Bird::~Bird() {
+    txt.clear();
 }
 
 void Bird::update(float k) {

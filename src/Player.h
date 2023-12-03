@@ -22,6 +22,7 @@ public:
     enum class Direction { UP, DOWN, LEFT, RIGHT };
     Player(float x, float y, float mapSpeed);
     Player(float x, float y, bool isAlive);
+    ~Player() = default;
 
     std::pair<float, float> getPosition() const;
     bool getIsAlive() const;

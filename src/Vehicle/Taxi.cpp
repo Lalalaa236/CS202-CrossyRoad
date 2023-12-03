@@ -12,6 +12,7 @@ Taxi::Taxi(const Vector2& pos, float speed) : Obstacle(pos, speed), numsFrame(5)
 }
 
 Taxi::~Taxi() {
+    txt.clear();
 }
 
 void Taxi::update(float k) {

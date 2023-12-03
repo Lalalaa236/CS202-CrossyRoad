@@ -12,6 +12,7 @@ Cat::Cat(const Vector2& pos, float speed) : Obstacle(pos, speed), numsFrame(8), 
 }
 
 Cat::~Cat() {
+    txt.clear();
 }
 
 void Cat::update(float k) {

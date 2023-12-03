@@ -12,6 +12,7 @@ Car::Car(const Vector2& pos, float speed) : Obstacle(pos, speed), numsFrame(5), 
 }
 
 Car::~Car() {
+    txt.clear();
 }
 
 void Car::update(float k) {

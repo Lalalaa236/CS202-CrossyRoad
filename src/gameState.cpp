@@ -41,6 +41,8 @@ GameState::~GameState() {
     delete map;
     delete player;
     ShowCursor();
+
+    shouldPopState = true;
 }
 
 bool GameState::shouldPop() const {

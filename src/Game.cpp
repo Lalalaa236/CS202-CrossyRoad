@@ -37,6 +37,10 @@ Game::~Game() {
     while (!stateStack.empty()) {
         delete stateStack.top();
         stateStack.pop();
+
+        // Assign top next state to nullptr
+        if (!stateStack.empty())
+            stateStack.top()->setState();
     }
 
     UnloadMusicStream(bgMusic);

@@ -12,6 +12,7 @@ Dog::Dog(const Vector2& pos, float speed) : Obstacle(pos, speed), numsFrame(20),
 }
 
 Dog::~Dog() {
+    txt.clear();
 }
 
 void Dog::update(float k) {

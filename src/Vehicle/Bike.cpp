@@ -12,6 +12,7 @@ Bike::Bike(const Vector2& pos, float speed) : Obstacle(pos, speed), numsFrame(10
 }
 
 Bike::~Bike() {
+    txt.clear();
 }
 
 void Bike::update(float k) {

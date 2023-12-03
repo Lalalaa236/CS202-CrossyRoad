@@ -12,6 +12,7 @@ Cab::Cab(const Vector2& pos, float speed) : Obstacle(pos, speed), numsFrame(5), 
 }
 
 Cab::~Cab() {
+    txt.clear();
 }
 
 void Cab::update(float k) {

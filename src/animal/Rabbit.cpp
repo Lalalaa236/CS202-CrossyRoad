@@ -12,6 +12,7 @@ Rabbit::Rabbit(const Vector2& pos, float speed) : Obstacle(pos, speed), numsFram
 }
 
 Rabbit::~Rabbit() {
+    txt.clear();
 }
 
 void Rabbit::update(float k) {

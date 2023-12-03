@@ -12,6 +12,7 @@ Tiger::Tiger(const Vector2& pos, float speed) : Obstacle(pos, speed), numsFrame(
 }
 
 Tiger::~Tiger() {
+    txt.clear();
 }
 
 void Tiger::update(float k) {

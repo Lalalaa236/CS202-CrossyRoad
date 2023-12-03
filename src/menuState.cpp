@@ -105,8 +105,7 @@ bool MenuState::shouldPop() const {
 }
 
 MenuState::~MenuState() {
-    if (nextState != nullptr) {
+    if (nextState != nullptr)
         delete nextState;
-    }
     nextState = nullptr;
 }
