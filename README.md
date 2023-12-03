@@ -1,6 +1,6 @@
 # CS202 Crossy Road
 
-![image](https://github.com/Lalalaa236/CS202-CrossRoad/assets/44022992/181ff9c4-3d11-49af-ba30-9cf22acb2f5e)
+![image](https://github.com/Lalalaa236/CS202-CrossRoad/assets/44022992/41f85d21-fcd2-43c8-8285-37ba4a9788c3)
 
 ## Overview
 
