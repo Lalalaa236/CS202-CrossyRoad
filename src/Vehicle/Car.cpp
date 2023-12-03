@@ -29,11 +29,11 @@ void Car::update(float k) {
     tmp.x += this->getSpeed() * frameTime * 10;
     setPos(tmp.x, tmp.y);
 
-    if (checkOutOfScreen()) {
+    if (checkOutOfScreen(50)) {
         if (this->getSpeed() > 0)
-            setPos(0, tmp.y);
+            setPos(-50, tmp.y);
         else
-            setPos(settings::SCREEN_WIDTH, tmp.y);
+            setPos(settings::SCREEN_WIDTH + 50, tmp.y);
     }
 }
 

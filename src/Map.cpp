@@ -2,15 +2,16 @@
 #include <iostream>
 
 Map::Map(float speed) : speed(speed) {
-    int j = rand() % 4 + 1;
+    int j = rand() % 3 + 2;
     int i = 0;
     // std::cout << "j = " << j << std::endl;
     for (; i < 12 - j; ++i) {
-        Lane *lane = new Lane(-158.0f + i * 95.0f, speed);
+        Lane* lane = new Lane(-158.0f + i * 95.0f, speed);
         lanes.push_back(lane);
     }
+
     for (int k = 1; k <= j; ++k) {
-        Lane *lane = new Lane(-158.0f + i * 95.0f, speed, Lane::LaneType::GRASS, 0);
+        Lane* lane = new Lane(-158.0f + i * 95.0f, speed, Lane::LaneType::GRASS, 0);
         lanes.push_back(lane);
         ++i;
     }
@@ -34,7 +35,7 @@ void Map::update() {
     if (lanes.back()->getY() > 982.0f) {
         delete lanes.back();
         lanes.pop_back();
-        Lane *lane = new Lane(lanes.front()->getY() - 95.0f, 0);
+        Lane* lane = new Lane(lanes.front()->getY() - 95.0f, 0);
         lanes.push_front(lane);
         // std::cout << lanes.front()->getY() << std::endl;
     }
