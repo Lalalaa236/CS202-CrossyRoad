@@ -37,8 +37,7 @@ Player::Player(float x, float y, bool isAlive, Textures::ID skin)
     }
 } // still need to be changed
 
-void Player::up()
-{
+void Player::up() {
     targetPosition.second -= settings::GRID_SIZE.second;
     vSpeed = -5.0f;
     for(int i = 0; i < frames; ++i)
@@ -49,8 +48,7 @@ void Player::up()
     // boxCollision.y -= settings::GRID_SIZE.second;
 }
 
-void Player::down()
-{
+void Player::down() {
     targetPosition.second += settings::GRID_SIZE.second;
     vSpeed = 5.0f;
     for(int i = 0; i < frames; ++i)
@@ -61,8 +59,7 @@ void Player::down()
     // boxCollision.y += settings::GRID_SIZE.second;
 }
 
-void Player::left()
-{
+void Player::left() {
     targetPosition.first -= settings::GRID_SIZE.first;
     hSpeed = -5.0f;
     for(int i = 0; i < frames; ++i)
@@ -73,8 +70,7 @@ void Player::left()
     // boxCollision.x -= settings::GRID_SIZE.first;
 }
 
-void Player::right()
-{
+void Player::right() {
     targetPosition.first += settings::GRID_SIZE.first;
     hSpeed = 5.0f;
     for(int i = 0; i < frames; ++i)
@@ -85,53 +81,46 @@ void Player::right()
     // boxCollision.x += settings::GRID_SIZE.first;
 }
 
-std::pair<float, float> Player::getPosition() const
-{
+std::pair<float, float> Player::getPosition() const {
     return position;
 }
 
-void Player::move(Direction direction)
-{
-    switch(direction)
-    {
-        case Direction::UP:
-            up();
-            break;
-        case Direction::DOWN:
-            down();
-            break;
-        case Direction::LEFT:
-            left();
-            break;
-        case Direction::RIGHT:
-            right();
-            break;
+void Player::move(Direction direction) {
+    switch (direction) {
+    case Direction::UP:
+        up();
+        break;
+    case Direction::DOWN:
+        down();
+        break;
+    case Direction::LEFT:
+        left();
+        break;
+    case Direction::RIGHT:
+        right();
+        break;
     }
 }
 
-bool Player::getIsAlive() const
-{
+bool Player::getIsAlive() const {
     return isAlive;
 }
 
-void Player::setIsAlive(bool isAlive)
-{
+void Player::setIsAlive(bool isAlive) {
     this->isAlive = isAlive;
 }
 
-Rectangle Player::getBoxCollision() const
-{
+Rectangle Player::getBoxCollision() const {
     return boxCollision;
 }
 
-void Player::update()
-{
+void Player::update() {
     targetPosition.second += mapSpeed;
 
     position.second += mapSpeed;
     boxCollision.y += mapSpeed;
 
-    if(targetPosition.first < 0 || targetPosition.first > 1512 - 82)
+    if (targetPosition.first < 0 || targetPosition.first > 1512 - 82)
         return;
 
     if((position.first + hSpeed >= targetPosition.first) && hSpeed < 0.0f)
@@ -143,8 +132,8 @@ void Player::update()
     {
         position.first += hSpeed;
         boxCollision.x += hSpeed;
-    }
-    else
+    } 
+    else if(hSpeed != 0.0f)
     {
         position.first = targetPosition.first;
         boxCollision.x = targetPosition.first;
@@ -160,8 +149,8 @@ void Player::update()
     {
         position.second += vSpeed;
         boxCollision.y += vSpeed;
-    }
-    else
+    } 
+    else if(vSpeed != 0.0f) 
     {
         position.second = targetPosition.second;
         boxCollision.y = targetPosition.second;
@@ -169,15 +158,14 @@ void Player::update()
     }
 }
 
-void Player::setMapSpeed(float mapSpeed)
-{
+void Player::setMapSpeed(float mapSpeed) {
     this->mapSpeed = mapSpeed;
 }
 
 void Player::draw()
 {
     // DrawRectangleRec(boxCollision, RED);
-    if(position == targetPosition)
+    if(position == targetPosition || (vSpeed == 0.0f && hSpeed == 0.0f))
     {
         DrawTexturePro(*atlas, frame[0], {boxCollision.x, boxCollision.y, 82.0f, 82.0f}, {0, 0}, 0, WHITE);
         DrawRectangleLinesEx(boxCollision, 1, RED);
@@ -207,15 +195,11 @@ void Player::draw()
 //     return targetPosition;
 // }
 
-// void Player::setVSpeed(float vSpeed)
-// {
-//     this->vSpeed = vSpeed;
-// }
-
-// void Player::setHSpeed(float hSpeed)
-// {
-//     this->hSpeed = hSpeed;
-// }
+void Player::setSpeed(float vSpeed, float hSpeed)
+{
+    this->vSpeed = vSpeed;
+    this->hSpeed = hSpeed;
+}
 
 void Player::setSkin(Textures::ID skin)
 {

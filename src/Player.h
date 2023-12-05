@@ -43,9 +43,10 @@ class Player
         void setMapSpeed(float mapSpeed);
         void setSkin(Textures::ID skin);
 
-        void move(Direction direction);
-        void update();
         void draw();
+        void update();
+        void move(Direction direction);
+        void setSpeed(float vSpeed, float hSpeed);
 };
 
 #endif

@@ -1,24 +1,28 @@
 #pragma once
-#include"State.h"
-#include"raylib.h"
-#include"Game.h"
+#include "Game.h"
+#include "State.h"
+#include "raylib.h"
 
 class Game;
-class settingState : public State{
+class settingState : public State {
 public:
-    settingState(Game& game);
+    settingState(Game &game);
+    ~settingState();
+    void init() override;
+
+    bool shouldPop() const override;
     void handleEvents() override;
+
+    void setDot(float volume);
+
     void update() override;
     void draw() override;
-    ~settingState();
-    bool shouldPop() const override;
-    void init() override;
-    void setDot(float volume);
+
 private:
-    Game& game;
-    Texture2D* background;
-    Texture2D* settingBoard;
-    Texture2D* closeButton;
-    Texture2D* sound[5];
+    Game &game;
+    Texture2D *background;
+    Texture2D *settingBoard;
+    Texture2D *closeButton;
+    Texture2D *sound[5];
     Vector2 dotPosition;
 };

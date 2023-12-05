@@ -3,9 +3,7 @@
 
 // Constructor and Destructor
 
-TrafficLight::TrafficLight(float x, float y) 
-: position({x, y})
-{
+TrafficLight::TrafficLight(float x, float y) : position({x, y}) {
     this->lightState = false;
     this->timer = 0.0;
     this->redTimer = 5.0;
@@ -58,7 +56,7 @@ std::pair<float, float> TrafficLight::getPosition() const {
 void TrafficLight::draw() {
     if (lightState == false)
         DrawTextureEx(*red, {position.first, position.second - 40}, 0, 1, WHITE);
-    else 
+    else
         DrawTextureEx(*green, {position.first, position.second - 40}, 0, 1, WHITE);
 }
 

@@ -1,10 +1,9 @@
 #include "Game.h"
-#include "menustate.h" 
+#include "GameSettings.h"
 #include "State.h"
-#include"TextureHolder.h"
+#include "TextureHolder.h"
+#include "menustate.h"
 #include <iostream>
-#include "GameSettings.h"  
-
 
 Game::Game() {
     if (GetWindowHandle())
@@ -13,11 +12,16 @@ Game::Game() {
     soundEnabled = true;
     volume = 1.0f;
 
+    // Initialization for window
     InitWindow(settings::SCREEN_WIDTH, settings::SCREEN_HEIGHT, "Crossing Road");
     SetTargetFPS(settings::SCREEN_FPS);
+    SetWindowIcon(LoadImage("image/menu/name.png"));
+
+    // Initialization for texture
     loadAllTexture();
     stateStack.top()->init();
 
+    // Initialization for audio
     InitAudioDevice();
     bgMusic = LoadMusicStream("image/Sound/bgMusic.mp3");
     PlayMusicStream(bgMusic);
@@ -27,12 +31,24 @@ Game::~Game() {
     // Cleanup
     if (!GetWindowHandle())
         return;
+
     CloseWindow();
+
     while (!stateStack.empty()) {
         delete stateStack.top();
         stateStack.pop();
+
+        // Assign top next state to nullptr
+        if (!stateStack.empty())
+            stateStack.top()->setState();
     }
+
+    UnloadMusicStream(bgMusic);
+    CloseAudioDevice();
+
+    TextureHolder::getHolder().clear();
 }
+
 void Game::toggleSound() {
     soundEnabled = !soundEnabled;
 
@@ -60,11 +76,11 @@ void Game::setVolume(float newVolume) {
 void Game::setSoundState(bool ok) {
     soundEnabled = ok;
 }
+
 void Game::loadAllTexture() {
     TextureHolder::getHolder().load(Textures::CLOSE_BUTTON, "image/general/closeButton.png");
     TextureHolder::getHolder().load(Textures::NEXT_BUTTON, "image/general/nextButton.png");
     TextureHolder::getHolder().load(Textures::PREVIOUS_BUTTON, "image/general/previousButton.png");
-
 
     TextureHolder::getHolder().load(Textures::BACKGROUND_MENU, "image/menu/bg.png");
     TextureHolder::getHolder().load(Textures::BUTTON_0, "image/menu/about.png");
@@ -85,6 +101,9 @@ void Game::loadAllTexture() {
 
     TextureHolder::getHolder().load(Textures::INSTRUCTION_1, "image/instruction/instruction1.png");
     TextureHolder::getHolder().load(Textures::INSTRUCTION_2, "image/instruction/instruction2.png");
+
+    TextureHolder::getHolder().load(Textures::SKIN_TABLE, "image/skin/skinBoard.png");
+    TextureHolder::getHolder().load(Textures::CONFIRM_BUTTON, "image/skin/confirmButton.png");
 
     TextureHolder::getHolder().load(Textures::GRASS, "image/gamestate/grass.png");
     TextureHolder::getHolder().load(Textures::ROAD, "image/gamestate/line.png");
@@ -138,14 +157,54 @@ void Game::loadAllTexture() {
     TextureHolder::getHolder().load(Textures::TIGER_4, "image/Tiger/frame-4.png");
     TextureHolder::getHolder().load(Textures::TIGER_5, "image/Tiger/frame-5.png");
     TextureHolder::getHolder().load(Textures::TIGER_6, "image/Tiger/frame-6.png");
-  
-    
+
     TextureHolder::getHolder().load(Textures::RABBIT_1, "image/Rabbit/frame-1.png");
     TextureHolder::getHolder().load(Textures::RABBIT_2, "image/Rabbit/frame-2.png");
     TextureHolder::getHolder().load(Textures::RABBIT_3, "image/Rabbit/frame-3.png");
     TextureHolder::getHolder().load(Textures::RABBIT_4, "image/Rabbit/frame-4.png");
     TextureHolder::getHolder().load(Textures::RABBIT_5, "image/Rabbit/frame-5.png");
     TextureHolder::getHolder().load(Textures::RABBIT_6, "image/Rabbit/frame-6.png");
+
+    TextureHolder::getHolder().load(Textures::SKIN_1_UP, "image/skin/1/up/sprite.png");
+    TextureHolder::getHolder().load(Textures::SKIN_1_DOWN, "image/skin/1/down/sprite.png");
+    TextureHolder::getHolder().load(Textures::SKIN_2_UP, "image/skin/2/up/sprite.png");
+    TextureHolder::getHolder().load(Textures::SKIN_2_DOWN, "image/skin/2/down/sprite.png");
+
+    TextureHolder::getHolder().load(Textures::BIKE_1, "image/Bike/frame_1.png");
+    TextureHolder::getHolder().load(Textures::BIKE_2, "image/Bike/frame_2.png");
+    TextureHolder::getHolder().load(Textures::BIKE_3, "image/Bike/frame_3.png");
+    TextureHolder::getHolder().load(Textures::BIKE_4, "image/Bike/frame_4.png");
+    TextureHolder::getHolder().load(Textures::BIKE_5, "image/Bike/frame_5.png");
+    TextureHolder::getHolder().load(Textures::BIKE_6, "image/Bike/frame_6.png");
+    TextureHolder::getHolder().load(Textures::BIKE_7, "image/Bike/frame_7.png");
+    TextureHolder::getHolder().load(Textures::BIKE_8, "image/Bike/frame_8.png");
+    TextureHolder::getHolder().load(Textures::BIKE_9, "image/Bike/frame_9.png");
+    TextureHolder::getHolder().load(Textures::BIKE_10, "image/Bike/frame_10.png");
+
+    TextureHolder::getHolder().load(Textures::CAB_1, "image/Cab/frame_1.png");
+    TextureHolder::getHolder().load(Textures::CAB_2, "image/Cab/frame_2.png");
+    TextureHolder::getHolder().load(Textures::CAB_3, "image/Cab/frame_3.png");
+    TextureHolder::getHolder().load(Textures::CAB_4, "image/Cab/frame_4.png");
+    TextureHolder::getHolder().load(Textures::CAB_5, "image/Cab/frame_5.png");
+
+    TextureHolder::getHolder().load(Textures::CAR_1, "image/Car/frame_1.png");
+    TextureHolder::getHolder().load(Textures::CAR_2, "image/Car/frame_2.png");
+    TextureHolder::getHolder().load(Textures::CAR_3, "image/Car/frame_3.png");
+    TextureHolder::getHolder().load(Textures::CAR_4, "image/Car/frame_4.png");
+    TextureHolder::getHolder().load(Textures::CAR_5, "image/Car/frame_5.png");
+
+    TextureHolder::getHolder().load(Textures::TRUCK_1, "image/Truck/frame_1.png");
+    TextureHolder::getHolder().load(Textures::TRUCK_2, "image/Truck/frame_2.png");
+    TextureHolder::getHolder().load(Textures::TRUCK_3, "image/Truck/frame_3.png");
+    TextureHolder::getHolder().load(Textures::TRUCK_4, "image/Truck/frame_4.png");
+    TextureHolder::getHolder().load(Textures::TRUCK_5, "image/Truck/frame_5.png");
+
+    TextureHolder::getHolder().load(Textures::TAXI_1, "image/Taxi/frame_1.png");
+    TextureHolder::getHolder().load(Textures::TAXI_2, "image/Taxi/frame_2.png");
+    TextureHolder::getHolder().load(Textures::TAXI_3, "image/Taxi/frame_3.png");
+    TextureHolder::getHolder().load(Textures::TAXI_4, "image/Taxi/frame_4.png");
+    TextureHolder::getHolder().load(Textures::TAXI_5, "image/Taxi/frame_5.png");
+
 
     TextureHolder::getHolder().load(Textures::SKIN_1, "image/skin/1/full.png");
     TextureHolder::getHolder().load(Textures::SKIN_2, "image/skin/2/full.png");
@@ -166,8 +225,8 @@ void Game::run() {
             delete currentState;
             stateStack.pop();
         }
-        if (newState != nullptr) {
 
+        if (newState != nullptr) {
             stateStack.push(newState);
         }
     }
