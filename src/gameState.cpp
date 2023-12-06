@@ -163,11 +163,13 @@ void GameState::handleInput()
             player->move(Player::Direction::RIGHT);
         }
     }
+    if(IsKeyPressed(KEY_P))
+        nextState = new PauseState();
 }
 
 void GameState::checkEndOfGame() 
 {
-    if (IsKeyPressed(KEY_P))
+    if (IsKeyPressed(KEY_B))
         shouldPopState = true;
     if (IsKeyDown(KEY_LEFT_ALT) || IsKeyDown(KEY_RIGHT_ALT))
         ShowCursor();

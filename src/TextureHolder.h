@@ -157,6 +157,10 @@ enum ID {
     TAXI_3,
     TAXI_4,
     TAXI_5,
+
+    // Pause state
+    PAUSE_BOARD,
+    RESUME_BUTTON,
 };
 };
 

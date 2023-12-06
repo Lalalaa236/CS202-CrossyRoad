@@ -24,7 +24,7 @@ Game::Game() {
     // Initialization for audio
     InitAudioDevice();
     bgMusic = LoadMusicStream("image/Sound/bgMusic.mp3");
-    PlayMusicStream(bgMusic);
+    // PlayMusicStream(bgMusic);
 }
 
 Game::~Game() {
@@ -208,6 +208,9 @@ void Game::loadAllTexture() {
 
     TextureHolder::getHolder().load(Textures::SKIN_1, "image/skin/1/full.png");
     TextureHolder::getHolder().load(Textures::SKIN_2, "image/skin/2/full.png");
+
+    TextureHolder::getHolder().load(Textures::PAUSE_BOARD, "image/PauseGame/board.png");
+    TextureHolder::getHolder().load(Textures::RESUME_BUTTON, "image/PauseGame/playbtn.png");
 }
 
 void Game::run() {

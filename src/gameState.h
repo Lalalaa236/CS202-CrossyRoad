@@ -4,6 +4,7 @@
 #include "Map.h"
 #include "Player.h"
 #include "State.h"
+#include "PauseState.h"
 
 class GameState : public State {
 private:
