@@ -19,8 +19,8 @@ void PauseState::draw()
 {
     ClearBackground(WHITE);
     prev->draw();
-    DrawTexture(*board, 305, 79, WHITE);
-    DrawTexture(*resumeButton, 750, 85, WHITE);
+    DrawTexture(*board, 289, 107, WHITE);
+    DrawTexture(*resumeButton, 650, 451, WHITE);
 }
 
 void PauseState::update() {}

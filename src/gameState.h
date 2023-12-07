@@ -8,6 +8,7 @@
 
 class GameState : public State {
 private:
+    Texture2D* pauseButton;
     Player* player;
     Map* map;
     float speed;

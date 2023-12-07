@@ -6,6 +6,7 @@ GameState::GameState() : speed(0.0f), count(0), start(false), over(false) {
     map = new Map(speed);
     player = new Player(1512.0/2 - 82/2, 982.0 - settings::GRID_SIZE.second, speed, Textures::ID::SKIN_1);
     shouldPopState = false;
+    pauseButton = &TextureHolder::getHolder().get(Textures::PAUSE_BUTTON);
     HideCursor();
     // std::cout << "GameState constructor called" << std::endl;
 }
@@ -54,6 +55,7 @@ void GameState::draw() {
     ClearBackground(RAYWHITE);
     map->draw();
     player->draw();
+    DrawTexture(*pauseButton, 1409, 13, WHITE);
     // player->draw();
 }
 
@@ -163,6 +165,8 @@ void GameState::handleInput()
     }
     if(IsKeyPressed(KEY_P))
         nextState = new PauseState(this);
+    if(IsKeyPressed(KEY_B))
+        shouldPopState = true;
 }
 
 void GameState::checkEndOfGame() 
