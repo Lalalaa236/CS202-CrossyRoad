@@ -4,7 +4,7 @@
 
 GameState::GameState() : speed(0.0f), count(0), start(false), over(false) {
     map = new Map(speed);
-    player = new Player(1512.0 / 2 - 82 / 2, 982.0 - settings::GRID_SIZE.second, speed);
+    player = new Player(1512.0/2 - 82/2, 982.0 - settings::GRID_SIZE.second, speed, Textures::ID::SKIN_1);
     shouldPopState = false;
     HideCursor();
     // std::cout << "GameState constructor called" << std::endl;
@@ -67,6 +67,8 @@ void GameState::update() {
     //     std::cout << "GameState update called" << std::endl;
     if (start && !over)
         map->update();
+    if(over)
+        player->setSpeed(0.0f, 0.0f);
     player->update();
     // player->update();
 }
@@ -75,17 +77,22 @@ void GameState::init() {
     nextState = nullptr;
 }
 
-void GameState::handleEvents() {
-    if (!over) {
+void GameState::handleEvents() 
+{
+    if (!over) 
+    {
         setMapSpeed();
-        if (start) {
+        if(start) 
+        {
             checkOutOfScreen();
             checkCollision();
             checkPlayerAlive();
             handleInput();
         }
     }
-    checkEndOfGame();
+    else
+        checkEndOfGame();
+    
 }
 
 void GameState::checkOutOfScreen() {
@@ -98,18 +105,22 @@ void GameState::checkCollision() {
         player->setIsAlive(false);
 }
 
-void GameState::setMapSpeed() {
-    if (player->getPosition().second < 982.0f / 2) {
-        float deltaSpeed = (982 / 2 - (int)player->getPosition().second) / 300 * 0.2f;
+void GameState::setMapSpeed()
+{
+    if(player->getPosition().second < 982.0f / 2.0f)
+    {
+        float deltaSpeed = (982.0f / 2.0f - player->getPosition().second) / 300 * 0.2f;
         speed += deltaSpeed;
         map->setSpeed(speed);
         player->setMapSpeed(speed);
+        player->setSkin(Textures::ID::SKIN_2);
     }
     else {
         if (speed != 0.0f && speed != 1.2f) {
             speed = 1.2f;
             map->setSpeed(speed);
             player->setMapSpeed(speed);
+            player->setSkin(Textures::ID::SKIN_1);
         }
     }
 
@@ -134,7 +145,7 @@ void GameState::checkPlayerAlive() {
 
 void GameState::handleInput()
 {
-    if (GetTime() - count > 0.15f)
+    if (GetTime() - count > 0.25f)
     {
         if (IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_W))
         {
@@ -156,7 +167,8 @@ void GameState::handleInput()
     }
 }
 
-void GameState::checkEndOfGame() {
+void GameState::checkEndOfGame() 
+{
     if (IsKeyPressed(KEY_P))
         shouldPopState = true;
     if (IsKeyDown(KEY_LEFT_ALT) || IsKeyDown(KEY_RIGHT_ALT))

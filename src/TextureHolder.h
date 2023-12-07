@@ -92,6 +92,10 @@ enum ID {
     DOG_20,
     DOG_21,
 
+    // Skin
+    SKIN_1,
+    SKIN_2,
+
     //Tiger
     TIGER_1,
     TIGER_2,
@@ -154,7 +158,7 @@ enum ID {
     TAXI_4,
     TAXI_5,
 };
-}
+};
 
 class TextureHolder // Singleton pattern
 {

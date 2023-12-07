@@ -206,6 +206,8 @@ void Game::loadAllTexture() {
     TextureHolder::getHolder().load(Textures::TAXI_5, "image/Taxi/frame_5.png");
 
 
+    TextureHolder::getHolder().load(Textures::SKIN_1, "image/skin/1/full.png");
+    TextureHolder::getHolder().load(Textures::SKIN_2, "image/skin/2/full.png");
 }
 
 void Game::run() {
