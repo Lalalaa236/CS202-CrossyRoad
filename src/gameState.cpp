@@ -51,11 +51,9 @@ void GameState::draw() {
     // static int i = 0;
     // if(i++ == 0)
     //     std::cout << "GameState draw called" << std::endl;
-    BeginDrawing();
     ClearBackground(RAYWHITE);
     map->draw();
     player->draw();
-    EndDrawing();
     // player->draw();
 }
 
@@ -164,7 +162,7 @@ void GameState::handleInput()
         }
     }
     if(IsKeyPressed(KEY_P))
-        nextState = new PauseState();
+        nextState = new PauseState(this);
 }
 
 void GameState::checkEndOfGame() 

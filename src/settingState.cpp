@@ -108,7 +108,6 @@ void settingState::setDot(float volume) {
 void settingState::draw() {
     float scaleWidth = (float)GetScreenWidth() / background->width;
     float scaleHeight = (float)GetScreenHeight() / background->height;
-    BeginDrawing();
     ClearBackground(RAYWHITE);
 
     // Draw background image
@@ -138,7 +137,6 @@ void settingState::draw() {
     Rectangle destRec = {613, 500, static_cast<float>(dotPosition.x - 613), static_cast<float>(sound[3]->height)};
     DrawTexturePro(*sound[3], sourceRec, destRec, {0, 0}, 0, WHITE);
     DrawTexture(*sound[4], dotPosition.x, dotPosition.y, WHITE);
-    EndDrawing();
 }
 
 settingState::~settingState() {

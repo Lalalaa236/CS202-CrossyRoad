@@ -30,7 +30,6 @@ void highScoreState::update() {
 void highScoreState::draw() {
     float scaleWidth = (float)GetScreenWidth() / background->width;
     float scaleHeight = (float)GetScreenHeight() / background->height;
-    BeginDrawing();
     ClearBackground(RAYWHITE);
     // Draw background image
     DrawTexturePro(*background,
@@ -41,8 +40,6 @@ void highScoreState::draw() {
                    WHITE);
     DrawTexture(*highScoreBoard, 319, 81, WHITE);
     DrawTexture(*closeButton, 1113, 202, WHITE);
-
-    EndDrawing();
 }
 
 highScoreState::~highScoreState() {

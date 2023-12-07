@@ -7,11 +7,12 @@
 class PauseState : public State
 {
     private:
+        State* prev;
         Texture2D* board;
         Texture2D* resumeButton;
 
     public:
-        PauseState();
+        PauseState(State* prev);
         ~PauseState();
 
         void draw() override;

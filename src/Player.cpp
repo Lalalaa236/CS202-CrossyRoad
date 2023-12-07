@@ -1,5 +1,5 @@
 #include "Player.h"
-#include <iostream>
+// #include <iostream>
 
 Player::Player(float x, float y, float mapSpeed, Textures::ID skin)
 : position({x, y}), targetPosition({x, y}),isAlive(true), mapSpeed(mapSpeed), vSpeed(0.0f), hSpeed(0.0f), frameCount(0), elapsedTime(0.0f)
@@ -172,7 +172,7 @@ void Player::draw()
         return;
     }
     elapsedTime += GetFrameTime();
-    std::cout << elapsedTime << std::endl;
+    // std::cout << elapsedTime << std::endl;
     if(elapsedTime >= 1.0f / fps)
     {
         ++frameCount;

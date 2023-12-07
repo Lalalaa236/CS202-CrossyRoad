@@ -57,7 +57,6 @@ void InstructionState::update() {
 void InstructionState::draw() {
     float scaleWidth = (float)GetScreenWidth() / background->width;
     float scaleHeight = (float)GetScreenHeight() / background->height;
-    BeginDrawing();
     ClearBackground(RAYWHITE);
     // Draw background image
     DrawTexturePro(*background,
@@ -77,5 +76,4 @@ void InstructionState::draw() {
         DrawTexture(*closeButton, 1113, 202, WHITE);
     }
 
-    EndDrawing();
 }

@@ -91,7 +91,6 @@ void SkinState::draw() {
     float scaleWidth = (float)GetScreenWidth() / background->width;
     float scaleHeight = (float)GetScreenHeight() / background->height;
 
-    BeginDrawing();
     ClearBackground(RAYWHITE);
     DrawTexturePro(*background,
                    {0, 0, float(background->width), float(background->height)},
@@ -123,6 +122,4 @@ void SkinState::draw() {
     DrawTexture(*prevButton, 280, 500, WHITE);
     DrawTexture(*closeButton, 1087, 202, WHITE);
     DrawTexture(*setButton, 680, 700, WHITE);
-
-    EndDrawing();
 }

@@ -79,7 +79,6 @@ void MenuState::draw() {
 
     float scaleWidth = (float)GetScreenWidth() / background->width;
     float scaleHeight = (float)GetScreenHeight() / background->height;
-    BeginDrawing();
     ClearBackground(RAYWHITE);
     // Draw background image
     DrawTexturePro(*background,
@@ -96,8 +95,6 @@ void MenuState::draw() {
                       0.3,    // Scale
                       WHITE); // Tint color
     DrawTexture(*name, 244, 191, WHITE);
-
-    EndDrawing();
 }
 
 bool MenuState::shouldPop() const {

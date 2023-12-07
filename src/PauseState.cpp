@@ -1,19 +1,26 @@
 #include "PauseState.h"
 
-PauseState::PauseState() 
+PauseState::PauseState(State* prev) : 
+prev(prev)
 {
+    shouldPopState = false;
     board = &TextureHolder::getHolder().get(Textures::ID::PAUSE_BOARD);
     resumeButton = &TextureHolder::getHolder().get(Textures::ID::RESUME_BUTTON);
+    ShowCursor();
+    // SetConfigFlags(FLAG_WINDOW_TRANSPARENT);
 }
 
-PauseState::~PauseState() {}
+PauseState::~PauseState() 
+{
+    HideCursor();
+}
 
 void PauseState::draw()
 {
-    BeginDrawing();
+    ClearBackground(WHITE);
+    prev->draw();
     DrawTexture(*board, 305, 79, WHITE);
-    DrawTexture(*resumeButton, 350, 85, WHITE);
-    EndDrawing();
+    DrawTexture(*resumeButton, 750, 85, WHITE);
 }
 
 void PauseState::update() {}
@@ -27,6 +34,11 @@ void PauseState::handleEvents()
         {
             shouldPopState = true;
         }
+    }
+    else if(IsKeyPressed(KEY_B))
+    {
+        EndDrawing();
+        shouldPopState = true;
     }
 }
 
