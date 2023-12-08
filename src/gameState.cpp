@@ -7,6 +7,7 @@ GameState::GameState() : speed(0.0f), count(0), start(false), over(false) {
     player = new Player(1512.0/2 - 82/2, 982.0 - settings::GRID_SIZE.second, speed, Textures::ID::SKIN_1);
     shouldPopState = false;
     HideCursor();
+    rain.setState(true);
     // std::cout << "GameState constructor called" << std::endl;
 }
 
@@ -55,6 +56,11 @@ void GameState::draw() {
     ClearBackground(RAYWHITE);
     map->draw();
     player->draw();
+
+    if (rain.getState()) {
+        rain.update(1512,982);
+        rain.drawTo();
+    }
     EndDrawing();
     // player->draw();
 }

@@ -4,7 +4,7 @@
 #include "Map.h"
 #include "Player.h"
 #include "State.h"
-
+#include "Rain.h"
 class GameState : public State {
 private:
     Player* player;
@@ -20,6 +20,7 @@ private:
     void checkPlayerAlive();
     void handleInput();
     void checkEndOfGame();
+    Rain rain;
 
 public:
     GameState();
