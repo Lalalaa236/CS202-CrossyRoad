@@ -5,7 +5,7 @@
 #include "TextureHolder.h"
 #include "trafficlight.h"
 #include <deque>
-
+#include<vector>
 class Lane {
 private:
     float randomSpeed;
@@ -32,6 +32,9 @@ public:
     void draw();
     void update();
     bool CheckCollisionPlayer(Rectangle playerBoxCollision);
+    void updatePause();
+    void save(std::vector<std::pair<Obstacle*,float>>& v);
+    void rePlay(std::vector<std::pair<Obstacle*,float>> &v);
 };
 
 #endif

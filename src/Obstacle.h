@@ -17,6 +17,7 @@ public:
 
     virtual void draw() = 0;
     virtual void update(float y) = 0;
+    void setSpeed(float speed);
 
 private:
     float speed;

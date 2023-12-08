@@ -65,3 +65,22 @@ bool Map::CheckCollisionPlayer(Rectangle playerBoxCollision) {
     }
     return false;
 }
+
+void Map::updatePause(){
+    speed = 0.0f;
+    for (auto lane : lanes) {
+        lane->updatePause();
+    }
+}
+void Map::save(std::vector<std::pair<Obstacle*,float>>& v){
+    v.push_back({nullptr,speed});
+    for (auto lane : lanes){
+        lane->save(v);
+    }
+}
+
+void Map::rePlay(std::vector<std::pair<Obstacle*,float>>& v){
+    for (int i = 2; i < v.size();i++){
+        v[i].first->setSpeed(v[i].second);
+    }
+}

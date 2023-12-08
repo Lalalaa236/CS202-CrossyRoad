@@ -270,3 +270,16 @@ bool Lane::CheckCollisionPlayer(Rectangle playerBoxCollision) {
 
     return false;
 }
+
+void Lane::updatePause(){
+    mapSpeed = 0.0f;
+    for (auto obstacle: obstacles) {
+        obstacle->setSpeed(0.0f);
+    }
+}
+
+void Lane::save(std::vector<std::pair<Obstacle*,float>>& v){
+    for (auto obstacle: obstacles){
+        v.push_back({obstacle,obstacle->getSpeed()});
+    }
+}

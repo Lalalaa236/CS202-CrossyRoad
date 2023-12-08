@@ -4,7 +4,8 @@
 #include "Map.h"
 #include "Player.h"
 #include "State.h"
-
+#include<vector>
+#include"Obstacle.h"
 class GameState : public State {
 private:
     Player* player;
@@ -13,13 +14,18 @@ private:
     float count;
     bool start;
     bool over;
-
+    Texture2D* Pausebtn;
+    Texture2D* PauseBoard;
+    Texture2D* closeBtn;
     void checkOutOfScreen();
     void checkCollision();
     void setMapSpeed();
     void checkPlayerAlive();
     void handleInput();
     void checkEndOfGame();
+    void drawPauseBoard();
+    bool isPause = false;
+    std::vector<std::pair<Obstacle*,float>> Pause;
 
 public:
     GameState();
@@ -32,6 +38,8 @@ public:
     bool shouldPop() const override;
     void init() override;
     void handleEvents() override;
+    void SaveCurrentState();
+    void rePlay();
 };
 
 #endif

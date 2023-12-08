@@ -1,12 +1,17 @@
 #include "gameState.h"
 #include <iostream>
 #include <limits>
-
+#include<raylib.h>
+#include<iostream>
+#include<fstream>
 GameState::GameState() : speed(0.0f), count(0), start(false), over(false) {
     map = new Map(speed);
     player = new Player(1512.0/2 - 82/2, 982.0 - settings::GRID_SIZE.second, speed, Textures::ID::SKIN_1);
     shouldPopState = false;
-    HideCursor();
+    //HideCursor();
+    Pausebtn = &TextureHolder::getHolder().get(Textures::PAUSE);
+    PauseBoard = &TextureHolder::getHolder().get(Textures::PAUSE_BOARD);
+    closeBtn = &TextureHolder::getHolder().get(Textures::CLOSE_BUTTON);
     // std::cout << "GameState constructor called" << std::endl;
 }
 
@@ -40,7 +45,7 @@ GameState& GameState::operator=(const GameState& gameState) {
 GameState::~GameState() {
     delete map;
     delete player;
-    ShowCursor();
+    //ShowCursor();
 }
 
 bool GameState::shouldPop() const {
@@ -53,8 +58,17 @@ void GameState::draw() {
     //     std::cout << "GameState draw called" << std::endl;
     BeginDrawing();
     ClearBackground(RAYWHITE);
+
     map->draw();
     player->draw();
+    DrawTextureEx(*Pausebtn,           
+                    Vector2{1448, 8},   
+                    0.0f,                 
+                    1.0f,                
+                    WHITE);
+    if (isPause){
+        drawPauseBoard();
+    }
     EndDrawing();
     // player->draw();
 }
@@ -90,7 +104,33 @@ void GameState::handleEvents()
     }
     else
         checkEndOfGame();
-    
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+        // Get mouse position
+        Vector2 mousePosition = GetMousePosition();
+        Rectangle pauseButtonBounds = {1448, 8, Pausebtn->width, Pausebtn->height};
+        Rectangle closeButton = {1081, 210, closeBtn->width, closeBtn->height};
+        if (CheckCollisionPointRec(mousePosition, pauseButtonBounds))
+        {
+            isPause = true;
+            // Pause the game
+            SaveCurrentState();
+            map->updatePause();
+            player->setSpeed(0.0f,0.0f);
+            player->setMapSpeed(0.0f);
+        }
+        if (CheckCollisionPointRec(mousePosition, closeButton))
+        {
+            rePlay();
+            Pause.resize(0);
+            isPause = false;
+        }
+
+    }
+}
+
+void GameState::drawPauseBoard(){
+    DrawTexture(*PauseBoard, 320, 96, WHITE);
+    DrawTexture(*closeBtn,1081,210, WHITE);
 }
 
 void GameState::checkOutOfScreen() {
@@ -165,12 +205,20 @@ void GameState::handleInput()
     }
 }
 
-void GameState::checkEndOfGame() 
-{
+void GameState::checkEndOfGame(){
     if (IsKeyPressed(KEY_P))
         shouldPopState = true;
-    if (IsKeyDown(KEY_LEFT_ALT) || IsKeyDown(KEY_RIGHT_ALT))
-        ShowCursor();
-    else
-        HideCursor();
+    // if (IsKeyDown(KEY_LEFT_ALT) || IsKeyDown(KEY_RIGHT_ALT))
+    //     ShowCursor();
+    // else
+    //     HideCursor();
+}
+
+void GameState::SaveCurrentState(){
+    map->save(Pause);    
+}
+
+void GameState::rePlay(){
+    map->setSpeed(Pause[0].second);
+    map->rePlay(Pause);
 }

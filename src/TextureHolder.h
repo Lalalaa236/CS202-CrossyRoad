@@ -11,7 +11,9 @@ enum ID {
     CLOSE_BUTTON,
     NEXT_BUTTON,
     PREVIOUS_BUTTON,
-
+    //GameState
+    PAUSE,
+    PAUSE_BOARD,
     // Menu
     BACKGROUND_MENU,
     BUTTON_0,
