@@ -71,8 +71,10 @@ void GameState::update() {
     //     std::cout << "GameState update called" << std::endl;
     if (start && !over)
         map->update();
-    if(over)
+    if(over){
         player->setSpeed(0.0f, 0.0f);
+        rain.setState(false);
+    }
     player->update();
     // player->update();
 }

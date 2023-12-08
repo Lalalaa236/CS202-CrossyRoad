@@ -4,7 +4,7 @@
 Rain::Rain()
 {
     raindropShape.width = 4;
-    raindropShape.height = 20;
+    raindropShape.height = 7;
     state = false;
 }
 
@@ -36,20 +36,21 @@ void Rain::drawTo()
     for (auto& raindrop : raindrops)
     {
         raindrop.position.x -= 4;
-        raindrop.position.y += 10;
+        raindrop.position.y += 7;
 
         DrawRectanglePro({raindrop.position.x, raindrop.position.y, raindropShape.width, raindropShape.height}, 
                          Vector2{raindropShape.width / 2, raindropShape.height / 2}, 
                          raindrop.rotation, 
                          raindrop.color);
     }
+    const float screenHeight = static_cast<float>(GetScreenHeight());
 
-    raindrops.erase(
-        std::remove_if(
-            raindrops.begin(),
-            raindrops.end(),
-            [screenHeight = GetScreenHeight()](const Raindrop& rd) {
-                return rd.position.y > screenHeight;
-            }),
-        raindrops.end());
+    
+    for (auto it = raindrops.begin(); it != raindrops.end(); /* no increment here */) {
+        if (it->position.y > screenHeight) {
+            it = raindrops.erase(it);
+        } else {
+            ++it;
+        }
+    }
 }
