@@ -30,11 +30,13 @@ void Taxi::update(float k) {
     tmp.x += this->getSpeed() * frameTime * 10;
     setPos(tmp.x, tmp.y);
 
-    if (checkOutOfScreen(50)) {
+    // If the obstacle is out of screen, move it to the other side
+    float width = txt[curFrame]->width * 0.35f;
+    if (checkOutOfScreen(width)) {
         if (this->getSpeed() > 0)
-            setPos(-50, tmp.y);
+            setPos(-width, tmp.y);
         else
-            setPos(settings::SCREEN_WIDTH + 50, tmp.y);
+            setPos(settings::SCREEN_WIDTH + width, tmp.y);
     }
 }
 

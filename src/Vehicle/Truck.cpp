@@ -16,7 +16,7 @@ Truck::~Truck() {
 }
 
 void Truck::update(float k) {
-    this->setPos(this->getPos().x, k - 10);
+    this->setPos(this->getPos().x, k - 6);
 
     frameTime += GetFrameTime();
     if (frameTime >= 0.1f) { // Change this value to control the frame rate
@@ -30,17 +30,19 @@ void Truck::update(float k) {
     tmp.x += this->getSpeed() * frameTime * 10;
     setPos(tmp.x, tmp.y);
 
-    if (checkOutOfScreen(50)) {
+    // If the obstacle is out of screen, move it to the other side
+    float width = txt[curFrame]->width * 0.38f;
+    if (checkOutOfScreen(width)) {
         if (this->getSpeed() > 0)
-            setPos(-50, tmp.y);
+            setPos(-width, tmp.y);
         else
-            setPos(settings::SCREEN_WIDTH + 50, tmp.y);
+            setPos(settings::SCREEN_WIDTH + width, tmp.y);
     }
 }
 
 
 void Truck::draw() {
-    float scale = 0.4f;
+    float scale = 0.38f;
     Vector2 tmp = this->getPos();
 
     Rectangle srcRect = { 0.0f, 0.0f, (float)txt[curFrame]->width, (float)txt[curFrame]->height };

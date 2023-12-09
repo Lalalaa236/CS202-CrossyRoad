@@ -19,7 +19,7 @@ private:
 
 public:
     enum LaneType { ROAD, GRASS };
-    Lane(float y, float mapSpeed);
+    Lane(float y, float mapSpeed, int currentScore = 0);
     Lane(float y, float mapSpeed, LaneType laneType, int numObstacles);
     ~Lane();
 

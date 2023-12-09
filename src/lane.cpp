@@ -14,9 +14,9 @@
 #include <iostream>
 #include <vector>
 
-Lane::Lane(float y, float mapSpeed) : y(y), mapSpeed(mapSpeed) {
+Lane::Lane(float y, float mapSpeed, int currentScore) : y(y), mapSpeed(mapSpeed) {
     float trafficLight_x = 5;
-    randomSpeed = GetRandomValue(3.0f, 6.0f);
+    randomSpeed = GetRandomValue(3.5f, 6.5f);
     direction = rand() % 2;
 
     // From right to left direction
@@ -64,7 +64,7 @@ Lane::Lane(float y, float mapSpeed) : y(y), mapSpeed(mapSpeed) {
         break;
     }
 
-    addObstacle();
+    addObstacleByScore(currentScore);
 }
 
 Lane::~Lane() {
@@ -140,7 +140,7 @@ void Lane::addObstacleByScore(int laneScore) {
 
     // Generate depends on laneScore
     speedScale = speedScale + std::min(1.0f, laneScore / 100.0f); // Max speedScale = 2.0f
-    minObstacles = std::min(laneScore / 50 + 1, 6);
+    minObstacles = std::min(laneScore / 50 + 2, 6);
     numObstacles = rand() % minObstacles + 1;
 
     // Generate random obstacles
@@ -150,7 +150,6 @@ void Lane::addObstacleByScore(int laneScore) {
 
 void Lane::draw() {
     DrawTextureEx(*texture, { 0, y }, 0, 1, WHITE);
-    // DrawRectangleLinesEx({0, y, 1511, 95}, 2, BLACK);
 
     if (trafficLight) {
         trafficLight->setY(y - 25);
@@ -175,10 +174,8 @@ void Lane::update() {
     if (trafficLight)
         trafficLight->update();
 
-    for (auto obstacle : obstacles) {
+    for (auto obstacle : obstacles)
         obstacle->update(this->getY());
-    }
-    // static int i = 0;
 }
 
 void Lane::setSpeed(float mapSpeed) {
@@ -194,6 +191,12 @@ bool Lane::CheckCollisionPlayer(Rectangle playerBoxCollision) {
     return false;
 }
 
+/// @brief Return a pointer to a randomly generated obstacle
+/// @param safeLane 
+/// @param x 
+/// @param y 
+/// @param speed 
+/// @return Obstacle*
 Obstacle* createObstacle(bool safeLane, float x, float y, float speed) {
     int randomType;
     Obstacle* tmp = nullptr;
@@ -226,7 +229,7 @@ Obstacle* createObstacle(bool safeLane, float x, float y, float speed) {
 
         switch (randomType) {
         case 0:
-            tmp = new Bike({ x, y - 35 }, speed);
+            tmp = new Bike({ x, y - 15 }, speed);
             break;
         case 1:
             tmp = new Cab({ x, y }, speed);
@@ -235,7 +238,7 @@ Obstacle* createObstacle(bool safeLane, float x, float y, float speed) {
             tmp = new Car({ x, y + 10 }, speed);
             break;
         case 3:
-            tmp = new Truck({ x, y - 10 }, speed);
+            tmp = new Truck({ x, y - 6 }, speed);
             break;
         case 4:
             tmp = new Taxi({ x, y + 20 }, speed);
