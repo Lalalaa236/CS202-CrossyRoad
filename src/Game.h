@@ -1,8 +1,17 @@
 #pragma once
 
 #include "raylib.h"
-#include "settingState.h"
 #include <stack>
+#include "StateStack.h"
+
+#include "gameState.h"
+#include "menuState.h"
+#include "pauseState.h"
+#include "highscoreState.h"
+#include "skinState.h"
+#include "instructionState.h"
+#include "settingState.h"
+
 
 class State;
 
@@ -25,5 +34,7 @@ private:
     float volume;
     bool soundEnabled;
 
-    std::stack<State *> stateStack;
+    StateStack stateStack;
+
+    void registerState();
 };

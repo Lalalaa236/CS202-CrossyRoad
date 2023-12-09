@@ -6,9 +6,9 @@
 class Game;
 class settingState : public State {
 public:
-    settingState(Game &game);
+    settingState(StateStack& stack);
     ~settingState();
-    void init() override;
+    // void init() override;
 
     bool shouldPop() const override;
     void handleEvents() override;
@@ -19,7 +19,6 @@ public:
     void draw() override;
 
 private:
-    Game &game;
     Texture2D *background;
     Texture2D *settingBoard;
     Texture2D *closeButton;

@@ -102,10 +102,10 @@ private:
     void setAnimation(int skinIndex, Textures::ID skinID);
 
 public:
-    SkinState();
+    SkinState(StateStack &stack);
     ~SkinState();
 
-    void init() override;
+    // void init() override;
     bool shouldPop() const override;
 
     void handleEvents() override;

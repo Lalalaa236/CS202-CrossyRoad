@@ -157,6 +157,20 @@ enum ID {
     TAXI_3,
     TAXI_4,
     TAXI_5,
+
+    // Game state
+    PAUSE_BUTTON,
+
+    // Pause state
+    PAUSE_BOARD,
+    RESUME_BUTTON,
+    QUIT_BUTTON,
+    RESTART_BUTTON,
+    SAVE_BUTTON,
+
+    TIMER_1,
+    TIMER_2,
+    TIMER_3
 };
 };
 

@@ -4,9 +4,11 @@
 #include "Map.h"
 #include "Player.h"
 #include "State.h"
+#include "PauseState.h"
 
 class GameState : public State {
 private:
+    Texture2D* pauseButton;
     Player* player;
     Map* map;
     float speed;
@@ -24,15 +26,15 @@ private:
     void checkEndOfGame();
 
 public:
-    GameState();
-    GameState(const GameState& gameState);
-    GameState& operator=(const GameState& gameState);
+    GameState(StateStack& stack);
+    // GameState(const GameState& gameState);
+    // GameState& operator=(const GameState& gameState);
     ~GameState();
 
     void draw() override;
     void update() override;
     bool shouldPop() const override;
-    void init() override;
+    // void init() override;
     void handleEvents() override;
 };
 

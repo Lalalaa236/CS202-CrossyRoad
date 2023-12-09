@@ -1,5 +1,5 @@
 #include "Player.h"
-#include <iostream>
+// #include <iostream>
 
 Player::Player(float x, float y, float mapSpeed, Textures::ID skin)
     : position({ x, y }), targetPosition({ x, y }), isAlive(true), mapSpeed(mapSpeed), vSpeed(0.0f), hSpeed(0.0f), frameCount(0), elapsedTime(0.0f)
@@ -166,7 +166,7 @@ void Player::setMapSpeed(float mapSpeed) {
 void Player::draw()
 {
     // DrawRectangleRec(boxCollision, RED);
-    if (position == targetPosition || (vSpeed == 0.0f && hSpeed == 0.0f))
+    if(position == targetPosition || (vSpeed == 0.0f && hSpeed == 0.0f) || !isMoving)
     {
         DrawTexturePro(*atlas, frame[0], { boxCollision.x, boxCollision.y, 82.0f, 82.0f }, { 0, 0 }, 0, WHITE);
         DrawRectangleLinesEx(boxCollision, 1, RED);
@@ -207,4 +207,14 @@ void Player::setSpeed(float vSpeed, float hSpeed)
 void Player::setSkin(Textures::ID skin)
 {
     atlas = &TextureHolder::getHolder().get(skin);
+}
+
+void Player::setMoving(bool isMoving)
+{
+    this->isMoving = isMoving;
+}
+
+bool Player::getMoving() const
+{
+    return isMoving;
 }

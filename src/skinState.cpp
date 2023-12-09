@@ -5,14 +5,10 @@ void SkinState::setAnimation(int skinIndex, Textures::ID skinID) {
     animation[skinIndex].setAnimation(skinID, 4, 4.0f);
 }
 
-SkinState::SkinState() {
+SkinState::SkinState(StateStack& stack) 
+: State(stack) 
+{
     shouldPopState = false;
-}
-
-SkinState::~SkinState() {
-}
-
-void SkinState::init() {
     skinBoard = &TextureHolder::getHolder().get(Textures::SKIN_TABLE);
     background = &TextureHolder::getHolder().get(Textures::BACKGROUND_MENU);
     closeButton = &TextureHolder::getHolder().get(Textures::CLOSE_BUTTON);
@@ -30,6 +26,12 @@ void SkinState::init() {
 
     currentSkin = 0;
 }
+
+SkinState::~SkinState() {
+}
+
+// void SkinState::init() {
+// }
 
 bool SkinState::shouldPop() const {
     return shouldPopState;
@@ -79,7 +81,9 @@ void SkinState::handleEvents() {
             }
 
             // Pop the state
-            shouldPopState = true;
+            // shouldPopState = true;
+            requestStackPop();
+            requestStackPush(States::ID::Menu);
         }
     }
 }
@@ -91,7 +95,6 @@ void SkinState::draw() {
     float scaleWidth = (float)GetScreenWidth() / background->width;
     float scaleHeight = (float)GetScreenHeight() / background->height;
 
-    BeginDrawing();
     ClearBackground(RAYWHITE);
     DrawTexturePro(*background,
                    {0, 0, float(background->width), float(background->height)},
@@ -123,6 +126,4 @@ void SkinState::draw() {
     DrawTexture(*prevButton, 280, 500, WHITE);
     DrawTexture(*closeButton, 1087, 202, WHITE);
     DrawTexture(*setButton, 680, 700, WHITE);
-
-    EndDrawing();
 }

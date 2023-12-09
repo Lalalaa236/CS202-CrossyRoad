@@ -8,11 +8,11 @@
 Game::Game() {
     if (GetWindowHandle())
         return;
-    stateStack.push(new MenuState(*this));
+    // std::cout << "Game constructor called" << std::endl;
     soundEnabled = true;
     volume = 1.0f;
 
-    SetTraceLogLevel(LOG_WARNING);
+    // SetTraceLogLevel(LOG_WARNING);
 
     // Initialization for window
     InitWindow(settings::SCREEN_WIDTH, settings::SCREEN_HEIGHT, "Crossing Road");
@@ -21,12 +21,15 @@ Game::Game() {
 
     // Initialization for texture
     loadAllTexture();
-    stateStack.top()->init();
+    // stateStack.top()->init();
 
     // Initialization for audio
     InitAudioDevice();
-    bgMusic = LoadMusicStream("image/Sound/bgMusic.mp3");
+    bgMusic = LoadMusicStream("image/Sound/whistle.mp3");
     PlayMusicStream(bgMusic);
+    registerState();
+    stateStack.pushState(States::ID::Menu);
+    // std::cout << "Game constructor called" << std::endl;
 }
 
 Game::~Game() {
@@ -35,15 +38,6 @@ Game::~Game() {
         return;
 
     CloseWindow();
-
-    while (!stateStack.empty()) {
-        delete stateStack.top();
-        stateStack.pop();
-
-        // Assign top next state to nullptr
-        if (!stateStack.empty())
-            stateStack.top()->setState();
-    }
 
     UnloadMusicStream(bgMusic);
     CloseAudioDevice();
@@ -207,29 +201,37 @@ void Game::loadAllTexture() {
     TextureHolder::getHolder().load(Textures::TAXI_4, "image/Taxi/frame_4.png");
     TextureHolder::getHolder().load(Textures::TAXI_5, "image/Taxi/frame_5.png");
 
-
     TextureHolder::getHolder().load(Textures::SKIN_1, "image/skin/1/full.png");
     TextureHolder::getHolder().load(Textures::SKIN_2, "image/skin/2/full.png");
+
+    TextureHolder::getHolder().load(Textures::PAUSE_BUTTON, "image/gameState/Pause.png");
+
+    TextureHolder::getHolder().load(Textures::PAUSE_BOARD, "image/PauseGame/board.png");
+    TextureHolder::getHolder().load(Textures::RESUME_BUTTON, "image/PauseGame/playbtn.png");
+    TextureHolder::getHolder().load(Textures::RESTART_BUTTON, "image/PauseGame/restartbtn.png");
+    TextureHolder::getHolder().load(Textures::QUIT_BUTTON, "image/PauseGame/homebtn.png");
+    TextureHolder::getHolder().load(Textures::SAVE_BUTTON, "image/PauseGame/savebtn.png");
+    TextureHolder::getHolder().load(Textures::TIMER_1, "image/PauseGame/1.png");
+    TextureHolder::getHolder().load(Textures::TIMER_2, "image/PauseGame/2.png");
+    TextureHolder::getHolder().load(Textures::TIMER_3, "image/PauseGame/3.png");
 }
 
 void Game::run() {
-    while (!WindowShouldClose() && !stateStack.empty()) {
+    while (!WindowShouldClose()) {
         UpdateMusicStream(bgMusic);
-        State* currentState = stateStack.top();
-        currentState->setState();
-        currentState->draw();
-        currentState->update();
-        currentState->handleEvents();
-
-        State* newState = currentState->getNextState();
-
-        if (currentState->shouldPop()) {
-            delete currentState;
-            stateStack.pop();
-        }
-
-        if (newState != nullptr) {
-            stateStack.push(newState);
-        }
+        stateStack.update();
+        stateStack.draw();
+        stateStack.handleEvents();
     }
+}
+
+void Game::registerState()
+{
+    stateStack.registerState<MenuState>(States::ID::Menu);
+    stateStack.registerState<GameState>(States::ID::Game);
+    stateStack.registerState<PauseState>(States::ID::Pause);
+    stateStack.registerState<settingState>(States::ID::Settings);
+    stateStack.registerState<InstructionState>(States::ID::Instructions);
+    stateStack.registerState<highScoreState>(States::ID::Highscore);
+    stateStack.registerState<SkinState>(States::ID::Skin);
 }

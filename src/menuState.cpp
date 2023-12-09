@@ -7,12 +7,11 @@
 #include "settingState.h"
 #include "skinState.h"
 #include <utility>
+#include <iostream>
 
-MenuState::MenuState(Game& game) : game(game) {
+MenuState::MenuState(StateStack& stack)
+: State(stack) {
     shouldPopState = false;
-}
-
-void MenuState::init() {
     background = &TextureHolder::getHolder().get(Textures::BACKGROUND_MENU);
     button[0] = &TextureHolder::getHolder().get(Textures::BUTTON_0);
     button[1] = &TextureHolder::getHolder().get(Textures::BUTTON_1);
@@ -21,6 +20,9 @@ void MenuState::init() {
     button[4] = &TextureHolder::getHolder().get(Textures::BUTTON_4);
     name = &TextureHolder::getHolder().get(Textures::NAME_LOGO);
 }
+
+// void MenuState::init() {
+// }
 
 void MenuState::handleEvents() {
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
@@ -36,31 +38,41 @@ void MenuState::handleEvents() {
 
                     /// Intruction button (top left)
                 case 0:
-                    nextState = new InstructionState();
-                    nextState->init();
+                    // nextState = new InstructionState();
+                    // nextState->init();
+                    requestStackPop();
+                    requestStackPush(States::ID::Instructions);
                     break;
 
                     /// Setting button (top right)
                 case 1:
-                    nextState = new settingState(game);
-                    nextState->init();
+                    // nextState = new settingState(game);
+                    // nextState->init();
+                    requestStackPop();
+                    requestStackPush(States::ID::Settings);
                     break;
 
                 case 2:
-                    nextState = new SkinState();
-                    nextState->init();
+                    // nextState = new SkinState();
+                    // nextState->init();
+                    requestStackPop();
+                    requestStackPush(States::ID::Skin);
                     break;
 
                     /// High score button (bottom right)
                 case 3:
-                    nextState = new highScoreState();
-                    nextState->init();
+                    // nextState = new highScoreState();
+                    // nextState->init();
+                    requestStackPop();
+                    requestStackPush(States::ID::Highscore);
                     break;
 
                     /// Play button (middle)
                 case 4:
-                    nextState = new GameState();
-                    nextState->init();
+                    // nextState = new GameState();
+                    // nextState->init();
+                    requestStackPop();
+                    requestStackPush(States::ID::Game);
                     break;
                 }
             }
@@ -79,7 +91,6 @@ void MenuState::draw() {
 
     float scaleWidth = (float)GetScreenWidth() / background->width;
     float scaleHeight = (float)GetScreenHeight() / background->height;
-    BeginDrawing();
     ClearBackground(RAYWHITE);
     // Draw background image
     DrawTexturePro(*background,
@@ -96,8 +107,6 @@ void MenuState::draw() {
             0.3,    // Scale
             WHITE); // Tint color
     DrawTexture(*name, 244, 191, WHITE);
-
-    EndDrawing();
 }
 
 bool MenuState::shouldPop() const {
@@ -105,7 +114,9 @@ bool MenuState::shouldPop() const {
 }
 
 MenuState::~MenuState() {
-    if (nextState != nullptr)
-        delete nextState;
-    nextState = nullptr;
+    // if (nextState != nullptr) {
+    //     delete nextState;
+    // }
+    // nextState = nullptr;
+    requestStackClear();
 }

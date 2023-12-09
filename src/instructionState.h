@@ -5,10 +5,10 @@
 
 class InstructionState : public State {
 public:
-    InstructionState();
+    InstructionState(StateStack& stack);
     ~InstructionState();
 
-    void init() override;
+    // void init() override;
     bool shouldPop() const override;
 
     void handleEvents() override;

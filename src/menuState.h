@@ -5,10 +5,10 @@
 class Game;
 class MenuState : public State {
 public:
-    MenuState(Game &game);
+    MenuState(StateStack& stack);
     ~MenuState();
 
-    void init() override;
+    // void init() override;
 
     bool shouldPop() const override;
     void handleEvents() override;
@@ -17,7 +17,7 @@ public:
     void draw() override;
 
 private:
-    Game &game;
+    // Game &game;
     Texture2D *background;
     Texture2D *button[6];
     Texture2D *name;

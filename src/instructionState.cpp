@@ -1,7 +1,16 @@
 #include "instructionState.h"
 
-InstructionState::InstructionState() {
+InstructionState::InstructionState(StateStack& stack)
+: State(stack)
+{
     shouldPopState = false;
+    background = &TextureHolder::getHolder().get(Textures::BACKGROUND_MENU);
+    instructionImages[0] = &TextureHolder::getHolder().get(Textures::INSTRUCTION_1);
+    instructionImages[1] = &TextureHolder::getHolder().get(Textures::INSTRUCTION_2);
+    closeButton = &TextureHolder::getHolder().get(Textures::CLOSE_BUTTON);
+    nextButton = &TextureHolder::getHolder().get(Textures::NEXT_BUTTON);
+    prevButton = &TextureHolder::getHolder().get(Textures::PREVIOUS_BUTTON);
+    currentImage = 0;
 }
 
 InstructionState::~InstructionState() {
@@ -11,16 +20,8 @@ InstructionState::~InstructionState() {
     // UnloadTexture(*prevButton);
 }
 
-void InstructionState::init() {
-    background = &TextureHolder::getHolder().get(Textures::BACKGROUND_MENU);
-    instructionImages[0] = &TextureHolder::getHolder().get(Textures::INSTRUCTION_1);
-    instructionImages[1] = &TextureHolder::getHolder().get(Textures::INSTRUCTION_2);
-    closeButton = &TextureHolder::getHolder().get(Textures::CLOSE_BUTTON);
-    nextButton = &TextureHolder::getHolder().get(Textures::NEXT_BUTTON);
-    prevButton = &TextureHolder::getHolder().get(Textures::PREVIOUS_BUTTON);
-
-    currentImage = 0;
-}
+// void InstructionState::init() {
+// }
 
 bool InstructionState::shouldPop() const {
     return shouldPopState;
@@ -45,8 +46,10 @@ void InstructionState::handleEvents() {
     // Close button
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         Vector2 mousePosition = GetMousePosition();
-        if (CheckCollisionPointRec(mousePosition, { 1113, 202, closeButton->width * 1.0f, closeButton->height * 1.0f })) {
-            shouldPopState = true;
+        if (CheckCollisionPointRec(mousePosition, {1113, 202, closeButton->width * 1.0f, closeButton->height * 1.0f})) {
+            // shouldPopState = true;
+            requestStackPop();
+            requestStackPush(States::ID::Menu);
         }
     }
 }
@@ -57,7 +60,6 @@ void InstructionState::update() {
 void InstructionState::draw() {
     float scaleWidth = (float)GetScreenWidth() / background->width;
     float scaleHeight = (float)GetScreenHeight() / background->height;
-    BeginDrawing();
     ClearBackground(RAYWHITE);
     // Draw background image
     DrawTexturePro(*background,
@@ -78,5 +80,4 @@ void InstructionState::draw() {
         DrawTexture(*closeButton, 1113, 202, WHITE);
     }
 
-    EndDrawing();
 }
