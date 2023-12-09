@@ -5,14 +5,10 @@ void SkinState::setAnimation(int skinIndex, Textures::ID skinID) {
     animation[skinIndex].setAnimation(skinID, 4, 4.0f);
 }
 
-SkinState::SkinState() {
+SkinState::SkinState(StateStack& stack) 
+: State(stack) 
+{
     shouldPopState = false;
-}
-
-SkinState::~SkinState() {
-}
-
-void SkinState::init() {
     skinBoard = &TextureHolder::getHolder().get(Textures::SKIN_TABLE);
     background = &TextureHolder::getHolder().get(Textures::BACKGROUND_MENU);
     closeButton = &TextureHolder::getHolder().get(Textures::CLOSE_BUTTON);
@@ -30,6 +26,12 @@ void SkinState::init() {
 
     currentSkin = 0;
 }
+
+SkinState::~SkinState() {
+}
+
+// void SkinState::init() {
+// }
 
 bool SkinState::shouldPop() const {
     return shouldPopState;
@@ -79,7 +81,8 @@ void SkinState::handleEvents() {
             }
 
             // Pop the state
-            shouldPopState = true;
+            // shouldPopState = true;
+            requestStackPop();
         }
     }
 }

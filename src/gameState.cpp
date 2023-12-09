@@ -1,8 +1,9 @@
 #include "gameState.h"
 #include <iostream>
-#include <limits>
 
-GameState::GameState() : speed(0.0f), count(0), start(false), over(false) {
+GameState::GameState(StateStack& stack) : 
+State(stack), speed(0.0f), count(0), start(false), over(false) 
+{
     map = new Map(speed);
     player = new Player(1512.0/2 - 82/2, 982.0 - settings::GRID_SIZE.second, speed, Textures::ID::SKIN_1);
     shouldPopState = false;
@@ -11,32 +12,32 @@ GameState::GameState() : speed(0.0f), count(0), start(false), over(false) {
     // std::cout << "GameState constructor called" << std::endl;
 }
 
-GameState::GameState(const GameState& gameState) {
-    map = new Map(*gameState.map);
-    player = new Player(*gameState.player);
-    speed = gameState.speed;
-    count = gameState.count;
-    start = gameState.start;
-    over = gameState.over;
-    shouldPopState = gameState.shouldPopState;
-}
+// GameState::GameState(const GameState& gameState) {
+//     map = new Map(*gameState.map);
+//     player = new Player(*gameState.player);
+//     speed = gameState.speed;
+//     count = gameState.count;
+//     start = gameState.start;
+//     over = gameState.over;
+//     shouldPopState = gameState.shouldPopState;
+// }
 
-GameState& GameState::operator=(const GameState& gameState) {
-    if (this == &gameState)
-        return *this;
+// GameState& GameState::operator=(const GameState& gameState) {
+//     if (this == &gameState)
+//         return *this;
 
-    delete map;
-    delete player;
-    map = new Map(*gameState.map);
-    player = new Player(*gameState.player);
-    speed = gameState.speed;
-    count = gameState.count;
-    start = gameState.start;
-    over = gameState.over;
-    shouldPopState = gameState.shouldPopState;
+//     delete map;
+//     delete player;
+//     map = new Map(*gameState.map);
+//     player = new Player(*gameState.player);
+//     speed = gameState.speed;
+//     count = gameState.count;
+//     start = gameState.start;
+//     over = gameState.over;
+//     shouldPopState = gameState.shouldPopState;
 
-    return *this;
-}
+//     return *this;
+// }
 
 GameState::~GameState() {
     delete map;
@@ -52,7 +53,7 @@ void GameState::draw() {
     // static int i = 0;
     // if(i++ == 0)
     //     std::cout << "GameState draw called" << std::endl;
-    ClearBackground(RAYWHITE);
+    ClearBackground(WHITE);
     map->draw();
     player->draw();
     DrawTexture(*pauseButton, 1409, 13, WHITE);
@@ -71,9 +72,9 @@ void GameState::update() {
     // player->update();
 }
 
-void GameState::init() {
-    nextState = nullptr;
-}
+// void GameState::init() {
+//     nextState = nullptr;
+// }
 
 void GameState::handleEvents() 
 {
@@ -164,15 +165,15 @@ void GameState::handleInput()
         }
     }
     if(IsKeyPressed(KEY_P))
-        nextState = new PauseState(this);
+        requestStackPush(States::ID::Pause);
     if(IsKeyPressed(KEY_B))
-        shouldPopState = true;
+        requestStackPop();
 }
 
 void GameState::checkEndOfGame() 
 {
     if (IsKeyPressed(KEY_B))
-        shouldPopState = true;
+        requestStackPop();
     if (IsKeyDown(KEY_LEFT_ALT) || IsKeyDown(KEY_RIGHT_ALT))
         ShowCursor();
     else

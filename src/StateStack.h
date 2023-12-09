@@ -6,6 +6,7 @@
 #include <functional>
 #include "State.h"
 #include "StateIdentifiers.h"
+#include <iostream>
 
 class StateStack 
 {
@@ -16,7 +17,7 @@ class StateStack
             Pop,
             Clear
         };
-        StateStack() = default;
+        StateStack();
         ~StateStack();
 
         bool isEmpty() const;
@@ -32,9 +33,12 @@ class StateStack
         void draw();
         void handleEvents();
 
+        void applyPendingChanges();
+
     private:
         struct PendingChange
         {
+            explicit PendingChange(Action action, States::ID stateID = States::ID::None);
             Action action;
             States::ID state;
         };
@@ -44,7 +48,16 @@ class StateStack
         
         State::Ptr createState(States::ID id);
 
-        void applyPendingChanges();
 };
+
+template <typename T>
+void StateStack::registerState(States::ID id)
+{
+    factories[id] = [this] ()
+    {
+        return State::Ptr(new T(*this));
+    };
+    std::cout << "Registering state " << (int)id << std::endl;
+}
 
 #endif

@@ -18,7 +18,7 @@ class PauseState : public State
         void draw() override;
         void update() override;
         void handleEvents() override;
-        void init() override;
+        // void init() override;
         bool shouldPop() const override;
 };
 

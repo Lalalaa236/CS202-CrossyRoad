@@ -8,7 +8,7 @@
 Game::Game() {
     if (GetWindowHandle())
         return;
-    stateStack.push(new MenuState(*this));
+    // std::cout << "Game constructor called" << std::endl;
     soundEnabled = true;
     volume = 1.0f;
 
@@ -19,12 +19,16 @@ Game::Game() {
 
     // Initialization for texture
     loadAllTexture();
-    stateStack.top()->init();
+    // stateStack.top()->init();
 
     // Initialization for audio
     InitAudioDevice();
     bgMusic = LoadMusicStream("image/Sound/specialz.mp3");
     PlayMusicStream(bgMusic);
+    registerState();
+    _stateStack.pushState(States::ID::Menu);
+    _stateStack.applyPendingChanges();
+    // std::cout << "Game constructor called" << std::endl;
 }
 
 Game::~Game() {
@@ -34,14 +38,16 @@ Game::~Game() {
 
     CloseWindow();
 
-    while (!stateStack.empty()) {
-        delete stateStack.top();
-        stateStack.pop();
+    // while (!stateStack.empty()) {
+    //     delete stateStack.top();
+    //     stateStack.pop();
 
-        // Assign top next state to nullptr
-        if (!stateStack.empty())
-            stateStack.top()->setState();
-    }
+    //     // Assign top next state to nullptr
+    //     if (!stateStack.empty())
+    //         stateStack.top()->setState();
+    // }
+    _stateStack.clearState();
+    _stateStack.applyPendingChanges();
 
     UnloadMusicStream(bgMusic);
     CloseAudioDevice();
@@ -215,26 +221,30 @@ void Game::loadAllTexture() {
 }
 
 void Game::run() {
-    while (!WindowShouldClose() && !stateStack.empty()) {
+    while (!WindowShouldClose() && !_stateStack.isEmpty()) {
         UpdateMusicStream(bgMusic);
-        State* currentState = stateStack.top();
-        currentState->setState();
-        BeginDrawing();
-        currentState->draw();
-        EndDrawing();
-        currentState->update();
-        currentState->handleEvents();
+        // State* currentState = stateStack.top();
+        // currentState->setState();
+        // BeginDrawing();
+        // currentState->draw();
+        // EndDrawing();
+        // currentState->update();
+        // currentState->handleEvents();
 
-        State* newState = currentState->getNextState();
+        // State* newState = currentState->getNextState();
 
-        if (currentState->shouldPop()) {
-            delete currentState;
-            stateStack.pop();
-        }
+        // if (currentState->shouldPop()) {
+        //     delete currentState;
+        //     stateStack.pop();
+        // }
 
-        if (newState != nullptr) {
-            stateStack.push(newState);
-        }
+        // if (newState != nullptr) {
+        //     stateStack.push(newState);
+        // }
+
+        _stateStack.draw();
+        _stateStack.update();
+        _stateStack.handleEvents();
     }
 }
 

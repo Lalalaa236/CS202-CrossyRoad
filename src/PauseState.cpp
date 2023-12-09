@@ -43,7 +43,7 @@ void PauseState::handleEvents()
     }
 }
 
-void PauseState::init() {}
+// void PauseState::init() {}
 
 bool PauseState::shouldPop() const
 {

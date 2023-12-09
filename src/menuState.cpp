@@ -7,12 +7,11 @@
 #include "settingState.h"
 #include "skinState.h"
 #include <utility>
+#include <iostream>
 
-MenuState::MenuState(Game &game) : game(game) {
+MenuState::MenuState(StateStack& stack)
+: State(stack) {
     shouldPopState = false;
-}
-
-void MenuState::init() {
     background = &TextureHolder::getHolder().get(Textures::BACKGROUND_MENU);
     button[0] = &TextureHolder::getHolder().get(Textures::BUTTON_0);
     button[1] = &TextureHolder::getHolder().get(Textures::BUTTON_1);
@@ -20,7 +19,11 @@ void MenuState::init() {
     button[3] = &TextureHolder::getHolder().get(Textures::BUTTON_3);
     button[4] = &TextureHolder::getHolder().get(Textures::BUTTON_4);
     name = &TextureHolder::getHolder().get(Textures::NAME_LOGO);
+    std::cout << "MenuState constructor called" << std::endl;
 }
+
+// void MenuState::init() {
+// }
 
 void MenuState::handleEvents() {
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
@@ -36,31 +39,36 @@ void MenuState::handleEvents() {
 
                     /// Intruction button (top left)
                 case 0:
-                    nextState = new InstructionState();
-                    nextState->init();
+                    // nextState = new InstructionState();
+                    // nextState->init();
+                    requestStackPush(States::ID::Instructions);
                     break;
 
                     /// Setting button (top right)
                 case 1:
-                    nextState = new settingState(game);
-                    nextState->init();
+                    // nextState = new settingState(game);
+                    // nextState->init();
+                    requestStackPush(States::ID::Settings);
                     break;
 
                 case 2:
-                    nextState = new SkinState();
-                    nextState->init();
+                    // nextState = new SkinState();
+                    // nextState->init();
+                    requestStackPush(States::ID::Skin);
                     break;
 
                     /// High score button (bottom right)
                 case 3:
-                    nextState = new highScoreState();
-                    nextState->init();
+                    // nextState = new highScoreState();
+                    // nextState->init();
+                    requestStackPush(States::ID::Highscore);
                     break;
 
                     /// Play button (middle)
                 case 4:
-                    nextState = new GameState();
-                    nextState->init();
+                    // nextState = new GameState();
+                    // nextState->init();
+                    requestStackPush(States::ID::Game);
                     break;
                 }
             }
@@ -102,8 +110,9 @@ bool MenuState::shouldPop() const {
 }
 
 MenuState::~MenuState() {
-    if (nextState != nullptr) {
-        delete nextState;
-    }
-    nextState = nullptr;
+    // if (nextState != nullptr) {
+    //     delete nextState;
+    // }
+    // nextState = nullptr;
+    requestStackClear();
 }
