@@ -10,8 +10,10 @@ private:
 
 public:
     Map(float speed);
+
     void draw();
-    void update();
+    void update(int score = 0);
+
     void setSpeed(float speed);
     bool CheckCollisionPlayer(Rectangle playerBoxCollision);
     ~Map();

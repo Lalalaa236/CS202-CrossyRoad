@@ -10,15 +10,21 @@
 #include "Vehicle/Car.h"
 #include "Vehicle/Truck.h"
 #include "Vehicle/Taxi.h"
+#include <algorithm>
 #include <iostream>
 #include <vector>
 
-Lane::Lane(float y, float mapSpeed) : y(y), mapSpeed(mapSpeed) {
-    randomSpeed = GetRandomValue(3.0f, 6.0f);
+Lane::Lane(float y, float mapSpeed, int currentScore) : y(y), mapSpeed(mapSpeed) {
+    float trafficLight_x = settings::SCREEN_WIDTH - 5 - 50;
+    randomSpeed = GetRandomValue(3.5f, 6.5f);
     direction = rand() % 2;
 
-    if (direction == 0)
+    // From right to left direction
+    // Changing the speed and the position of the traffic light
+    if (direction == 0) {
         randomSpeed = -randomSpeed;
+        trafficLight_x = 5;
+    }
 
     static int cnt = 0;
     int random = rand() % 2;
@@ -33,7 +39,7 @@ Lane::Lane(float y, float mapSpeed) : y(y), mapSpeed(mapSpeed) {
         }
         else {
             texture = &TextureHolder::getHolder().get(Textures::ROAD);
-            trafficLight = new TrafficLight(5, this->y - 25);
+            trafficLight = new TrafficLight(trafficLight_x, this->y - 25);
             cnt++;
             isSafe = false;
         }
@@ -41,7 +47,7 @@ Lane::Lane(float y, float mapSpeed) : y(y), mapSpeed(mapSpeed) {
     case 1:
         if (cnt == 3) {
             texture = &TextureHolder::getHolder().get(Textures::ROAD);
-            trafficLight = new TrafficLight(5, this->y - 25);
+            trafficLight = new TrafficLight(trafficLight_x, this->y - 25);
             cnt = 0;
             isSafe = false;
         }
@@ -58,7 +64,7 @@ Lane::Lane(float y, float mapSpeed) : y(y), mapSpeed(mapSpeed) {
         break;
     }
 
-    addObstacle();
+    addObstacleByScore(currentScore);
 }
 
 Lane::~Lane() {
@@ -66,15 +72,19 @@ Lane::~Lane() {
         delete obstacles.front();
         obstacles.pop_front();
     }
+
     delete trafficLight;
 }
 
 Lane::Lane(float y, float mapSpeed, LaneType laneType, int numObstacles) : y(y), mapSpeed(mapSpeed) {
+    float trafficLight_x = 5;
     randomSpeed = GetRandomValue(1.0f, 3.0f);
     direction = rand() % 2;
 
-    if (direction == 0)
+    if (direction == 0) {
         randomSpeed = -randomSpeed;
+        trafficLight_x = settings::SCREEN_WIDTH - 5 - 50;
+    }
 
     switch (laneType) {
     case LaneType::GRASS:
@@ -84,7 +94,7 @@ Lane::Lane(float y, float mapSpeed, LaneType laneType, int numObstacles) : y(y),
         break;
     case LaneType::ROAD:
         texture = &TextureHolder::getHolder().get(Textures::ROAD);
-        trafficLight = new TrafficLight(5, this->y - 25);
+        trafficLight = new TrafficLight(trafficLight_x, this->y - 25);
         isSafe = false;
         break;
     default:
@@ -94,141 +104,53 @@ Lane::Lane(float y, float mapSpeed, LaneType laneType, int numObstacles) : y(y),
     }
 
     addObstacle(numObstacles);
-    // std::cout << "lmao" << std::endl;
 }
 
 void Lane::addObstacle() {
     int r = rand() % 4;
-    if (r == 0)
-        return;
-
-    float distance = (settings::SCREEN_WIDTH / r * 1.0);
-    if (isSafe) {
-        Obstacle* tmp = nullptr;
-
-        for (int i = 1; i <= r; i++) {
-            int randomType = rand() % 5;
-            float x = distance * (i - 1);
-
-            switch (randomType) {
-            case 0:
-                tmp = new Bird({ x, this->y }, randomSpeed);
-                break;
-            case 1:
-                tmp = new Cat({ x, this->y }, randomSpeed);
-                break;
-            case 2:
-                tmp = new Dog({ x, this->y }, randomSpeed);
-                break;
-            case 3:
-                tmp = new Tiger({ x, this->y }, randomSpeed);
-                break;
-            case 4:
-                tmp = new Rabbit({ x, this->y }, randomSpeed);
-                break;
-            default:
-                break;
-            }
-
-            if (tmp)
-                obstacles.push_back(tmp);
-        }
-    }else{
-        Obstacle* tmp = nullptr;
-        for (int i = 1; i <= r; i++) {
-            int randomType = rand() % 5;
-            float x = distance * (i - 1);
-
-            switch (randomType) {
-            case 0:
-                tmp = new Bike({ x, this->y - 35}, randomSpeed);
-                break;
-            case 1:
-                tmp = new Cab({ x, this->y}, randomSpeed);
-                break;  
-            case 2:
-                tmp = new Car({ x, this->y + 10}, randomSpeed);
-                break; 
-            case 3:
-                tmp = new Truck({ x, this->y - 10}, randomSpeed);
-                break; 
-            case 4:
-                tmp = new Taxi({ x, this->y + 20}, randomSpeed);
-                break; 
-            }
-                if (tmp)
-                obstacles.push_back(tmp);
-        }
-    }
+    addObstacle(r);
 }
 
-void Lane::addObstacle(int n) {
-    if (n <= 0)
-        return;
-    
-    float distance = (settings::SCREEN_WIDTH / n * 1.0);
-    if (isSafe) {
-        Obstacle* tmp = nullptr;
+void Lane::addObstacle(int numObstacle, float speedScale) {
+    if (numObstacle <= 0) return;
 
-        for (int i = 1; i <= n; i++) {
-            int randomType = rand() % 5;
-            float x = distance * (i - 1);
+    const int numPosition = numObstacle << 1; // numObstacle * 2
+    Obstacle* tmp = nullptr;
+    int i;
+    float x;
+    float distance = (1.0 * settings::SCREEN_WIDTH / numPosition);
+    std::vector<float> distances;
 
-            switch (randomType) {
-            case 0:
-                tmp = new Bird({ x, this->y }, randomSpeed);
-                break;
-            case 1:
-                tmp = new Cat({ x, this->y }, randomSpeed);
-                break;
-            case 2:
-                tmp = new Dog({ x, this->y }, randomSpeed);
-                break;
-            case 3:
-                tmp = new Tiger({ x, this->y }, randomSpeed);
-                break;
-            case 4:
-                tmp = new Rabbit({ x, this->y }, randomSpeed);
-                break;
-            default:
-                break;
-            }
+    // Generate random distances
+    for (i = 1; i <= numPosition; i++)
+        distances.push_back(distance * (i - 1));
+    std::random_shuffle(distances.begin(), distances.end());
 
-            if (tmp)
-                obstacles.push_back(tmp);
-        }
-    }else{
-        Obstacle* tmp = nullptr;
-        for (int i = 1; i <= n; i++) {
-            int randomType = rand() % 4;
-            float x = distance * (i - 1);
-
-            switch (randomType) {
-            case 0:
-                tmp = new Bike({ x, this->y - 35}, randomSpeed);
-                break;
-            case 1:
-                tmp = new Cab({ x, this->y}, randomSpeed);
-                break;
-            case 2:
-                tmp = new Car({ x, this->y + 10}, randomSpeed);
-                break;
-            case 3:
-                tmp = new Truck({ x, this->y - 10}, randomSpeed);
-                break;
-            case 4:
-                tmp = new Taxi({ x, this->y + 20}, randomSpeed);
-                break;
-            }
-                if (tmp)
-                obstacles.push_back(tmp);
-        }
+    // Generate random obstacles
+    for (i = 1; i <= numObstacle; i++) {
+        x = distances[i - 1];
+        obstacles.push_back(createObstacle(isSafe, x, this->y, randomSpeed * speedScale));
     }
+
 }
+
+void Lane::addObstacleByScore(int laneScore) {
+    int minObstacles, numObstacles;
+    float speedScale = 1.0f;
+
+    // Generate depends on laneScore
+    speedScale = speedScale + std::min(2.0f, laneScore / 50.0f); // Max speedScale = 3.0f
+    minObstacles = std::min(laneScore / 30 + 2, 6);
+    numObstacles = rand() % (minObstacles + 1);
+
+    // Generate random obstacles
+    addObstacle(numObstacles, speedScale);
+}
+
 
 void Lane::draw() {
     DrawTextureEx(*texture, { 0, y }, 0, 1, WHITE);
-    // DrawRectangleLinesEx({0, y, 1511, 95}, 2, BLACK);
+
     if (trafficLight) {
         trafficLight->setY(y - 25);
         trafficLight->draw();
@@ -252,10 +174,8 @@ void Lane::update() {
     if (trafficLight)
         trafficLight->update();
 
-    for (auto obstacle : obstacles) {
+    for (auto obstacle : obstacles)
         obstacle->update(this->getY());
-    }
-    // static int i = 0;
 }
 
 void Lane::setSpeed(float mapSpeed) {
@@ -269,4 +189,62 @@ bool Lane::CheckCollisionPlayer(Rectangle playerBoxCollision) {
     }
 
     return false;
+}
+
+/// @brief Return a pointer to a randomly generated obstacle
+/// @param safeLane 
+/// @param x 
+/// @param y 
+/// @param speed 
+/// @return Obstacle*
+Obstacle* createObstacle(bool safeLane, float x, float y, float speed) {
+    int randomType;
+    Obstacle* tmp = nullptr;
+
+    if (safeLane) {
+        randomType = rand() % 5;
+
+        switch (randomType) {
+        case 0:
+            tmp = new Bird({ x, y }, speed);
+            break;
+        case 1:
+            tmp = new Cat({ x, y }, speed);
+            break;
+        case 2:
+            tmp = new Dog({ x, y }, speed);
+            break;
+        case 3:
+            tmp = new Tiger({ x, y }, speed);
+            break;
+        case 4:
+            tmp = new Rabbit({ x, y }, speed);
+            break;
+        default:
+            break;
+        }
+    }
+    else {
+        randomType = rand() % 5;
+
+        switch (randomType) {
+        case 0:
+            tmp = new Bike({ x, y - 15 }, speed);
+            break;
+        case 1:
+            tmp = new Cab({ x, y }, speed);
+            break;
+        case 2:
+            tmp = new Car({ x, y + 10 }, speed);
+            break;
+        case 3:
+            tmp = new Truck({ x, y - 6 }, speed);
+            break;
+        case 4:
+            tmp = new Taxi({ x, y + 20 }, speed);
+            break;
+        }
+    }
+
+    return tmp;
 }
