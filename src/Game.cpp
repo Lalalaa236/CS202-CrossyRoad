@@ -12,7 +12,7 @@ Game::Game() {
     soundEnabled = true;
     volume = 1.0f;
 
-    // SetTraceLogLevel(LOG_WARNING);
+    SetTraceLogLevel(LOG_WARNING);
 
     // Initialization for window
     InitWindow(settings::SCREEN_WIDTH, settings::SCREEN_HEIGHT, "Crossing Road");

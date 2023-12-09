@@ -193,10 +193,10 @@ void Player::draw()
 //     this->targetPosition = targetPosition;
 // }
 
-// std::pair<float, float> Player::getTargetPosition() const
-// {
-//     return targetPosition;
-// }
+std::pair<float, float> Player::getTargetPosition() const
+{
+    return targetPosition;
+}
 
 void Player::setSpeed(float vSpeed, float hSpeed)
 {

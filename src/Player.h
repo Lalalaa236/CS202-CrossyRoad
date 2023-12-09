@@ -44,6 +44,7 @@ class Player
         void setMapSpeed(float mapSpeed);
         void setSkin(Textures::ID skin);
         void setMoving(bool isMoving);
+        std::pair<float, float> getTargetPosition() const;
         bool getMoving() const;
 
         void draw();
