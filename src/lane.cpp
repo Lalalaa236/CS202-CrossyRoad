@@ -15,7 +15,7 @@
 #include <vector>
 
 Lane::Lane(float y, float mapSpeed, int currentScore) : y(y), mapSpeed(mapSpeed) {
-    float trafficLight_x = 5;
+    float trafficLight_x = settings::SCREEN_WIDTH - 5 - 50;
     randomSpeed = GetRandomValue(3.5f, 6.5f);
     direction = rand() % 2;
 
@@ -23,7 +23,7 @@ Lane::Lane(float y, float mapSpeed, int currentScore) : y(y), mapSpeed(mapSpeed)
     // Changing the speed and the position of the traffic light
     if (direction == 0) {
         randomSpeed = -randomSpeed;
-        trafficLight_x = settings::SCREEN_WIDTH - 5 - 50;
+        trafficLight_x = 5;
     }
 
     static int cnt = 0;
@@ -139,9 +139,9 @@ void Lane::addObstacleByScore(int laneScore) {
     float speedScale = 1.0f;
 
     // Generate depends on laneScore
-    speedScale = speedScale + std::min(1.0f, laneScore / 100.0f); // Max speedScale = 2.0f
-    minObstacles = std::min(laneScore / 50 + 2, 6);
-    numObstacles = rand() % minObstacles + 1;
+    speedScale = speedScale + std::min(2.0f, laneScore / 50.0f); // Max speedScale = 3.0f
+    minObstacles = std::min(laneScore / 30 + 2, 6);
+    numObstacles = rand() % (minObstacles + 1);
 
     // Generate random obstacles
     addObstacle(numObstacles, speedScale);

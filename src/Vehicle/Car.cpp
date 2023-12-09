@@ -31,7 +31,7 @@ void Car::update(float k) {
     setPos(tmp.x, tmp.y);
 
     // If the obstacle is out of screen, move it to the other side
-    float width = txt[curFrame]->width * 0.7f;
+    float width = 50;
     if (checkOutOfScreen(width)) {
         if (this->getSpeed() > 0)
             setPos(-width, tmp.y);

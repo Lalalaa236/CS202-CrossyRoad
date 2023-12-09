@@ -3,7 +3,7 @@
 
 Map::Map(float speed) : speed(speed) {
     // Initialize first j lane to be safe
-    int j = rand() % 2 + 3;
+    int j = rand() % 1 + 3;
     int i = 0;
 
     for (; i < 12 - j; ++i) {
