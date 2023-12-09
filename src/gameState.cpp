@@ -167,13 +167,19 @@ void GameState::handleInput()
     if(IsKeyPressed(KEY_P))
         requestStackPush(States::ID::Pause);
     if(IsKeyPressed(KEY_B))
+    {
         requestStackPop();
+        requestStackPush(States::ID::Menu);
+    }
 }
 
 void GameState::checkEndOfGame() 
 {
     if (IsKeyPressed(KEY_B))
+    {
         requestStackPop();
+        requestStackPush(States::ID::Menu);
+    }
     if (IsKeyDown(KEY_LEFT_ALT) || IsKeyDown(KEY_RIGHT_ALT))
         ShowCursor();
     else

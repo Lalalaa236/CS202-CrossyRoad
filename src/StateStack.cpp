@@ -3,9 +3,7 @@
 #include <cassert>
 
 StateStack::StateStack()
-{
-    std::cout << "StateStack created" << std::endl;
-}
+{}
 
 State::Ptr StateStack::createState(States::ID id)
 {
@@ -17,24 +15,29 @@ State::Ptr StateStack::createState(States::ID id)
 
 void StateStack::handleEvents()
 {
-    states.back()->handleEvents();
+    if(states.size() > 0)
+        states.back()->handleEvents();
 
     applyPendingChanges();
 }
 
 void StateStack::update()
 {
-    states.back()->update();
+    if(states.size() > 0)
+        states.back()->update();
 
     applyPendingChanges();
 }
 
 void StateStack::draw()
 {
-    BeginDrawing();
-    for(auto& state : states)
-        state->draw();
-    EndDrawing();
+    if(states.size() > 0)
+    {
+        BeginDrawing();
+        for(auto& state : states)
+            state->draw();
+        EndDrawing();
+    }
 }
 
 void StateStack::applyPendingChanges()
@@ -44,9 +47,7 @@ void StateStack::applyPendingChanges()
         switch(change.action)
         {
             case Action::Push:
-                std::cout << "Pushing state " << (int)change.state << std::endl;
                 states.push_back(createState(change.state));
-                std::cout << "Pushed state " << (int)change.state << std::endl;
                 break;
             case Action::Pop:
                 states.pop_back();

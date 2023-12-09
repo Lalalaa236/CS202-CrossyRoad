@@ -19,7 +19,6 @@ MenuState::MenuState(StateStack& stack)
     button[3] = &TextureHolder::getHolder().get(Textures::BUTTON_3);
     button[4] = &TextureHolder::getHolder().get(Textures::BUTTON_4);
     name = &TextureHolder::getHolder().get(Textures::NAME_LOGO);
-    std::cout << "MenuState constructor called" << std::endl;
 }
 
 // void MenuState::init() {
@@ -41,6 +40,7 @@ void MenuState::handleEvents() {
                 case 0:
                     // nextState = new InstructionState();
                     // nextState->init();
+                    requestStackPop();
                     requestStackPush(States::ID::Instructions);
                     break;
 
@@ -68,6 +68,7 @@ void MenuState::handleEvents() {
                 case 4:
                     // nextState = new GameState();
                     // nextState->init();
+                    requestStackPop();
                     requestStackPush(States::ID::Game);
                     break;
                 }

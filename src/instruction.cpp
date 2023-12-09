@@ -4,6 +4,13 @@ InstructionState::InstructionState(StateStack& stack)
 : State(stack)
 {
     shouldPopState = false;
+    background = &TextureHolder::getHolder().get(Textures::BACKGROUND_MENU);
+    instructionImages[0] = &TextureHolder::getHolder().get(Textures::INSTRUCTION_1);
+    instructionImages[1] = &TextureHolder::getHolder().get(Textures::INSTRUCTION_2);
+    closeButton = &TextureHolder::getHolder().get(Textures::CLOSE_BUTTON);
+    nextButton = &TextureHolder::getHolder().get(Textures::NEXT_BUTTON);
+    prevButton = &TextureHolder::getHolder().get(Textures::PREVIOUS_BUTTON);
+    currentImage = 0;
 }
 
 InstructionState::~InstructionState() {
@@ -11,14 +18,6 @@ InstructionState::~InstructionState() {
     //     UnloadTexture(*instructionImages[i]);
     // UnloadTexture(*nextButton);
     // UnloadTexture(*prevButton);
-    background = &TextureHolder::getHolder().get(Textures::BACKGROUND_MENU);
-    instructionImages[0] = &TextureHolder::getHolder().get(Textures::INSTRUCTION_1);
-    instructionImages[1] = &TextureHolder::getHolder().get(Textures::INSTRUCTION_2);
-    closeButton = &TextureHolder::getHolder().get(Textures::CLOSE_BUTTON);
-    nextButton = &TextureHolder::getHolder().get(Textures::NEXT_BUTTON);
-    prevButton = &TextureHolder::getHolder().get(Textures::PREVIOUS_BUTTON);
-
-    currentImage = 0;
 }
 
 // void InstructionState::init() {

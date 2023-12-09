@@ -27,7 +27,6 @@ Game::Game() {
     PlayMusicStream(bgMusic);
     registerState();
     _stateStack.pushState(States::ID::Menu);
-    _stateStack.applyPendingChanges();
     // std::cout << "Game constructor called" << std::endl;
 }
 
@@ -46,8 +45,8 @@ Game::~Game() {
     //     if (!stateStack.empty())
     //         stateStack.top()->setState();
     // }
-    _stateStack.clearState();
-    _stateStack.applyPendingChanges();
+    // _stateStack.clearState();
+    // _stateStack.applyPendingChanges();
 
     UnloadMusicStream(bgMusic);
     CloseAudioDevice();
@@ -221,40 +220,21 @@ void Game::loadAllTexture() {
 }
 
 void Game::run() {
-    while (!WindowShouldClose() && !_stateStack.isEmpty()) {
+    while (!WindowShouldClose()) {
         UpdateMusicStream(bgMusic);
-        // State* currentState = stateStack.top();
-        // currentState->setState();
-        // BeginDrawing();
-        // currentState->draw();
-        // EndDrawing();
-        // currentState->update();
-        // currentState->handleEvents();
-
-        // State* newState = currentState->getNextState();
-
-        // if (currentState->shouldPop()) {
-        //     delete currentState;
-        //     stateStack.pop();
-        // }
-
-        // if (newState != nullptr) {
-        //     stateStack.push(newState);
-        // }
-
-        _stateStack.draw();
         _stateStack.update();
+        _stateStack.draw();
         _stateStack.handleEvents();
     }
 }
 
 void Game::registerState()
 {
-    _stateStack.registerState<GameState>(States::ID::Game);
     _stateStack.registerState<MenuState>(States::ID::Menu);
-    _stateStack.registerState<settingState>(States::ID::Settings);
-    _stateStack.registerState<highScoreState>(States::ID::Highscore);
-    _stateStack.registerState<InstructionState>(States::ID::Instructions);
-    _stateStack.registerState<SkinState>(States::ID::Skin);
+    _stateStack.registerState<GameState>(States::ID::Game);
     _stateStack.registerState<PauseState>(States::ID::Pause);
+    _stateStack.registerState<settingState>(States::ID::Settings);
+    _stateStack.registerState<InstructionState>(States::ID::Instructions);
+    _stateStack.registerState<highScoreState>(States::ID::Highscore);
+    _stateStack.registerState<SkinState>(States::ID::Skin);
 }

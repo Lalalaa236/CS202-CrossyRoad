@@ -6,7 +6,6 @@
 #include <functional>
 #include "State.h"
 #include "StateIdentifiers.h"
-#include <iostream>
 
 class StateStack 
 {
@@ -57,7 +56,6 @@ void StateStack::registerState(States::ID id)
     {
         return State::Ptr(new T(*this));
     };
-    std::cout << "Registering state " << (int)id << std::endl;
 }
 
 #endif
