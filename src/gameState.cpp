@@ -64,7 +64,9 @@ void GameState::update() {
     // static int i = 0;
     // if(i++ == 0)
     //     std::cout << "GameState update called" << std::endl;
-    if (start && !over)
+    if(!player->getMoving())
+        player->setMoving(true);
+    if(start && !over)
         map->update();
     if(over)
         player->setSpeed(0.0f, 0.0f);
@@ -165,7 +167,10 @@ void GameState::handleInput()
         }
     }
     if(IsKeyPressed(KEY_P))
+    {
         requestStackPush(States::ID::Pause);
+        player->setMoving(false);
+    }
     if(IsKeyPressed(KEY_B))
     {
         requestStackPop();

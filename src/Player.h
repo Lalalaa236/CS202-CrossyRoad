@@ -7,6 +7,7 @@
 class Player
 {
     private:
+        bool isMoving;
         std::pair<float, float> position;
         std::pair<float, float> targetPosition;
         float mapSpeed;
@@ -42,6 +43,8 @@ class Player
         void setIsAlive(bool isAlive);
         void setMapSpeed(float mapSpeed);
         void setSkin(Textures::ID skin);
+        void setMoving(bool isMoving);
+        bool getMoving() const;
 
         void draw();
         void update();

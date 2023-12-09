@@ -164,6 +164,13 @@ enum ID {
     // Pause state
     PAUSE_BOARD,
     RESUME_BUTTON,
+    QUIT_BUTTON,
+    RESTART_BUTTON,
+    SAVE_BUTTON,
+
+    TIMER_1,
+    TIMER_2,
+    TIMER_3
 };
 };
 

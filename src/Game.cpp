@@ -24,7 +24,7 @@ Game::Game() {
     // Initialization for audio
     InitAudioDevice();
     bgMusic = LoadMusicStream("image/Sound/whistle.mp3");
-    PlayMusicStream(bgMusic);
+    // PlayMusicStream(bgMusic);
     registerState();
     stateStack.pushState(States::ID::Menu);
     // std::cout << "Game constructor called" << std::endl;
@@ -206,6 +206,12 @@ void Game::loadAllTexture() {
 
     TextureHolder::getHolder().load(Textures::PAUSE_BOARD, "image/PauseGame/board.png");
     TextureHolder::getHolder().load(Textures::RESUME_BUTTON, "image/PauseGame/playbtn.png");
+    TextureHolder::getHolder().load(Textures::RESTART_BUTTON, "image/PauseGame/restartbtn.png");
+    TextureHolder::getHolder().load(Textures::QUIT_BUTTON, "image/PauseGame/homebtn.png");
+    TextureHolder::getHolder().load(Textures::SAVE_BUTTON, "image/PauseGame/savebtn.png");
+    TextureHolder::getHolder().load(Textures::TIMER_1, "image/PauseGame/1.png");
+    TextureHolder::getHolder().load(Textures::TIMER_2, "image/PauseGame/2.png");
+    TextureHolder::getHolder().load(Textures::TIMER_3, "image/PauseGame/3.png");
 }
 
 void Game::run() {
