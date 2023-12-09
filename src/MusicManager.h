@@ -10,6 +10,7 @@ class MusicManager
         Music music;
         bool isSoundOn;
         float volume;
+        // float curVolume;
         MusicManager();
         MusicManager(const MusicManager& other) = delete;
         MusicManager& operator=(const MusicManager& other) = delete;

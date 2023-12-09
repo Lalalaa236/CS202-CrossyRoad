@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "State.h"
 #include "raylib.h"
+#include "MusicManager.h"
 
 class Game;
 class settingState : public State {
@@ -12,9 +13,6 @@ public:
 
     bool shouldPop() const override;
     void handleEvents() override;
-
-    void setDot(float volume);
-
     void update() override;
     void draw() override;
 

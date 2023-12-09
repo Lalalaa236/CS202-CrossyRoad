@@ -1,10 +1,8 @@
 #include "MusicManager.h"
 
 MusicManager::MusicManager()
+: isSoundOn(true), volume(1.0f)//, curVolume(1.0f)
 {
-    isSoundOn = true;
-    volume = 1.0f;
-
     InitAudioDevice();
     music = LoadMusicStream("image/Sound/whistle.mp3");
     SetMusicVolume(music, volume);
@@ -51,9 +49,9 @@ void MusicManager::toggleSound()
 {
     isSoundOn = !isSoundOn;
     if(isSoundOn)
-        PlayMusicStream(music);
+        SetMusicVolume(music, volume);
     else
-        StopMusicStream(music);
+        SetMusicVolume(music, 0.0f);
 }
 
 void MusicManager::setVolume(float volume)

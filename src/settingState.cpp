@@ -14,6 +14,9 @@ settingState::settingState(StateStack &stack)
     sound[3] = &TextureHolder::getHolder().get(Textures::GREEN_BAR);
     sound[4] = &TextureHolder::getHolder().get(Textures::DOT);
     closeButton = &TextureHolder::getHolder().get(Textures::CLOSE_BUTTON);
+    float initialVolume = MusicManager::getManager().getVolume();
+    dotPosition.x = 613 + initialVolume * (sound[2]->width - 27);
+    dotPosition.y = 491;
 }
 
 // void settingState::init() {
@@ -30,7 +33,7 @@ void settingState::handleEvents() {
         }
 
         if (CheckCollisionPointRec(mousePosition, {445, 449, sound[0]->width * 1.0f, sound[1]->height * 1.0f})) {
-            // game.toggleSound();
+            MusicManager::getManager().toggleSound();
         }
     }
 
@@ -46,6 +49,10 @@ void settingState::handleEvents() {
             dragOffset.x = mousePosition.x - dotPosition.x;
             dragOffset.y = mousePosition.y - dotPosition.y;
         }
+        if (CheckCollisionPointRec(mousePosition, {1113, 202, closeButton->width * 1.0f, closeButton->height * 1.0f})) {
+            requestStackPop();
+            requestStackPush(States::ID::Menu);
+        }
     }
 
     if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON))
@@ -53,9 +60,9 @@ void settingState::handleEvents() {
 
     if (isDragging) {
         // Turn on the sound if it was off
-        // if (!game.getSoundState()) {
-        //     game.toggleSound();
-        // }
+        if (!MusicManager::getManager().getIsSoundOn()) {
+            MusicManager::getManager().toggleSound();
+        }
 
         Vector2 mousePosition = GetMousePosition();
 
@@ -80,18 +87,16 @@ void settingState::handleEvents() {
             newVolume = 0.0f;
 
         // Set the new volume value in your application
-        // game.setVolume(newVolume);
+        MusicManager::getManager().setVolume(newVolume);
     }
 }
 
 void settingState::update() {
+    float initialVolume = MusicManager::getManager().getVolume();
+    dotPosition.x = 613 + initialVolume * (sound[2]->width - 27);
+    dotPosition.y = 491;
 }
 
-void settingState::setDot(float volume) {
-    // float initialVolume = game.getVolume();
-    // dotPosition.x = 613 + initialVolume * (sound[2]->width - 27);
-    // dotPosition.y = 491;
-}
 
 void settingState::draw() {
     float scaleWidth = (float)GetScreenWidth() / background->width;
@@ -108,17 +113,15 @@ void settingState::draw() {
 
     DrawTexture(*settingBoard, 319, 81, WHITE);
     DrawTexture(*closeButton, 1113, 202, WHITE);
-    // if (game.getSoundState()) {
-    //     DrawTexture(*sound[0], 445, 449, WHITE);
-    //     if (game.getVolume() == 0.0f) {
-    //         game.setVolume(1.0f);
-    //         setDot(1.0f);
-    //     }
-    // } else {
-    //     DrawTexture(*sound[1], 445, 449, WHITE);
-    //     game.setVolume(0.0f);
-    //     setDot(0.0f);
-    // }
+    if (MusicManager::getManager().getIsSoundOn()) {
+        DrawTexture(*sound[0], 445, 449, WHITE);
+        if (MusicManager::getManager().getVolume() == 0.0f) {
+            MusicManager::getManager().setVolume(1.0f);
+        }
+    } else {
+        DrawTexture(*sound[1], 445, 449, WHITE);
+        MusicManager::getManager().setVolume(0.0f);
+    }
 
     DrawTexture(*sound[2], 613, 500, WHITE);
     Rectangle sourceRec = { 0, 0, static_cast<float>(dotPosition.x - 613), static_cast<float>(sound[3]->height) };
