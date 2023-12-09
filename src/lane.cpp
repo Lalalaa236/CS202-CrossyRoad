@@ -111,81 +111,47 @@ void Lane::addObstacle() {
     addObstacle(r);
 }
 
-void Lane::addObstacle(int n) {
-    if (n <= 0) return;
+void Lane::addObstacle(int numObstacle, float speedScale) {
+    if (numObstacle <= 0) return;
 
+    const int numPosition = numObstacle << 1; // numObstacle * 2
     Obstacle* tmp = nullptr;
-    int randomType, i;
+    int i;
     float x;
-    float distance = (1.0 * settings::SCREEN_WIDTH / (n << 1));
+    float distance = (1.0 * settings::SCREEN_WIDTH / numPosition);
     std::vector<float> distances;
 
     // Generate random distances
-    for (i = 1; i <= 2 * n; i++)
+    for (i = 1; i <= numPosition; i++)
         distances.push_back(distance * (i - 1));
     std::random_shuffle(distances.begin(), distances.end());
 
-    if (isSafe) {
-        for (i = 1; i <= n; i++) {
-            randomType = rand() % 5;
-            x = distances[i - 1];
-
-            switch (randomType) {
-            case 0:
-                tmp = new Bird({ x, this->y }, randomSpeed);
-                break;
-            case 1:
-                tmp = new Cat({ x, this->y }, randomSpeed);
-                break;
-            case 2:
-                tmp = new Dog({ x, this->y }, randomSpeed);
-                break;
-            case 3:
-                tmp = new Tiger({ x, this->y }, randomSpeed);
-                break;
-            case 4:
-                tmp = new Rabbit({ x, this->y }, randomSpeed);
-                break;
-            default:
-                break;
-            }
-
-            if (tmp)
-                obstacles.push_back(tmp);
-        }
+    // Generate random obstacles
+    for (i = 1; i <= numObstacle; i++) {
+        x = distances[i - 1];
+        obstacles.push_back(createObstacle(isSafe, x, this->y, randomSpeed * speedScale));
     }
-    else {
-        for (i = 1; i <= n; i++) {
-            randomType = rand() % 5;
-            x = distances[i - 1];
 
-            switch (randomType) {
-            case 0:
-                tmp = new Bike({ x, this->y - 35 }, randomSpeed);
-                break;
-            case 1:
-                tmp = new Cab({ x, this->y }, randomSpeed);
-                break;
-            case 2:
-                tmp = new Car({ x, this->y + 10 }, randomSpeed);
-                break;
-            case 3:
-                tmp = new Truck({ x, this->y - 10 }, randomSpeed);
-                break;
-            case 4:
-                tmp = new Taxi({ x, this->y + 20 }, randomSpeed);
-                break;
-            }
-
-            if (tmp)
-                obstacles.push_back(tmp);
-        }
-    }
 }
+
+void Lane::addObstacleByScore(int laneScore) {
+    int minObstacles, numObstacles;
+    float speedScale = 1.0f;
+
+    // Generate depends on laneScore
+    speedScale = speedScale + std::min(1.0f, laneScore / 100.0f); // Max speedScale = 2.0f
+    minObstacles = std::min(laneScore / 50 + 1, 6);
+    numObstacles = rand() % minObstacles + 1;
+
+    // Generate random obstacles
+    addObstacle(numObstacles, speedScale);
+}
+
 
 void Lane::draw() {
     DrawTextureEx(*texture, { 0, y }, 0, 1, WHITE);
     // DrawRectangleLinesEx({0, y, 1511, 95}, 2, BLACK);
+
     if (trafficLight) {
         trafficLight->setY(y - 25);
         trafficLight->draw();
@@ -226,4 +192,56 @@ bool Lane::CheckCollisionPlayer(Rectangle playerBoxCollision) {
     }
 
     return false;
+}
+
+Obstacle* createObstacle(bool safeLane, float x, float y, float speed) {
+    int randomType;
+    Obstacle* tmp = nullptr;
+
+    if (safeLane) {
+        randomType = rand() % 5;
+
+        switch (randomType) {
+        case 0:
+            tmp = new Bird({ x, y }, speed);
+            break;
+        case 1:
+            tmp = new Cat({ x, y }, speed);
+            break;
+        case 2:
+            tmp = new Dog({ x, y }, speed);
+            break;
+        case 3:
+            tmp = new Tiger({ x, y }, speed);
+            break;
+        case 4:
+            tmp = new Rabbit({ x, y }, speed);
+            break;
+        default:
+            break;
+        }
+    }
+    else {
+        randomType = rand() % 5;
+
+        switch (randomType) {
+        case 0:
+            tmp = new Bike({ x, y - 35 }, speed);
+            break;
+        case 1:
+            tmp = new Cab({ x, y }, speed);
+            break;
+        case 2:
+            tmp = new Car({ x, y + 10 }, speed);
+            break;
+        case 3:
+            tmp = new Truck({ x, y - 10 }, speed);
+            break;
+        case 4:
+            tmp = new Taxi({ x, y + 20 }, speed);
+            break;
+        }
+    }
+
+    return tmp;
 }

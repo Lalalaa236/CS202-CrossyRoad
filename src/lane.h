@@ -28,10 +28,13 @@ public:
     void setSpeed(float mapSpeed);
 
     void addObstacle();
-    void addObstacle(int n);
+    void addObstacle(int numObstacle, float speedScale = 1.0f);
+    void addObstacleByScore(int laneScore);
     void draw();
     void update();
     bool CheckCollisionPlayer(Rectangle playerBoxCollision);
 };
+
+Obstacle* createObstacle(bool safeLane, float x, float y, float speed);
 
 #endif
