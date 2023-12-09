@@ -237,3 +237,14 @@ void Game::run() {
         }
     }
 }
+
+void Game::registerState()
+{
+    _stateStack.registerState<GameState>(States::ID::Game);
+    _stateStack.registerState<MenuState>(States::ID::Menu);
+    _stateStack.registerState<settingState>(States::ID::Settings);
+    _stateStack.registerState<highScoreState>(States::ID::Highscore);
+    _stateStack.registerState<InstructionState>(States::ID::Instructions);
+    _stateStack.registerState<SkinState>(States::ID::Skin);
+    _stateStack.registerState<PauseState>(States::ID::Pause);
+}

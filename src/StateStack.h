@@ -1,20 +1,11 @@
 #ifndef STATESTACK_H
 #define STATESTACK_H
 
-#include "State.h"
 #include <vector>
 #include <map>
 #include <functional>
-
-enum class StateID
-{
-    Title,
-    Menu,
-    Game,
-    Pause,
-    Instruction,
-    GameOver
-};
+#include "State.h"
+#include "StateIdentifiers.h"
 
 class StateStack 
 {
@@ -25,30 +16,32 @@ class StateStack
             Pop,
             Clear
         };
-        StateStack();
+        StateStack() = default;
         ~StateStack();
 
         template <typename T>
-        void registerState(StateID id);
+        void registerState(States::ID id);
         
-        void push(State* state);
-        void pop();
-        void clear();
+        void pushState(States::ID id);
+        void popState();
+        void clearState();
 
         void update();
         void draw();
-        
+        void handleEvents();
+
     private:
         struct PendingChange
         {
             Action action;
-            State* state;
+            States::ID state;
         };
-        std::vector<State*> states;
+        std::vector<State::Ptr> states;
         std::vector<PendingChange> pendingList;
-        std::map<StateID, std::function<State*()>> factories;
+        std::map<States::ID, std::function<State::Ptr()>> factories;
         
-        State* createState(StateID id);
+        State::Ptr createState(States::ID id);
+
         void applyPendingChanges();
 };
 

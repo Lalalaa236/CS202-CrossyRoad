@@ -1,8 +1,13 @@
 #pragma once
 #include "raylib.h"
+#include <memory>
+#include "StateIdentifiers.h"
+
+class StateStack;
 
 class State {
 public:
+    typedef std::unique_ptr<State> Ptr;
     virtual ~State() = default;
     virtual void handleEvents() = 0;
     virtual void update() = 0;
@@ -15,4 +20,11 @@ public:
 protected:
     bool shouldPopState = false;
     State *nextState = nullptr;
+
+    void requestStackPush(States::ID stateID);
+    void requestStackPop();
+    void requestStackClear();
+
+private:
+    StateStack *stack = nullptr;
 };
