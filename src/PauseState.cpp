@@ -32,7 +32,7 @@ void PauseState::draw()
     }
     else
     {
-        DrawTexture(*timer, 638, 458, WHITE);
+        DrawTexture(*timer, 638, 408, WHITE);
     }
 }
 

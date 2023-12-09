@@ -24,7 +24,7 @@ Game::Game() {
     // Initialization for audio
     InitAudioDevice();
     bgMusic = LoadMusicStream("image/Sound/whistle.mp3");
-    // PlayMusicStream(bgMusic);
+    PlayMusicStream(bgMusic);
     registerState();
     stateStack.pushState(States::ID::Menu);
     // std::cout << "Game constructor called" << std::endl;
