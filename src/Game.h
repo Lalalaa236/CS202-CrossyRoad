@@ -9,7 +9,7 @@
 #include "pauseState.h"
 #include "highscoreState.h"
 #include "skinState.h"
-#include "instruction.h"
+#include "instructionState.h"
 #include "settingState.h"
 
 
