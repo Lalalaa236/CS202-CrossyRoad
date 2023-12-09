@@ -9,8 +9,8 @@ Game::Game() {
     if (GetWindowHandle())
         return;
     // std::cout << "Game constructor called" << std::endl;
-    soundEnabled = true;
-    volume = 1.0f;
+    // soundEnabled = true;
+    // volume = 1.0f;
 
     SetTraceLogLevel(LOG_WARNING);
 
@@ -25,8 +25,9 @@ Game::Game() {
 
     // Initialization for audio
     InitAudioDevice();
-    bgMusic = LoadMusicStream("image/Sound/whistle.mp3");
-    PlayMusicStream(bgMusic);
+    // bgMusic = LoadMusicStream("image/Sound/whistle.mp3");
+    // PlayMusicStream(bgMusic);
+    MusicManager::getManager().setMusic("image/Sound/whistle.mp3");
     registerState();
     stateStack.pushState(States::ID::Menu);
     // std::cout << "Game constructor called" << std::endl;
@@ -39,39 +40,39 @@ Game::~Game() {
 
     CloseWindow();
 
-    UnloadMusicStream(bgMusic);
-    CloseAudioDevice();
+    // UnloadMusicStream(bgMusic);
+    // CloseAudioDevice();
 
     TextureHolder::getHolder().clear();
 }
 
-void Game::toggleSound() {
-    soundEnabled = !soundEnabled;
+// void Game::toggleSound() {
+//     soundEnabled = !soundEnabled;
 
-    if (soundEnabled) {
-        PlayMusicStream(bgMusic);
-    }
-    else {
-        StopMusicStream(bgMusic);
-    }
-}
+//     if (soundEnabled) {
+//         PlayMusicStream(bgMusic);
+//     }
+//     else {
+//         StopMusicStream(bgMusic);
+//     }
+// }
 
-bool Game::getSoundState() {
-    return soundEnabled;
-}
+// bool Game::getSoundState() {
+//     return soundEnabled;
+// }
 
-float Game::getVolume() {
-    return volume;
-}
+// float Game::getVolume() {
+//     return volume;
+// }
 
-void Game::setVolume(float newVolume) {
-    this->volume = newVolume;
-    SetMusicVolume(bgMusic, volume);
-}
+// void Game::setVolume(float newVolume) {
+//     this->volume = newVolume;
+//     SetMusicVolume(bgMusic, volume);
+// }
 
-void Game::setSoundState(bool ok) {
-    soundEnabled = ok;
-}
+// void Game::setSoundState(bool ok) {
+//     soundEnabled = ok;
+// }
 
 void Game::loadAllTexture() {
     TextureHolder::getHolder().load(Textures::CLOSE_BUTTON, "image/general/closeButton.png");
@@ -218,7 +219,8 @@ void Game::loadAllTexture() {
 
 void Game::run() {
     while (!WindowShouldClose()) {
-        UpdateMusicStream(bgMusic);
+        // UpdateMusicStream(bgMusic);
+        MusicManager::getManager().play();
         stateStack.update();
         stateStack.draw();
         stateStack.handleEvents();

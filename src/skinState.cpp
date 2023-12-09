@@ -85,6 +85,10 @@ void SkinState::handleEvents() {
             requestStackPop();
             requestStackPush(States::ID::Menu);
         }
+        if (CheckCollisionPointRec(mousePosition, {1113, 202, closeButton->width * 1.0f, closeButton->height * 1.0f})) {
+            requestStackPop();
+            requestStackPush(States::ID::Menu);
+        }
     }
 }
 

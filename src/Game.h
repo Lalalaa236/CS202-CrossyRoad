@@ -1,7 +1,7 @@
 #pragma once
 
 #include "raylib.h"
-#include <stack>
+#include "MusicManager.h"
 #include "StateStack.h"
 
 #include "gameState.h"
@@ -23,11 +23,11 @@ public:
     void loadAllTexture();
     void run();
 
-    void toggleSound();
-    float getVolume();
-    void setVolume(float volume);
-    bool getSoundState();
-    void setSoundState(bool ok);
+    // void toggleSound();
+    // float getVolume();
+    // void setVolume(float volume);
+    // bool getSoundState();
+    // void setSoundState(bool ok);
 
 private:
     Music bgMusic;
