@@ -29,6 +29,8 @@ void StateStack::handleEvents()
 void StateStack::update()
 {
     states.back()->update();
+
+    applyPendingChanges();
 }
 
 void StateStack::draw()
@@ -65,4 +67,19 @@ void StateStack::applyPendingChanges()
 StateStack::~StateStack()
 {
     clearState();
+}
+
+void StateStack::pushState(States::ID id)
+{
+    pendingList.push_back(PendingChange{Action::Push, id});
+}
+
+void StateStack::popState()
+{
+    pendingList.push_back(PendingChange{Action::Pop});
+}
+
+void StateStack::clearState()
+{
+    pendingList.push_back(PendingChange{Action::Clear});
 }

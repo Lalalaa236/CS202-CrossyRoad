@@ -26,5 +26,5 @@ protected:
     void requestStackClear();
 
 private:
-    StateStack *stack = nullptr;
+    StateStack* stack = nullptr;
 };
