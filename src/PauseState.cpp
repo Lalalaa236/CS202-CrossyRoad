@@ -19,6 +19,7 @@ void PauseState::draw()
 {
     ClearBackground(WHITE);
     prev->draw();
+    DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), SEMI_TRANSPARENT);
     DrawTexture(*board, 289, 107, WHITE);
     DrawTexture(*resumeButton, 650, 451, WHITE);
 }
@@ -30,7 +31,7 @@ void PauseState::handleEvents()
     if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
     {
         Vector2 mousePosition = GetMousePosition();
-        if(CheckCollisionPointRec(mousePosition, {350, 85, resumeButton->width * 1.0f, resumeButton->height * 1.0f}))
+        if(CheckCollisionPointRec(mousePosition, {650, 451, resumeButton->width * 1.0f, resumeButton->height * 1.0f}))
         {
             shouldPopState = true;
         }

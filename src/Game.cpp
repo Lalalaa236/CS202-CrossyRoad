@@ -23,8 +23,8 @@ Game::Game() {
 
     // Initialization for audio
     InitAudioDevice();
-    bgMusic = LoadMusicStream("image/Sound/bgMusic.mp3");
-    // PlayMusicStream(bgMusic);
+    bgMusic = LoadMusicStream("image/Sound/specialz.mp3");
+    PlayMusicStream(bgMusic);
 }
 
 Game::~Game() {

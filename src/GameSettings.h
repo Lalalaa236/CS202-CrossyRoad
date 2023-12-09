@@ -1,6 +1,8 @@
 #ifndef GAMESETTINGS_H
 #define GAMESETTINGS_H
 
+#define SEMI_TRANSPARENT CLITERAL(Color) { 0, 0, 0, 120 }
+
 #include <utility>
 
 namespace settings

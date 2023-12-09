@@ -3,6 +3,7 @@
 
 #include "State.h"
 #include "TextureHolder.h"
+#include "GameSettings.h"
 
 class PauseState : public State
 {
