@@ -33,10 +33,8 @@ private:
     Music bgMusic;
     float volume;
     bool soundEnabled;
-    
-    std::stack<State *> stateStack;
 
-    StateStack _stateStack;
+    StateStack stateStack;
 
     void registerState();
 };

@@ -83,6 +83,7 @@ void SkinState::handleEvents() {
             // Pop the state
             // shouldPopState = true;
             requestStackPop();
+            requestStackPush(States::ID::Menu);
         }
     }
 }

@@ -66,6 +66,7 @@ void StateStack::applyPendingChanges()
 StateStack::~StateStack()
 {
     clearState();
+    applyPendingChanges();
 }
 
 void StateStack::pushState(States::ID id)

@@ -23,10 +23,10 @@ Game::Game() {
 
     // Initialization for audio
     InitAudioDevice();
-    bgMusic = LoadMusicStream("image/Sound/specialz.mp3");
+    bgMusic = LoadMusicStream("image/Sound/whistle.mp3");
     PlayMusicStream(bgMusic);
     registerState();
-    _stateStack.pushState(States::ID::Menu);
+    stateStack.pushState(States::ID::Menu);
     // std::cout << "Game constructor called" << std::endl;
 }
 
@@ -36,17 +36,6 @@ Game::~Game() {
         return;
 
     CloseWindow();
-
-    // while (!stateStack.empty()) {
-    //     delete stateStack.top();
-    //     stateStack.pop();
-
-    //     // Assign top next state to nullptr
-    //     if (!stateStack.empty())
-    //         stateStack.top()->setState();
-    // }
-    // _stateStack.clearState();
-    // _stateStack.applyPendingChanges();
 
     UnloadMusicStream(bgMusic);
     CloseAudioDevice();
@@ -222,19 +211,19 @@ void Game::loadAllTexture() {
 void Game::run() {
     while (!WindowShouldClose()) {
         UpdateMusicStream(bgMusic);
-        _stateStack.update();
-        _stateStack.draw();
-        _stateStack.handleEvents();
+        stateStack.update();
+        stateStack.draw();
+        stateStack.handleEvents();
     }
 }
 
 void Game::registerState()
 {
-    _stateStack.registerState<MenuState>(States::ID::Menu);
-    _stateStack.registerState<GameState>(States::ID::Game);
-    _stateStack.registerState<PauseState>(States::ID::Pause);
-    _stateStack.registerState<settingState>(States::ID::Settings);
-    _stateStack.registerState<InstructionState>(States::ID::Instructions);
-    _stateStack.registerState<highScoreState>(States::ID::Highscore);
-    _stateStack.registerState<SkinState>(States::ID::Skin);
+    stateStack.registerState<MenuState>(States::ID::Menu);
+    stateStack.registerState<GameState>(States::ID::Game);
+    stateStack.registerState<PauseState>(States::ID::Pause);
+    stateStack.registerState<settingState>(States::ID::Settings);
+    stateStack.registerState<InstructionState>(States::ID::Instructions);
+    stateStack.registerState<highScoreState>(States::ID::Highscore);
+    stateStack.registerState<SkinState>(States::ID::Skin);
 }

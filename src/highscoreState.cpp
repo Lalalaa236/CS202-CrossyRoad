@@ -23,6 +23,7 @@ void highScoreState::handleEvents() {
         if (CheckCollisionPointRec(mousePosition, {1113, 202, closeButton->width * 1.0f, closeButton->height * 1.0f})) {
             // shouldPopState = true;
             requestStackPop();
+            requestStackPush(States::ID::Menu);
         }
     }
 }

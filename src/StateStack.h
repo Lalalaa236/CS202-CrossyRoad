@@ -32,8 +32,6 @@ class StateStack
         void draw();
         void handleEvents();
 
-        void applyPendingChanges();
-
     private:
         struct PendingChange
         {
@@ -46,6 +44,8 @@ class StateStack
         std::map<States::ID, std::function<State::Ptr()>> factories;
         
         State::Ptr createState(States::ID id);
+
+        void applyPendingChanges();
 
 };
 

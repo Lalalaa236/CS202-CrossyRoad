@@ -48,12 +48,14 @@ void MenuState::handleEvents() {
                 case 1:
                     // nextState = new settingState(game);
                     // nextState->init();
+                    requestStackPop();
                     requestStackPush(States::ID::Settings);
                     break;
 
                 case 2:
                     // nextState = new SkinState();
                     // nextState->init();
+                    requestStackPop();
                     requestStackPush(States::ID::Skin);
                     break;
 
@@ -61,6 +63,7 @@ void MenuState::handleEvents() {
                 case 3:
                     // nextState = new highScoreState();
                     // nextState->init();
+                    requestStackPop();
                     requestStackPush(States::ID::Highscore);
                     break;
 
