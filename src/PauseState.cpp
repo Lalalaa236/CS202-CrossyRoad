@@ -40,6 +40,7 @@ void PauseState::update()
 {
     if(timerCount != 0.0f)
     {
+        HideCursor();
         if(GetTime() - timerCount < 3.0f)
             timer = &TextureHolder::getHolder().get((Textures::ID)(Textures::ID::TIMER_3 - (Textures::ID)(GetTime() - timerCount)));
         else
