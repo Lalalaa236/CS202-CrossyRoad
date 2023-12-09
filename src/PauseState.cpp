@@ -1,7 +1,7 @@
 #include "PauseState.h"
 
-PauseState::PauseState(State* prev) : 
-prev(prev)
+PauseState::PauseState(StateStack& stack)
+: State(stack)
 {
     shouldPopState = false;
     board = &TextureHolder::getHolder().get(Textures::ID::PAUSE_BOARD);
@@ -18,7 +18,6 @@ PauseState::~PauseState()
 void PauseState::draw()
 {
     ClearBackground(WHITE);
-    prev->draw();
     DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), SEMI_TRANSPARENT);
     DrawTexture(*board, 289, 107, WHITE);
     DrawTexture(*resumeButton, 650, 451, WHITE);
@@ -33,13 +32,14 @@ void PauseState::handleEvents()
         Vector2 mousePosition = GetMousePosition();
         if(CheckCollisionPointRec(mousePosition, {650, 451, resumeButton->width * 1.0f, resumeButton->height * 1.0f}))
         {
-            shouldPopState = true;
+            requestStackPop();
+            // shouldPopState = true;
         }
     }
     else if(IsKeyPressed(KEY_B))
     {
-        EndDrawing();
-        shouldPopState = true;
+        requestStackPop();
+        // shouldPopState = true;
     }
 }
 

@@ -1,6 +1,9 @@
 #include "State.h"
 #include "StateStack.h"
 
+State::State(StateStack& stack) 
+: stack(&stack) {}
+
 State *State::getNextState() const {
     return nextState;
 }

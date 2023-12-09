@@ -19,6 +19,8 @@ class StateStack
         StateStack() = default;
         ~StateStack();
 
+        bool isEmpty() const;
+
         template <typename T>
         void registerState(States::ID id);
         

@@ -8,6 +8,7 @@ class StateStack;
 class State {
 public:
     typedef std::unique_ptr<State> Ptr;
+    State(StateStack& stack);
     virtual ~State() = default;
     virtual void handleEvents() = 0;
     virtual void update() = 0;

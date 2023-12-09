@@ -83,3 +83,8 @@ void StateStack::clearState()
 {
     pendingList.push_back(PendingChange{Action::Clear});
 }
+
+bool StateStack::isEmpty() const
+{
+    return states.empty();
+}
