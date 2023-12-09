@@ -46,10 +46,17 @@ class Player
         void setMoving(bool isMoving);
         bool getMoving() const;
 
-        void draw();
-        void update();
-        void move(Direction direction);
-        void setSpeed(float vSpeed, float hSpeed);
+    std::pair<float, float> getPosition() const;
+    Rectangle getBoxCollision() const;
+    bool getIsAlive() const;
+    void setIsAlive(bool isAlive);
+    void setMapSpeed(float mapSpeed);
+    void setSkin(Textures::ID skin);
+
+    void draw();
+    void update();
+    void move(Direction direction);
+    void setSpeed(float vSpeed, float hSpeed);
 };
 
 #endif

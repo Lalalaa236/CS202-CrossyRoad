@@ -12,6 +12,7 @@ Cab::Cab(const Vector2& pos, float speed) : Obstacle(pos, speed), numsFrame(5), 
 }
 
 Cab::~Cab() {
+    txt.clear();
 }
 
 void Cab::update(float k) {
@@ -29,11 +30,13 @@ void Cab::update(float k) {
     tmp.x += this->getSpeed() * frameTime * 10;
     setPos(tmp.x, tmp.y);
 
-    if (checkOutOfScreen()) {
+    // If the obstacle is out of screen, move it to the other side
+    float width = 50;
+    if (checkOutOfScreen(width)) {
         if (this->getSpeed() > 0)
-            setPos(0, tmp.y);
+            setPos(-width, tmp.y);
         else
-            setPos(settings::SCREEN_WIDTH, tmp.y);
+            setPos(settings::SCREEN_WIDTH + width, tmp.y);
     }
 }
 

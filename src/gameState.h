@@ -15,6 +15,8 @@ private:
     float count;
     bool start;
     bool over;
+    int score;
+    int highScore;
 
     void checkOutOfScreen();
     void checkCollision();

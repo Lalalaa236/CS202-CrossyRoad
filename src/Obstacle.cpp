@@ -39,8 +39,8 @@ void Obstacle::setPos(float x, float y) {
     position.y = y;
 }
 
-bool Obstacle::checkOutOfScreen() const {
-    if (position.x < 0 || position.x > settings::SCREEN_WIDTH)
+bool Obstacle::checkOutOfScreen(float error) const {
+    if (position.x < 0 - error || position.x > settings::SCREEN_WIDTH + error)
         return true;
     return false;
 }
