@@ -14,10 +14,10 @@ Game::Game() {
 
     // Initialization for raylib
     SetTraceLogLevel(LOG_DEBUG);
-    SetExitKey(KEY_NULL); // Set exit key to F12
 
     // Initialization for window
     InitWindow(settings::SCREEN_WIDTH, settings::SCREEN_HEIGHT, "Crossing Road");
+    SetExitKey(KEY_NULL); // Set exit key to F12
     SetTargetFPS(settings::SCREEN_FPS);
     SetWindowIcon(LoadImage("image/menu/name.png"));
 
@@ -26,14 +26,13 @@ Game::Game() {
     // stateStack.top()->init();
 
     // Initialization for audio
-    InitAudioDevice();
-    bgMusic = LoadMusicStream("image/Sound/whistle.mp3");
-    PlayMusicStream(bgMusic);
-    // MusicManager::getManager().setMusic("image/Sound/whistle.mp3");
+    // InitAudioDevice();
+    // bgMusic = LoadMusicStream("image/Sound/whistle.mp3");
+    // PlayMusicStream(bgMusic);
+    MusicManager::getManager().setMusic("image/Sound/whistle.mp3");
 
     registerState();
     stateStack.pushState(States::ID::Menu);
-    // std::cout << "Game constructor called" << std::endl;
 }
 
 Game::~Game() {
@@ -42,9 +41,6 @@ Game::~Game() {
         return;
 
     CloseWindow();
-
-    // UnloadMusicStream(bgMusic);
-    // CloseAudioDevice();
 
     TextureHolder::getHolder().clear();
 }
@@ -219,6 +215,7 @@ void Game::run() {
     while (!WindowShouldClose()) {
         // UpdateMusicStream(bgMusic);
         MusicManager::getManager().play();
+
         stateStack.update();
         stateStack.draw();
         stateStack.handleEvents();

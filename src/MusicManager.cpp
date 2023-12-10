@@ -1,10 +1,11 @@
 #include "MusicManager.h"
 
 MusicManager::MusicManager()
-: isSoundOn(true), volume(1.0f)//, curVolume(1.0f)
+    : isSoundOn(true), volume(1.0f)//, curVolume(1.0f)
 {
     InitAudioDevice();
     music = LoadMusicStream("image/Sound/whistle.mp3");
+
     SetMusicVolume(music, volume);
     PlayMusicStream(music);
 }
@@ -23,7 +24,7 @@ MusicManager& MusicManager::getManager()
 
 void MusicManager::play()
 {
-    if(isSoundOn)
+    if (isSoundOn)
         UpdateMusicStream(music);
 }
 
@@ -48,7 +49,7 @@ bool MusicManager::getIsSoundOn() const
 void MusicManager::toggleSound()
 {
     isSoundOn = !isSoundOn;
-    if(isSoundOn)
+    if (isSoundOn)
         SetMusicVolume(music, volume);
     else
         SetMusicVolume(music, 0.0f);

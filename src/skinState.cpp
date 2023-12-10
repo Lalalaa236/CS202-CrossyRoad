@@ -51,8 +51,16 @@ SkinState::~SkinState() {
 
 }
 
-// void SkinState::init() {
-// }
+// Variable
+int skinBoardX = 0, skinBoardY = 0;
+
+// Calculate the coordinates relative to the skinBoard
+float closeButtonX = 0, closeButtonY = 0;
+float nextButtonX = 0, nextButtonY = 0;
+float prevButtonX = 0, prevButtonY = 0;
+float setButtonX = 0, setButtonY = 0;
+
+// Function
 
 bool SkinState::shouldPop() const {
     return shouldPopState;
@@ -62,12 +70,12 @@ void SkinState::handleEvents() {
     // Next and previous button
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         Vector2 mousePosition = GetMousePosition();
-        if (CheckCollisionPointRec(mousePosition, { 1090, 500, nextButton->width * 1.0f, nextButton->height * 1.0f })) {
+        if (CheckCollisionPointRec(mousePosition, { nextButtonX, nextButtonY, nextButton->width * 1.0f, nextButton->height * 1.0f })) {
             currentSkin++;
             if (currentSkin > numberOfSkins)
                 currentSkin = 1;
         }
-        if (CheckCollisionPointRec(mousePosition, { 300, 500, prevButton->width * 1.0f, prevButton->height * 1.0f })) {
+        if (CheckCollisionPointRec(mousePosition, { prevButtonX, prevButtonY, prevButton->width * 1.0f, prevButton->height * 1.0f })) {
             currentSkin--;
             if (currentSkin <= 0)
                 currentSkin = numberOfSkins;
@@ -107,8 +115,18 @@ void SkinState::update() {
 void SkinState::draw() {
     float scaleWidth = (float)GetScreenWidth() / background->width;
     float scaleHeight = (float)GetScreenHeight() / background->height;
-    int skinBoardX = (GetScreenWidth() - skinBoard->width) / 2;
-    int skinBoardY = (GetScreenHeight() - skinBoard->height) / 2;
+    skinBoardX = (GetScreenWidth() - skinBoard->width) / 2;
+    skinBoardY = (GetScreenHeight() - skinBoard->height) / 2;
+
+    // Calculate the coordinates relative to the skinBoard
+    closeButtonX = skinBoardX + skinBoard->width - closeButton->width;
+    closeButtonY = skinBoardY + skinBoard->height / 5.5f;
+    nextButtonX = skinBoardX + skinBoard->width - nextButton->width;
+    nextButtonY = skinBoardY + (skinBoard->height - nextButton->height) / 2 + skinBoard->height / 10;
+    prevButtonX = skinBoardX;
+    prevButtonY = skinBoardY + (skinBoard->height - prevButton->height) / 2 + skinBoard->height / 10;
+    setButtonX = skinBoardX + (skinBoard->width - setButton->width) / 2;
+    setButtonY = skinBoardY + skinBoard->height - setButton->height;
 
     ClearBackground(RAYWHITE);
     DrawTexturePro(*background,
@@ -139,16 +157,6 @@ void SkinState::draw() {
     };
     Vector2 origin = { sourceRec.width * 0.5f, sourceRec.height * 0.5f };
     DrawTexturePro(animation[currentSkin].spriteSheet, sourceRec, destRec, origin, 0.0f, WHITE);
-
-    // Calculate the coordinates relative to the skinBoard
-    float closeButtonX = skinBoardX + skinBoard->width - closeButton->width;
-    float closeButtonY = skinBoardY + skinBoard->height / 5.5f;
-    float nextButtonX = skinBoardX + skinBoard->width - nextButton->width;
-    float nextButtonY = skinBoardY + (skinBoard->height - nextButton->height) / 2 + skinBoard->height / 10;
-    float prevButtonX = skinBoardX;
-    float prevButtonY = skinBoardY + (skinBoard->height - prevButton->height) / 2 + skinBoard->height / 10;
-    float setButtonX = skinBoardX + (skinBoard->width - setButton->width) / 2;
-    float setButtonY = skinBoardY + skinBoard->height - setButton->height;
 
     // Draw the buttons
     DrawTexture(*closeButton, closeButtonX, closeButtonY, WHITE);
