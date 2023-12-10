@@ -1,4 +1,7 @@
 #include "skinState.h"
+#include "settingState.h"
+#include "TextureHolder.h"
+
 #include <iostream>
 
 void SkinState::setAnimation(int skinIndex, int skinID) {
@@ -17,7 +20,7 @@ SkinState::SkinState(StateStack& stack)
     setButton = &TextureHolder::getHolder().get(Textures::CONFIRM_BUTTON);
 
     numberOfSkins = 0;
-    currentSkin = 1;
+    currentSkin = settings::CURRENT_SKIN;
     animation.push_back(Animation()); // Dummy animation
 
     // Load skin and set animation
@@ -94,8 +97,10 @@ void SkinState::handleEvents() {
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         Vector2 mousePosition = GetMousePosition();
         if (CheckCollisionPointRec(mousePosition, { 680, 700, setButton->width * 1.0f, setButton->height * 1.0f })) {
-            // Set the skin to player
 
+            // Copy the current skin into SKIN_FULL ID
+            TextureHolder::getHolder().load(Textures::SKIN_FULL, "image/skin/" + std::to_string(currentSkin) + "/full.png");
+            settings::CURRENT_SKIN = currentSkin;
 
             // Pop the state
             // shouldPopState = true;

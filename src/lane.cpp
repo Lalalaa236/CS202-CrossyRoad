@@ -78,7 +78,7 @@ Lane::~Lane() {
 
 Lane::Lane(float y, float mapSpeed, LaneType laneType, int numObstacles) : y(y), mapSpeed(mapSpeed) {
     float trafficLight_x = 5;
-    randomSpeed = GetRandomValue(1.0f, 3.0f);
+    randomSpeed = GetRandomValue(3.5f, 6.5f);
     direction = rand() % 2;
 
     if (direction == 0) {
@@ -135,13 +135,14 @@ void Lane::addObstacle(int numObstacle, float speedScale) {
 }
 
 void Lane::addObstacleByScore(int laneScore) {
-    int minObstacles, numObstacles;
-    float speedScale = 1.0f;
+    int maxObstacles, minObstacles, numObstacles;
+    float speedScale = 0.75f;
 
     // Generate depends on laneScore
-    speedScale = speedScale + std::min(2.0f, laneScore / 50.0f); // Max speedScale = 3.0f
-    minObstacles = std::min(laneScore / 30 + 2, 6);
-    numObstacles = rand() % (minObstacles + 1);
+    speedScale = speedScale + std::min(1.5f, laneScore / 50.0f); // Max speedScale = 2.5f
+    maxObstacles = std::min(laneScore / 35 + 1, 6);
+    minObstacles = std::min(laneScore / 75, 2);
+    numObstacles = (rand() % (maxObstacles - minObstacles + 1)) + minObstacles;
 
     // Generate random obstacles
     addObstacle(numObstacles, speedScale);

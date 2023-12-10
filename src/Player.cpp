@@ -19,6 +19,24 @@ Player::Player(float x, float y, float mapSpeed, Textures::ID skin)
     }
 }
 
+Player::Player(float x, float y, float mapSpeed, Texture2D* atlas)
+    : position({ x, y }), targetPosition({ x, y }), isAlive(true), mapSpeed(mapSpeed), vSpeed(0.0f), hSpeed(0.0f), frameCount(0), elapsedTime(0.0f)
+{
+    boxCollision.x = x;
+    boxCollision.y = y;
+    boxCollision.width = settings::PLAYER_SIZE.first;
+    boxCollision.height = settings::PLAYER_SIZE.second;
+
+    this->atlas = atlas;
+    for (int i = 0; i < frames; ++i)
+    {
+        frame[i].x = i * 64;
+        frame[i].y = 192;
+        frame[i].width = 64;
+        frame[i].height = 64;
+    }
+}
+
 Player::Player(float x, float y, bool isAlive, Textures::ID skin)
     : position({ x, y }), targetPosition({ x, y }), isAlive(isAlive), vSpeed(0.0f), hSpeed(0.0f), frameCount(0), elapsedTime(0.0f)
 {
@@ -166,7 +184,7 @@ void Player::setMapSpeed(float mapSpeed) {
 void Player::draw()
 {
     // DrawRectangleRec(boxCollision, RED);
-    if(position == targetPosition || (vSpeed == 0.0f && hSpeed == 0.0f) || !isMoving)
+    if (position == targetPosition || (vSpeed == 0.0f && hSpeed == 0.0f) || !isMoving)
     {
         DrawTexturePro(*atlas, frame[0], { boxCollision.x, boxCollision.y, 82.0f, 82.0f }, { 0, 0 }, 0, WHITE);
         DrawRectangleLinesEx(boxCollision, 1, RED);

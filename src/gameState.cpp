@@ -5,39 +5,13 @@ GameState::GameState(StateStack& stack) :
     State(stack), speed(0.0f), count(0), start(false), over(false), score(0)
 {
     map = new Map(speed);
-    player = new Player(1512.0 / 2 - 82 / 2, 982.0 - 2 * settings::GRID_SIZE.second, speed, Textures::ID::SKIN_1);
+    player = new Player(1512.0 / 2 - 82 / 2, 982.0 - 2 * settings::GRID_SIZE.second, speed, Textures::ID::SKIN_FULL);
     shouldPopState = false;
     pauseButton = &TextureHolder::getHolder().get(Textures::PAUSE_BUTTON);
     HideCursor();
+
     // std::cout << "GameState constructor called" << std::endl;
 }
-
-// GameState::GameState(const GameState& gameState) {
-//     map = new Map(*gameState.map);
-//     player = new Player(*gameState.player);
-//     speed = gameState.speed;
-//     count = gameState.count;
-//     start = gameState.start;
-//     over = gameState.over;
-//     shouldPopState = gameState.shouldPopState;
-// }
-
-// GameState& GameState::operator=(const GameState& gameState) {
-//     if (this == &gameState)
-//         return *this;
-
-//     delete map;
-//     delete player;
-//     map = new Map(*gameState.map);
-//     player = new Player(*gameState.player);
-//     speed = gameState.speed;
-//     count = gameState.count;
-//     start = gameState.start;
-//     over = gameState.over;
-//     shouldPopState = gameState.shouldPopState;
-
-//     return *this;
-// }
 
 GameState::~GameState() {
     delete map;
@@ -68,8 +42,10 @@ void GameState::update() {
     //     std::cout << "GameState update called" << std::endl;
     if (!player->getMoving())
         player->setMoving(true);
+
     if (start && !over)
-        map->update();
+        map->update(highScore);
+
     if (over)
         player->setSpeed(0.0f, 0.0f);
 
@@ -116,14 +92,14 @@ void GameState::setMapSpeed()
         speed += deltaSpeed;
         map->setSpeed(speed);
         player->setMapSpeed(speed);
-        player->setSkin(Textures::ID::SKIN_2);
+        // player->setSkin(Textures::ID::SKIN_2);
     }
     else {
         if (speed != 0.0f && speed != 1.2f) {
             speed = 1.2f;
             map->setSpeed(speed);
             player->setMapSpeed(speed);
-            player->setSkin(Textures::ID::SKIN_1);
+            // player->setSkin(Textures::ID::SKIN_1);
         }
     }
 

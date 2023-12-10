@@ -1,7 +1,7 @@
 #include "instructionState.h"
 
 InstructionState::InstructionState(StateStack& stack)
-: State(stack)
+    : State(stack)
 {
     shouldPopState = false;
     background = &TextureHolder::getHolder().get(Textures::BACKGROUND_MENU);
@@ -14,14 +14,7 @@ InstructionState::InstructionState(StateStack& stack)
 }
 
 InstructionState::~InstructionState() {
-    // for (int i = 0; i < 2; i++)
-    //     UnloadTexture(*instructionImages[i]);
-    // UnloadTexture(*nextButton);
-    // UnloadTexture(*prevButton);
 }
-
-// void InstructionState::init() {
-// }
 
 bool InstructionState::shouldPop() const {
     return shouldPopState;
@@ -46,7 +39,7 @@ void InstructionState::handleEvents() {
     // Close button
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         Vector2 mousePosition = GetMousePosition();
-        if (CheckCollisionPointRec(mousePosition, {1113, 202, closeButton->width * 1.0f, closeButton->height * 1.0f})) {
+        if (CheckCollisionPointRec(mousePosition, { 1113, 202, closeButton->width * 1.0f, closeButton->height * 1.0f })) {
             // shouldPopState = true;
             requestStackPop();
             requestStackPush(States::ID::Menu);

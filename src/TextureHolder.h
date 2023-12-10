@@ -186,5 +186,8 @@ public:
     Texture2D& get(Textures::ID id);
     const Texture2D& get(Textures::ID id) const;
 
+    Texture2D& operator[](Textures::ID id);
+    const Texture2D& operator[](Textures::ID id) const;
+
     void clear();
 };

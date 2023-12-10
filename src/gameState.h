@@ -1,6 +1,7 @@
 #ifndef GAMESTATE_H
 #define GAMESTATE_H
 
+#include "GameSettings.h"
 #include "Map.h"
 #include "Player.h"
 #include "State.h"
@@ -28,8 +29,6 @@ private:
 
 public:
     GameState(StateStack& stack);
-    // GameState(const GameState& gameState);
-    // GameState& operator=(const GameState& gameState);
     ~GameState();
 
     void draw() override;
