@@ -61,7 +61,7 @@ Lane::Lane(float y, float mapSpeed, int currentScore) : y(y), mapSpeed(mapSpeed)
         break;
     case 2:
         texture = &TextureHolder::getHolder().get(Textures::RAILWAY);
-        trafficLight = nullptr;
+        trafficLight = new TrafficLight(trafficLight_x, this->y - 25);
         isSafe = 2;
         break;
     default:
