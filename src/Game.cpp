@@ -211,6 +211,9 @@ void Game::loadAllTexture() {
     TextureHolder::getHolder().load(Textures::TIMER_1, "image/PauseGame/1.png");
     TextureHolder::getHolder().load(Textures::TIMER_2, "image/PauseGame/2.png");
     TextureHolder::getHolder().load(Textures::TIMER_3, "image/PauseGame/3.png");
+
+    TextureHolder::getHolder().load(Textures::RAILWAY, "image/gameState/railway.png");
+    TextureHolder::getHolder().load(Textures::TRAIN_RIGHT, "image/train/Right.png");
 }
 
 void Game::run() {

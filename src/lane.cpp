@@ -10,6 +10,7 @@
 #include "Vehicle/Car.h"
 #include "Vehicle/Truck.h"
 #include "Vehicle/Taxi.h"
+#include "Vehicle/Train.h"
 #include <algorithm>
 #include <iostream>
 #include <vector>
@@ -27,7 +28,7 @@ Lane::Lane(float y, float mapSpeed, int currentScore) : y(y), mapSpeed(mapSpeed)
     }
 
     static int cnt = 0;
-    int random = rand() % 2;
+    int random = rand() % 3;
 
     switch (random) {
     case 0:
@@ -35,13 +36,13 @@ Lane::Lane(float y, float mapSpeed, int currentScore) : y(y), mapSpeed(mapSpeed)
             texture = &TextureHolder::getHolder().get(Textures::GRASS);
             trafficLight = nullptr;
             cnt = 0;
-            isSafe = true;
+            isSafe = 1;
         }
         else {
             texture = &TextureHolder::getHolder().get(Textures::ROAD);
             trafficLight = new TrafficLight(trafficLight_x, this->y - 25);
             cnt++;
-            isSafe = false;
+            isSafe = 0;
         }
         break;
     case 1:
@@ -49,14 +50,19 @@ Lane::Lane(float y, float mapSpeed, int currentScore) : y(y), mapSpeed(mapSpeed)
             texture = &TextureHolder::getHolder().get(Textures::ROAD);
             trafficLight = new TrafficLight(trafficLight_x, this->y - 25);
             cnt = 0;
-            isSafe = false;
+            isSafe = 0;
         }
         else {
             texture = &TextureHolder::getHolder().get(Textures::GRASS);
             trafficLight = nullptr;
             cnt++;
-            isSafe = true;
+            isSafe = 1;
         }
+        break;
+    case 2:
+        texture = &TextureHolder::getHolder().get(Textures::RAILWAY);
+        trafficLight = nullptr;
+        isSafe = 2;
         break;
     default:
         texture = nullptr;
@@ -90,12 +96,17 @@ Lane::Lane(float y, float mapSpeed, LaneType laneType, int numObstacles) : y(y),
     case LaneType::GRASS:
         texture = &TextureHolder::getHolder().get(Textures::GRASS);
         trafficLight = nullptr;
-        isSafe = true;
+        isSafe = 1;
         break;
     case LaneType::ROAD:
         texture = &TextureHolder::getHolder().get(Textures::ROAD);
         trafficLight = new TrafficLight(trafficLight_x, this->y - 25);
-        isSafe = false;
+        isSafe = 0;
+        break;
+    case LaneType::RAILWAY:
+        texture = &TextureHolder::getHolder().get(Textures::RAILWAY);
+        trafficLight = new TrafficLight(trafficLight_x, this->y - 25);
+        isSafe = 2;
         break;
     default:
         texture = nullptr;
@@ -198,11 +209,14 @@ bool Lane::CheckCollisionPlayer(Rectangle playerBoxCollision) {
 /// @param y 
 /// @param speed 
 /// @return Obstacle*
-Obstacle* createObstacle(bool safeLane, float x, float y, float speed) {
+Obstacle* createObstacle(int safeLane, float x, float y, float speed) {
     int randomType;
     Obstacle* tmp = nullptr;
 
-    if (safeLane) {
+    if (safeLane == 2){
+        tmp = new Train({0,y},speed);
+    }
+    if (safeLane == 1) {
         randomType = rand() % 5;
 
         switch (randomType) {
@@ -225,7 +239,7 @@ Obstacle* createObstacle(bool safeLane, float x, float y, float speed) {
             break;
         }
     }
-    else {
+    if (safeLane == 0) {
         randomType = rand() % 5;
 
         switch (randomType) {
