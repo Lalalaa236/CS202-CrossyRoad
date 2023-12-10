@@ -6,12 +6,17 @@ Rain::Rain()
     raindropShape.width = 4;
     raindropShape.height = 7;
     state = false;
+    rainSound = LoadSound("image/Sound/rain.wav"); 
 }
 
 void Rain::setState(bool st)
 {
     state = st;
+    if (state) PlaySound(rainSound);
+    else StopSound(rainSound);
+
 }
+
 
 bool Rain::getState()
 {

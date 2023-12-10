@@ -16,6 +16,7 @@ private:
     std::vector<Raindrop> raindrops;
     Rectangle raindropShape;
     bool state;
+    Sound rainSound;
 
 public:
     Rain();
