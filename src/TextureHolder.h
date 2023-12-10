@@ -43,6 +43,7 @@ namespace Textures {
         // Lanes
         GRASS,
         ROAD,
+        RAILWAY,
 
         // Lights
         RED_LIGHT,
@@ -165,7 +166,11 @@ namespace Textures {
 
         TIMER_1,
         TIMER_2,
-        TIMER_3
+        TIMER_3,
+
+        TRAIN_LEFT,
+        TRAIN_RIGHT,
+
     };
 };
 
