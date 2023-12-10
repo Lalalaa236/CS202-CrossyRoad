@@ -103,7 +103,6 @@ void SkinState::handleEvents() {
             settings::CURRENT_SKIN = currentSkin;
 
             // Pop the state
-            // shouldPopState = true;
             requestStackPop();
             requestStackPush(States::ID::Menu);
         }
