@@ -12,7 +12,9 @@ Game::Game() {
     // soundEnabled = true;
     // volume = 1.0f;
 
-    SetTraceLogLevel(LOG_WARNING);
+    // Initialization for raylib
+    SetTraceLogLevel(LOG_DEBUG);
+    SetExitKey(KEY_NULL); // Set exit key to F12
 
     // Initialization for window
     InitWindow(settings::SCREEN_WIDTH, settings::SCREEN_HEIGHT, "Crossing Road");
@@ -25,9 +27,10 @@ Game::Game() {
 
     // Initialization for audio
     InitAudioDevice();
-    // bgMusic = LoadMusicStream("image/Sound/whistle.mp3");
-    // PlayMusicStream(bgMusic);
-    MusicManager::getManager().setMusic("image/Sound/whistle.mp3");
+    bgMusic = LoadMusicStream("image/Sound/whistle.mp3");
+    PlayMusicStream(bgMusic);
+    // MusicManager::getManager().setMusic("image/Sound/whistle.mp3");
+
     registerState();
     stateStack.pushState(States::ID::Menu);
     // std::cout << "Game constructor called" << std::endl;
@@ -161,11 +164,6 @@ void Game::loadAllTexture() {
     TextureHolder::getHolder().load(Textures::RABBIT_4, "image/Rabbit/frame-4.png");
     TextureHolder::getHolder().load(Textures::RABBIT_5, "image/Rabbit/frame-5.png");
     TextureHolder::getHolder().load(Textures::RABBIT_6, "image/Rabbit/frame-6.png");
-
-    TextureHolder::getHolder().load(Textures::SKIN_1_UP, "image/skin/1/up/sprite.png");
-    TextureHolder::getHolder().load(Textures::SKIN_1_DOWN, "image/skin/1/down/sprite.png");
-    TextureHolder::getHolder().load(Textures::SKIN_2_UP, "image/skin/2/up/sprite.png");
-    TextureHolder::getHolder().load(Textures::SKIN_2_DOWN, "image/skin/2/down/sprite.png");
 
     TextureHolder::getHolder().load(Textures::BIKE_1, "image/Bike/frame_1.png");
     TextureHolder::getHolder().load(Textures::BIKE_2, "image/Bike/frame_2.png");

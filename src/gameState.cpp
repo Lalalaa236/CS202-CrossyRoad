@@ -1,8 +1,8 @@
 #include "gameState.h"
 #include <iostream>
 
-GameState::GameState(StateStack& stack) : 
-State(stack), speed(0.0f), count(0), start(false), over(false), score(0)
+GameState::GameState(StateStack& stack) :
+    State(stack), speed(0.0f), count(0), start(false), over(false), score(0)
 {
     map = new Map(speed);
     player = new Player(1512.0 / 2 - 82 / 2, 982.0 - 2 * settings::GRID_SIZE.second, speed, Textures::ID::SKIN_1);
@@ -66,11 +66,11 @@ void GameState::update() {
     // static int i = 0;
     // if(i++ == 0)
     //     std::cout << "GameState update called" << std::endl;
-    if(!player->getMoving())
+    if (!player->getMoving())
         player->setMoving(true);
-    if(start && !over)
+    if (start && !over)
         map->update();
-    if(over)
+    if (over)
         player->setSpeed(0.0f, 0.0f);
 
     player->update();
@@ -156,7 +156,7 @@ void GameState::handleInput() {
             player->move(Player::Direction::UP);
 
             score++;
-            std::cerr << highScore << std::endl;
+            // std::cerr << highScore << std::endl;
         }
         else if (IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S)) {
             count = GetTime();
@@ -176,12 +176,14 @@ void GameState::handleInput() {
         if (score > highScore)
             highScore = score;
     }
-    if(IsKeyPressed(KEY_P))
+
+    if (IsKeyPressed(KEY_P))
     {
         requestStackPush(States::ID::Pause);
         player->setMoving(false);
     }
-    if(IsKeyPressed(KEY_B))
+
+    if (IsKeyPressed(KEY_B))
     {
         requestStackPop();
         requestStackPush(States::ID::Menu);
@@ -195,6 +197,7 @@ void GameState::checkEndOfGame()
         requestStackPop();
         requestStackPush(States::ID::Menu);
     }
+
     if (IsKeyDown(KEY_LEFT_ALT) || IsKeyDown(KEY_RIGHT_ALT))
         ShowCursor();
     else

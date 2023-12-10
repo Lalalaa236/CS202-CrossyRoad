@@ -11,6 +11,7 @@ private:
     Texture2D* pauseButton;
     Player* player;
     Map* map;
+
     float speed;
     float count;
     bool start;
