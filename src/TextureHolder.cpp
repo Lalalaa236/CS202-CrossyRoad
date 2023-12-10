@@ -9,18 +9,20 @@ TextureHolder::~TextureHolder() {
     mTextureMap.clear();
 }
 
-TextureHolder &TextureHolder::getHolder() {
+TextureHolder& TextureHolder::getHolder() {
     static TextureHolder gTextureHolder;
     return gTextureHolder;
 }
 
-void TextureHolder::load(Textures::ID id, const std::string &filename) {
+void TextureHolder::load(Textures::ID id, const std::string& filename) {
     std::unique_ptr<Texture2D> texture(new Texture2D());
     *texture = LoadTexture(filename.c_str());
-    mTextureMap.insert({ id, std::move(texture) });
+
+    // mTextureMap.insert({ id, std::move(texture) });
+    mTextureMap[id] = std::move(texture);
 }
 
-Texture2D &TextureHolder::get(Textures::ID id) {
+Texture2D& TextureHolder::get(Textures::ID id) {
     auto found = mTextureMap.find(id);
     if (found == mTextureMap.end()) {
         throw std::runtime_error("TextureHolder::get - Texture not found");
@@ -28,12 +30,20 @@ Texture2D &TextureHolder::get(Textures::ID id) {
     return *found->second;
 }
 
-const Texture2D &TextureHolder::get(Textures::ID id) const {
+const Texture2D& TextureHolder::get(Textures::ID id) const {
     auto found = mTextureMap.find(id);
     if (found == mTextureMap.end()) {
         throw std::runtime_error("TextureHolder::get - Texture not found");
     }
     return *found->second;
+}
+
+Texture2D& TextureHolder::operator[](Textures::ID id) {
+    return get(id);
+}
+
+const Texture2D& TextureHolder::operator[](Textures::ID id) const {
+    return get(id);
 }
 
 void TextureHolder::clear() {

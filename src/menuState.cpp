@@ -10,7 +10,7 @@
 #include <iostream>
 
 MenuState::MenuState(StateStack& stack)
-: State(stack) {
+    : State(stack) {
     shouldPopState = false;
     background = &TextureHolder::getHolder().get(Textures::BACKGROUND_MENU);
     button[0] = &TextureHolder::getHolder().get(Textures::BUTTON_0);
@@ -88,7 +88,6 @@ void MenuState::update() {
 }
 
 void MenuState::draw() {
-
     float scaleWidth = (float)GetScreenWidth() / background->width;
     float scaleHeight = (float)GetScreenHeight() / background->height;
     ClearBackground(RAYWHITE);

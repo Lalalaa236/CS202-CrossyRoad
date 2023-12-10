@@ -1,43 +1,17 @@
 #include "gameState.h"
 #include <iostream>
 
-GameState::GameState(StateStack& stack) : 
-State(stack), speed(0.0f), count(0), start(false), over(false), score(0)
+GameState::GameState(StateStack& stack) :
+    State(stack), speed(0.0f), count(0), start(false), over(false), score(0)
 {
     map = new Map(speed);
-    player = new Player(1512.0 / 2 - 82 / 2, 982.0 - 2 * settings::GRID_SIZE.second, speed, Textures::ID::SKIN_1);
+    player = new Player(1512.0 / 2 - 82 / 2, 982.0 - 2 * settings::GRID_SIZE.second, speed, Textures::ID::SKIN_FULL);
     shouldPopState = false;
     pauseButton = &TextureHolder::getHolder().get(Textures::PAUSE_BUTTON);
     HideCursor();
+
     // std::cout << "GameState constructor called" << std::endl;
 }
-
-// GameState::GameState(const GameState& gameState) {
-//     map = new Map(*gameState.map);
-//     player = new Player(*gameState.player);
-//     speed = gameState.speed;
-//     count = gameState.count;
-//     start = gameState.start;
-//     over = gameState.over;
-//     shouldPopState = gameState.shouldPopState;
-// }
-
-// GameState& GameState::operator=(const GameState& gameState) {
-//     if (this == &gameState)
-//         return *this;
-
-//     delete map;
-//     delete player;
-//     map = new Map(*gameState.map);
-//     player = new Player(*gameState.player);
-//     speed = gameState.speed;
-//     count = gameState.count;
-//     start = gameState.start;
-//     over = gameState.over;
-//     shouldPopState = gameState.shouldPopState;
-
-//     return *this;
-// }
 
 GameState::~GameState() {
     delete map;
@@ -66,11 +40,13 @@ void GameState::update() {
     // static int i = 0;
     // if(i++ == 0)
     //     std::cout << "GameState update called" << std::endl;
-    if(!player->getMoving())
+    if (!player->getMoving())
         player->setMoving(true);
-    if(start && !over)
-        map->update();
-    if(over)
+
+    if (start && !over)
+        map->update(highScore);
+
+    if (over)
         player->setSpeed(0.0f, 0.0f);
 
     player->update();
@@ -116,14 +92,14 @@ void GameState::setMapSpeed()
         speed += deltaSpeed;
         map->setSpeed(speed);
         player->setMapSpeed(speed);
-        player->setSkin(Textures::ID::SKIN_2);
+        // player->setSkin(Textures::ID::SKIN_2);
     }
     else {
         if (speed != 0.0f && speed != 1.2f) {
             speed = 1.2f;
             map->setSpeed(speed);
             player->setMapSpeed(speed);
-            player->setSkin(Textures::ID::SKIN_1);
+            // player->setSkin(Textures::ID::SKIN_1);
         }
     }
 
@@ -156,7 +132,7 @@ void GameState::handleInput() {
             player->move(Player::Direction::UP);
 
             score++;
-            std::cerr << highScore << std::endl;
+            // std::cerr << highScore << std::endl;
         }
         else if (IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S)) {
             count = GetTime();
@@ -176,12 +152,14 @@ void GameState::handleInput() {
         if (score > highScore)
             highScore = score;
     }
-    if(IsKeyPressed(KEY_P))
+
+    if (IsKeyPressed(KEY_P))
     {
         requestStackPush(States::ID::Pause);
         player->setMoving(false);
     }
-    if(IsKeyPressed(KEY_B))
+
+    if (IsKeyPressed(KEY_B))
     {
         requestStackPop();
         requestStackPush(States::ID::Menu);
@@ -195,6 +173,7 @@ void GameState::checkEndOfGame()
         requestStackPop();
         requestStackPush(States::ID::Menu);
     }
+
     if (IsKeyDown(KEY_LEFT_ALT) || IsKeyDown(KEY_RIGHT_ALT))
         ShowCursor();
     else
