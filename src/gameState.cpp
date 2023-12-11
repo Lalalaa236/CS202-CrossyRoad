@@ -1,6 +1,6 @@
 #include "gameState.h"
 #include <iostream>
-
+#include <chrono>
 GameState::GameState(StateStack& stack) :
     State(stack), speed(0.0f), count(0), start(false), over(false), score(0)
 {
@@ -8,7 +8,7 @@ GameState::GameState(StateStack& stack) :
     player = new Player(1512.0 / 2 - 82 / 2, 982.0 - 2 * settings::GRID_SIZE.second, speed, Textures::ID::SKIN_FULL);
     pauseButton = &TextureHolder::getHolder().get(Textures::PAUSE_BUTTON);
     HideCursor();
-    rain.setState(true);
+    rain.setState(false);
     // std::cout << "GameState constructor called" << std::endl;
 }
 
@@ -45,6 +45,7 @@ void GameState::update() {
     if(over)
         player->setSpeed(0.0f, 0.0f);
     player->update();
+    
 }
 
 // void GameState::init() {

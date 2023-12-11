@@ -17,40 +17,26 @@ void LoseState::draw()
     ClearBackground(WHITE);
     DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), SEMI_TRANSPARENT);
     DrawTexture(*board, 289, 107, WHITE);
-    DrawTexture(*restartButton, 479.9f, 593.89f, WHITE);
-    DrawTexture(*quitButton, 658, 588, WHITE);
+    DrawTexture(*restartButton, 494.81f, 623.0f, WHITE);
+    DrawTexture(*quitButton, 878, 623, WHITE);
 }
 
-void LoseState::update() 
-{
-    
+void LoseState::update() {
 }
 
 void LoseState::handleEvents()
 {
-    // if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && timerCount == 0.0f)
-    // {
-    //     Vector2 mousePosition = GetMousePosition();
-    //     if(CheckCollisionPointRec(mousePosition, {650, 451, resumeButton->width * 1.0f, resumeButton->height * 1.0f}))
-    //         timerCount = GetTime();
-    //         // shouldPopState = true;
-    //     else if(CheckCollisionPointRec(mousePosition, {485, 627, restartButton->width * 1.0f, restartButton->height * 1.0f}))
-    //     {
-    //         requestStackClear();
-    //         requestStackPush(States::ID::Game);
-    //     }    
-    //     else if(CheckCollisionPointRec(mousePosition, {664, 622, quitButton->width * 1.0f, quitButton->height * 1.0f}))
-    //     {
-    //         requestStackClear();
-    //         requestStackPush(States::ID::Menu);
-    //     }
-    //     else if(CheckCollisionPointRec(mousePosition, {853, 627, saveButton->width * 1.0f, saveButton->height * 1.0f}))
-    //     {
-    //     }
-    // }
-    // else if(IsKeyPressed(KEY_B))
-    // {
-    //     requestStackPop();
-    //     // shouldPopState = true;
-    // }
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)){
+        Vector2 mousePosition = GetMousePosition();
+        if(CheckCollisionPointRec(mousePosition, {494.81, 623.0f, restartButton->width * 1.0f, restartButton->height * 1.0f})){
+            requestStackClear();
+            requestStackPush(States::ID::Game);
+        }    
+        else if(CheckCollisionPointRec(mousePosition, {878, 623, quitButton->width * 1.0f, quitButton->height * 1.0f}))
+        {
+            requestStackClear();
+            requestStackPush(States::ID::Menu);
+        }
+    }
 }
+   

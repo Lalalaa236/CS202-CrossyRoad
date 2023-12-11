@@ -1,6 +1,6 @@
 #include "rain.h"
 #include <algorithm>
-
+#include"MusicManager.h"
 Rain::Rain()
 {
     raindropShape.width = 4;
@@ -12,8 +12,11 @@ Rain::Rain()
 void Rain::setState(bool st)
 {
     state = st;
-    if (state) PlaySound(rainSound);
-    else StopSound(rainSound);
+    if (state) {
+        PlaySound(rainSound);
+    }else {
+        StopSound(rainSound);
+    }
 
 }
 
