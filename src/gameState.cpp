@@ -6,7 +6,6 @@ GameState::GameState(StateStack& stack) :
 {
     map = new Map(speed);
     player = new Player(1512.0 / 2 - 82 / 2, 982.0 - 2 * settings::GRID_SIZE.second, speed, Textures::ID::SKIN_FULL);
-    shouldPopState = false;
     pauseButton = &TextureHolder::getHolder().get(Textures::PAUSE_BUTTON);
     HideCursor();
     rain.setState(true);
@@ -17,10 +16,6 @@ GameState::~GameState() {
     delete map;
     delete player;
     ShowCursor();
-}
-
-bool GameState::shouldPop() const {
-    return shouldPopState;
 }
 
 void GameState::draw() {

@@ -11,7 +11,6 @@
 
 MenuState::MenuState(StateStack& stack)
     : State(stack) {
-    shouldPopState = false;
     background = &TextureHolder::getHolder().get(Textures::BACKGROUND_MENU);
     button[0] = &TextureHolder::getHolder().get(Textures::BUTTON_0);
     button[1] = &TextureHolder::getHolder().get(Textures::BUTTON_1);
@@ -106,10 +105,6 @@ void MenuState::draw() {
             0.3,    // Scale
             WHITE); // Tint color
     DrawTexture(*name, 244, 191, WHITE);
-}
-
-bool MenuState::shouldPop() const {
-    return shouldPopState;
 }
 
 MenuState::~MenuState() {

@@ -4,14 +4,6 @@
 State::State(StateStack& stack) 
 : stack(&stack) {}
 
-State *State::getNextState() const {
-    return nextState;
-}
-
-void State::setState() {
-    nextState = nullptr;
-}
-
 void State::requestStackPush(States::ID stateID) 
 {
     stack->pushState(stateID);

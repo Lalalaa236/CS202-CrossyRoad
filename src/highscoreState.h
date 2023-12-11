@@ -7,13 +7,9 @@ public:
     highScoreState(StateStack& stack);
     ~highScoreState();
 
-    // void init() override;
-
-    bool shouldPop() const override;
-    void handleEvents() override;
-
     void draw() override;
     void update() override;
+    void handleEvents() override;
 
 private:
     Texture2D *background;

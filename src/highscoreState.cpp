@@ -3,7 +3,6 @@
 highScoreState::highScoreState(StateStack& stack) 
 : State(stack)
 {
-    shouldPopState = false;
     background = &TextureHolder::getHolder().get(Textures::BACKGROUND_MENU);
     highScoreBoard = &TextureHolder::getHolder().get(Textures::TABLE_HIGHSCORE);
     closeButton = &TextureHolder::getHolder().get(Textures::CLOSE_BUTTON);
@@ -47,8 +46,4 @@ void highScoreState::draw() {
 }
 
 highScoreState::~highScoreState() {
-}
-
-bool highScoreState::shouldPop() const {
-    return shouldPopState;
 }

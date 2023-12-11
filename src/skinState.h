@@ -109,10 +109,7 @@ public:
     SkinState(StateStack& stack);
     ~SkinState();
 
-    // void init() override;
-    bool shouldPop() const override;
-
-    void handleEvents() override;
-    void update() override;
     void draw() override;
+    void update() override;
+    void handleEvents() override;
 };

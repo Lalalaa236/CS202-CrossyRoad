@@ -3,7 +3,6 @@
 InstructionState::InstructionState(StateStack& stack)
     : State(stack)
 {
-    shouldPopState = false;
     background = &TextureHolder::getHolder().get(Textures::BACKGROUND_MENU);
     instructionImages[0] = &TextureHolder::getHolder().get(Textures::INSTRUCTION_1);
     instructionImages[1] = &TextureHolder::getHolder().get(Textures::INSTRUCTION_2);
@@ -14,10 +13,6 @@ InstructionState::InstructionState(StateStack& stack)
 }
 
 InstructionState::~InstructionState() {
-}
-
-bool InstructionState::shouldPop() const {
-    return shouldPopState;
 }
 
 void InstructionState::handleEvents() {

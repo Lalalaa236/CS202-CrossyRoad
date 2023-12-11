@@ -8,12 +8,9 @@ public:
     InstructionState(StateStack& stack);
     ~InstructionState();
 
-    // void init() override;
-    bool shouldPop() const override;
-
-    void handleEvents() override;
     void update() override;
     void draw() override;
+    void handleEvents() override;
 
 private:
     Texture2D *background;

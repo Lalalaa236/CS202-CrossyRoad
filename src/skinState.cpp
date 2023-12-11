@@ -11,7 +11,6 @@ void SkinState::setAnimation(int skinIndex, int skinID) {
 SkinState::SkinState(StateStack& stack)
     : State(stack)
 {
-    shouldPopState = false;
     skinBoard = &TextureHolder::getHolder().get(Textures::SKIN_TABLE);
     background = &TextureHolder::getHolder().get(Textures::BACKGROUND_MENU);
     closeButton = &TextureHolder::getHolder().get(Textures::CLOSE_BUTTON);
@@ -65,10 +64,6 @@ float setButtonX = 0, setButtonY = 0;
 
 // Function
 
-bool SkinState::shouldPop() const {
-    return shouldPopState;
-}
-
 void SkinState::handleEvents() {
     // Next and previous button
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
@@ -86,12 +81,12 @@ void SkinState::handleEvents() {
     }
 
     // Close button
-    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-        Vector2 mousePosition = GetMousePosition();
-        if (CheckCollisionPointRec(mousePosition, { 1113, 202, closeButton->width * 1.0f, closeButton->height * 1.0f })) {
-            shouldPopState = true;
-        }
-    }
+    // if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+    //     Vector2 mousePosition = GetMousePosition();
+    //     if (CheckCollisionPointRec(mousePosition, { 1113, 202, closeButton->width * 1.0f, closeButton->height * 1.0f })) {
+    //        requestStackPop();
+    //     }
+    // }
 
     // Set button
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {

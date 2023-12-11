@@ -8,13 +8,9 @@ public:
     MenuState(StateStack& stack);
     ~MenuState();
 
-    // void init() override;
-
-    bool shouldPop() const override;
-    void handleEvents() override;
-
-    void update() override;
     void draw() override;
+    void update() override;
+    void handleEvents() override;
 
 private:
     // Game &game;

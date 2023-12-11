@@ -19,6 +19,7 @@ private:
     bool over;
     int score;
     int highScore;
+    Rain rain;
 
     void checkOutOfScreen();
     void checkCollision();
@@ -26,7 +27,6 @@ private:
     void checkPlayerAlive();
     void handleInput();
     void checkEndOfGame();
-    Rain rain;
 
 public:
     GameState(StateStack& stack);
@@ -34,8 +34,6 @@ public:
 
     void draw() override;
     void update() override;
-    bool shouldPop() const override;
-    // void init() override;
     void handleEvents() override;
 };
 

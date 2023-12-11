@@ -5,7 +5,6 @@
 settingState::settingState(StateStack &stack)
 : State(stack)
 {
-    shouldPopState = false;
     background = &TextureHolder::getHolder().get(Textures::BACKGROUND_MENU);
     settingBoard = &TextureHolder::getHolder().get(Textures::TABLE_SETTING);
     sound[0] = &TextureHolder::getHolder().get(Textures::SOUND_ON);
@@ -29,7 +28,8 @@ void settingState::handleEvents() {
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         Vector2 mousePosition = GetMousePosition();
         if (CheckCollisionPointRec(mousePosition, { 1113, 202, closeButton->width * 1.0f, closeButton->height * 1.0f })) {
-            shouldPopState = true;
+            requestStackPop();
+            requestStackPush(States::ID::Menu);
         }
 
         if (CheckCollisionPointRec(mousePosition, {445, 449, sound[0]->width * 1.0f, sound[1]->height * 1.0f})) {
@@ -131,8 +131,4 @@ void settingState::draw() {
 }
 
 settingState::~settingState() {
-}
-
-bool settingState::shouldPop() const {
-    return shouldPopState;
 }
