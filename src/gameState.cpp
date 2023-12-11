@@ -17,8 +17,6 @@ GameState::~GameState() {
     delete map;
     delete player;
     ShowCursor();
-
-    shouldPopState = true;
 }
 
 bool GameState::shouldPop() const {
@@ -37,7 +35,6 @@ void GameState::draw() {
         rain.update(1512,982);
         rain.drawTo();
     }
-    EndDrawing();
     // player->draw();
 }
 
@@ -50,7 +47,7 @@ void GameState::update() {
 
     if (start && !over)
         map->update();
-    if(over){
+    if(over)
         player->setSpeed(0.0f, 0.0f);
     player->update();
 }
