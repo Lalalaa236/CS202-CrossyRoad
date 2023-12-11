@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-class Car: public Obstacle {
+class Car : public Obstacle {
 private:
     std::vector<Texture2D *> txt; // Vector of Texture2D (frames)
 

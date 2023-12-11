@@ -5,7 +5,7 @@
 class Game;
 class MenuState : public State {
 public:
-    MenuState(StateStack& stack);
+    MenuState(StateStack &stack);
     ~MenuState();
 
     void draw() override;

@@ -5,7 +5,7 @@
 
 class Map {
 private:
-    std::deque<Lane*> lanes;
+    std::deque<Lane *> lanes;
     float speed;
 
 public:

@@ -5,7 +5,7 @@
 
 class InstructionState : public State {
 public:
-    InstructionState(StateStack& stack);
+    InstructionState(StateStack &stack);
     ~InstructionState();
 
     void update() override;

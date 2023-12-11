@@ -4,8 +4,7 @@
 #include "GameSettings.h"
 #include "TextureHolder.h"
 
-class Player
-{
+class Player {
 private:
     bool isMoving;
     std::pair<float, float> position;
@@ -18,7 +17,7 @@ private:
     float hSpeed;
     const int frames = 4;
     const int fps = 24;
-    Texture2D* atlas;
+    Texture2D *atlas;
     int frameCount;
     float elapsedTime;
 
@@ -26,17 +25,12 @@ private:
     void down();
     void left();
     void right();
+
 public:
-    enum class Direction
-    {
-        UP,
-        DOWN,
-        LEFT,
-        RIGHT
-    };
+    enum class Direction { UP, DOWN, LEFT, RIGHT };
 
     Player(float x, float y, float mapSpeed, Textures::ID skin);
-    Player(float x, float y, float mapSpeed, Texture2D* atlas);
+    Player(float x, float y, float mapSpeed, Texture2D *atlas);
     Player(float x, float y, bool isAlive, Textures::ID skin);
 
     std::pair<float, float> getPosition() const;

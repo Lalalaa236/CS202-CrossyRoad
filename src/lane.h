@@ -9,16 +9,16 @@
 class Lane {
 private:
     float randomSpeed;
-    const Texture2D* texture;
+    const Texture2D *texture;
     float y;
     float mapSpeed;
-    std::deque<Obstacle*> obstacles;
-    TrafficLight* trafficLight;
+    std::deque<Obstacle *> obstacles;
+    TrafficLight *trafficLight;
     int isSafe;
     bool direction; // true = right, false = left
 
 public:
-    enum LaneType { ROAD, GRASS, RAILWAY};
+    enum LaneType { ROAD, GRASS, RAILWAY };
     Lane(float y, float mapSpeed, int currentScore = 0);
     Lane(float y, float mapSpeed, LaneType laneType, int numObstacles);
     ~Lane();
@@ -35,6 +35,6 @@ public:
     bool CheckCollisionPlayer(Rectangle playerBoxCollision);
 };
 
-Obstacle* createObstacle(int safeLane, float x, float y, float speed);
+Obstacle *createObstacle(int safeLane, float x, float y, float speed);
 
 #endif

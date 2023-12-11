@@ -1,9 +1,7 @@
 #include "gameState.h"
-#include <iostream>
 #include <chrono>
-GameState::GameState(StateStack& stack) :
-    State(stack), speed(0.0f), count(0), start(false), over(false), score(0)
-{
+#include <iostream>
+GameState::GameState(StateStack &stack) : State(stack), speed(0.0f), count(0), start(false), over(false), score(0) {
     map = new Map(speed);
     player = new Player(1512.0 / 2 - 82 / 2, 982.0 - 2 * settings::GRID_SIZE.second, speed, Textures::ID::SKIN_FULL);
     pauseButton = &TextureHolder::getHolder().get(Textures::PAUSE_BUTTON);
@@ -27,7 +25,7 @@ void GameState::draw() {
     player->draw();
 
     if (rain.getState()) {
-        rain.update(1512,982);
+        rain.update(1512, 982);
         rain.drawTo();
     }
     // player->draw();
@@ -42,35 +40,28 @@ void GameState::update() {
 
     if (start && !over)
         map->update();
-    if(over)
+    if (over)
         player->setSpeed(0.0f, 0.0f);
     player->update();
-    
 }
 
 // void GameState::init() {
 //     nextState = nullptr;
 // }
 
-void GameState::handleEvents()
-{
-    if (over){
+void GameState::handleEvents() {
+    if (over) {
         requestStackPush(States::ID::GameOver);
-    }else
-    if (!over)
-    {
+    } else if (!over) {
         setMapSpeed();
-        if (start)
-        {
+        if (start) {
             checkOutOfScreen();
             checkCollision();
             checkPlayerAlive();
             handleInput();
-        }        
-    }
-    else
+        }
+    } else
         checkEndOfGame();
-
 }
 
 void GameState::checkOutOfScreen() {
@@ -83,17 +74,14 @@ void GameState::checkCollision() {
         player->setIsAlive(false);
 }
 
-void GameState::setMapSpeed()
-{
-    if (player->getPosition().second < 982.0f / 2.0f)
-    {
+void GameState::setMapSpeed() {
+    if (player->getPosition().second < 982.0f / 2.0f) {
         float deltaSpeed = (982.0f / 2.0f - player->getPosition().second) / 300 * 0.2f;
         speed += deltaSpeed;
         map->setSpeed(speed);
         player->setMapSpeed(speed);
         // player->setSkin(Textures::ID::SKIN_2);
-    }
-    else {
+    } else {
         if (speed != 0.0f && speed != 1.2f) {
             speed = 1.2f;
             map->setSpeed(speed);
@@ -104,7 +92,7 @@ void GameState::setMapSpeed()
 
     if (speed == 0.0f &&
         (IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_W) || IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S) ||
-            IsKeyPressed(KEY_LEFT) || IsKeyPressed(KEY_A) || IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D))) {
+         IsKeyPressed(KEY_LEFT) || IsKeyPressed(KEY_A) || IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D))) {
         speed = 1.2f;
         map->setSpeed(speed);
         player->setMapSpeed(speed);
@@ -123,27 +111,24 @@ void GameState::checkPlayerAlive() {
 }
 
 void GameState::handleInput() {
-    if (GetTime() - count >= 0.2f && player->getPosition() == player->getTargetPosition()) // Set delay between key presses and movement
+    if (GetTime() - count >= 0.2f &&
+        player->getPosition() == player->getTargetPosition()) // Set delay between key presses and movement
     {
-        if (IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_W))
-        {
+        if (IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_W)) {
             count = GetTime();
             player->move(Player::Direction::UP);
 
             score++;
             // std::cerr << highScore << std::endl;
-        }
-        else if (IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S)) {
+        } else if (IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S)) {
             count = GetTime();
             player->move(Player::Direction::DOWN);
 
             score--;
-        }
-        else if (IsKeyPressed(KEY_LEFT) || IsKeyPressed(KEY_A)) {
+        } else if (IsKeyPressed(KEY_LEFT) || IsKeyPressed(KEY_A)) {
             count = GetTime();
             player->move(Player::Direction::LEFT);
-        }
-        else if (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D)) {
+        } else if (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D)) {
             count = GetTime();
             player->move(Player::Direction::RIGHT);
         }
@@ -152,23 +137,19 @@ void GameState::handleInput() {
             highScore = score;
     }
 
-    if (IsKeyPressed(KEY_P))
-    {
+    if (IsKeyPressed(KEY_P)) {
         requestStackPush(States::ID::Pause);
         player->setMoving(false);
     }
 
-    if (IsKeyPressed(KEY_B))
-    {
+    if (IsKeyPressed(KEY_B)) {
         requestStackPop();
         requestStackPush(States::ID::Menu);
     }
 }
 
-void GameState::checkEndOfGame()
-{
-    if (IsKeyPressed(KEY_B))
-    {
+void GameState::checkEndOfGame() {
+    if (IsKeyPressed(KEY_B)) {
         requestStackPop();
         requestStackPush(States::ID::Menu);
     }
@@ -177,5 +158,4 @@ void GameState::checkEndOfGame()
         ShowCursor();
     else
         HideCursor();
-
 }

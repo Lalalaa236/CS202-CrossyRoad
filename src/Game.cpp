@@ -1,10 +1,10 @@
 #include "Game.h"
 #include "GameSettings.h"
+#include "LoseState.h"
 #include "State.h"
 #include "TextureHolder.h"
 #include "menustate.h"
 #include <iostream>
-#include"LoseState.h"
 
 Game::Game() {
     if (GetWindowHandle())
@@ -215,9 +215,8 @@ void Game::loadAllTexture() {
 
     TextureHolder::getHolder().load(Textures::RAILWAY, "image/gameState/railway.png");
     TextureHolder::getHolder().load(Textures::TRAIN_RIGHT, "image/train/Right.png");
-    
-    TextureHolder::getHolder().load(Textures::LOSE_BOARD, "image/LoseGame/Board.png");
 
+    TextureHolder::getHolder().load(Textures::LOSE_BOARD, "image/LoseGame/Board.png");
 }
 
 void Game::run() {
@@ -231,8 +230,7 @@ void Game::run() {
     }
 }
 
-void Game::registerState()
-{
+void Game::registerState() {
     stateStack.registerState<MenuState>(States::ID::Menu);
     stateStack.registerState<GameState>(States::ID::Game);
     stateStack.registerState<PauseState>(States::ID::Pause);

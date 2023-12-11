@@ -1,13 +1,13 @@
 #pragma once
 #include "Game.h"
+#include "MusicManager.h"
 #include "State.h"
 #include "raylib.h"
-#include "MusicManager.h"
 
 class Game;
 class settingState : public State {
 public:
-    settingState(StateStack& stack);
+    settingState(StateStack &stack);
     ~settingState();
 
     void draw() override;

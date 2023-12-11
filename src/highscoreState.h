@@ -4,7 +4,7 @@
 
 class highScoreState : public State {
 public:
-    highScoreState(StateStack& stack);
+    highScoreState(StateStack &stack);
     ~highScoreState();
 
     void draw() override;

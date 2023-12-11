@@ -3,11 +3,9 @@
 #include <raylib.h>
 #include <vector>
 
-class Rain
-{
+class Rain {
 private:
-    struct Raindrop
-    {
+    struct Raindrop {
         Vector2 position;
         Color color;
         float rotation;

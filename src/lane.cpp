@@ -1,16 +1,16 @@
 #include "lane.h"
 #include "GameSettings.h"
+#include "Vehicle/Bike.h"
+#include "Vehicle/Cab.h"
+#include "Vehicle/Car.h"
+#include "Vehicle/Taxi.h"
+#include "Vehicle/Train.h"
+#include "Vehicle/Truck.h"
 #include "animal/Bird.h"
 #include "animal/Cat.h"
 #include "animal/Dog.h"
 #include "animal/Rabbit.h"
 #include "animal/Tiger.h"
-#include "Vehicle/Bike.h"
-#include "Vehicle/Cab.h"
-#include "Vehicle/Car.h"
-#include "Vehicle/Truck.h"
-#include "Vehicle/Taxi.h"
-#include "Vehicle/Train.h"
 #include <algorithm>
 #include <iostream>
 #include <vector>
@@ -37,8 +37,7 @@ Lane::Lane(float y, float mapSpeed, int currentScore) : y(y), mapSpeed(mapSpeed)
             trafficLight = nullptr;
             cnt = 0;
             isSafe = 1;
-        }
-        else {
+        } else {
             texture = &TextureHolder::getHolder().get(Textures::ROAD);
             trafficLight = new TrafficLight(trafficLight_x, this->y - 25);
             cnt++;
@@ -51,8 +50,7 @@ Lane::Lane(float y, float mapSpeed, int currentScore) : y(y), mapSpeed(mapSpeed)
             trafficLight = new TrafficLight(trafficLight_x, this->y - 25);
             cnt = 0;
             isSafe = 0;
-        }
-        else {
+        } else {
             texture = &TextureHolder::getHolder().get(Textures::GRASS);
             trafficLight = nullptr;
             cnt++;
@@ -123,10 +121,11 @@ void Lane::addObstacle() {
 }
 
 void Lane::addObstacle(int numObstacle, float speedScale) {
-    if (numObstacle <= 0) return;
+    if (numObstacle <= 0)
+        return;
 
     const int numPosition = numObstacle << 1; // numObstacle * 2
-    Obstacle* tmp = nullptr;
+    Obstacle *tmp = nullptr;
     int i;
     float x;
     float distance = (1.0 * settings::SCREEN_WIDTH / numPosition);
@@ -142,7 +141,6 @@ void Lane::addObstacle(int numObstacle, float speedScale) {
         x = distances[i - 1];
         obstacles.push_back(createObstacle(isSafe, x, this->y, randomSpeed * speedScale));
     }
-
 }
 
 void Lane::addObstacleByScore(int laneScore) {
@@ -161,7 +159,7 @@ void Lane::addObstacleByScore(int laneScore) {
 
 
 void Lane::draw() {
-    DrawTextureEx(*texture, { 0, y }, 0, 1, WHITE);
+    DrawTextureEx(*texture, {0, y}, 0, 1, WHITE);
 
     if (trafficLight) {
         trafficLight->setY(y - 25);
@@ -204,36 +202,36 @@ bool Lane::CheckCollisionPlayer(Rectangle playerBoxCollision) {
 }
 
 /// @brief Return a pointer to a randomly generated obstacle
-/// @param safeLane 
-/// @param x 
-/// @param y 
-/// @param speed 
+/// @param safeLane
+/// @param x
+/// @param y
+/// @param speed
 /// @return Obstacle*
-Obstacle* createObstacle(int safeLane, float x, float y, float speed) {
+Obstacle *createObstacle(int safeLane, float x, float y, float speed) {
     int randomType;
-    Obstacle* tmp = nullptr;
+    Obstacle *tmp = nullptr;
 
-    if (safeLane == 2){
-        tmp = new Train({0,y},speed);
+    if (safeLane == 2) {
+        tmp = new Train({0, y}, speed);
     }
     if (safeLane == 1) {
         randomType = rand() % 5;
 
         switch (randomType) {
         case 0:
-            tmp = new Bird({ x, y }, speed);
+            tmp = new Bird({x, y}, speed);
             break;
         case 1:
-            tmp = new Cat({ x, y }, speed);
+            tmp = new Cat({x, y}, speed);
             break;
         case 2:
-            tmp = new Dog({ x, y }, speed);
+            tmp = new Dog({x, y}, speed);
             break;
         case 3:
-            tmp = new Tiger({ x, y }, speed);
+            tmp = new Tiger({x, y}, speed);
             break;
         case 4:
-            tmp = new Rabbit({ x, y }, speed);
+            tmp = new Rabbit({x, y}, speed);
             break;
         default:
             break;
@@ -244,19 +242,19 @@ Obstacle* createObstacle(int safeLane, float x, float y, float speed) {
 
         switch (randomType) {
         case 0:
-            tmp = new Bike({ x, y - 15 }, speed);
+            tmp = new Bike({x, y - 15}, speed);
             break;
         case 1:
-            tmp = new Cab({ x, y }, speed);
+            tmp = new Cab({x, y}, speed);
             break;
         case 2:
-            tmp = new Car({ x, y + 10 }, speed);
+            tmp = new Car({x, y + 10}, speed);
             break;
         case 3:
-            tmp = new Truck({ x, y - 6 }, speed);
+            tmp = new Truck({x, y - 6}, speed);
             break;
         case 4:
-            tmp = new Taxi({ x, y + 20 }, speed);
+            tmp = new Taxi({x, y + 20}, speed);
             break;
         }
     }
