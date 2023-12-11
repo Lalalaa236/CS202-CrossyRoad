@@ -72,7 +72,7 @@ void MenuState::handleEvents() {
                     // nextState = new GameState();
                     // nextState->init();
                     requestStackPop();
-                    requestStackPush(States::ID::Game);
+                    requestStackPush(States::ID::Skin);
                     break;
                 }
             }
