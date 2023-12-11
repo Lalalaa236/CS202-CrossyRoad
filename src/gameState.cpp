@@ -53,6 +53,9 @@ void GameState::update() {
 
 void GameState::handleEvents()
 {
+    if (over){
+        requestStackPush(States::ID::GameOver);
+    }else
     if (!over)
     {
         setMapSpeed();
@@ -62,7 +65,7 @@ void GameState::handleEvents()
             checkCollision();
             checkPlayerAlive();
             handleInput();
-        }
+        }        
     }
     else
         checkEndOfGame();
@@ -173,4 +176,5 @@ void GameState::checkEndOfGame()
         ShowCursor();
     else
         HideCursor();
+
 }

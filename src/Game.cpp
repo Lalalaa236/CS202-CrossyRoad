@@ -4,6 +4,7 @@
 #include "TextureHolder.h"
 #include "menustate.h"
 #include <iostream>
+#include"LoseState.h"
 
 Game::Game() {
     if (GetWindowHandle())
@@ -214,6 +215,9 @@ void Game::loadAllTexture() {
 
     TextureHolder::getHolder().load(Textures::RAILWAY, "image/gameState/railway.png");
     TextureHolder::getHolder().load(Textures::TRAIN_RIGHT, "image/train/Right.png");
+    
+    TextureHolder::getHolder().load(Textures::LOSE_BOARD, "image/LoseGame/Board.png");
+
 }
 
 void Game::run() {
@@ -236,4 +240,5 @@ void Game::registerState()
     stateStack.registerState<InstructionState>(States::ID::Instructions);
     stateStack.registerState<highScoreState>(States::ID::Highscore);
     stateStack.registerState<SkinState>(States::ID::Skin);
+    stateStack.registerState<LoseState>(States::ID::GameOver);
 }

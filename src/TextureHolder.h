@@ -163,6 +163,7 @@ namespace Textures {
         QUIT_BUTTON,
         RESTART_BUTTON,
         SAVE_BUTTON,
+        LOSE_BOARD,
 
         TIMER_1,
         TIMER_2,
@@ -170,6 +171,8 @@ namespace Textures {
 
         TRAIN_LEFT,
         TRAIN_RIGHT,
+
+
 
     };
 };

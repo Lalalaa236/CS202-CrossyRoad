@@ -7,9 +7,10 @@ StateStack::StateStack()
 
 State::Ptr StateStack::createState(States::ID id)
 {
+
     auto found = factories.find(id);
     assert(found != factories.end());
-    // std::cout << "Creating state " << (int)id << std::endl;
+    //std::cout << "Creating state " << (int)id << std::endl;
     return found->second();
 }
 
