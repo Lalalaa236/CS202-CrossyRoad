@@ -6,10 +6,12 @@
 #include "raylib.h"
 
 #include <iostream>
+#include <map>
+#include <vector>
 
 struct Animation {
     Texture2D spriteSheet;
-    Rectangle *frameRectangles = nullptr;
+    Rectangle* frameRectangles = nullptr;
     int numFrames;
     float frameRate;
     int currentFrame;
@@ -28,7 +30,7 @@ struct Animation {
         delete[] frameRectangles;
     }
 
-    Animation(const Animation &other) {
+    Animation(const Animation& other) {
         spriteSheet = other.spriteSheet;
         numFrames = other.numFrames;
         frameRate = other.frameRate;
@@ -41,7 +43,7 @@ struct Animation {
         }
     }
 
-    Animation &operator=(const Animation &other) {
+    Animation& operator=(const Animation& other) {
         if (this != &other) {
             delete[] frameRectangles;
 
@@ -59,15 +61,15 @@ struct Animation {
         return *this;
     }
 
-    void setAnimation(Textures::ID skinID, int numFrames, float frameRate) {
-        Texture2D *skinSpriteSheet = &TextureHolder::getHolder().get(skinID);
+    void setAnimation(Texture2D* skin, int numFrames, float frameRate) {
+        Texture2D* skinSpriteSheet = skin;
 
-        int frameWidth = skinSpriteSheet->width / numFrames;
-        int frameHeight = skinSpriteSheet->height;
+        int frameWidth = skinSpriteSheet->width / 4;
+        int frameHeight = skinSpriteSheet->height / 8;
 
         // std::cerr << frameWidth << " " << frameHeight << std::endl;
 
-        Rectangle *frames = new Rectangle[numFrames];
+        Rectangle* frames = new Rectangle[numFrames];
 
         for (int i = 0; i < numFrames; i++) {
             frames[i].x = frameWidth * i;
@@ -88,24 +90,26 @@ struct Animation {
 /// @brief Use to change the skin of the player
 class SkinState : public State {
 private:
-    Animation animation[5];
+    int numberOfSkins;
+    std::map<int, std::unique_ptr<Texture2D>> mTextureMap;
+    std::vector<Animation> animation;
 
-    Texture2D *background;
-    Texture2D *skinBoard;
-    Texture2D *closeButton;
-    Texture2D *nextButton;
-    Texture2D *prevButton;
-    Texture2D *setButton;
+    Texture2D* background;
+    Texture2D* skinBoard;
+    Texture2D* closeButton;
+    Texture2D* nextButton;
+    Texture2D* prevButton;
+    Texture2D* setButton;
 
     int currentSkin = 0;
 
-    void setAnimation(int skinIndex, Textures::ID skinID);
+    void setAnimation(int skinIndex, int skinID);
 
 public:
-    SkinState();
+    SkinState(StateStack& stack);
     ~SkinState();
 
-    void init() override;
+    // void init() override;
     bool shouldPop() const override;
 
     void handleEvents() override;

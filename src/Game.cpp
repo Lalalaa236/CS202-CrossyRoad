@@ -8,23 +8,31 @@
 Game::Game() {
     if (GetWindowHandle())
         return;
-    stateStack.push(new MenuState(*this));
-    soundEnabled = true;
-    volume = 1.0f;
+    // std::cout << "Game constructor called" << std::endl;
+    // soundEnabled = true;
+    // volume = 1.0f;
+
+    // Initialization for raylib
+    SetTraceLogLevel(LOG_DEBUG);
 
     // Initialization for window
     InitWindow(settings::SCREEN_WIDTH, settings::SCREEN_HEIGHT, "Crossing Road");
+    SetExitKey(KEY_NULL); // Set exit key to F12
     SetTargetFPS(settings::SCREEN_FPS);
     SetWindowIcon(LoadImage("image/menu/name.png"));
 
     // Initialization for texture
     loadAllTexture();
-    stateStack.top()->init();
+    // stateStack.top()->init();
 
     // Initialization for audio
-    InitAudioDevice();
-    bgMusic = LoadMusicStream("image/Sound/bgMusic.mp3");
-    PlayMusicStream(bgMusic);
+    // InitAudioDevice();
+    // bgMusic = LoadMusicStream("image/Sound/whistle.mp3");
+    // PlayMusicStream(bgMusic);
+    MusicManager::getManager().setMusic("image/Sound/whistle.mp3");
+
+    registerState();
+    stateStack.pushState(States::ID::Menu);
 }
 
 Game::~Game() {
@@ -34,48 +42,36 @@ Game::~Game() {
 
     CloseWindow();
 
-    while (!stateStack.empty()) {
-        delete stateStack.top();
-        stateStack.pop();
-
-        // Assign top next state to nullptr
-        if (!stateStack.empty())
-            stateStack.top()->setState();
-    }
-
-    UnloadMusicStream(bgMusic);
-    CloseAudioDevice();
-
     TextureHolder::getHolder().clear();
 }
 
-void Game::toggleSound() {
-    soundEnabled = !soundEnabled;
+// void Game::toggleSound() {
+//     soundEnabled = !soundEnabled;
 
-    if (soundEnabled) {
-        PlayMusicStream(bgMusic);
-    }
-    else {
-        StopMusicStream(bgMusic);
-    }
-}
+//     if (soundEnabled) {
+//         PlayMusicStream(bgMusic);
+//     }
+//     else {
+//         StopMusicStream(bgMusic);
+//     }
+// }
 
-bool Game::getSoundState() {
-    return soundEnabled;
-}
+// bool Game::getSoundState() {
+//     return soundEnabled;
+// }
 
-float Game::getVolume() {
-    return volume;
-}
+// float Game::getVolume() {
+//     return volume;
+// }
 
-void Game::setVolume(float newVolume) {
-    this->volume = newVolume;
-    SetMusicVolume(bgMusic, volume);
-}
+// void Game::setVolume(float newVolume) {
+//     this->volume = newVolume;
+//     SetMusicVolume(bgMusic, volume);
+// }
 
-void Game::setSoundState(bool ok) {
-    soundEnabled = ok;
-}
+// void Game::setSoundState(bool ok) {
+//     soundEnabled = ok;
+// }
 
 void Game::loadAllTexture() {
     TextureHolder::getHolder().load(Textures::CLOSE_BUTTON, "image/general/closeButton.png");
@@ -111,6 +107,8 @@ void Game::loadAllTexture() {
     TextureHolder::getHolder().load(Textures::RED_LIGHT, "image/gamestate/RedLight.png");
     TextureHolder::getHolder().load(Textures::YELLOW_LIGHT, "image/gamestate/YellowLight.png");
     TextureHolder::getHolder().load(Textures::GREEN_LIGHT, "image/gamestate/GreenLight.png");
+
+    TextureHolder::getHolder().load(Textures::SKIN_FULL, "image/skin/1/full.png"); // Place holder
 
     TextureHolder::getHolder().load(Textures::BIRD_1, "image/Bird/frame_1.png");
     TextureHolder::getHolder().load(Textures::BIRD_2, "image/Bird/frame_2.png");
@@ -165,11 +163,6 @@ void Game::loadAllTexture() {
     TextureHolder::getHolder().load(Textures::RABBIT_5, "image/Rabbit/frame-5.png");
     TextureHolder::getHolder().load(Textures::RABBIT_6, "image/Rabbit/frame-6.png");
 
-    TextureHolder::getHolder().load(Textures::SKIN_1_UP, "image/skin/1/up/sprite.png");
-    TextureHolder::getHolder().load(Textures::SKIN_1_DOWN, "image/skin/1/down/sprite.png");
-    TextureHolder::getHolder().load(Textures::SKIN_2_UP, "image/skin/2/up/sprite.png");
-    TextureHolder::getHolder().load(Textures::SKIN_2_DOWN, "image/skin/2/down/sprite.png");
-
     TextureHolder::getHolder().load(Textures::BIKE_1, "image/Bike/frame_1.png");
     TextureHolder::getHolder().load(Textures::BIKE_2, "image/Bike/frame_2.png");
     TextureHolder::getHolder().load(Textures::BIKE_3, "image/Bike/frame_3.png");
@@ -205,29 +198,42 @@ void Game::loadAllTexture() {
     TextureHolder::getHolder().load(Textures::TAXI_4, "image/Taxi/frame_4.png");
     TextureHolder::getHolder().load(Textures::TAXI_5, "image/Taxi/frame_5.png");
 
-
     TextureHolder::getHolder().load(Textures::SKIN_1, "image/skin/1/full.png");
     TextureHolder::getHolder().load(Textures::SKIN_2, "image/skin/2/full.png");
+
+    TextureHolder::getHolder().load(Textures::PAUSE_BUTTON, "image/gameState/Pause.png");
+
+    TextureHolder::getHolder().load(Textures::PAUSE_BOARD, "image/PauseGame/board.png");
+    TextureHolder::getHolder().load(Textures::RESUME_BUTTON, "image/PauseGame/playbtn.png");
+    TextureHolder::getHolder().load(Textures::RESTART_BUTTON, "image/PauseGame/restartbtn.png");
+    TextureHolder::getHolder().load(Textures::QUIT_BUTTON, "image/PauseGame/homebtn.png");
+    TextureHolder::getHolder().load(Textures::SAVE_BUTTON, "image/PauseGame/savebtn.png");
+    TextureHolder::getHolder().load(Textures::TIMER_1, "image/PauseGame/1.png");
+    TextureHolder::getHolder().load(Textures::TIMER_2, "image/PauseGame/2.png");
+    TextureHolder::getHolder().load(Textures::TIMER_3, "image/PauseGame/3.png");
+
+    TextureHolder::getHolder().load(Textures::RAILWAY, "image/gameState/railway.png");
+    TextureHolder::getHolder().load(Textures::TRAIN_RIGHT, "image/train/Right.png");
 }
 
 void Game::run() {
-    while (!WindowShouldClose() && !stateStack.empty()) {
-        UpdateMusicStream(bgMusic);
-        State* currentState = stateStack.top();
-        currentState->setState();
-        currentState->draw();
-        currentState->update();
-        currentState->handleEvents();
+    while (!WindowShouldClose()) {
+        // UpdateMusicStream(bgMusic);
+        MusicManager::getManager().play();
 
-        State* newState = currentState->getNextState();
-
-        if (currentState->shouldPop()) {
-            delete currentState;
-            stateStack.pop();
-        }
-
-        if (newState != nullptr) {
-            stateStack.push(newState);
-        }
+        stateStack.update();
+        stateStack.draw();
+        stateStack.handleEvents();
     }
+}
+
+void Game::registerState()
+{
+    stateStack.registerState<MenuState>(States::ID::Menu);
+    stateStack.registerState<GameState>(States::ID::Game);
+    stateStack.registerState<PauseState>(States::ID::Pause);
+    stateStack.registerState<settingState>(States::ID::Settings);
+    stateStack.registerState<InstructionState>(States::ID::Instructions);
+    stateStack.registerState<highScoreState>(States::ID::Highscore);
+    stateStack.registerState<SkinState>(States::ID::Skin);
 }

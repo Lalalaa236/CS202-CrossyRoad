@@ -4,10 +4,10 @@
 
 class highScoreState : public State {
 public:
-    highScoreState();
+    highScoreState(StateStack& stack);
     ~highScoreState();
 
-    void init() override;
+    // void init() override;
 
     bool shouldPop() const override;
     void handleEvents() override;

@@ -14,12 +14,12 @@ private:
     float mapSpeed;
     std::deque<Obstacle*> obstacles;
     TrafficLight* trafficLight;
-    bool isSafe;
+    int isSafe;
     bool direction; // true = right, false = left
 
 public:
-    enum LaneType { ROAD, GRASS };
-    Lane(float y, float mapSpeed);
+    enum LaneType { ROAD, GRASS, RAILWAY};
+    Lane(float y, float mapSpeed, int currentScore = 0);
     Lane(float y, float mapSpeed, LaneType laneType, int numObstacles);
     ~Lane();
 
@@ -28,10 +28,13 @@ public:
     void setSpeed(float mapSpeed);
 
     void addObstacle();
-    void addObstacle(int n);
+    void addObstacle(int numObstacle, float speedScale = 1.0f);
+    void addObstacleByScore(int laneScore);
     void draw();
     void update();
     bool CheckCollisionPlayer(Rectangle playerBoxCollision);
 };
+
+Obstacle* createObstacle(int safeLane, float x, float y, float speed);
 
 #endif

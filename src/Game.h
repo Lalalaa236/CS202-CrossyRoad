@@ -1,8 +1,17 @@
 #pragma once
 
 #include "raylib.h"
+#include "MusicManager.h"
+#include "StateStack.h"
+
+#include "gameState.h"
+#include "menuState.h"
+#include "pauseState.h"
+#include "highscoreState.h"
+#include "skinState.h"
+#include "instructionState.h"
 #include "settingState.h"
-#include <stack>
+
 
 class State;
 
@@ -14,16 +23,18 @@ public:
     void loadAllTexture();
     void run();
 
-    void toggleSound();
-    float getVolume();
-    void setVolume(float volume);
-    bool getSoundState();
-    void setSoundState(bool ok);
+    // void toggleSound();
+    // float getVolume();
+    // void setVolume(float volume);
+    // bool getSoundState();
+    // void setSoundState(bool ok);
 
 private:
     Music bgMusic;
     float volume;
     bool soundEnabled;
 
-    std::stack<State *> stateStack;
+    StateStack stateStack;
+
+    void registerState();
 };
