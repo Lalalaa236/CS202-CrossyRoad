@@ -9,7 +9,7 @@ GameState::GameState(StateStack& stack) :
     shouldPopState = false;
     pauseButton = &TextureHolder::getHolder().get(Textures::PAUSE_BUTTON);
     HideCursor();
-
+    rain.setState(true);
     // std::cout << "GameState constructor called" << std::endl;
 }
 
@@ -17,8 +17,6 @@ GameState::~GameState() {
     delete map;
     delete player;
     ShowCursor();
-
-    shouldPopState = true;
 }
 
 bool GameState::shouldPop() const {
@@ -32,7 +30,11 @@ void GameState::draw() {
     ClearBackground(WHITE);
     map->draw();
     player->draw();
-    DrawTexture(*pauseButton, 1409, 13, WHITE);
+
+    if (rain.getState()) {
+        rain.update(1512,982);
+        rain.drawTo();
+    }
     // player->draw();
 }
 
@@ -44,11 +46,9 @@ void GameState::update() {
         player->setMoving(true);
 
     if (start && !over)
-        map->update(highScore);
-
-    if (over)
+        map->update();
+    if(over)
         player->setSpeed(0.0f, 0.0f);
-
     player->update();
 }
 

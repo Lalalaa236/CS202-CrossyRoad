@@ -6,7 +6,7 @@
 #include "Player.h"
 #include "State.h"
 #include "PauseState.h"
-
+#include "Rain.h"
 class GameState : public State {
 private:
     Texture2D* pauseButton;
@@ -26,6 +26,7 @@ private:
     void checkPlayerAlive();
     void handleInput();
     void checkEndOfGame();
+    Rain rain;
 
 public:
     GameState(StateStack& stack);

@@ -96,7 +96,7 @@ void SkinState::handleEvents() {
     // Set button
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         Vector2 mousePosition = GetMousePosition();
-        if (CheckCollisionPointRec(mousePosition, { 680, 700, setButton->width * 1.0f, setButton->height * 1.0f })) {
+        if (CheckCollisionPointRec(mousePosition, { setButtonX, setButtonY, setButton->width * 1.0f, setButton->height * 1.0f })) {
 
             // Copy the current skin into SKIN_FULL ID
             TextureHolder::getHolder().load(Textures::SKIN_FULL, "image/skin/" + std::to_string(currentSkin) + "/full.png");
