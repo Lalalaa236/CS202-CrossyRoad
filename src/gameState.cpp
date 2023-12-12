@@ -1,14 +1,17 @@
 #include "gameState.h"
+#include"GameSettings.h"
 #include <iostream>
 #include <chrono>
+const float ZOOM_DURATION = 3.5f;
 GameState::GameState(StateStack& stack) :
-    State(stack), speed(0.0f), count(0), start(false), over(false), score(0)
+    State(stack), speed(0.0f), count(0), start(false), over(false), score(0),isHighScore(0),highScoreZoomTimer(0.0f),HighScoreTrigger(false),highScore(0)
 {
     map = new Map(speed);
     player = new Player(1512.0 / 2 - 82 / 2, 982.0 - 2 * settings::GRID_SIZE.second, speed, Textures::ID::SKIN_FULL);
     pauseButton = &TextureHolder::getHolder().get(Textures::PAUSE_BUTTON);
     HideCursor();
     rain.setState(false);
+    customFont = LoadFont("./font/River Adventurer.ttf");
     // std::cout << "GameState constructor called" << std::endl;
 }
 
@@ -27,10 +30,41 @@ void GameState::draw() {
     player->draw();
 
     if (rain.getState()) {
-        rain.update(1512,982);
+        rain.update(settings::SCREEN_WIDTH,settings::SCREEN_HEIGHT);
         rain.drawTo();
     }
-    // player->draw();
+
+    if (highScoreZoomTimer > 0.0f) {
+    float scaleFactor = 1.0f + (1.0f - highScoreZoomTimer / ZOOM_DURATION) * 0.5f;
+    float fontSize = 100 * scaleFactor; 
+    Vector2 centerPosition = {
+        static_cast<float>(settings::SCREEN_WIDTH) / 2 - MeasureTextEx(customFont, "High Score", fontSize, 2).x / 2,
+        static_cast<float>(settings::SCREEN_HEIGHT) / 2 - fontSize / 2
+    };
+    DrawTextEx(customFont, ("High Score"),
+               centerPosition,
+               fontSize,
+               2,
+               Fade(RED, highScoreZoomTimer / ZOOM_DURATION));
+
+    highScoreZoomTimer -= GetFrameTime();
+    } else {
+    // Draw the regular score
+        if (!HighScoreTrigger){
+            DrawTextEx(customFont, ("Score: " + std::to_string(score)).c_str(),
+                    Vector2{650, 10},
+                    40,
+                    2,
+                    RED);
+        }else{
+              DrawTextEx(customFont, ("High Score: " + std::to_string(score)).c_str(),
+                    Vector2{650, 10},
+                    40,
+                    2,
+                    RED);
+        }
+            
+    }
 }
 
 void GameState::update() {
@@ -148,8 +182,11 @@ void GameState::handleInput() {
             player->move(Player::Direction::RIGHT);
         }
 
-        if (score > highScore)
+        if (score > highScore){
+            if (!HighScoreTrigger) highScoreZoomTimer = ZOOM_DURATION;
             highScore = score;
+            HighScoreTrigger = true; 
+        }
     }
 
     if (IsKeyPressed(KEY_P))

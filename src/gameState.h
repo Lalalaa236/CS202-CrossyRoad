@@ -20,7 +20,10 @@ private:
     int score;
     int highScore;
     Rain rain;
-
+    Font customFont;
+    int isHighScore;
+    float highScoreZoomTimer; 
+    bool HighScoreTrigger; 
     void checkOutOfScreen();
     void checkCollision();
     void setMapSpeed();
