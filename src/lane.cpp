@@ -18,7 +18,7 @@
 
 Lane::Lane(float y, float mapSpeed, int currentScore) : y(y), mapSpeed(mapSpeed) {
     float trafficLight_x = settings::SCREEN_WIDTH - 5 - 50;
-    randomSpeed = GetRandomValue(3.5f, 6.5f);
+    randomSpeed = GetRandomValue(3.0f, 5.0f);
     direction = rand() % 2;
 
     // From right to left direction
@@ -38,7 +38,8 @@ Lane::Lane(float y, float mapSpeed, int currentScore) : y(y), mapSpeed(mapSpeed)
             trafficLight = nullptr;
             cnt = 0;
             isSafe = 1;
-        } else {
+        }
+        else {
             texture = &TextureHolder::getHolder().get(Textures::ROAD);
             trafficLight = new TrafficLight(trafficLight_x, this->y - 25);
             cnt++;
@@ -51,7 +52,8 @@ Lane::Lane(float y, float mapSpeed, int currentScore) : y(y), mapSpeed(mapSpeed)
             trafficLight = new TrafficLight(trafficLight_x, this->y - 25);
             cnt = 0;
             isSafe = 0;
-        } else {
+        }
+        else {
             texture = &TextureHolder::getHolder().get(Textures::GRASS);
             trafficLight = nullptr;
             cnt++;
@@ -83,7 +85,7 @@ Lane::~Lane() {
 
 Lane::Lane(float y, float mapSpeed, LaneType laneType, int numObstacles) : y(y), mapSpeed(mapSpeed) {
     float trafficLight_x = 5;
-    randomSpeed = GetRandomValue(3.5f, 6.5f);
+    randomSpeed = GetRandomValue(3.0f, 5.0f);
     direction = rand() % 2;
 
     if (direction == 0) {
@@ -126,7 +128,7 @@ void Lane::addObstacle(int numObstacle, float speedScale) {
         return;
 
     const int numPosition = numObstacle << 1; // numObstacle * 2
-    Obstacle *tmp = nullptr;
+    Obstacle* tmp = nullptr;
     int i;
     float x;
     float distance = (1.0 * settings::SCREEN_WIDTH / numPosition);
@@ -150,8 +152,9 @@ void Lane::addObstacleByScore(int laneScore) {
 
     // Generate depends on laneScore
     speedScale = speedScale + std::min(1.5f, laneScore / 50.0f); // Max speedScale = 2.5f
-    maxObstacles = std::min(laneScore / 35 + 1, 6);
-    minObstacles = std::min(laneScore / 75, 2);
+    maxObstacles = std::min(laneScore / 30 + 2, 6);
+    minObstacles = std::min(laneScore / 60, 2);
+
     numObstacles = (rand() % (maxObstacles - minObstacles + 1)) + minObstacles;
 
     // Generate random obstacles
@@ -160,7 +163,7 @@ void Lane::addObstacleByScore(int laneScore) {
 
 
 void Lane::draw() {
-    DrawTextureEx(*texture, {0, y}, 0, 1, WHITE);
+    DrawTextureEx(*texture, { 0, y }, 0, 1, WHITE);
 
     if (trafficLight) {
         trafficLight->setY(y - 25);
@@ -208,31 +211,32 @@ bool Lane::CheckCollisionPlayer(Rectangle playerBoxCollision) {
 /// @param y
 /// @param speed
 /// @return Obstacle*
-Obstacle *createObstacle(int safeLane, float x, float y, float speed) {
+Obstacle* createObstacle(int safeLane, float x, float y, float speed) {
     int randomType;
-    Obstacle *tmp = nullptr;
+    Obstacle* tmp = nullptr;
 
     if (safeLane == 2) {
-        tmp = new Train({0, y}, speed);
+        tmp = new Train({ 0, y }, speed);
     }
+
     if (safeLane == 1) {
         randomType = rand() % 5;
 
         switch (randomType) {
         case 0:
-            tmp = new Bird({x, y}, speed);
+            tmp = new Bird({ x, y }, speed);
             break;
         case 1:
-            tmp = new Cat({x, y}, speed);
+            tmp = new Cat({ x, y }, speed);
             break;
         case 2:
-            tmp = new Dog({x, y}, speed);
+            tmp = new Dog({ x, y }, speed);
             break;
         case 3:
-            tmp = new Tiger({x, y}, speed);
+            tmp = new Tiger({ x, y }, speed);
             break;
         case 4:
-            tmp = new Rabbit({x, y}, speed);
+            tmp = new Rabbit({ x, y }, speed);
             break;
         default:
             break;
@@ -243,19 +247,19 @@ Obstacle *createObstacle(int safeLane, float x, float y, float speed) {
 
         switch (randomType) {
         case 0:
-            tmp = new Bike({x, y - 15}, speed);
+            tmp = new Bike({ x, y - 15 }, speed);
             break;
         case 1:
-            tmp = new Cab({x, y}, speed);
+            tmp = new Cab({ x, y }, speed);
             break;
         case 2:
-            tmp = new Car({x, y + 10}, speed);
+            tmp = new Car({ x, y + 10 }, speed);
             break;
         case 3:
-            tmp = new Truck({x, y - 6}, speed);
+            tmp = new Truck({ x, y - 6 }, speed);
             break;
         case 4:
-            tmp = new Taxi({x, y + 20}, speed);
+            tmp = new Taxi({ x, y + 20 }, speed);
             break;
         }
     }

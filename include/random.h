@@ -12,7 +12,7 @@ private:
     uint64 seed;
     uint64 generateSeed(uint64 seed);
 
-    Random() = default;
+    Random();
     Random(const Random& other) = delete;
     Random& operator=(const Random& other) = delete;
 public:

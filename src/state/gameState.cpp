@@ -3,7 +3,7 @@
 #include <chrono>
 #include <iostream>
 
-GameState::GameState(StateStack& stack) : State(stack), speed(0.0f), count(0), start(false), over(false), score(0) {
+GameState::GameState(StateStack& stack) : State(stack), speed(0.0f), count(0), start(false), over(false), score(0), highScore(0) {
     map = new Map(speed);
     player = new Player(1512.0 / 2 - 82 / 2, 982.0 - 2 * settings::GRID_SIZE.second, speed, Textures::ID::SKIN_FULL);
     pauseButton = &TextureHolder::getHolder().get(Textures::PAUSE_BUTTON);
