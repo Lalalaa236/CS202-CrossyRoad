@@ -57,3 +57,7 @@ bool Map::CheckCollisionPlayer(Rectangle playerBoxCollision) {
     }
     return false;
 }
+
+float Map::getSpeed() const{
+    return this->speed;
+}

@@ -16,6 +16,7 @@ public:
 
     void setSpeed(float speed);
     bool CheckCollisionPlayer(Rectangle playerBoxCollision);
+    float getSpeed() const;
     ~Map();
 };
 

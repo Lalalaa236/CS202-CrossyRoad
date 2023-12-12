@@ -25,7 +25,7 @@ private:
     float highScoreZoomTimer; 
     bool HighScoreTrigger; 
     float timeSinceLastRain;
-
+    
     void checkOutOfScreen();
     void checkCollision();
     void setMapSpeed();

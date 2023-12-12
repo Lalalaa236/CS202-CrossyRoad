@@ -85,6 +85,9 @@ void GameState::update() {
     if (timeSinceLastRain >= 10.0f) {
         // Reset the timer
         timeSinceLastRain = 0.0f;
+        float tmp = map->getSpeed();
+        map->setSpeed(tmp*3);
+        player->setMapSpeed(tmp*3);
 
         // Trigger random rain effect
         rainSetupFunction();
@@ -93,9 +96,12 @@ void GameState::update() {
     
 }
 void GameState::rainSetupFunction() {
-     bool generateRain = (rand() % 10) < 3;
-     if (generateRain) {
+    bool generateRain = (rand() % 10) < 3;
+    if (generateRain) {
         rain.setState(true);
+        float tmp = map->getSpeed();
+        map->setSpeed(tmp/3);
+        player->setMapSpeed(tmp/3);
     } else {
         rain.setState(false);
     }
@@ -110,6 +116,7 @@ void GameState::handleEvents()
 {
     if (over){
         requestStackPush(States::ID::GameOver);
+        rain.setState(false);
     }else
     if (!over)
     {
