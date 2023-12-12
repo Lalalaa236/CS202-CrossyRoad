@@ -1,8 +1,5 @@
 // Tiger.cpp
 #include "Tiger.h"
-#include "../GameSettings.h"
-#include "../TextureHolder.h"
-#include <iostream>
 
 Tiger::Tiger(const Vector2 &pos, float speed) : Obstacle(pos, speed), numsFrame(6), curFrame(0), frameTime(0.0f) {
     // Load Tiger frames

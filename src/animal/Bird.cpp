@@ -1,8 +1,6 @@
 // Bird.cpp
 #include "Bird.h"
-#include "../GameSettings.h"
-#include "../TextureHolder.h"
-#include <iostream>
+
 
 Bird::Bird(const Vector2 &pos, float speed) : Obstacle(pos, speed), numsFrame(8), curFrame(0), frameTime(0.0f) {
     // Load bird frames

@@ -1,6 +1,9 @@
 #pragma once
-#include "../Obstacle.h"
+#include "GameSettings.h"
+#include "Obstacle.h"
+#include "TextureHolder.h"
 #include "raylib.h"
+#include <iostream>
 #include <string>
 #include <vector>
 

@@ -1,10 +1,13 @@
 #pragma once
-#include "../Obstacle.h"
+#include "GameSettings.h"
+#include "Obstacle.h"
+#include "TextureHolder.h"
 #include "raylib.h"
+#include <iostream>
 #include <string>
 #include <vector>
 
-class Bike : public Obstacle {
+class Cat : public Obstacle {
 private:
     std::vector<Texture2D *> txt; // Vector of Texture2D (frames)
 
@@ -13,8 +16,8 @@ private:
 
 public:
     //Constructor
-    Bike(const Vector2 &pos, float Speed);
-    ~Bike();
+    Cat(const Vector2 &pos, float Speed);
+    ~Cat();
     void draw() override;
     void update(float y) override;
 };

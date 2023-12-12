@@ -1,5 +1,6 @@
 #include "highScoreState.h"
 #include "TextureHolder.h"
+
 highScoreState::highScoreState(StateStack &stack) : State(stack) {
     background = &TextureHolder::getHolder().get(Textures::BACKGROUND_MENU);
     highScoreBoard = &TextureHolder::getHolder().get(Textures::TABLE_HIGHSCORE);

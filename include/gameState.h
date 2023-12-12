@@ -9,9 +9,9 @@
 #include "State.h"
 class GameState : public State {
 private:
-    Texture2D *pauseButton;
-    Player *player;
-    Map *map;
+    Texture2D* pauseButton;
+    Player* player;
+    Map* map;
 
     float speed;
     float count;
@@ -19,6 +19,7 @@ private:
     bool over;
     int score;
     int highScore;
+    unsigned long long seed1, seed2;
     Rain rain;
 
     void checkOutOfScreen();
@@ -29,7 +30,7 @@ private:
     void checkEndOfGame();
 
 public:
-    GameState(StateStack &stack);
+    GameState(StateStack& stack);
     ~GameState();
 
     void draw() override;

@@ -1,8 +1,6 @@
 // Train.cpp
 #include "Train.h"
-#include "../GameSettings.h"
-#include "../TextureHolder.h"
-#include <iostream>
+
 
 Train::Train(const Vector2 &pos, float speed) : Obstacle(pos, speed), numsFrame(1), curFrame(0), frameTime(0.0f) {
     // Load Train frames
