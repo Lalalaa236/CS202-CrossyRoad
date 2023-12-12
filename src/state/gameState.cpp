@@ -1,13 +1,20 @@
 #include "gameState.h"
+#include "random.h"
 #include <chrono>
 #include <iostream>
 
-GameState::GameState(StateStack &stack) : State(stack), speed(0.0f), count(0), start(false), over(false), score(0) {
+GameState::GameState(StateStack& stack) : State(stack), speed(0.0f), count(0), start(false), over(false), score(0) {
     map = new Map(speed);
     player = new Player(1512.0 / 2 - 82 / 2, 982.0 - 2 * settings::GRID_SIZE.second, speed, Textures::ID::SKIN_FULL);
     pauseButton = &TextureHolder::getHolder().get(Textures::PAUSE_BUTTON);
-    HideCursor();
+
+    // Set random seed to generate random map and obstacles
+    Random::getInstance().setRandomSeed();
+    seed = Random::getInstance().getSeed();
+
     rain.setState(false);
+
+    HideCursor();
     // std::cout << "GameState constructor called" << std::endl;
 }
 
@@ -40,9 +47,11 @@ void GameState::update() {
         player->setMoving(true);
 
     if (start && !over)
-        map->update();
+        map->update(highScore);
+
     if (over)
         player->setSpeed(0.0f, 0.0f);
+
     player->update();
 }
 
@@ -53,7 +62,8 @@ void GameState::update() {
 void GameState::handleEvents() {
     if (over) {
         requestStackPush(States::ID::GameOver);
-    } else if (!over) {
+    }
+    else if (!over) {
         setMapSpeed();
         if (start) {
             checkOutOfScreen();
@@ -61,7 +71,8 @@ void GameState::handleEvents() {
             checkPlayerAlive();
             handleInput();
         }
-    } else
+    }
+    else
         checkEndOfGame();
 }
 
@@ -81,19 +92,18 @@ void GameState::setMapSpeed() {
         speed += deltaSpeed;
         map->setSpeed(speed);
         player->setMapSpeed(speed);
-        // player->setSkin(Textures::ID::SKIN_2);
-    } else {
+    }
+    else {
         if (speed != 0.0f && speed != 1.2f) {
             speed = 1.2f;
             map->setSpeed(speed);
             player->setMapSpeed(speed);
-            // player->setSkin(Textures::ID::SKIN_1);
         }
     }
 
     if (speed == 0.0f &&
         (IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_W) || IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S) ||
-         IsKeyPressed(KEY_LEFT) || IsKeyPressed(KEY_A) || IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D))) {
+            IsKeyPressed(KEY_LEFT) || IsKeyPressed(KEY_A) || IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D))) {
         speed = 1.2f;
         map->setSpeed(speed);
         player->setMapSpeed(speed);
@@ -120,22 +130,23 @@ void GameState::handleInput() {
             player->move(Player::Direction::UP);
 
             score++;
-            // std::cerr << highScore << std::endl;
-        } else if (IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S)) {
+            if (score > highScore)
+                highScore = score;
+        }
+        else if (IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S)) {
             count = GetTime();
             player->move(Player::Direction::DOWN);
 
             score--;
-        } else if (IsKeyPressed(KEY_LEFT) || IsKeyPressed(KEY_A)) {
+        }
+        else if (IsKeyPressed(KEY_LEFT) || IsKeyPressed(KEY_A)) {
             count = GetTime();
             player->move(Player::Direction::LEFT);
-        } else if (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D)) {
+        }
+        else if (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D)) {
             count = GetTime();
             player->move(Player::Direction::RIGHT);
         }
-
-        if (score > highScore)
-            highScore = score;
     }
 
     if (IsKeyPressed(KEY_P)) {

@@ -19,7 +19,7 @@ private:
     bool over;
     int score;
     int highScore;
-    unsigned long long seed1, seed2;
+    unsigned long long seed;
     Rain rain;
 
     void checkOutOfScreen();

@@ -9,12 +9,19 @@ typedef unsigned long long uint64;
 class Random {
 private:
     std::mt19937 rng;
+    uint64 seed;
     uint64 generateSeed(uint64 seed);
 
+    Random() = default;
+    Random(const Random& other) = delete;
+    Random& operator=(const Random& other) = delete;
 public:
-    Random();
-    Random(uint64 seed);
-    Random(uint64 seed1, uint64 seed2);
+    static Random& getInstance();
+
+    void setRandomSeed();
+    void setSeed(uint64 seed, bool randomize = true);
+    void setSeed(uint64 seed1, uint64 seed2);
+    uint64 getSeed();
 
     int nextInt();
     long long nextLong();

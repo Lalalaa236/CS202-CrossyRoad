@@ -15,20 +15,40 @@ uint64 Random::generateSeed(uint64 seed) {
 }
 
 Random::Random() {
-    uint64 seed = std::chrono::system_clock::now().time_since_epoch().count();
-    seed = generateSeed(seed);
-    rng.seed(seed);
+    this->seed = std::chrono::system_clock::now().time_since_epoch().count();
+    this->seed = generateSeed(this->seed);
+    rng.seed(this->seed);
 }
 
-Random::Random(uint64 seed) {
-    seed = generateSeed(seed);
-    rng.seed(seed);
+Random& Random::getInstance() {
+    static Random instance;
+    return instance;
 }
 
-Random::Random(uint64 seed1, uint64 seed2) {
-    uint64 combined_seed = seed1 ^ seed2;
-    combined_seed = generateSeed(combined_seed);
-    rng.seed(combined_seed);
+void Random::setRandomSeed() {
+    this->seed = std::chrono::system_clock::now().time_since_epoch().count();
+    this->seed = generateSeed(this->seed);
+    rng.seed(this->seed);
+}
+
+void Random::setSeed(uint64 seed, bool randomize) {
+    if (randomize)
+        this->seed = generateSeed(seed);
+    rng.seed(this->seed);
+}
+
+void Random::setSeed(uint64 seed1, uint64 seed2) {
+    uint64 seed = seed1 ^ seed2;
+    seed1 = generateSeed(seed1);
+    seed2 = generateSeed(seed2);
+    seed = generateSeed(seed);
+
+    rng.seed(seed ^ seed1 ^ seed2);
+    this->seed = seed ^ seed1 ^ seed2;
+}
+
+uint64 Random::getSeed() {
+    return this->seed;
 }
 
 int Random::nextInt() {
