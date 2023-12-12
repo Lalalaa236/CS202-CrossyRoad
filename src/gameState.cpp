@@ -4,7 +4,7 @@
 #include <chrono>
 const float ZOOM_DURATION = 3.5f;
 GameState::GameState(StateStack& stack) :
-    State(stack), speed(0.0f), count(0), start(false), over(false), score(0),isHighScore(0),highScoreZoomTimer(0.0f),HighScoreTrigger(false),highScore(0)
+    State(stack), speed(0.0f), count(0), start(false), over(false), score(0),isHighScore(0),highScoreZoomTimer(0.0f),HighScoreTrigger(false),highScore(0),timeSinceLastRain(0.0f)
 {
     map = new Map(speed);
     player = new Player(1512.0 / 2 - 82 / 2, 982.0 - 2 * settings::GRID_SIZE.second, speed, Textures::ID::SKIN_FULL);
@@ -79,8 +79,28 @@ void GameState::update() {
     if(over)
         player->setSpeed(0.0f, 0.0f);
     player->update();
+    timeSinceLastRain += GetFrameTime();
+
+    // Check if it's time to trigger rain
+    if (timeSinceLastRain >= 10.0f) {
+        // Reset the timer
+        timeSinceLastRain = 0.0f;
+
+        // Trigger random rain effect
+        rainSetupFunction();
+    }
+
     
 }
+void GameState::rainSetupFunction() {
+     bool generateRain = (rand() % 10) < 3;
+     if (generateRain) {
+        rain.setState(true);
+    } else {
+        rain.setState(false);
+    }
+}
+
 
 // void GameState::init() {
 //     nextState = nullptr;

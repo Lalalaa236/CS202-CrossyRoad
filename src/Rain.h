@@ -17,6 +17,7 @@ private:
     Rectangle raindropShape;
     bool state;
     Sound rainSound;
+    bool isToggleSound;
 
 public:
     Rain();

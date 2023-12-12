@@ -24,12 +24,15 @@ private:
     int isHighScore;
     float highScoreZoomTimer; 
     bool HighScoreTrigger; 
+    float timeSinceLastRain;
+
     void checkOutOfScreen();
     void checkCollision();
     void setMapSpeed();
     void checkPlayerAlive();
     void handleInput();
     void checkEndOfGame();
+    void rainSetupFunction();
 
 public:
     GameState(StateStack& stack);
