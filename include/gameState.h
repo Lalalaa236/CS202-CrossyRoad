@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "Rain.h"
 #include "State.h"
+
 class GameState : public State {
 private:
     Texture2D* pauseButton;
@@ -36,6 +37,9 @@ public:
     void draw() override;
     void update() override;
     void handleEvents() override;
+
+    std::string serializeData();
+    void loadSerializedData(std::string serialized_data);
 };
 
 #endif
