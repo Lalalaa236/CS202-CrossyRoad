@@ -1,6 +1,7 @@
 #include "skinState.h"
 #include "settingState.h"
 #include "TextureHolder.h"
+#include "score.h"
 
 #include <iostream>
 
@@ -100,6 +101,7 @@ void SkinState::handleEvents() {
             // Pop the state
             requestStackPop();
             requestStackPush(States::ID::Game);
+            HighScore::getHighScoreManager().setCurrentScore(0);
         }
         if (CheckCollisionPointRec(mousePosition, { 1113, 202, closeButton->width * 1.0f, closeButton->height * 1.0f })) {
             requestStackPop();

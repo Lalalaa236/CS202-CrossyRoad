@@ -11,7 +11,7 @@ class LoseState : public State
         Texture2D* board;
         Texture2D* restartButton;
         Texture2D* quitButton;
-    
+        Font customFont;
         
 
     public:

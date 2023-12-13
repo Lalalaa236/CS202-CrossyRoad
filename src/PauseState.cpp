@@ -1,5 +1,5 @@
 #include "PauseState.h"
-
+#include"score.h"
 PauseState::PauseState(StateStack& stack)
 : State(stack), timerCount(0.0f)
 {
@@ -59,6 +59,7 @@ void PauseState::handleEvents()
         {
             requestStackClear();
             requestStackPush(States::ID::Game);
+            HighScore::getHighScoreManager().setCurrentScore(0);
         }    
         else if(CheckCollisionPointRec(mousePosition, {664, 622, quitButton->width * 1.0f, quitButton->height * 1.0f}))
         {

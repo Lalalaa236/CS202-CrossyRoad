@@ -1,10 +1,11 @@
 #include "gameState.h"
 #include"GameSettings.h"
+#include"score.h"
 #include <iostream>
 #include <chrono>
 const float ZOOM_DURATION = 3.5f;
 GameState::GameState(StateStack& stack) :
-    State(stack), speed(0.0f), count(0), start(false), over(false), score(0),isHighScore(0),highScoreZoomTimer(0.0f),HighScoreTrigger(false),highScore(0),timeSinceLastRain(0.0f)
+    State(stack), speed(0.0f), count(0), start(false), over(false), virtualScore(0),isHighScore(0),highScoreZoomTimer(0.0f),HighScoreTrigger(3),timeSinceLastRain(0.0f)
 {
     map = new Map(speed);
     player = new Player(1512.0 / 2 - 82 / 2, 982.0 - 2 * settings::GRID_SIZE.second, speed, Textures::ID::SKIN_FULL);
@@ -33,7 +34,7 @@ void GameState::draw() {
         rain.update(settings::SCREEN_WIDTH,settings::SCREEN_HEIGHT);
         rain.drawTo();
     }
-
+    //draw highscore
     if (highScoreZoomTimer > 0.0f) {
     float scaleFactor = 1.0f + (1.0f - highScoreZoomTimer / ZOOM_DURATION) * 0.5f;
     float fontSize = 100 * scaleFactor; 
@@ -50,14 +51,14 @@ void GameState::draw() {
     highScoreZoomTimer -= GetFrameTime();
     } else {
     // Draw the regular score
-        if (!HighScoreTrigger){
-            DrawTextEx(customFont, ("Score: " + std::to_string(score)).c_str(),
+        if (HighScoreTrigger >= 3){
+            DrawTextEx(customFont, ("Score: " + std::to_string(HighScore::getHighScoreManager().getCurrentScore())).c_str(),
                     Vector2{650, 10},
                     40,
                     2,
                     RED);
         }else{
-              DrawTextEx(customFont, ("High Score: " + std::to_string(score)).c_str(),
+              DrawTextEx(customFont, ("High Score: " + std::to_string(HighScore::getHighScoreManager().getCurrentScore())).c_str(),
                     Vector2{650, 10},
                     40,
                     2,
@@ -191,14 +192,20 @@ void GameState::handleInput() {
             count = GetTime();
             player->move(Player::Direction::UP);
 
-            score++;
+            virtualScore++;
+            if (virtualScore > HighScore::getHighScoreManager().getCurrentScore()){
+                HighScore::getHighScoreManager().setCurrentScore(virtualScore);
+            }
             // std::cerr << highScore << std::endl;
         }
         else if (IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S)) {
             count = GetTime();
             player->move(Player::Direction::DOWN);
 
-            score--;
+            virtualScore--;
+            if (virtualScore > HighScore::getHighScoreManager().getCurrentScore()){
+                HighScore::getHighScoreManager().setCurrentScore(virtualScore);
+            }
         }
         else if (IsKeyPressed(KEY_LEFT) || IsKeyPressed(KEY_A)) {
             count = GetTime();
@@ -209,11 +216,11 @@ void GameState::handleInput() {
             player->move(Player::Direction::RIGHT);
         }
 
-        if (score > highScore){
-            if (!HighScoreTrigger) highScoreZoomTimer = ZOOM_DURATION;
-            highScore = score;
-            HighScoreTrigger = true; 
+        if (HighScoreTrigger > 0 && HighScore::getHighScoreManager().getCurrentScore() > HighScore::getHighScoreManager().getHighestScore(HighScoreTrigger)){
+            highScoreZoomTimer = ZOOM_DURATION;
+            HighScoreTrigger--;
         }
+        HighScore::getHighScoreManager().updateHighestScore();
     }
 
     if (IsKeyPressed(KEY_P))

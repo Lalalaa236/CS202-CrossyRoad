@@ -17,13 +17,12 @@ private:
     float count;
     bool start;
     bool over;
-    int score;
-    int highScore;
+    int virtualScore;
     Rain rain;
     Font customFont;
     int isHighScore;
     float highScoreZoomTimer; 
-    bool HighScoreTrigger; 
+    int HighScoreTrigger; 
     float timeSinceLastRain;
     
     void checkOutOfScreen();
