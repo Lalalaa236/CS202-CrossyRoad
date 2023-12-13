@@ -15,4 +15,7 @@ private:
     Texture2D *background;
     Texture2D *highScoreBoard;
     Texture2D *closeButton;
+    Texture2D *leaderBoard;
+    int score[3];
+    Font customFont;
 };

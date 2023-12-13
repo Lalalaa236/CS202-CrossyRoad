@@ -118,6 +118,9 @@ void GameState::handleEvents()
     if (over){
         requestStackPush(States::ID::GameOver);
         rain.setState(false);
+        HighScore::getHighScoreManager().updateHighestScore();
+        for (int i = 1; i <= 3; i++)
+        std::cout << HighScore::getHighScoreManager().getHighestScore(i) << std::endl;
     }else
     if (!over)
     {
@@ -219,8 +222,9 @@ void GameState::handleInput() {
         if (HighScoreTrigger > 0 && HighScore::getHighScoreManager().getCurrentScore() > HighScore::getHighScoreManager().getHighestScore(HighScoreTrigger)){
             highScoreZoomTimer = ZOOM_DURATION;
             HighScoreTrigger--;
+            //std::cout << HighScoreTrigger << std::endl;
+            //HighScore::getHighScoreManager().updateHighestScore();
         }
-        HighScore::getHighScoreManager().updateHighestScore();
     }
 
     if (IsKeyPressed(KEY_P))

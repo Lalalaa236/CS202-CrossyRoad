@@ -1,8 +1,8 @@
 #include "score.h"
 
 HighScore::HighScore(): currentScore(0){
-    highScoreList.resize(3);
-    for (int i = 0; i < 3; i++){
+    highScoreList.resize(4);
+    for (int i = 0; i < 4; i++){
         highScoreList[i] = 0;
     }
 }
@@ -33,8 +33,12 @@ void HighScore::setCurrentScore(int score)
 
 void HighScore::updateHighestScore()
 {
-    for (int i = 0; i < highScoreList.size(); i++){
+    for (int i = 0; i < 3; i++){
         if (currentScore >= highScoreList[i]){
+            //shift
+            for (int j = i + 1; j < 3; j++){
+                highScoreList[j] = highScoreList[j - 1];
+            }
             highScoreList[i] = currentScore;
             break;
         }

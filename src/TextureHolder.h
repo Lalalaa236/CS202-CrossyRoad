@@ -31,6 +31,7 @@ namespace Textures {
 
         // high score
         TABLE_HIGHSCORE,
+        LEADER_BOARD,
 
         // Inscruction
         INSTRUCTION_1,
