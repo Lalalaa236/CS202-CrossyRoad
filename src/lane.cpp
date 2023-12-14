@@ -193,12 +193,12 @@ void Lane::update() {
     {
         if(!trafficLight->getLightState())
         {
-            if(obstacles.front()->getSpeed() > 0)
-                for (auto obstacle : obstacles)
-                    obstacle->setSpeed(+0.0f);
-            else
+            if(obstacles.front()->getUSpeed() & 0x80000000)
                 for (auto obstacle : obstacles)
                     obstacle->setSpeed(-0.0f);
+            else
+                for (auto obstacle : obstacles)
+                    obstacle->setSpeed(+0.0f);
         }
         else
         {

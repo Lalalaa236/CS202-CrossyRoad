@@ -59,3 +59,7 @@ Rectangle Obstacle::getBoxCollision() const {
 void Obstacle::setSpeed(float speed) {
     this->speed = speed;
 }
+
+unsigned Obstacle::getUSpeed() const {
+    return *(unsigned*)&speed;
+}

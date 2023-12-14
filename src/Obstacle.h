@@ -15,6 +15,7 @@ public:
     void setSpeed(float speed);
     bool checkOutOfScreen(float error = 0) const;
     Rectangle getBoxCollision() const;
+    unsigned getUSpeed() const;
 
     virtual void draw() = 0;
     virtual void update(float y) = 0;
