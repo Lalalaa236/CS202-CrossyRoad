@@ -224,3 +224,24 @@ void Player::setMoving(bool isMoving) {
 bool Player::getMoving() const {
     return isMoving;
 }
+
+std::string Player::serializeData() {
+    std::string serialized_data = "";
+
+    serialized_data += std::to_string(position.first) + " " + std::to_string(position.second) + " ";
+    serialized_data += std::to_string(targetPosition.first) + " " + std::to_string(targetPosition.second) + " ";
+    serialized_data += std::to_string(vSpeed) + " " + std::to_string(hSpeed) + " ";
+    serialized_data += std::to_string(frameCount) + " ";
+
+    return serialized_data;
+}
+
+void Player::loadSerializedData(std::stringstream& ss) {
+    ss >> position.first >> position.second;
+    ss >> targetPosition.first >> targetPosition.second;
+    ss >> vSpeed >> hSpeed;
+    ss >> frameCount;
+
+    boxCollision.x = position.first;
+    boxCollision.y = position.second;
+}

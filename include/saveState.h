@@ -8,17 +8,13 @@
 
 class SaveState : public State {
 private:
-    Texture2D* board;
-    Texture2D* saveButton;
-    Texture2D* quitButton;
-    Texture2D* save[3];
-
-    saveData saveDat[3];
-
-    int selectedSlot;
+    Texture2D* board;                   // Background board
+    Texture2D* confirmSavePanel;        // Panel to confirm overwrite save data 
+    Texture2D* saveButton;              // Button to save data
+    Texture2D* quitButton;              // Button to quit save state
+    Texture2D* saveSlot;                // Save slots
 
     void handleInput();
-    void drawSaveData();
     void drawSaveSlot();
 
 public:

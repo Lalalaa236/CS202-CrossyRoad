@@ -3,6 +3,7 @@
 
 #include "GameSettings.h"
 #include "TextureHolder.h"
+#include <sstream>
 
 class Player {
 private:
@@ -53,7 +54,9 @@ public:
     void draw();
     void update();
     void move(Direction direction);
-    void setSpeed(float vSpeed, float hSpeed);
+
+    std::string serializeData();
+    void loadSerializedData(std::stringstream& ss);
 };
 
 #endif

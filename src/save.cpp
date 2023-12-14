@@ -1,16 +1,17 @@
 #include "save.h"
+
 #include <string>
 #include <sstream>
 #include <fstream>
 #include <iostream>
 
-saveData::saveData() : seed(0), highScore(0), score(0), position({ 0, 0 }), targetPosition({ 0, 0 }), vSpeed(0), hSpeed(0), frameCount(0), skinID(0) {
+saveData::saveData() : serialized_data("") {
 }
 
-saveData::saveData(GameState* gameState) {
-    this->serialized_data = gameState->serializeData();
-    // load(this->serialized_data);
-}
+// saveData::saveData(GameState* gameState) {
+//     this->serialized_data = gameState->serializeData();
+//     // load(this->serialized_data);
+// }
 
 saveData::saveData(std::string serialized_data) {
     this->serialized_data = serialized_data;
@@ -51,6 +52,14 @@ void saveData::setFrameCount(int frameCount) {
 
 void saveData::setSkinID(int skinID) {
     this->skinID = skinID;
+}
+
+int saveData::getHighScore() const {
+    return this->highScore;
+}
+
+std::string saveData::getSerializedData() const {
+    return this->serialized_data;
 }
 
 void saveData::serialize() {

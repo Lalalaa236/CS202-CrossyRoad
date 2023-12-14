@@ -1,9 +1,7 @@
 #include "Game.h"
 #include "GameSettings.h"
-#include "LoseState.h"
 #include "State.h"
 #include "TextureHolder.h"
-#include "menustate.h"
 #include <iostream>
 
 Game::Game() {
@@ -239,4 +237,5 @@ void Game::registerState() {
     stateStack.registerState<highScoreState>(States::ID::Highscore);
     stateStack.registerState<SkinState>(States::ID::Skin);
     stateStack.registerState<LoseState>(States::ID::GameOver);
+    stateStack.registerState<SaveState>(States::ID::Save);
 }

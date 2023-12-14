@@ -1,5 +1,6 @@
 #include "gameState.h"
 #include "random.h"
+
 #include <chrono>
 #include <iostream>
 #include <sstream>
@@ -66,6 +67,7 @@ void GameState::handleEvents() {
     }
     else if (!over) {
         setMapSpeed();
+
         if (start) {
             checkOutOfScreen();
             checkCollision();
@@ -177,18 +179,12 @@ void GameState::checkEndOfGame() {
 std::string GameState::serializeData() {
     std::string serializd_data = "";
 
-    serializd_data += std::to_string(seed) + "\n";
-    serializd_data += std::to_string(highScore) + "\n";
-    serializd_data += std::to_string(score) + "\n";
-    serializd_data += std::to_string(player->getPosition().first) + "\n";
-    serializd_data += std::to_string(player->getPosition().second) + "\n";
-    serializd_data += std::to_string(player->getTargetPosition().first) + "\n";
-    serializd_data += std::to_string(player->getTargetPosition().second) + "\n";
+    serializd_data += std::to_string(seed) + ' ';
+    serializd_data += std::to_string(highScore) + ' ';
+    serializd_data += std::to_string(score) + ' ';
+    serializd_data += std::to_string(settings::CURRENT_SKIN) + ' ';
 
-    serializd_data += std::to_string(player->getSpeed().first) + "\n";
-    serializd_data += std::to_string(player->getSpeed().second) + "\n";
-    serializd_data += std::to_string(player->getFrameCount()) + "\n";
-    serializd_data += std::to_string(settings::CURRENT_SKIN) + "\n";
+    serializd_data += player->serializeData();
 
     return serializd_data;
 }
@@ -199,36 +195,10 @@ void GameState::loadSerializedData(std::string serialized_data) {
 
     float x, y;
 
-    std::getline(ss, line);
-    seed = std::stoull(line);
+    ss >> seed;
+    ss >> highScore;
+    ss >> score;
+    ss >> settings::CURRENT_SKIN;
 
-    std::getline(ss, line);
-    highScore = std::stoi(line);
-
-    std::getline(ss, line);
-    score = std::stoi(line);
-
-    std::getline(ss, line);
-    x = std::stof(line);
-    std::getline(ss, line);
-    y = std::stof(line);
-    player->setPosition(x, y);
-
-    std::getline(ss, line);
-    x = std::stof(line);
-    std::getline(ss, line);
-    y = std::stof(line);
-    player->setTargetPosition(x, y);
-
-    std::getline(ss, line);
-    x = std::stof(line);
-    std::getline(ss, line);
-    y = std::stof(line);
-    player->setSpeed(x, y);
-
-    std::getline(ss, line);
-    player->setFrameCount(std::stoi(line));
-
-    std::getline(ss, line);
-    settings::CURRENT_SKIN = std::stoi(line);
+    player->loadSerializedData(ss);
 }

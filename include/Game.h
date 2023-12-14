@@ -7,10 +7,12 @@
 #include "gameState.h"
 #include "highscoreState.h"
 #include "instructionState.h"
+#include "LoseState.h"
 #include "menuState.h"
 #include "pauseState.h"
 #include "settingState.h"
 #include "skinState.h"
+#include "saveState.h"
 
 
 class State;

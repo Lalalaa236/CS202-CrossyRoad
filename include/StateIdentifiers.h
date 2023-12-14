@@ -2,7 +2,7 @@
 #define STATEIDENTIFIERS_H
 
 namespace States {
-enum class ID { None, Menu, Game, Pause, Settings, Instructions, Highscore, Skin, GameOver };
+    enum class ID { None, Menu, Game, Pause, Settings, Instructions, Highscore, Skin, GameOver, Save, Load };
 }
 
 #endif

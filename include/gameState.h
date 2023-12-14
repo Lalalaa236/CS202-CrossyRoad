@@ -6,6 +6,7 @@
 #include "PauseState.h"
 #include "Player.h"
 #include "Rain.h"
+#include "saveState.h"
 #include "State.h"
 
 class GameState : public State {

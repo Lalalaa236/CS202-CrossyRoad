@@ -23,11 +23,11 @@ private:
     int skinID;
 
     // Data
-    std::string serialized_data;
+    std::string serialized_data = "";
 
 public:
     saveData();
-    saveData(GameState* gameState);
+    // saveData(GameState* gameState);
     saveData(std::string serialized_data);
 
     // Setter
@@ -40,6 +40,10 @@ public:
     void setHSpeed(float hSpeed);
     void setFrameCount(int frameCount);
     void setSkinID(int skinID);
+
+    // Getter
+    int getHighScore() const;
+    std::string getSerializedData() const;
 
     // Method
     void serialize();
