@@ -4,7 +4,6 @@
 // Constructor and Destructor
 
 TrafficLight::TrafficLight(float x, float y) : position({x, y}) {
-    this->lightState = false;
     this->timer = 0.0;
     this->redTimer = 5.0;
     this->greenTimer = 7.0;
@@ -12,6 +11,9 @@ TrafficLight::TrafficLight(float x, float y) : position({x, y}) {
     red = &TextureHolder::getHolder().get(Textures::RED_LIGHT);
     yellow = &TextureHolder::getHolder().get(Textures::YELLOW_LIGHT);
     green = &TextureHolder::getHolder().get(Textures::GREEN_LIGHT);
+
+    int random = rand() % 2;
+    random == 0 ? this->lightState = false : this->lightState = true;
 }
 
 TrafficLight::TrafficLight(bool state, double redTimer, double greenTimer) {
@@ -61,7 +63,19 @@ void TrafficLight::draw() {
 }
 
 void TrafficLight::update() {
-    // TODO: Update the traffic light
+    this->timer += GetFrameTime();
+
+    if (lightState == false) {
+        if (timer >= redTimer) {
+            lightState = true;
+            timer = 0.0f;
+        }
+    } else {
+        if (timer >= greenTimer) {
+            lightState = false;
+            timer = 0.0f;
+        }
+    }
 }
 
 void TrafficLight::setY(float y) {
