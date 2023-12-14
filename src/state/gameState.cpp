@@ -193,8 +193,6 @@ void GameState::loadSerializedData(std::string serialized_data) {
     std::string line;
     std::stringstream ss(serialized_data);
 
-    float x, y;
-
     ss >> seed;
     ss >> highScore;
     ss >> score;

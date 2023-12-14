@@ -13,10 +13,12 @@ private:
     Texture2D* saveButton;              // Button to save data
     Texture2D* quitButton;              // Button to quit save state
     Texture2D* saveSlot;                // Save slots
+    Texture2D* saveSlotSelected;        // Save slots selected
 
     void handleInput();
-    void drawSaveSlot();
+    void drawSaveSlot(int selectedSlot = -1);
 
+    int selectedSlot = -1;              // Selected save slot
 public:
     SaveState(StateStack& stack);
     ~SaveState();

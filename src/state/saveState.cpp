@@ -12,15 +12,26 @@ int saveSlotX = 0, saveSlotY = 0;
 
 saveData save[3];
 
-void SaveState::drawSaveSlot() {
+void SaveState::drawSaveSlot(int selectedSlot) {
     for (int i = 0; i < 3; ++i) {
         // Draw the save slot
-        DrawTexturePro(*saveSlot,
-            { 0, 0, float(saveSlot->width), float(saveSlot->height) },
-            { float(saveSlotX), float(saveSlotY + i * 150 * scaleHeight), saveSlot->width * scaleWidth, saveSlot->height * scaleHeight },
-            { 0, 0 },
-            0,
-            WHITE);
+        if (i == selectedSlot) {
+            DrawTexturePro(*saveSlotSelected,
+                { 0, 0, float(saveSlotSelected->width), float(saveSlotSelected->height) },
+                { float(saveSlotX), float(saveSlotY + i * 150 * scaleHeight), saveSlotSelected->width * scaleWidth, saveSlotSelected->height * scaleHeight },
+                { 0, 0 },
+                0,
+                WHITE);
+        }
+        else
+        {
+            DrawTexturePro(*saveSlot,
+                { 0, 0, float(saveSlot->width), float(saveSlot->height) },
+                { float(saveSlotX), float(saveSlotY + i * 150 * scaleHeight), saveSlot->width * scaleWidth, saveSlot->height * scaleHeight },
+                { 0, 0 },
+                0,
+                WHITE);
+        }
 
         // Draw the save slot number
         DrawText(std::to_string(i + 1).c_str(),
@@ -61,6 +72,7 @@ SaveState::SaveState(StateStack& stack) : State(stack) {
     board = new Texture2D(LoadTexture("image/saveState/board.png"));
     confirmSavePanel = new Texture2D(LoadTexture("image/saveState/confirmSavePanel.png"));
     saveSlot = new Texture2D(LoadTexture("image/saveState/saveSlot.png"));
+    saveSlotSelected = new Texture2D(LoadTexture("image/saveState/selectedSlot.png"));
 
     // Calculate the coordinates relative to the board
     scaleWidth = (float)GetScreenWidth() / settings::SCREEN_WIDTH;
@@ -87,11 +99,13 @@ SaveState::~SaveState() {
     UnloadTexture(*confirmSavePanel);
     UnloadTexture(*saveSlot);
     UnloadTexture(*saveButton);
+    UnloadTexture(*saveSlotSelected);
 
     delete board;
     delete confirmSavePanel;
     delete saveSlot;
     delete saveButton;
+    delete saveSlotSelected;
 }
 
 void SaveState::draw() {
@@ -123,7 +137,7 @@ void SaveState::draw() {
         WHITE);
 
     // Draw 3 save slots
-    drawSaveSlot();
+    drawSaveSlot(this->selectedSlot);
 }
 
 void SaveState::update() {
@@ -146,12 +160,25 @@ void SaveState::handleInput() {
             // Save the data
             // save[selectedSlot].save(selectedSlot);
             requestStackPop();
+            requestStackPush(States::ID::Pause);
         }
 
         // Check if the mouse is clicked on the quit button
         if (mousePos.x >= quitButtonX && mousePos.x <= quitButtonX + quitButton->width * scaleWidth &&
             mousePos.y >= quitButtonY && mousePos.y <= quitButtonY + quitButton->height * scaleHeight) {
             requestStackPop();
+            requestStackPush(States::ID::Pause);
+        }
+    }
+
+    // Check if the mouse is clicked on the save slot
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+        Vector2 mousePos = GetMousePosition();
+        for (int i = 0; i < 3; ++i) {
+            if (mousePos.x >= saveSlotX && mousePos.x <= saveSlotX + saveSlot->width * scaleWidth &&
+                mousePos.y >= saveSlotY + i * 150 * scaleHeight && mousePos.y <= saveSlotY + i * 150 * scaleHeight + saveSlot->height * scaleHeight) {
+                this->selectedSlot = i;
+            }
         }
     }
 }
