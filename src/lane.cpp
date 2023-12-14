@@ -191,20 +191,23 @@ void Lane::update() {
 
     if(obstacles.size() > 0 && trafficLight)
     {
-        if(!trafficLight->getLightState())
+        if(trafficLight->getIsChanged())
         {
-            if(obstacles.front()->getUSpeed() & 0x80000000)
-                for (auto obstacle : obstacles)
-                    obstacle->setSpeed(-0.0f);
+            if(!trafficLight->getLightState())
+            {
+                if(obstacles.front()->getUSpeed() & 0x80000000)
+                    for (auto obstacle : obstacles)
+                        obstacle->setSpeed(-0.0f);
+                else
+                    for (auto obstacle : obstacles)
+                        obstacle->setSpeed(+0.0f);
+            }
             else
+            {
                 for (auto obstacle : obstacles)
-                    obstacle->setSpeed(+0.0f);
+                    obstacle->setSpeed(randomSpeed);
+            }  
         }
-        else
-        {
-            for (auto obstacle : obstacles)
-                obstacle->setSpeed(randomSpeed);
-        }  
     }
 }
 

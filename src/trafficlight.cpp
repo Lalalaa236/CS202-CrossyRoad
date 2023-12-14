@@ -64,15 +64,20 @@ void TrafficLight::draw() {
 
 void TrafficLight::update() {
     this->timer += GetFrameTime();
+    if(this->timer != GetFrameTime() && this->isChanged)
+        this->isChanged = false;
 
-    if (!lightState) {
-        if (timer >= redTimer) {
+    if(!lightState) {
+        if(timer >= redTimer) {
             lightState = true;
+            isChanged = true;
             timer = 0.0f;
         }
-    } else {
-        if (timer >= greenTimer) {
+    } 
+    else {
+        if(timer >= greenTimer) {
             lightState = false;
+            isChanged = true;
             timer = 0.0f;
         }
     }
@@ -80,4 +85,8 @@ void TrafficLight::update() {
 
 void TrafficLight::setY(float y) {
     this->position.second = y;
+}
+
+bool TrafficLight::getIsChanged() const {
+    return this->isChanged;
 }
