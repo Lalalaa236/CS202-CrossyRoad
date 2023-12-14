@@ -3,20 +3,30 @@
 
 // Constructor and Destructor
 
-TrafficLight::TrafficLight(float x, float y) : position({x, y}) {
+TrafficLight::TrafficLight(float x, float y, Type type) : position({x, y}), type(type) {
     this->timer = 0.0;
-    this->redTimer = 5.0;
-    this->greenTimer = 7.0;
-
-    red = &TextureHolder::getHolder().get(Textures::RED_LIGHT);
-    yellow = &TextureHolder::getHolder().get(Textures::YELLOW_LIGHT);
-    green = &TextureHolder::getHolder().get(Textures::GREEN_LIGHT);
+    if(type == Type::ROAD) {
+        this->redTimer = 5.0;
+        this->greenTimer = 7.0;
+        red = &TextureHolder::getHolder().get(Textures::RED_LIGHT);
+        // yellow = &TextureHolder::getHolder().get(Textures::YELLOW_LIGHT);
+        green = &TextureHolder::getHolder().get(Textures::GREEN_LIGHT);
+        scale = 1.0f;
+    }
+    else if(type == Type::RAILWAY) {
+        this->redTimer = 10.0;
+        this->greenTimer = 3.0;
+        red = &TextureHolder::getHolder().get(Textures::TRAIN_RED_LIGHT);
+        // yellow = &TextureHolder::getHolder().get(Textures::YELLOW_LIGHT);
+        green = &TextureHolder::getHolder().get(Textures::TRAIN_GREEN_LIGHT);
+        scale = 0.15f;
+    }
 
     int random = rand() % 2;
     random == 0 ? this->lightState = false : this->lightState = true;
 }
 
-TrafficLight::TrafficLight(bool state, double redTimer, double greenTimer) {
+TrafficLight::TrafficLight(bool state, double redTimer, double greenTimer, Type type) {
     // Make sure the timers are not negative
     assert(redTimer >= 0);
     assert(greenTimer >= 0);
@@ -25,10 +35,20 @@ TrafficLight::TrafficLight(bool state, double redTimer, double greenTimer) {
     this->timer = 0.0;
     this->redTimer = redTimer;
     this->greenTimer = greenTimer;
+    this->type = type;
 
-    red = &TextureHolder::getHolder().get(Textures::RED_LIGHT);
-    yellow = &TextureHolder::getHolder().get(Textures::YELLOW_LIGHT);
-    green = &TextureHolder::getHolder().get(Textures::GREEN_LIGHT);
+    if(type == Type::ROAD) {
+        red = &TextureHolder::getHolder().get(Textures::RED_LIGHT);
+        // yellow = &TextureHolder::getHolder().get(Textures::YELLOW_LIGHT);
+        green = &TextureHolder::getHolder().get(Textures::GREEN_LIGHT);
+        scale = 1.0f;
+    }
+    else if(type == Type::RAILWAY) {
+        red = &TextureHolder::getHolder().get(Textures::TRAIN_RED_LIGHT);
+        // yellow = &TextureHolder::getHolder().get(Textures::YELLOW_LIGHT);
+        green = &TextureHolder::getHolder().get(Textures::TRAIN_GREEN_LIGHT);
+        scale = 0.15f;
+    }
 }
 
 TrafficLight::~TrafficLight() {
@@ -57,9 +77,9 @@ std::pair<float, float> TrafficLight::getPosition() const {
 
 void TrafficLight::draw() {
     if (!lightState)
-        DrawTextureEx(*red, {position.first, position.second - 40}, 0, 1, WHITE);
+        DrawTextureEx(*red, {position.first, position.second - 40}, 0, scale, WHITE);
     else
-        DrawTextureEx(*green, {position.first, position.second - 40}, 0, 1, WHITE);
+        DrawTextureEx(*green, {position.first, position.second - 40}, 0, scale, WHITE);
 }
 
 void TrafficLight::update() {

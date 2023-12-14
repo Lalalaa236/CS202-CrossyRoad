@@ -40,7 +40,7 @@ Lane::Lane(float y, float mapSpeed, int currentScore) : y(y), mapSpeed(mapSpeed)
         }
         else {
             texture = &TextureHolder::getHolder().get(Textures::ROAD);
-            trafficLight = new TrafficLight(trafficLight_x, this->y - 25);
+            trafficLight = new TrafficLight(trafficLight_x, this->y - 25, TrafficLight::Type::ROAD);
             cnt++;
             laneType = LaneType::ROAD;
         }
@@ -48,7 +48,7 @@ Lane::Lane(float y, float mapSpeed, int currentScore) : y(y), mapSpeed(mapSpeed)
     case 1:
         if (cnt == 3) {
             texture = &TextureHolder::getHolder().get(Textures::ROAD);
-            trafficLight = new TrafficLight(trafficLight_x, this->y - 25);
+            trafficLight = new TrafficLight(trafficLight_x, this->y - 25, TrafficLight::Type::ROAD);
             cnt = 0;
             laneType = LaneType::ROAD;
         }
@@ -61,7 +61,7 @@ Lane::Lane(float y, float mapSpeed, int currentScore) : y(y), mapSpeed(mapSpeed)
         break;
     case 2:
         texture = &TextureHolder::getHolder().get(Textures::RAILWAY);
-        trafficLight = new TrafficLight(trafficLight_x, this->y - 25);
+        trafficLight = new TrafficLight(trafficLight_x, this->y - 25, TrafficLight::Type::RAILWAY);
         laneType = LaneType::RAILWAY;
         break;
     default:
@@ -108,11 +108,11 @@ Lane::Lane(float y, float mapSpeed, LaneType laneType, int numObstacles, Obstacl
         break;
     case LaneType::ROAD:
         texture = &TextureHolder::getHolder().get(Textures::ROAD);
-        trafficLight = new TrafficLight(trafficLight_x, this->y - 25);
+        trafficLight = new TrafficLight(trafficLight_x, this->y - 25, TrafficLight::Type::ROAD);
         break;
     case LaneType::RAILWAY:
         texture = &TextureHolder::getHolder().get(Textures::RAILWAY);
-        trafficLight = new TrafficLight(trafficLight_x, this->y - 25);
+        trafficLight = new TrafficLight(trafficLight_x, this->y - 25, TrafficLight::Type::RAILWAY);
         break;
     default:
         texture = nullptr;
