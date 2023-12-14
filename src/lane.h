@@ -7,20 +7,25 @@
 #include <deque>
 
 class Lane {
-private:
-    float randomSpeed;
-    const Texture2D* texture;
-    float y;
-    float mapSpeed;
-    std::deque<Obstacle*> obstacles;
-    TrafficLight* trafficLight;
-    int isSafe;
-    bool direction; // true = right, false = left
-
 public:
-    enum LaneType { ROAD, GRASS, RAILWAY};
+    enum class ObstacleType 
+    { 
+        Bird,
+        Cat, 
+        Dog,
+        Rabbit,
+        Tiger,
+        Bike,
+        Cab,
+        Car,
+        Truck,
+        Taxi,
+        Train,
+        None
+    };
+    enum class LaneType { ROAD, GRASS, RAILWAY};
     Lane(float y, float mapSpeed, int currentScore = 0);
-    Lane(float y, float mapSpeed, LaneType laneType, int numObstacles);
+    Lane(float y, float mapSpeed, LaneType laneType, int numObstacles, ObstacleType obstacleType);
     ~Lane();
 
     void setY(float y);
@@ -33,8 +38,18 @@ public:
     void draw();
     void update();
     bool CheckCollisionPlayer(Rectangle playerBoxCollision);
-};
+private:
+    float randomSpeed;
+    const Texture2D* texture;
+    float y;
+    float mapSpeed;
+    std::deque<Obstacle*> obstacles;
+    TrafficLight* trafficLight;
+    bool direction; // true = right, false = left
+    ObstacleType obstacleType;
+    LaneType laneType;
 
-Obstacle* createObstacle(int safeLane, float x, float y, float speed);
+    Obstacle* createObstacle(float x, float y, float speed);
+};
 
 #endif
