@@ -188,6 +188,24 @@ void Lane::update() {
 
     for (auto obstacle : obstacles)
         obstacle->update(this->getY());
+
+    if(obstacles.size() > 0 && trafficLight)
+    {
+        if(!trafficLight->getLightState())
+        {
+            if(obstacles.front()->getSpeed() > 0)
+                for (auto obstacle : obstacles)
+                    obstacle->setSpeed(+0.0f);
+            else
+                for (auto obstacle : obstacles)
+                    obstacle->setSpeed(-0.0f);
+        }
+        else
+        {
+            for (auto obstacle : obstacles)
+                obstacle->setSpeed(randomSpeed);
+        }  
+    }
 }
 
 void Lane::setSpeed(float mapSpeed) {

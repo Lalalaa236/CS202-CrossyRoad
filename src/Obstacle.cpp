@@ -55,3 +55,7 @@ void Obstacle::setBoxCollision(float x, float y, Texture2D* txt, float scale) {
 Rectangle Obstacle::getBoxCollision() const {
     return boxCollision;
 }
+
+void Obstacle::setSpeed(float speed) {
+    this->speed = speed;
+}

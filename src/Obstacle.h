@@ -12,6 +12,7 @@ public:
     Vector2 getPos();
     float getSpeed() const;
     void setPos(float x, float y);
+    void setSpeed(float speed);
     bool checkOutOfScreen(float error = 0) const;
     Rectangle getBoxCollision() const;
 

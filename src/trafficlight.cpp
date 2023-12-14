@@ -56,7 +56,7 @@ std::pair<float, float> TrafficLight::getPosition() const {
 // Methods
 
 void TrafficLight::draw() {
-    if (lightState == false)
+    if (!lightState)
         DrawTextureEx(*red, {position.first, position.second - 40}, 0, 1, WHITE);
     else
         DrawTextureEx(*green, {position.first, position.second - 40}, 0, 1, WHITE);
@@ -65,7 +65,7 @@ void TrafficLight::draw() {
 void TrafficLight::update() {
     this->timer += GetFrameTime();
 
-    if (lightState == false) {
+    if (!lightState) {
         if (timer >= redTimer) {
             lightState = true;
             timer = 0.0f;
