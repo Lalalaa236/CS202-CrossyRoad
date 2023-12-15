@@ -49,7 +49,7 @@ void Truck::draw() {
     Rectangle destRect = { tmp.x, tmp.y, (float)txt[curFrame]->width * scale, (float)txt[curFrame]->height * scale };
 
     // Flip the sprite based on the direction
-    if (this->getSpeed() < 0)
+    if (this->getUSpeed() & 0x80000000)
         srcRect.width = -srcRect.width;
 
     DrawTexturePro(*txt[curFrame], srcRect, destRect, { 0, 0 }, 0.0f, WHITE);

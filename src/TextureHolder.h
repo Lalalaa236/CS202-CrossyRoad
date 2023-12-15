@@ -50,6 +50,8 @@ namespace Textures {
         RED_LIGHT,
         YELLOW_LIGHT,
         GREEN_LIGHT,
+        TRAIN_RED_LIGHT,
+        TRAIN_GREEN_LIGHT,
 
         //Bird
         BIRD_1,

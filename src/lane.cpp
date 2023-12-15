@@ -36,39 +36,48 @@ Lane::Lane(float y, float mapSpeed, int currentScore) : y(y), mapSpeed(mapSpeed)
             texture = &TextureHolder::getHolder().get(Textures::GRASS);
             trafficLight = nullptr;
             cnt = 0;
-            isSafe = 1;
+            laneType = LaneType::GRASS;
         }
         else {
             texture = &TextureHolder::getHolder().get(Textures::ROAD);
-            trafficLight = new TrafficLight(trafficLight_x, this->y - 25);
+            trafficLight = new TrafficLight(trafficLight_x, this->y - 25, TrafficLight::Type::ROAD);
             cnt++;
-            isSafe = 0;
+            laneType = LaneType::ROAD;
         }
         break;
     case 1:
         if (cnt == 3) {
             texture = &TextureHolder::getHolder().get(Textures::ROAD);
-            trafficLight = new TrafficLight(trafficLight_x, this->y - 25);
+            trafficLight = new TrafficLight(trafficLight_x, this->y - 25, TrafficLight::Type::ROAD);
             cnt = 0;
-            isSafe = 0;
+            laneType = LaneType::ROAD;
         }
         else {
             texture = &TextureHolder::getHolder().get(Textures::GRASS);
             trafficLight = nullptr;
             cnt++;
-            isSafe = 1;
+            laneType = LaneType::GRASS;
         }
         break;
     case 2:
         texture = &TextureHolder::getHolder().get(Textures::RAILWAY);
-        trafficLight = new TrafficLight(trafficLight_x, this->y - 25);
-        isSafe = 2;
+        trafficLight = new TrafficLight(trafficLight_x, this->y - 25, TrafficLight::Type::RAILWAY);
+        laneType = LaneType::RAILWAY;
         break;
     default:
         texture = nullptr;
         trafficLight = nullptr;
         break;
     }
+
+    int randomObstacle = rand() % 5;
+
+    if(laneType == LaneType::RAILWAY)
+        obstacleType = ObstacleType::Train;
+    else if(laneType == LaneType::GRASS)
+        obstacleType = (ObstacleType)randomObstacle;
+    else
+        obstacleType = (ObstacleType)(randomObstacle + 5);
 
     addObstacleByScore(currentScore);
 }
@@ -82,7 +91,7 @@ Lane::~Lane() {
     delete trafficLight;
 }
 
-Lane::Lane(float y, float mapSpeed, LaneType laneType, int numObstacles) : y(y), mapSpeed(mapSpeed) {
+Lane::Lane(float y, float mapSpeed, LaneType laneType, int numObstacles, ObstacleType ObstacleType) : y(y), mapSpeed(mapSpeed), laneType(laneType), obstacleType(ObstacleType) {
     float trafficLight_x = 5;
     randomSpeed = GetRandomValue(3.5f, 6.5f);
     direction = rand() % 2;
@@ -96,17 +105,14 @@ Lane::Lane(float y, float mapSpeed, LaneType laneType, int numObstacles) : y(y),
     case LaneType::GRASS:
         texture = &TextureHolder::getHolder().get(Textures::GRASS);
         trafficLight = nullptr;
-        isSafe = 1;
         break;
     case LaneType::ROAD:
         texture = &TextureHolder::getHolder().get(Textures::ROAD);
-        trafficLight = new TrafficLight(trafficLight_x, this->y - 25);
-        isSafe = 0;
+        trafficLight = new TrafficLight(trafficLight_x, this->y - 25, TrafficLight::Type::ROAD);
         break;
     case LaneType::RAILWAY:
         texture = &TextureHolder::getHolder().get(Textures::RAILWAY);
-        trafficLight = new TrafficLight(trafficLight_x, this->y - 25);
-        isSafe = 2;
+        trafficLight = new TrafficLight(trafficLight_x, this->y - 25, TrafficLight::Type::RAILWAY);
         break;
     default:
         texture = nullptr;
@@ -140,7 +146,7 @@ void Lane::addObstacle(int numObstacle, float speedScale) {
     // Generate random obstacles
     for (i = 1; i <= numObstacle; i++) {
         x = distances[i - 1];
-        obstacles.push_back(createObstacle(isSafe, x, this->y, randomSpeed * speedScale));
+        obstacles.push_back(createObstacle(x, this->y, randomSpeed * speedScale));
     }
 
 }
@@ -188,6 +194,47 @@ void Lane::update() {
 
     for (auto obstacle : obstacles)
         obstacle->update(this->getY());
+
+    if(obstacles.size() > 0 && trafficLight)
+    {
+        if(trafficLight->getIsChanged())
+        {
+            if(!trafficLight->getLightState())
+            {
+                if(laneType == LaneType::ROAD)
+                {
+                    if(obstacles.front()->getUSpeed() & 0x80000000)
+                        for (auto obstacle : obstacles)
+                            obstacle->setSpeed(-0.0f);
+                    else
+                        for (auto obstacle : obstacles)
+                            obstacle->setSpeed(+0.0f);
+                }
+                else if(laneType == LaneType::RAILWAY)
+                {
+                    for (auto obstacle : obstacles)
+                        obstacle->setSpeed(randomSpeed);
+                }
+            }
+            else
+            {
+                if(laneType == LaneType::ROAD)
+                {
+                    for (auto obstacle : obstacles)
+                        obstacle->setSpeed(randomSpeed);
+                }
+                else if(laneType == LaneType::RAILWAY)
+                {
+                    if(obstacles.front()->getUSpeed() & 0x80000000)
+                        for (auto obstacle : obstacles)
+                            obstacle->setSpeed(-0.0f);
+                    else
+                        for (auto obstacle : obstacles)
+                            obstacle->setSpeed(+0.0f);
+                }
+            }  
+        }
+    }
 }
 
 void Lane::setSpeed(float mapSpeed) {
@@ -209,56 +256,46 @@ bool Lane::CheckCollisionPlayer(Rectangle playerBoxCollision) {
 /// @param y 
 /// @param speed 
 /// @return Obstacle*
-Obstacle* createObstacle(int safeLane, float x, float y, float speed) {
+Obstacle* Lane::createObstacle(float x, float y, float speed) {
     int randomType;
     Obstacle* tmp = nullptr;
 
-    if (safeLane == 2){
-        tmp = new Train({0,y},speed);
-    }
-    if (safeLane == 1) {
-        randomType = rand() % 5;
-
-        switch (randomType) {
-        case 0:
-            tmp = new Bird({ x, y }, speed);
+    switch(obstacleType) {
+        case(ObstacleType::Bird):
+            tmp = new Bird({x, y}, speed);
             break;
-        case 1:
-            tmp = new Cat({ x, y }, speed);
+        case(ObstacleType::Cat):
+            tmp = new Cat({x, y}, speed);
             break;
-        case 2:
-            tmp = new Dog({ x, y }, speed);
+        case(ObstacleType::Dog):
+            tmp = new Dog({x, y}, speed);
             break;
-        case 3:
-            tmp = new Tiger({ x, y }, speed);
+        case(ObstacleType::Rabbit):
+            tmp = new Rabbit({x, y}, speed);
             break;
-        case 4:
-            tmp = new Rabbit({ x, y }, speed);
+        case(ObstacleType::Tiger):
+            tmp = new Tiger({x, y}, speed);
+            break;
+        case(ObstacleType::Bike):
+            tmp = new Bike({x, y}, speed);
+            break;
+        case(ObstacleType::Cab):
+            tmp = new Cab({x, y}, speed);
+            break;
+        case(ObstacleType::Car):
+            tmp = new Car({x, y}, speed);
+            break;
+        case(ObstacleType::Truck):
+            tmp = new Truck({x, y}, speed);
+            break;
+        case(ObstacleType::Taxi):
+            tmp = new Taxi({x, y}, speed);
+            break;
+        case(ObstacleType::Train):
+            tmp = new Train({x, y}, speed);
             break;
         default:
             break;
-        }
-    }
-    if (safeLane == 0) {
-        randomType = rand() % 5;
-
-        switch (randomType) {
-        case 0:
-            tmp = new Bike({ x, y - 15 }, speed);
-            break;
-        case 1:
-            tmp = new Cab({ x, y }, speed);
-            break;
-        case 2:
-            tmp = new Car({ x, y + 10 }, speed);
-            break;
-        case 3:
-            tmp = new Truck({ x, y - 6 }, speed);
-            break;
-        case 4:
-            tmp = new Taxi({ x, y + 20 }, speed);
-            break;
-        }
     }
 
     return tmp;

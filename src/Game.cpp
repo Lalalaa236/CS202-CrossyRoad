@@ -109,6 +109,8 @@ void Game::loadAllTexture() {
     TextureHolder::getHolder().load(Textures::RED_LIGHT, "image/gamestate/RedLight.png");
     TextureHolder::getHolder().load(Textures::YELLOW_LIGHT, "image/gamestate/YellowLight.png");
     TextureHolder::getHolder().load(Textures::GREEN_LIGHT, "image/gamestate/GreenLight.png");
+    TextureHolder::getHolder().load(Textures::TRAIN_RED_LIGHT, "image/gamestate/TrainLightRed.png");
+    TextureHolder::getHolder().load(Textures::TRAIN_GREEN_LIGHT, "image/gamestate/TrainLightGreen.png");
 
     TextureHolder::getHolder().load(Textures::SKIN_FULL, "image/skin/1/full.png"); // Place holder
 
