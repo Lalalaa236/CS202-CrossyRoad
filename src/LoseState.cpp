@@ -7,8 +7,8 @@ LoseState::LoseState(StateStack& stack)
     board = &TextureHolder::getHolder().get(Textures::ID::LOSE_BOARD);
     restartButton = &TextureHolder::getHolder().get(Textures::ID::RESTART_BUTTON);
     quitButton = &TextureHolder::getHolder().get(Textures::ID::QUIT_BUTTON);
-    customFont = LoadFont("font/JambuKristal-1G01M.otf");
-
+    customFont = LoadFontEx("font/River Adventurer.ttf",110, 0, 250);
+    //SetTextureFilter(customFont.texture, FILTER_BILINEAR);
     ShowCursor();
 }
 
@@ -23,26 +23,38 @@ void LoseState::draw()
     DrawTexture(*board, 289, 107, WHITE);
     DrawTexture(*restartButton, 494.81f, 623.0f, WHITE);
     DrawTexture(*quitButton, 878, 623, WHITE);
+
     const char* scoreText = "Score";
     const char* actualScore = std::to_string(HighScore::getHighScoreManager().getCurrentScore()).c_str();
 
     // Measure the width of the "Score:" text
-    float scoreTextWidth = MeasureTextEx(customFont, scoreText, 100, 2).x;
+    float scoreTextWidth = MeasureTextEx(customFont, scoreText, 110, 2).x;
+
+    // Center the "Score:" text within the board
+    Vector2 scoreTextPos = {
+        289 + (board->width - scoreTextWidth) / 2, // Center horizontally
+        426 // Fixed vertical position
+    };
 
     // Draw "Score:"
+    Color textColor = Color{0xF3, 0x96, 0x44, 0xFF};
     DrawTextEx(customFont, scoreText,
-            Vector2{730 - scoreTextWidth / 2, 426}, // Centered position
-            100,
-            2,
-            RED);
+               scoreTextPos,
+               110,
+               2,
+               textColor);
 
-    // Draw the actual score centered with respect to "Score:"
+    // Draw the actual score centered with respect to "Score"
+    Vector2 actualScorePos = {
+        289 + (board->width - MeasureTextEx(customFont, actualScore, 110, 2).x) / 2, 
+        550 // Fixed vertical position
+    };
+
     DrawTextEx(customFont, actualScore,
-            Vector2{730 - MeasureTextEx(customFont, actualScore, 100, 2).x / 2, 540}, // Centered position
-            100,
-            2,
-            RED);
-
+               actualScorePos,
+               90,
+               2,
+               textColor);
 }
 
 void LoseState::update() {

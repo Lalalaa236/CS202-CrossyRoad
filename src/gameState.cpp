@@ -3,9 +3,9 @@
 #include"score.h"
 #include <iostream>
 #include <chrono>
-const float ZOOM_DURATION = 3.5f;
+
 GameState::GameState(StateStack& stack) :
-    State(stack), speed(0.0f), count(0), start(false), over(false), virtualScore(0),isHighScore(0),highScoreZoomTimer(0.0f),HighScoreTrigger(3),timeSinceLastRain(0.0f)
+    State(stack), speed(0.0f), count(0), start(false), over(false), virtualScore(0),isHighScore(0),highScoreTimer(0.0f),HighScoreTrigger(3),timeSinceLastRain(0.0f)
 {
     map = new Map(speed);
     player = new Player(1512.0 / 2 - 82 / 2, 982.0 - 2 * settings::GRID_SIZE.second, speed, Textures::ID::SKIN_FULL);
@@ -13,6 +13,7 @@ GameState::GameState(StateStack& stack) :
     HideCursor();
     rain.setState(false);
     customFont = LoadFont("./font/River Adventurer.ttf");
+    customFont1 = LoadFont("font/Noot Regular.woff.ttf");
     // std::cout << "GameState constructor called" << std::endl;
 }
 
@@ -34,39 +35,38 @@ void GameState::draw() {
         rain.update(settings::SCREEN_WIDTH,settings::SCREEN_HEIGHT);
         rain.drawTo();
     }
-    //draw highscore
-    if (highScoreZoomTimer > 0.0f) {
-    float scaleFactor = 1.0f + (1.0f - highScoreZoomTimer / ZOOM_DURATION) * 0.5f;
-    float fontSize = 100 * scaleFactor; 
-    Vector2 centerPosition = {
-        static_cast<float>(settings::SCREEN_WIDTH) / 2 - MeasureTextEx(customFont, "High Score", fontSize, 2).x / 2,
-        static_cast<float>(settings::SCREEN_HEIGHT) / 2 - fontSize / 2
-    };
-    DrawTextEx(customFont, ("High Score"),
-               centerPosition,
-               fontSize,
-               2,
-               Fade(RED, highScoreZoomTimer / ZOOM_DURATION));
-
-    highScoreZoomTimer -= GetFrameTime();
-    } else {
     // Draw the regular score
-        if (HighScoreTrigger >= 3){
-            DrawTextEx(customFont, ("Score: " + std::to_string(HighScore::getHighScoreManager().getCurrentScore())).c_str(),
-                    Vector2{650, 10},
-                    40,
-                    2,
-                    RED);
-        }else{
-              DrawTextEx(customFont, ("High Score: " + std::to_string(HighScore::getHighScoreManager().getCurrentScore())).c_str(),
-                    Vector2{650, 10},
-                    40,
-                    2,
-                    RED);
+     if (highScoreTimer >= 1.0f) {
+            // Get the width of the existing high score text
+            float highScoreTextWidth = MeasureTextEx(customFont, ("High Score: " + std::to_string(HighScore::getHighScoreManager().getCurrentScore())).c_str(), 40, 2).x;
+
+            // Calculate the position to center "New High Score!!!" under the existing high score
+            float newX = 650 + (highScoreTextWidth / 2) - (MeasureTextEx(customFont1,"New High Score!!!", 40,2).x / 2);
+            float newY = 55; 
+            // Draw "New High Score!!!" centered under the existing high score
+            DrawTextEx(customFont1, "New High Score!!!",
+                Vector2{newX, newY},
+                40,
+                2,
+                WHITE);
+
+            highScoreTimer -= 0.05f;
+     }
+    if (HighScoreTrigger >= 3){
+        DrawTextEx(customFont, ("Score: " + std::to_string(HighScore::getHighScoreManager().getCurrentScore())).c_str(),
+            Vector2{650, 10},
+            40,
+            2,
+            YELLOW);
+    }else{
+        DrawTextEx(customFont, ("High Score: " + std::to_string(HighScore::getHighScoreManager().getCurrentScore())).c_str(),
+            Vector2{650, 10},
+            40,
+            2,
+            YELLOW);
         }
-            
-    }
 }
+
 
 void GameState::update() {
     // static int i = 0;
@@ -119,8 +119,8 @@ void GameState::handleEvents()
         requestStackPush(States::ID::GameOver);
         rain.setState(false);
         HighScore::getHighScoreManager().updateHighestScore();
-        for (int i = 1; i <= 3; i++)
-        std::cout << HighScore::getHighScoreManager().getHighestScore(i) << std::endl;
+        // for (int i = 1; i <= 3; i++)
+        // std::cout << HighScore::getHighScoreManager().getHighestScore(i) << std::endl;
     }else
     if (!over)
     {
@@ -220,8 +220,8 @@ void GameState::handleInput() {
         }
 
         if (HighScoreTrigger > 0 && HighScore::getHighScoreManager().getCurrentScore() > HighScore::getHighScoreManager().getHighestScore(HighScoreTrigger)){
-            highScoreZoomTimer = ZOOM_DURATION;
             HighScoreTrigger--;
+            highScoreTimer = 4.0f;
             //std::cout << HighScoreTrigger << std::endl;
             //HighScore::getHighScoreManager().updateHighestScore();
         }

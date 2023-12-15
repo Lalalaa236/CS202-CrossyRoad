@@ -20,8 +20,9 @@ private:
     int virtualScore;
     Rain rain;
     Font customFont;
+    Font customFont1;
     int isHighScore;
-    float highScoreZoomTimer; 
+    float highScoreTimer; 
     int HighScoreTrigger; 
     float timeSinceLastRain;
     
