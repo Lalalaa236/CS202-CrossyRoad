@@ -9,6 +9,8 @@
 #include "saveState.h"
 #include "State.h"
 
+class SaveState;
+
 class GameState : public State {
 private:
     Texture2D* pauseButton;
@@ -30,7 +32,6 @@ private:
     void checkPlayerAlive();
     void handleInput();
     void checkEndOfGame();
-
 public:
     GameState(StateStack& stack);
     ~GameState();
@@ -40,7 +41,9 @@ public:
     void handleEvents() override;
 
     std::string serializeData();
-    void loadSerializedData(std::string serialized_data);
+    void loadSerializedData(std::string gameData, std::string mapData, std::string playerData);
+
+    friend class SaveState;
 };
 
 #endif

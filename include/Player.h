@@ -47,7 +47,6 @@ public:
     std::pair<float, float> getPosition() const;
     std::pair<float, float> getTargetPosition() const;
     std::pair<float, float> getSpeed() const;
-    int getFrameCount() const;
     bool getIsAlive() const;
     bool getMoving() const;
 
@@ -56,7 +55,7 @@ public:
     void move(Direction direction);
 
     std::string serializeData();
-    void loadSerializedData(std::stringstream& ss);
+    void loadSerializedData(std::string serialize_data);
 };
 
 #endif

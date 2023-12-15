@@ -7,49 +7,52 @@
 #include <algorithm>
 #include <utility>
 
+/*
+    Save Data format in text file:
+
+    [GAME]: [gameData]
+    [MAP]: [mapData]
+    [PLAYER]: [playerData]
+
+    [gameData] = [seed] [highScore] [score]
+    [mapData] = [speed] [n]
+    [laneData1]
+    [laneData2]
+    ...
+    [laneDataN]
+    [playerData] = [position] [targetPosition] [isAlive] [vSpeed] [hSpeed] [frameCount] [skinID]
+
+    [laneData] = [laneType] [laneSpeed] [lane.y] [laneDirection] [numObstacle] [obstacleData1] [obstacleData2] ... [obstacleDataN]
+
+    [obstacleData] = [obstacleType] [obstacle.x]
+*/
+
 class saveData {
 private:
-    // Game information
-    unsigned long long seed;
-    int highScore;
-    int score;
-
-    // Player information
-    std::pair<float, float> position;
-    std::pair<float, float> targetPosition;
-    float vSpeed, hSpeed;
-    int frameCount;
-
-    int skinID;
-
     // Data
     std::string serialized_data = "";
+
+    // Splitted data
+    std::string playerData = "";
+    std::string mapData = "";
+    std::string gameData = "";
 
 public:
     saveData();
     // saveData(GameState* gameState);
     saveData(std::string serialized_data);
 
-    // Setter
-    void setSeed(unsigned long long seed);
-    void setHighScore(int highScore);
-    void setScore(int score);
-    void setPosition(std::pair<float, float> position);
-    void setTargetPosition(std::pair<float, float> targetPosition);
-    void setVSpeed(float vSpeed);
-    void setHSpeed(float hSpeed);
-    void setFrameCount(int frameCount);
-    void setSkinID(int skinID);
-
-    // Getter
+    // Getter & Setter
     int getHighScore() const;
     std::string getSerializedData() const;
+    void setSerializedData(std::string serialized_data);
+
 
     // Method
     void serialize();
+    void splitData();
     void save(int slot = 0);
     void load(int slot = 0);
-    void load(std::string serialized_data);
 };
 
 #endif // SAVE_H

@@ -1,5 +1,6 @@
 #include "Map.h"
 #include <iostream>
+#include <sstream>
 
 Map::Map(float speed) : speed(speed) {
     // Initialize first j lane to be safe
@@ -55,4 +56,33 @@ bool Map::CheckCollisionPlayer(Rectangle playerBoxCollision) {
             return true;
     }
     return false;
+}
+
+// [mapData] = [speed] [n] [laneData1] [laneData2] ... [laneDataN]
+std::string Map::serializeData() {
+    std::string serialized_data = "";
+
+    serialized_data += std::to_string(speed) + " ";
+    serialized_data += std::to_string(lanes.size()) + " ";
+
+    for (auto lane : lanes)
+        serialized_data += lane->serializeData() + " ";
+
+    return serialized_data;
+}
+
+void Map::loadSerializedData(std::string serialized_data) {
+    std::istringstream iss(serialized_data);
+    int n;
+
+    iss >> speed >> n;
+
+    for (int i = 0; i < n; ++i) {
+        std::string laneData = "";
+        std::getline(iss, laneData, '\n');
+
+        Lane* lane = new Lane(0, 0);
+        lane->loadSerializedData(laneData);
+        lanes.push_back(lane);
+    }
 }

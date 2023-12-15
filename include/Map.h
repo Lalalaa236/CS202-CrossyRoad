@@ -5,18 +5,21 @@
 
 class Map {
 private:
-    std::deque<Lane *> lanes;
+    std::deque<Lane*> lanes;
     float speed;
 
 public:
     Map(float speed);
+    ~Map();
 
     void draw();
     void update(int score = 0);
 
     void setSpeed(float speed);
     bool CheckCollisionPlayer(Rectangle playerBoxCollision);
-    ~Map();
+
+    std::string serializeData();
+    void loadSerializedData(std::string serialized_data);
 };
 
 #endif

@@ -8,7 +8,7 @@ class StateStack;
 class State {
 public:
     typedef std::unique_ptr<State> Ptr;
-    State(StateStack &stack);
+    State(StateStack& stack);
     virtual ~State() {
     }
     virtual void handleEvents() = 0;
@@ -21,6 +21,8 @@ protected:
     void requestStackPop();
     void requestStackClear();
 
+    State* getState(States::ID stateID);
+
 private:
-    StateStack *stack = nullptr;
+    StateStack* stack = nullptr;
 };

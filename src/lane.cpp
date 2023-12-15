@@ -14,6 +14,7 @@
 
 #include <algorithm>
 #include <iostream>
+#include <sstream>
 #include <vector>
 
 Lane::Lane(float y, float mapSpeed, int currentScore) : y(y), mapSpeed(mapSpeed) {
@@ -142,7 +143,7 @@ void Lane::addObstacle(int numObstacle, float speedScale) {
     // Generate random obstacles
     for (i = 1; i <= numObstacle; i++) {
         x = distances[i - 1];
-        obstacles.push_back(createObstacle(isSafe, x, this->y, randomSpeed * speedScale));
+        obstacles.push_back(randomObstacle(isSafe, x, this->y, randomSpeed * speedScale));
     }
 }
 
@@ -159,6 +160,35 @@ void Lane::addObstacleByScore(int laneScore) {
 
     // Generate random obstacles
     addObstacle(numObstacles, speedScale);
+}
+
+int Lane::obstacleType(Obstacle* obstacle) {
+    if (dynamic_cast<Bike*>(obstacle))
+        return 0;
+    if (dynamic_cast<Cab*>(obstacle))
+        return 1;
+    if (dynamic_cast<Car*>(obstacle))
+        return 2;
+    if (dynamic_cast<Truck*>(obstacle))
+        return 3;
+    if (dynamic_cast<Taxi*>(obstacle))
+        return 4;
+
+    if (dynamic_cast<Bird*>(obstacle))
+        return 5;
+    if (dynamic_cast<Cat*>(obstacle))
+        return 6;
+    if (dynamic_cast<Dog*>(obstacle))
+        return 7;
+    if (dynamic_cast<Tiger*>(obstacle))
+        return 8;
+    if (dynamic_cast<Rabbit*>(obstacle))
+        return 9;
+
+    if (dynamic_cast<Train*>(obstacle))
+        return 10;
+
+    return -1;
 }
 
 
@@ -205,13 +235,96 @@ bool Lane::CheckCollisionPlayer(Rectangle playerBoxCollision) {
     return false;
 }
 
+// [laneData] = [laneType] [laneSpeed] [lane.y] [laneDirection] [numObstacle] [obstacleData1] [obstacleData2] ... [obstacleDataN]
+// [obstacleData] = [obstacleType] [obstacle.x]
+std::string Lane::serializeData() {
+    std::string serialized_data = "";
+
+    serialized_data += std::to_string(static_cast<int>(isSafe)) + " ";
+    serialized_data += std::to_string(randomSpeed) + " ";
+    serialized_data += std::to_string(y) + " ";
+    serialized_data += std::to_string(direction) + " ";
+    serialized_data += std::to_string(obstacles.size()) + " ";
+
+    for (auto obstacle : obstacles) {
+        std::string obstacleData = "";
+
+        obstacleData += std::to_string(obstacleType(obstacle)) + " ";
+        obstacleData += std::to_string(obstacle->getPos().x) + " ";
+
+        serialized_data += obstacleData;
+    }
+
+    return serialized_data;
+}
+
+void Lane::loadSerializedData(std::string serialized_data) {
+    std::istringstream iss(serialized_data);
+    std::string tmp;
+    int numObstacle, obstacleType;
+    float x;
+
+    iss >> isSafe >> randomSpeed >> y >> direction >> numObstacle;
+    Lane(y, mapSpeed, static_cast<LaneType>(isSafe), 0);
+
+    for (int i = 0; i < numObstacle; i++) {
+        iss >> obstacleType >> x;
+        obstacles.push_back(createObstacle(obstacleType, x, y, randomSpeed));
+    }
+}
+
+Obstacle* createObstacle(int obstacleType, float x, float y, float speed) {
+    Obstacle* tmp = nullptr;
+
+    switch (obstacleType) {
+    case 0:
+        tmp = new Bike({ x, y - 15 }, speed);
+        break;
+    case 1:
+        tmp = new Cab({ x, y }, speed);
+        break;
+    case 2:
+        tmp = new Car({ x, y + 10 }, speed);
+        break;
+    case 3:
+        tmp = new Truck({ x, y - 6 }, speed);
+        break;
+    case 4:
+        tmp = new Taxi({ x, y + 20 }, speed);
+        break;
+    case 5:
+        tmp = new Bird({ x, y }, speed);
+        break;
+    case 6:
+        tmp = new Cat({ x, y }, speed);
+        break;
+    case 7:
+        tmp = new Dog({ x, y }, speed);
+        break;
+    case 8:
+        tmp = new Tiger({ x, y }, speed);
+        break;
+    case 9:
+        tmp = new Rabbit({ x, y }, speed);
+        break;
+    case 10:
+        tmp = new Train({ 0, y }, speed);
+        break;
+    default:
+        throw std::runtime_error("Invalid obstacle type");
+        break;
+    }
+
+    return tmp;
+}
+
 /// @brief Return a pointer to a randomly generated obstacle
 /// @param safeLane
 /// @param x
 /// @param y
 /// @param speed
 /// @return Obstacle*
-Obstacle* createObstacle(int safeLane, float x, float y, float speed) {
+Obstacle* randomObstacle(int safeLane, float x, float y, float speed) {
     int randomType;
     Obstacle* tmp = nullptr;
 

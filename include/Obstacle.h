@@ -3,11 +3,11 @@
 
 class Obstacle {
 public:
-    Obstacle(const Vector2 &pos, float speed);
-    Obstacle(const Obstacle &obstacle);
+    Obstacle(const Vector2& pos, float speed);
+    Obstacle(const Obstacle& obstacle);
     virtual ~Obstacle();
 
-    Obstacle &operator=(const Obstacle &obstacle);
+    Obstacle& operator=(const Obstacle& obstacle);
 
     Vector2 getPos();
     float getSpeed() const;
@@ -24,5 +24,5 @@ private:
 
 protected:
     Rectangle boxCollision;
-    void setBoxCollision(float x, float y, Texture2D *txt, float scale);
+    void setBoxCollision(float x, float y, Texture2D* txt, float scale);
 };

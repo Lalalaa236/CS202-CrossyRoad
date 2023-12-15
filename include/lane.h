@@ -9,11 +9,11 @@
 class Lane {
 private:
     float randomSpeed;
-    const Texture2D *texture;
+    const Texture2D* texture;
     float y;
     float mapSpeed;
-    std::deque<Obstacle *> obstacles;
-    TrafficLight *trafficLight;
+    std::deque<Obstacle*> obstacles;
+    TrafficLight* trafficLight;
     int isSafe;
     bool direction; // true = right, false = left
 
@@ -27,14 +27,22 @@ public:
     float getY() const;
     void setSpeed(float mapSpeed);
 
+    void draw();
+    void update();
+
     void addObstacle();
     void addObstacle(int numObstacle, float speedScale = 1.0f);
     void addObstacleByScore(int laneScore);
-    void draw();
-    void update();
+    int obstacleType(Obstacle* obstacle);
+
     bool CheckCollisionPlayer(Rectangle playerBoxCollision);
+
+    std::string serializeData();
+    void loadSerializedData(std::string serialized_data);
+
 };
 
-Obstacle *createObstacle(int safeLane, float x, float y, float speed);
+Obstacle* createObstacle(int obstacleType, float x, float y, float speed);
+Obstacle* randomObstacle(int safeLane, float x, float y, float speed);
 
 #endif

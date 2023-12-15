@@ -5,145 +5,95 @@
 #include <fstream>
 #include <iostream>
 
-saveData::saveData() : serialized_data("") {
+saveData::saveData() : serialized_data(""), playerData(""), mapData(""), gameData("") {
 }
-
-// saveData::saveData(GameState* gameState) {
-//     this->serialized_data = gameState->serializeData();
-//     // load(this->serialized_data);
-// }
 
 saveData::saveData(std::string serialized_data) {
     this->serialized_data = serialized_data;
-    // load(this->serialized_data);
-}
-
-void saveData::setSeed(unsigned long long seed) {
-    this->seed = seed;
-}
-
-void saveData::setHighScore(int highScore) {
-    this->highScore = highScore;
-}
-
-void saveData::setScore(int score) {
-    this->score = score;
-}
-
-void saveData::setPosition(std::pair<float, float> position) {
-    this->position = position;
-}
-
-void saveData::setTargetPosition(std::pair<float, float> targetPosition) {
-    this->targetPosition = targetPosition;
-}
-
-void saveData::setVSpeed(float vSpeed) {
-    this->vSpeed = vSpeed;
-}
-
-void saveData::setHSpeed(float hSpeed) {
-    this->hSpeed = hSpeed;
-}
-
-void saveData::setFrameCount(int frameCount) {
-    this->frameCount = frameCount;
-}
-
-void saveData::setSkinID(int skinID) {
-    this->skinID = skinID;
+    this->splitData();
 }
 
 int saveData::getHighScore() const {
-    return this->highScore;
+    return std::stoi(this->gameData.substr(this->gameData.find(" ") + 1, this->gameData.find(" ", this->gameData.find(" ") + 1)));
 }
 
 std::string saveData::getSerializedData() const {
     return this->serialized_data;
 }
 
+void saveData::setSerializedData(std::string serialized_data) {
+    this->serialized_data = serialized_data;
+    this->splitData();
+}
+
 void saveData::serialize() {
     this->serialized_data = "";
-    this->serialized_data += std::to_string(seed) + "\n";
-    this->serialized_data += std::to_string(highScore) + "\n";
-    this->serialized_data += std::to_string(score) + "\n";
-    this->serialized_data += std::to_string(position.first) + "\n";
-    this->serialized_data += std::to_string(position.second) + "\n";
-    this->serialized_data += std::to_string(targetPosition.first) + "\n";
-    this->serialized_data += std::to_string(targetPosition.second) + "\n";
-    this->serialized_data += std::to_string(vSpeed) + "\n";
-    this->serialized_data += std::to_string(hSpeed) + "\n";
-    this->serialized_data += std::to_string(frameCount) + "\n";
-    this->serialized_data += std::to_string(skinID) + "\n";
+
+    // [GAME]: [gameData]
+    this->serialized_data += "[GAME]: " + gameData + "\n";
+
+    // [MAP]: [mapData]
+    this->serialized_data += "[MAP]: " + mapData + "\n";
+
+    // [PLAYER]: [playerData]
+    this->serialized_data += "[PLAYER]: " + playerData + "\n";
+}
+
+void saveData::splitData() {
+    std::string line;
+    std::stringstream ss(this->serialized_data);
+
+    while (std::getline(ss, line, '\n')) {
+        if (line.find("[GAME]: ") != std::string::npos) {
+            gameData = line.substr(8);
+        }
+        else if (line.find("[MAP]: ") != std::string::npos) {
+            mapData = line.substr(7);
+        }
+        else if (line.find("[PLAYER]: ") != std::string::npos) {
+            playerData = line.substr(10);
+        }
+    }
 }
 
 void saveData::save(int slot) {
-    std::string filename = "save" + std::to_string(slot) + ".dat";
-    std::ofstream file(filename, std::ios::binary);
+    this->serialize();
 
-    if (!file.is_open()) {
-        throw std::runtime_error("Cannot open file " + filename);
+    std::ofstream saveFile;
+    std::string fileName = "save" + std::to_string(slot) + ".txt";
+
+    saveFile.open(fileName);
+
+    if (saveFile.is_open()) {
+        saveFile << this->serialized_data;
+        saveFile.close();
     }
-
-    file.write(this->serialized_data.c_str(), this->serialized_data.size());
-    file.close();
+    else {
+        throw std::runtime_error("Unable to open file");
+    }
 }
 
 void saveData::load(int slot) {
-    std::string filename = "save" + std::to_string(slot) + ".dat";
-    std::ifstream file(filename, std::ios::binary);
+    std::ifstream saveFile;
+    std::string fileName = "save" + std::to_string(slot) + ".txt";
 
-    if (!file.is_open()) {
-        throw std::runtime_error("Cannot open file " + filename);
+    saveFile.open(fileName);
+
+    if (saveFile.is_open()) {
+        std::string line;
+        std::stringstream ss;
+
+        while (std::getline(saveFile, line)) {
+            ss << line << "\n";
+        }
+
+        this->serialized_data = ss.str();
+        this->splitData();
+
+        saveFile.close();
     }
-
-    std::string serialized_data;
-    std::string line;
-
-    while (std::getline(file, line)) {
-        serialized_data += line + "\n";
+    else {
+        this->serialized_data = "";
+        return;
     }
-
-    file.close();
-
-    // load(serialized_data);
-}
-
-
-void saveData::load(std::string serialized_data) {
-    std::string line;
-    std::stringstream ss(serialized_data);
-
-    std::getline(ss, line);
-    this->seed = std::stoull(line);
-
-    std::getline(ss, line);
-    this->highScore = std::stoi(line);
-
-    std::getline(ss, line);
-    this->score = std::stoi(line);
-
-    std::getline(ss, line);
-    this->position.first = std::stof(line);
-
-    std::getline(ss, line);
-    this->position.second = std::stof(line);
-
-    std::getline(ss, line);
-    this->targetPosition.first = std::stof(line);
-
-    std::getline(ss, line);
-    this->targetPosition.second = std::stof(line);
-
-    std::getline(ss, line);
-    this->vSpeed = std::stof(line);
-
-    std::getline(ss, line);
-    this->hSpeed = std::stof(line);
-
-    std::getline(ss, line);
-    this->frameCount = std::stoi(line);
-
-    std::getline(ss, line);
-    this->skinID = std::stoi(line);
 }

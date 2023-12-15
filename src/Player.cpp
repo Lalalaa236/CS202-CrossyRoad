@@ -200,14 +200,6 @@ std::pair<float, float> Player::getTargetPosition() const {
     return targetPosition;
 }
 
-std::pair<float, float> Player::getSpeed() const {
-    return std::pair<float, float>(vSpeed, hSpeed);
-}
-
-int Player::getFrameCount() const {
-    return frameCount;
-}
-
 void Player::setSpeed(float vSpeed, float hSpeed) {
     this->vSpeed = vSpeed;
     this->hSpeed = hSpeed;
@@ -225,6 +217,7 @@ bool Player::getMoving() const {
     return isMoving;
 }
 
+// [playerData] = [position] [targetPosition] [isAlive] [vSpeed] [hSpeed] [frameCount] [skinID]
 std::string Player::serializeData() {
     std::string serialized_data = "";
 
@@ -232,16 +225,23 @@ std::string Player::serializeData() {
     serialized_data += std::to_string(targetPosition.first) + " " + std::to_string(targetPosition.second) + " ";
     serialized_data += std::to_string(vSpeed) + " " + std::to_string(hSpeed) + " ";
     serialized_data += std::to_string(frameCount) + " ";
+    serialized_data += std::to_string(settings::CURRENT_SKIN) + " ";
 
     return serialized_data;
 }
 
-void Player::loadSerializedData(std::stringstream& ss) {
+void Player::loadSerializedData(std::string serialized_data) {
+    std::stringstream ss(serialized_data);
+
     ss >> position.first >> position.second;
     ss >> targetPosition.first >> targetPosition.second;
     ss >> vSpeed >> hSpeed;
     ss >> frameCount;
+    ss >> settings::CURRENT_SKIN;
 
-    boxCollision.x = position.first;
-    boxCollision.y = position.second;
+    // Set player skin
+    TextureHolder::getHolder().load(Textures::SKIN_FULL,
+        "image/skin/" + std::to_string(settings::CURRENT_SKIN) + "/full.png");
+
+    Player(position.first, position.second, mapSpeed, Textures::ID::SKIN_FULL);
 }

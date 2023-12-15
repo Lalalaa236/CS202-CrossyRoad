@@ -175,28 +175,20 @@ void GameState::checkEndOfGame() {
         HideCursor();
 }
 
-
+// [gameData] = [seed] [highScore] [score]
 std::string GameState::serializeData() {
-    std::string serializd_data = "";
+    std::string gameData = std::to_string(seed) + " " + std::to_string(highScore) + " " + std::to_string(score);
+    std::string mapData = map->serializeData();
+    std::string playerData = player->serializeData();
 
-    serializd_data += std::to_string(seed) + ' ';
-    serializd_data += std::to_string(highScore) + ' ';
-    serializd_data += std::to_string(score) + ' ';
-    serializd_data += std::to_string(settings::CURRENT_SKIN) + ' ';
-
-    serializd_data += player->serializeData();
-
-    return serializd_data;
+    return "[GAME]: " + gameData + "\n[MAP]: " + mapData + "\n[PLAYER]: " + playerData;
 }
 
-void GameState::loadSerializedData(std::string serialized_data) {
-    std::string line;
-    std::stringstream ss(serialized_data);
+void GameState::loadSerializedData(std::string gameData, std::string mapData, std::string playerData) {
+    std::stringstream ss(gameData);
 
-    ss >> seed;
-    ss >> highScore;
-    ss >> score;
-    ss >> settings::CURRENT_SKIN;
+    ss >> seed >> highScore >> score;
 
-    player->loadSerializedData(ss);
+    map->loadSerializedData(mapData);
+    player->loadSerializedData(playerData);
 }

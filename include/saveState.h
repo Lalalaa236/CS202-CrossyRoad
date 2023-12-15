@@ -2,6 +2,7 @@
 #define SAVESTATE_H
 
 #include "raylib.h"
+#include "gameState.h"
 #include "save.h"
 #include "State.h"
 #include "TextureHolder.h"
@@ -17,8 +18,11 @@ private:
 
     void handleInput();
     void drawSaveSlot(int selectedSlot = -1);
+    void drawNormalSave();
+    void drawConfirmSave();
 
     int selectedSlot = -1;              // Selected save slot
+    bool confirmSave = false;           // Confirm save panel
 public:
     SaveState(StateStack& stack);
     ~SaveState();

@@ -22,6 +22,8 @@ public:
     void popState();
     void clearState();
 
+    State* getState(States::ID id);
+
     void update();
     void draw();
     void handleEvents();
@@ -32,6 +34,7 @@ private:
         Action action;
         States::ID state;
     };
+
     std::vector<State::Ptr> states;
     std::vector<PendingChange> pendingList;
     std::map<States::ID, std::function<State::Ptr()>> factories;
