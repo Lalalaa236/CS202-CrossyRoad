@@ -63,10 +63,10 @@ std::string Map::serializeData() {
     std::string serialized_data = "";
 
     serialized_data += std::to_string(speed) + " ";
-    serialized_data += std::to_string(lanes.size()) + " ";
+    serialized_data += std::to_string(lanes.size()) + "\n";
 
     for (auto lane : lanes)
-        serialized_data += lane->serializeData() + " ";
+        serialized_data += lane->serializeData() + "\n";
 
     return serialized_data;
 }

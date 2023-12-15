@@ -1,16 +1,7 @@
 #include "lane.h"
-#include "Bike.h"
-#include "Bird.h"
-#include "Cab.h"
-#include "Car.h"
-#include "Cat.h"
-#include "Dog.h"
 #include "GameSettings.h"
-#include "Rabbit.h"
-#include "Taxi.h"
-#include "Tiger.h"
-#include "Train.h"
-#include "Truck.h"
+#include "Animal.h"
+#include "Vehicle.h"
 
 #include <algorithm>
 #include <iostream>
@@ -19,7 +10,7 @@
 
 Lane::Lane(float y, float mapSpeed, int currentScore) : y(y), mapSpeed(mapSpeed) {
     float trafficLight_x = settings::SCREEN_WIDTH - 5 - 50;
-    randomSpeed = GetRandomValue(3.0f, 5.0f);
+    randomSpeed = GetRandomValue(300, 500) / 100.0f;
     direction = rand() % 2;
 
     // From right to left direction
@@ -86,7 +77,7 @@ Lane::~Lane() {
 
 Lane::Lane(float y, float mapSpeed, LaneType laneType, int numObstacles) : y(y), mapSpeed(mapSpeed) {
     float trafficLight_x = 5;
-    randomSpeed = GetRandomValue(3.0f, 5.0f);
+    randomSpeed = GetRandomValue(300, 500) / 100.0f;
     direction = rand() % 2;
 
     if (direction == 0) {
@@ -129,7 +120,6 @@ void Lane::addObstacle(int numObstacle, float speedScale) {
         return;
 
     const int numPosition = numObstacle << 1; // numObstacle * 2
-    Obstacle* tmp = nullptr;
     int i;
     float x;
     float distance = (1.0 * settings::SCREEN_WIDTH / numPosition);

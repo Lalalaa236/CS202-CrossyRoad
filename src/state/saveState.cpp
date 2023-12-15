@@ -60,9 +60,10 @@ void SaveState::drawSaveSlot(int selectedSlot) {
 }
 
 SaveState::SaveState(StateStack& stack) : State(stack) {
-    quitButton = &TextureHolder::getHolder().get(Textures::CLOSE_BUTTON);
+    confirmSave = false;
 
     // Load texture from outside
+    quitButton = &TextureHolder::getHolder().get(Textures::CLOSE_BUTTON);
     saveButton = new Texture2D(LoadTexture("image/saveState/saveButton.png"));
     board = new Texture2D(LoadTexture("image/saveState/board.png"));
     confirmSavePanel = new Texture2D(LoadTexture("image/saveState/confirmSavePanel.png"));

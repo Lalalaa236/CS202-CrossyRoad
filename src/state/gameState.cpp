@@ -181,7 +181,7 @@ std::string GameState::serializeData() {
     std::string mapData = map->serializeData();
     std::string playerData = player->serializeData();
 
-    return "[GAME]: " + gameData + "\n[MAP]: " + mapData + "\n[PLAYER]: " + playerData;
+    return "[GAME]\n" + gameData + "\n[MAP]\n" + mapData + "\n[PLAYER]\n" + playerData;
 }
 
 void GameState::loadSerializedData(std::string gameData, std::string mapData, std::string playerData) {

@@ -37,6 +37,9 @@ private:
     std::string mapData = "";
     std::string gameData = "";
 
+    void resetData();
+    void printData();
+
 public:
     saveData();
     // saveData(GameState* gameState);
@@ -47,12 +50,15 @@ public:
     std::string getSerializedData() const;
     void setSerializedData(std::string serialized_data);
 
-
     // Method
     void serialize();
     void splitData();
     void save(int slot = 0);
     void load(int slot = 0);
+
+    // TODO: Implement these methods
+    void encode(std::string& data);
+    void decode(std::string& data);
 };
 
 #endif // SAVE_H
