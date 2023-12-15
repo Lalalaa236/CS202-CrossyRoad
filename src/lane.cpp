@@ -201,17 +201,37 @@ void Lane::update() {
         {
             if(!trafficLight->getLightState())
             {
-                if(obstacles.front()->getUSpeed() & 0x80000000)
+                if(laneType == LaneType::ROAD)
+                {
+                    if(obstacles.front()->getUSpeed() & 0x80000000)
+                        for (auto obstacle : obstacles)
+                            obstacle->setSpeed(-0.0f);
+                    else
+                        for (auto obstacle : obstacles)
+                            obstacle->setSpeed(+0.0f);
+                }
+                else if(laneType == LaneType::RAILWAY)
+                {
                     for (auto obstacle : obstacles)
-                        obstacle->setSpeed(-0.0f);
-                else
-                    for (auto obstacle : obstacles)
-                        obstacle->setSpeed(+0.0f);
+                        obstacle->setSpeed(randomSpeed);
+                }
             }
             else
             {
-                for (auto obstacle : obstacles)
-                    obstacle->setSpeed(randomSpeed);
+                if(laneType == LaneType::ROAD)
+                {
+                    for (auto obstacle : obstacles)
+                        obstacle->setSpeed(randomSpeed);
+                }
+                else if(laneType == LaneType::RAILWAY)
+                {
+                    if(obstacles.front()->getUSpeed() & 0x80000000)
+                        for (auto obstacle : obstacles)
+                            obstacle->setSpeed(-0.0f);
+                    else
+                        for (auto obstacle : obstacles)
+                            obstacle->setSpeed(+0.0f);
+                }
             }  
         }
     }

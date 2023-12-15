@@ -4,18 +4,18 @@
 // Constructor and Destructor
 
 TrafficLight::TrafficLight(float x, float y, Type type) : position({x, y}), type(type) {
-    this->timer = 0.0;
+    this->timer = 0.0f;
     if(type == Type::ROAD) {
-        this->redTimer = 5.0;
-        this->greenTimer = 7.0;
+        this->redTimer = 5.0f;
+        this->greenTimer = 7.0f;
         red = &TextureHolder::getHolder().get(Textures::RED_LIGHT);
         // yellow = &TextureHolder::getHolder().get(Textures::YELLOW_LIGHT);
         green = &TextureHolder::getHolder().get(Textures::GREEN_LIGHT);
         scale = 1.0f;
     }
     else if(type == Type::RAILWAY) {
-        this->redTimer = 10.0;
-        this->greenTimer = 3.0;
+        this->redTimer = 3.0f;
+        this->greenTimer = 10.0f;
         red = &TextureHolder::getHolder().get(Textures::TRAIN_RED_LIGHT);
         // yellow = &TextureHolder::getHolder().get(Textures::YELLOW_LIGHT);
         green = &TextureHolder::getHolder().get(Textures::TRAIN_GREEN_LIGHT);
