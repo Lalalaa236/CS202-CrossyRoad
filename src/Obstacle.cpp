@@ -39,17 +39,17 @@ void Obstacle::setPos(float x, float y) {
     position.y = y;
 }
 
-bool Obstacle::checkOutOfScreen(float error) const {
-    if (position.x < 0 - error || position.x > settings::SCREEN_WIDTH + error)
+bool Obstacle::checkOutOfScreen() const {
+    if (position.x < 0 - size.first || position.x > settings::SCREEN_WIDTH + size.first)
         return true;
     return false;
 }
 
-void Obstacle::setBoxCollision(float x, float y, Texture2D *txt, float scale) {
+void Obstacle::setBoxCollision(float x, float y) {
     boxCollision.x = x;
     boxCollision.y = y;
-    boxCollision.width = txt->width * scale;
-    boxCollision.height = txt->height * scale;
+    boxCollision.width = size.first - size.first * settings::BOXCOLLISION_SCALE;
+    boxCollision.height = size.second - size.second * settings::BOXCOLLISION_SCALE;
 }
 
 Rectangle Obstacle::getBoxCollision() const {
@@ -62,4 +62,11 @@ void Obstacle::setSpeed(float speed) {
 
 unsigned Obstacle::getUSpeed() const {
     return *(unsigned *)&speed;
+}
+
+void Obstacle::resetPos() {
+    if (!(getUSpeed() & 0x80000000))
+        position.x = -size.first;
+    else
+        position.x = settings::SCREEN_WIDTH + size.first;
 }

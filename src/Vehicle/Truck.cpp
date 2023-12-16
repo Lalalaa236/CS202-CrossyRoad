@@ -6,6 +6,10 @@ Truck::Truck(const Vector2 &pos, float speed) : Obstacle(pos, speed), numsFrame(
     for (int i = 0; i < numsFrame; i++) {
         txt.push_back(&TextureHolder::getHolder().get((Textures::ID)(Textures::TRUCK_1 + i)));
     }
+    scale = 0.38f;
+    size.first = settings::TRUCK_SIZE.first * scale;
+    size.second = settings::TRUCK_SIZE.second * scale;
+    setBoxCollision(pos.x, pos.y);
 }
 
 Truck::~Truck() {
@@ -13,7 +17,7 @@ Truck::~Truck() {
 }
 
 void Truck::update(float k) {
-    this->setPos(this->getPos().x, k - 6);
+    position.y = k - 6;
 
     frameTime += GetFrameTime();
     if (frameTime >= 0.1f) { // Change this value to control the frame rate
@@ -21,29 +25,19 @@ void Truck::update(float k) {
         curFrame = (curFrame + 1) % numsFrame;
     }
 
-    Vector2 tmp = this->getPos();
-
     // Move horizontally based on some speed (adjust as needed)
-    tmp.x += this->getSpeed() * frameTime * 10;
-    setPos(tmp.x, tmp.y);
+    position.x += speed * frameTime * 10;
 
     // If the obstacle is out of screen, move it to the other side
-    float width = 50;
-    if (checkOutOfScreen(width)) {
-        if (this->getSpeed() > 0)
-            setPos(-width, tmp.y);
-        else
-            setPos(settings::SCREEN_WIDTH + width, tmp.y);
-    }
+    if (checkOutOfScreen())
+        resetPos();
 }
 
 
 void Truck::draw() {
-    float scale = 0.38f;
-    Vector2 tmp = this->getPos();
 
     Rectangle srcRect = {0.0f, 0.0f, (float)txt[curFrame]->width, (float)txt[curFrame]->height};
-    Rectangle destRect = {tmp.x, tmp.y, (float)txt[curFrame]->width * scale, (float)txt[curFrame]->height * scale};
+    Rectangle destRect = {position.x, position.y, (float)txt[curFrame]->width * scale, (float)txt[curFrame]->height * scale};
 
     // Flip the sprite based on the direction
     if (this->getUSpeed() & 0x80000000)
@@ -51,7 +45,7 @@ void Truck::draw() {
 
     DrawTexturePro(*txt[curFrame], srcRect, destRect, {0, 0}, 0.0f, WHITE);
 
-    setBoxCollision(this->getPos().x, this->getPos().y, txt[curFrame], scale);
+    setBoxCollision(position.x, position.y);
 
     // For debugging
     // DrawRectangleLines(boxCollision.x, boxCollision.y, boxCollision.width, boxCollision.height, RED);

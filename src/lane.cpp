@@ -126,6 +126,14 @@ void Lane::addObstacle() {
 void Lane::addObstacle(int numObstacle, float speedScale) {
     if (numObstacle <= 0)
         return;
+    if(laneType == LaneType::RAILWAY)
+    {
+        if(direction)
+            obstacles.push_back(createObstacle(obstacleType, settings::SCREEN_WIDTH, this->y, randomSpeed * speedScale));
+        else
+            obstacles.push_back(createObstacle(obstacleType, 0, this->y, randomSpeed * speedScale));
+        return;
+    }
 
     const int numPosition = numObstacle << 1; // numObstacle * 2
     int i;
@@ -195,6 +203,12 @@ void Lane::update() {
 
     if (!(obstacles.size() > 0 && trafficLight))
         return;
+    
+    if(laneType == LaneType::RAILWAY)
+    {
+        if(obstacles.front()->checkOutOfScreen())
+            trafficLight->setLightState(true);
+    }
 
     if (!trafficLight->getIsChanged())
         return;
@@ -209,13 +223,8 @@ void Lane::update() {
                     obstacle->setSpeed(+0.0f);
         }
         else if (laneType == LaneType::RAILWAY) {
-            if (obstacles.front()->getUSpeed() & 0x80000000)
-                for (auto obstacle : obstacles)
-                    obstacle->setSpeed(-0.0f);
-            else
-                for (auto obstacle : obstacles)
-                    obstacle->setSpeed(+0.0f);
-
+            for (auto obstacle : obstacles)
+                obstacle->setSpeed(randomSpeed);
         }
     }
     else {
@@ -224,8 +233,12 @@ void Lane::update() {
                 obstacle->setSpeed(randomSpeed);
         }
         else if (laneType == LaneType::RAILWAY) {
-            for (auto obstacle : obstacles)
-                obstacle->setSpeed(randomSpeed);
+            if (obstacles.front()->getUSpeed() & 0x80000000)
+                for (auto obstacle : obstacles)
+                    obstacle->setSpeed(-0.0f);
+            else
+                for (auto obstacle : obstacles)
+                    obstacle->setSpeed(+0.0f);
         }
     }
 }
