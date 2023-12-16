@@ -1,7 +1,10 @@
 #include "rain.h"
 #include "MusicManager.h"
 #include <algorithm>
-Rain::Rain() {
+#include"MusicManager.h"
+Rain::Rain()
+{
+    isToggleSound = false;
     raindropShape.width = 4;
     raindropShape.height = 7;
     state = false;
@@ -12,7 +15,15 @@ void Rain::setState(bool st) {
     state = st;
     if (state) {
         PlaySound(rainSound);
-    } else {
+        if (MusicManager::getManager().getIsSoundOn()) {
+            MusicManager::getManager().toggleSound();
+            isToggleSound = true;
+        } 
+    }else {
+        if (isToggleSound) {
+            MusicManager::getManager().toggleSound();
+            isToggleSound = false;
+        }
         StopSound(rainSound);
     }
 }

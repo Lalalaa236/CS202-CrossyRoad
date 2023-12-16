@@ -4,7 +4,7 @@
 
 class highScoreState : public State {
 public:
-    highScoreState(StateStack &stack);
+    highScoreState(StateStack& stack);
     ~highScoreState();
 
     void draw() override;
@@ -15,4 +15,7 @@ private:
     Texture2D *background;
     Texture2D *highScoreBoard;
     Texture2D *closeButton;
+    Texture2D *leaderBoard;
+    int score[3];
+    Font customFont;
 };

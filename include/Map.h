@@ -16,6 +16,7 @@ public:
     void update(int score = 0);
 
     void setSpeed(float speed);
+    float getSpeed() const;
     bool CheckCollisionPlayer(Rectangle playerBoxCollision);
 
     std::string serializeData();
@@ -23,3 +24,4 @@ public:
 };
 
 #endif
+    

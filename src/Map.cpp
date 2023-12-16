@@ -7,13 +7,13 @@ Map::Map(float speed) : speed(speed) {
     int j = rand() % 1 + 3;
     int i = 0;
 
-    for (; i < 12 - j; ++i) {
-        Lane* lane = new Lane(-158.0f + i * 95.0f, speed);
+    for (; i < 13 - j; ++i) {
+        Lane* lane = new Lane(-253.0f + i * 95.0f, speed);
         lanes.push_back(lane);
     }
 
     for (int k = 1; k <= j; ++k, ++i) {
-        Lane* lane = new Lane(-158.0f + i * 95.0f, speed, Lane::LaneType::GRASS, 0);
+        Lane* lane = new Lane(-253.0f + i * 95.0f, speed, Lane::LaneType::GRASS, 0, Lane::ObstacleType::None);
         lanes.push_back(lane);
     }
 }
@@ -28,7 +28,7 @@ void Map::update(int score) {
         lane->setY(lane->getY() + speed);
     }
 
-    if (lanes.back()->getY() > 982.0f) {
+    if (lanes.back()->getY() > 1072.0f) {
         delete lanes.back();
         lanes.pop_back();
         Lane* lane = new Lane(lanes.front()->getY() - 95.0f, 0, score);
@@ -42,6 +42,10 @@ void Map::update(int score) {
 
 void Map::setSpeed(float speed) {
     this->speed = speed;
+}
+
+float Map::getSpeed() const{
+    return this->speed;
 }
 
 Map::~Map() {

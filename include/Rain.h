@@ -3,9 +3,11 @@
 #include <raylib.h>
 #include <vector>
 
-class Rain {
+class Rain
+{
 private:
-    struct Raindrop {
+    struct Raindrop
+    {
         Vector2 position;
         Color color;
         float rotation;
@@ -15,6 +17,7 @@ private:
     Rectangle raindropShape;
     bool state;
     Sound rainSound;
+    bool isToggleSound;
 
 public:
     Rain();
