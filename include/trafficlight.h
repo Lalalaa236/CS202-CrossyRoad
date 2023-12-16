@@ -37,6 +37,7 @@ private:
     // Texture2D *yellow;
     Texture2D *green;
     float scale;
+    float drawTimer = 0.0f;
 };
 
 #endif // TRAFFIC_LIGHT_H
