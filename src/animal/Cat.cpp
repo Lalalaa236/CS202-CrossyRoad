@@ -1,7 +1,7 @@
 // Cat.cpp
 #include "Cat.h"
-#include "../GameSettings.h"
-#include "../TextureHolder.h"
+#include "GameSettings.h"
+#include "TextureHolder.h"
 #include <iostream>
 
 Cat::Cat(const Vector2& pos, float speed) : Obstacle(pos, speed), numsFrame(8), curFrame(0), frameTime(0.0f) {

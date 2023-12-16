@@ -140,8 +140,7 @@ COMPDBS := $(OBJS:.o=.json)
 CPP_SRCS := $(wildcard $(SRC_DIR)/*.cpp)
 CPP_SRCS += $(wildcard $(SRC_DIR)/**/*.cpp)
 
-HEADER_SRCS := $(wildcard $(SRC_DIR)/*.h $(SRC_DIR)/*.hpp $(INCLUDE_DIR)/*.h $(INCLUDE_DIR)/*.hpp $(INCLUDE_DIR)/*.inl)
-HEADER_SRCS += $(wildcard $(SRC_DIR)/**/*.h $(SRC_DIR)/**/*.hpp $(INCLUDE_DIR)/**/*.h $(INCLUDE_DIR)/**/*.hpp $(INCLUDE_DIR)/**/*.inl)
+HEADER_SRCS := $($(INCLUDE_DIR)/*.h $(INCLUDE_DIR)/*.hpp $(INCLUDE_DIR)/*.inl)
 
 FILES := $(CPP_SRCS) $(HEADER_SRCS)
 

@@ -1,7 +1,7 @@
 // Car.cpp
 #include "Car.h"
-#include "../GameSettings.h"
-#include "../TextureHolder.h"
+#include "GameSettings.h"
+#include "TextureHolder.h"
 #include <iostream>
 
 Car::Car(const Vector2& pos, float speed) : Obstacle(pos, speed), numsFrame(5), curFrame(0), frameTime(0.0f) {

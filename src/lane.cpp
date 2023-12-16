@@ -1,16 +1,17 @@
 #include "lane.h"
 #include "GameSettings.h"
-#include "animal/Bird.h"
-#include "animal/Cat.h"
-#include "animal/Dog.h"
-#include "animal/Rabbit.h"
-#include "animal/Tiger.h"
-#include "Vehicle/Bike.h"
-#include "Vehicle/Cab.h"
-#include "Vehicle/Car.h"
-#include "Vehicle/Truck.h"
-#include "Vehicle/Taxi.h"
-#include "Vehicle/Train.h"
+#include "Bird.h"
+#include "Cat.h"
+#include "Dog.h"
+#include "Rabbit.h"
+#include "Tiger.h"
+#include "Bike.h"
+#include "Cab.h"
+#include "Car.h"
+#include "Truck.h"
+#include "Taxi.h"
+#include "Train.h"
+
 #include <algorithm>
 #include <iostream>
 #include <vector>
@@ -72,9 +73,9 @@ Lane::Lane(float y, float mapSpeed, int currentScore) : y(y), mapSpeed(mapSpeed)
 
     int randomObstacle = rand() % 5;
 
-    if(laneType == LaneType::RAILWAY)
+    if (laneType == LaneType::RAILWAY)
         obstacleType = ObstacleType::Train;
-    else if(laneType == LaneType::GRASS)
+    else if (laneType == LaneType::GRASS)
         obstacleType = (ObstacleType)randomObstacle;
     else
         obstacleType = (ObstacleType)(randomObstacle + 5);
@@ -195,22 +196,22 @@ void Lane::update() {
     for (auto obstacle : obstacles)
         obstacle->update(this->getY());
 
-    if(obstacles.size() > 0 && trafficLight)
+    if (obstacles.size() > 0 && trafficLight)
     {
-        if(trafficLight->getIsChanged())
+        if (trafficLight->getIsChanged())
         {
-            if(!trafficLight->getLightState())
+            if (!trafficLight->getLightState())
             {
-                if(laneType == LaneType::ROAD)
+                if (laneType == LaneType::ROAD)
                 {
-                    if(obstacles.front()->getUSpeed() & 0x80000000)
+                    if (obstacles.front()->getUSpeed() & 0x80000000)
                         for (auto obstacle : obstacles)
                             obstacle->setSpeed(-0.0f);
                     else
                         for (auto obstacle : obstacles)
                             obstacle->setSpeed(+0.0f);
                 }
-                else if(laneType == LaneType::RAILWAY)
+                else if (laneType == LaneType::RAILWAY)
                 {
                     for (auto obstacle : obstacles)
                         obstacle->setSpeed(randomSpeed);
@@ -218,21 +219,21 @@ void Lane::update() {
             }
             else
             {
-                if(laneType == LaneType::ROAD)
+                if (laneType == LaneType::ROAD)
                 {
                     for (auto obstacle : obstacles)
                         obstacle->setSpeed(randomSpeed);
                 }
-                else if(laneType == LaneType::RAILWAY)
+                else if (laneType == LaneType::RAILWAY)
                 {
-                    if(obstacles.front()->getUSpeed() & 0x80000000)
+                    if (obstacles.front()->getUSpeed() & 0x80000000)
                         for (auto obstacle : obstacles)
                             obstacle->setSpeed(-0.0f);
                     else
                         for (auto obstacle : obstacles)
                             obstacle->setSpeed(+0.0f);
                 }
-            }  
+            }
         }
     }
 }
@@ -260,42 +261,42 @@ Obstacle* Lane::createObstacle(float x, float y, float speed) {
     int randomType;
     Obstacle* tmp = nullptr;
 
-    switch(obstacleType) {
-        case(ObstacleType::Bird):
-            tmp = new Bird({x, y}, speed);
-            break;
-        case(ObstacleType::Cat):
-            tmp = new Cat({x, y}, speed);
-            break;
-        case(ObstacleType::Dog):
-            tmp = new Dog({x, y}, speed);
-            break;
-        case(ObstacleType::Rabbit):
-            tmp = new Rabbit({x, y}, speed);
-            break;
-        case(ObstacleType::Tiger):
-            tmp = new Tiger({x, y}, speed);
-            break;
-        case(ObstacleType::Bike):
-            tmp = new Bike({x, y}, speed);
-            break;
-        case(ObstacleType::Cab):
-            tmp = new Cab({x, y}, speed);
-            break;
-        case(ObstacleType::Car):
-            tmp = new Car({x, y}, speed);
-            break;
-        case(ObstacleType::Truck):
-            tmp = new Truck({x, y}, speed);
-            break;
-        case(ObstacleType::Taxi):
-            tmp = new Taxi({x, y}, speed);
-            break;
-        case(ObstacleType::Train):
-            tmp = new Train({x, y}, speed);
-            break;
-        default:
-            break;
+    switch (obstacleType) {
+    case(ObstacleType::Bird):
+        tmp = new Bird({ x, y }, speed);
+        break;
+    case(ObstacleType::Cat):
+        tmp = new Cat({ x, y }, speed);
+        break;
+    case(ObstacleType::Dog):
+        tmp = new Dog({ x, y }, speed);
+        break;
+    case(ObstacleType::Rabbit):
+        tmp = new Rabbit({ x, y }, speed);
+        break;
+    case(ObstacleType::Tiger):
+        tmp = new Tiger({ x, y }, speed);
+        break;
+    case(ObstacleType::Bike):
+        tmp = new Bike({ x, y }, speed);
+        break;
+    case(ObstacleType::Cab):
+        tmp = new Cab({ x, y }, speed);
+        break;
+    case(ObstacleType::Car):
+        tmp = new Car({ x, y }, speed);
+        break;
+    case(ObstacleType::Truck):
+        tmp = new Truck({ x, y }, speed);
+        break;
+    case(ObstacleType::Taxi):
+        tmp = new Taxi({ x, y }, speed);
+        break;
+    case(ObstacleType::Train):
+        tmp = new Train({ x, y }, speed);
+        break;
+    default:
+        break;
     }
 
     return tmp;

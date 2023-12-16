@@ -1,7 +1,7 @@
 // Rabbit.cpp
 #include "Rabbit.h"
-#include "../GameSettings.h"
-#include "../TextureHolder.h"
+#include "GameSettings.h"
+#include "TextureHolder.h"
 #include <iostream>
 
 Rabbit::Rabbit(const Vector2& pos, float speed) : Obstacle(pos, speed), numsFrame(6), curFrame(0), frameTime(0.0f) {

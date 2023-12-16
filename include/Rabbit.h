@@ -1,5 +1,5 @@
 #pragma once
-#include "../Obstacle.h"
+#include "Obstacle.h"
 #include "raylib.h"
 #include <string>
 #include <vector>

@@ -1,7 +1,7 @@
 // Truck.cpp
 #include "Truck.h"
-#include "../GameSettings.h"
-#include "../TextureHolder.h"
+#include "GameSettings.h"
+#include "TextureHolder.h"
 #include <iostream>
 
 Truck::Truck(const Vector2& pos, float speed) : Obstacle(pos, speed), numsFrame(5), curFrame(0), frameTime(0.0f) {
