@@ -13,6 +13,7 @@
 #include "settingState.h"
 #include "skinState.h"
 #include "saveState.h"
+#include "loadState.h"
 
 
 class State;

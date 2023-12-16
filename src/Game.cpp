@@ -238,4 +238,5 @@ void Game::registerState() {
     stateStack.registerState<SkinState>(States::ID::Skin);
     stateStack.registerState<LoseState>(States::ID::GameOver);
     stateStack.registerState<SaveState>(States::ID::Save);
+    stateStack.registerState<LoadState>(States::ID::Load);
 }

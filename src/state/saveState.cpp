@@ -69,6 +69,8 @@ SaveState::SaveState(StateStack& stack) : State(stack) {
     confirmSavePanel = new Texture2D(LoadTexture("image/saveState/confirmSavePanel.png"));
     saveSlot = new Texture2D(LoadTexture("image/saveState/saveSlot.png"));
     saveSlotSelected = new Texture2D(LoadTexture("image/saveState/selectedSlot.png"));
+    greySaveButton = new Texture2D(LoadTexture("image/saveState/greySaveButton.png"));
+    cancelButton = new Texture2D(LoadTexture("image/saveState/cancelButton.png"));
 
     // Calculate the coordinates relative to the board
     scaleWidth = (float)GetScreenWidth() / settings::SCREEN_WIDTH;
@@ -97,12 +99,16 @@ SaveState::~SaveState() {
     UnloadTexture(*saveSlot);
     UnloadTexture(*saveButton);
     UnloadTexture(*saveSlotSelected);
+    UnloadTexture(*greySaveButton);
+    UnloadTexture(*cancelButton);
 
     delete board;
     delete confirmSavePanel;
     delete saveSlot;
     delete saveButton;
     delete saveSlotSelected;
+    delete greySaveButton;
+    delete cancelButton;
 }
 
 void SaveState::drawNormalSave() {
@@ -115,12 +121,22 @@ void SaveState::drawNormalSave() {
         WHITE);
 
     // Draw the save button
-    DrawTexturePro(*saveButton,
-        { 0, 0, float(saveButton->width), float(saveButton->height) },
-        { float(saveButtonX), float(saveButtonY), saveButton->width * scaleWidth, saveButton->height * scaleHeight },
-        { 0, 0 },
-        0,
-        WHITE);
+    if (selectedSlot == -1) {
+        DrawTexturePro(*greySaveButton,
+            { 0, 0, float(greySaveButton->width), float(greySaveButton->height) },
+            { float(saveButtonX), float(saveButtonY), greySaveButton->width * scaleWidth, greySaveButton->height * scaleHeight },
+            { 0, 0 },
+            0,
+            WHITE);
+    }
+    else {
+        DrawTexturePro(*saveButton,
+            { 0, 0, float(saveButton->width), float(saveButton->height) },
+            { float(saveButtonX), float(saveButtonY), saveButton->width * scaleWidth, saveButton->height * scaleHeight },
+            { 0, 0 },
+            0,
+            WHITE);
+    }
 
     // Draw the quit button
     DrawTexturePro(*quitButton,
@@ -143,18 +159,18 @@ void SaveState::drawConfirmSave() {
         0,
         WHITE);
 
-    // Draw the yes button
+    // Draw the save button (Right side)
     DrawTexturePro(*saveButton,
         { 0, 0, float(saveButton->width), float(saveButton->height) },
-        { float(confirmSavePanelX + 50 * scaleWidth), float(confirmSavePanelY + confirmSavePanel->height * scaleHeight - saveButton->height * scaleHeight + 10 * scaleHeight), saveButton->width * scaleWidth, saveButton->height * scaleHeight },
+        { float(confirmSavePanelX + confirmSavePanel->width * scaleWidth - saveButton->width * scaleWidth - 100 * scaleWidth), float(confirmSavePanelY + confirmSavePanel->height * scaleHeight - saveButton->height * scaleHeight - 20 * scaleHeight), saveButton->width * scaleWidth, saveButton->height * scaleHeight },
         { 0, 0 },
         0,
         WHITE);
 
-    // Draw the quit button
-    DrawTexturePro(*quitButton,
-        { 0, 0, float(quitButton->width), float(quitButton->height) },
-        { float(confirmSavePanelX + confirmSavePanel->width * scaleWidth - quitButton->width * scaleWidth - 50 * scaleWidth), float(confirmSavePanelY + confirmSavePanel->height * scaleHeight - quitButton->height * scaleHeight + 10 * scaleHeight), quitButton->width * scaleWidth, quitButton->height * scaleHeight },
+    // Draw the cancel button (Left side)
+    DrawTexturePro(*cancelButton,
+        { 0, 0, float(cancelButton->width), float(cancelButton->height) },
+        { float(confirmSavePanelX + 100 * scaleWidth), float(confirmSavePanelY + confirmSavePanel->height * scaleHeight - cancelButton->height * scaleHeight - 20 * scaleHeight), cancelButton->width * scaleWidth, cancelButton->height * scaleHeight },
         { 0, 0 },
         0,
         WHITE);
@@ -210,6 +226,8 @@ void SaveState::handleInput() {
             requestStackPush(States::ID::Pause);
         }
 
+        this->selectedSlot = -1;
+
         // Check if the mouse is clicked on the quit button
         if (mousePos.x >= quitButtonX && mousePos.x <= quitButtonX + quitButton->width * scaleWidth &&
             mousePos.y >= quitButtonY && mousePos.y <= quitButtonY + quitButton->height * scaleHeight) {
@@ -229,9 +247,10 @@ void SaveState::handleInput() {
     if (confirmSave == true && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         Vector2 mousePos = GetMousePosition();
 
-        // Check if the mouse is clicked on the save button
-        if (mousePos.x >= confirmSavePanelX + 50 * scaleWidth && mousePos.x <= confirmSavePanelX + 50 * scaleWidth + saveButton->width * scaleWidth &&
-            mousePos.y >= confirmSavePanelY + confirmSavePanel->height * scaleHeight - saveButton->height * scaleHeight + 10 * scaleHeight && mousePos.y <= confirmSavePanelY + confirmSavePanel->height * scaleHeight - saveButton->height * scaleHeight + 10 * scaleHeight + saveButton->height * scaleHeight) {
+        if (mousePos.x >= confirmSavePanelX + confirmSavePanel->width * scaleWidth - saveButton->width * scaleWidth - 100 * scaleWidth &&
+            mousePos.x <= confirmSavePanelX + confirmSavePanel->width * scaleWidth - 100 * scaleWidth &&
+            mousePos.y >= confirmSavePanelY + confirmSavePanel->height * scaleHeight - saveButton->height * scaleHeight - 20 * scaleHeight &&
+            mousePos.y <= confirmSavePanelY + confirmSavePanel->height * scaleHeight - 20 * scaleHeight) {
             // Save the data
             State* gameState = getState(States::ID::Game);
             std::string serializedData = dynamic_cast<GameState*>(gameState)->serializeData();
@@ -244,9 +263,11 @@ void SaveState::handleInput() {
             requestStackPush(States::ID::Pause);
         }
 
-        // Check if the mouse is clicked on the quit button
-        if (mousePos.x >= confirmSavePanelX + confirmSavePanel->width * scaleWidth - quitButton->width * scaleWidth - 50 * scaleWidth && mousePos.x <= confirmSavePanelX + confirmSavePanel->width * scaleWidth - 50 * scaleWidth &&
-            mousePos.y >= confirmSavePanelY + confirmSavePanel->height * scaleHeight - quitButton->height * scaleHeight + 10 * scaleHeight && mousePos.y <= confirmSavePanelY + confirmSavePanel->height * scaleHeight - quitButton->height * scaleHeight + 10 * scaleHeight + quitButton->height * scaleHeight) {
+        // Cancel the save
+        if (mousePos.x >= confirmSavePanelX + 100 * scaleWidth &&
+            mousePos.x <= confirmSavePanelX + 100 * scaleWidth + cancelButton->width * scaleWidth &&
+            mousePos.y >= confirmSavePanelY + confirmSavePanel->height * scaleHeight - cancelButton->height * scaleHeight - 20 * scaleHeight &&
+            mousePos.y <= confirmSavePanelY + confirmSavePanel->height * scaleHeight - 20 * scaleHeight) {
             confirmSave = false;
         }
     }

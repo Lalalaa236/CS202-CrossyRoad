@@ -12,6 +12,8 @@ private:
     Texture2D* board;                   // Background board
     Texture2D* confirmSavePanel;        // Panel to confirm overwrite save data 
     Texture2D* saveButton;              // Button to save data
+    Texture2D* greySaveButton;          // Button to save data (grey)
+    Texture2D* cancelButton;            // Button to cancel save data
     Texture2D* quitButton;              // Button to quit save state
     Texture2D* saveSlot;                // Save slots
     Texture2D* saveSlotSelected;        // Save slots selected
