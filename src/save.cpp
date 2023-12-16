@@ -1,9 +1,9 @@
 #include "save.h"
 
-#include <string>
-#include <sstream>
 #include <fstream>
 #include <iostream>
+#include <sstream>
+#include <string>
 
 void saveData::resetData() {
     this->gameData = this->mapData = this->playerData = "";
@@ -26,9 +26,9 @@ saveData::saveData(std::string serialized_data) {
 
 int saveData::getHighScore() const {
     try {
-        return std::stoi(this->gameData.substr(this->gameData.find(" ") + 1, this->gameData.find(" ", this->gameData.find(" ") + 1)));
-    }
-    catch (std::exception& e) {
+        return std::stoi(this->gameData.substr(this->gameData.find(" ") + 1,
+                                               this->gameData.find(" ", this->gameData.find(" ") + 1)));
+    } catch (std::exception &e) {
         return 0;
     }
 }
@@ -70,7 +70,7 @@ void saveData::serialize() {
 void saveData::splitData() {
     std::string line;
     std::stringstream ss(this->serialized_data);
-    std::string* pointer = nullptr;
+    std::string *pointer = nullptr;
 
     this->resetData();
 
@@ -104,8 +104,7 @@ void saveData::save(int slot) {
     if (saveFile.is_open()) {
         saveFile << this->serialized_data;
         saveFile.close();
-    }
-    else {
+    } else {
         throw std::runtime_error("Unable to open file");
     }
 }
@@ -123,7 +122,8 @@ void saveData::load(int slot) {
         std::stringstream ss;
 
         while (std::getline(saveFile, line)) {
-            if (line.empty() || line[0] == '\n') continue;
+            if (line.empty() || line[0] == '\n')
+                continue;
             ss << line << "\n";
         }
 

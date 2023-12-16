@@ -20,7 +20,7 @@ Random::Random() {
     rng.seed(this->seed);
 }
 
-Random& Random::getInstance() {
+Random &Random::getInstance() {
     static Random instance;
     return instance;
 }

@@ -2,8 +2,8 @@
 #include <iostream>
 
 Player::Player(float x, float y, float mapSpeed, Textures::ID skin)
-    : position({ x, y }), targetPosition({ x, y }), isAlive(true), mapSpeed(mapSpeed), vSpeed(0.0f), hSpeed(0.0f),
-    frameCount(0), elapsedTime(0.0f) {
+    : position({x, y}), targetPosition({x, y}), isAlive(true), mapSpeed(mapSpeed), vSpeed(0.0f), hSpeed(0.0f),
+      frameCount(0), elapsedTime(0.0f) {
     boxCollision.x = x;
     boxCollision.y = y;
     boxCollision.width = settings::PLAYER_SIZE.first;
@@ -18,9 +18,9 @@ Player::Player(float x, float y, float mapSpeed, Textures::ID skin)
     }
 }
 
-Player::Player(float x, float y, float mapSpeed, Texture2D* atlas)
-    : position({ x, y }), targetPosition({ x, y }), isAlive(true), mapSpeed(mapSpeed), vSpeed(0.0f), hSpeed(0.0f),
-    frameCount(0), elapsedTime(0.0f) {
+Player::Player(float x, float y, float mapSpeed, Texture2D *atlas)
+    : position({x, y}), targetPosition({x, y}), isAlive(true), mapSpeed(mapSpeed), vSpeed(0.0f), hSpeed(0.0f),
+      frameCount(0), elapsedTime(0.0f) {
     boxCollision.x = x;
     boxCollision.y = y;
     boxCollision.width = settings::PLAYER_SIZE.first;
@@ -36,8 +36,8 @@ Player::Player(float x, float y, float mapSpeed, Texture2D* atlas)
 }
 
 Player::Player(float x, float y, bool isAlive, Textures::ID skin)
-    : position({ x, y }), targetPosition({ x, y }), isAlive(isAlive), vSpeed(0.0f), hSpeed(0.0f), frameCount(0),
-    elapsedTime(0.0f) {
+    : position({x, y}), targetPosition({x, y}), isAlive(isAlive), vSpeed(0.0f), hSpeed(0.0f), frameCount(0),
+      elapsedTime(0.0f) {
     boxCollision.x = x;
     boxCollision.y = y;
     boxCollision.width = settings::PLAYER_SIZE.first;
@@ -141,12 +141,10 @@ void Player::update() {
     if ((position.first + hSpeed > targetPosition.first) && hSpeed < 0.0f) {
         position.first += hSpeed;
         boxCollision.x += hSpeed;
-    }
-    else if ((position.first + hSpeed < targetPosition.first) && hSpeed > 0.0f) {
+    } else if ((position.first + hSpeed < targetPosition.first) && hSpeed > 0.0f) {
         position.first += hSpeed;
         boxCollision.x += hSpeed;
-    }
-    else if (hSpeed != 0.0f) {
+    } else if (hSpeed != 0.0f) {
         position.first = targetPosition.first;
         boxCollision.x = targetPosition.first;
         hSpeed = 0.0f;
@@ -155,12 +153,10 @@ void Player::update() {
     if ((position.second + vSpeed > targetPosition.second) && vSpeed < 0.0f) {
         position.second += vSpeed;
         boxCollision.y += vSpeed;
-    }
-    else if ((position.second + vSpeed < targetPosition.second) && vSpeed > 0.0f) {
+    } else if ((position.second + vSpeed < targetPosition.second) && vSpeed > 0.0f) {
         position.second += vSpeed;
         boxCollision.y += vSpeed;
-    }
-    else if (vSpeed != 0.0f) {
+    } else if (vSpeed != 0.0f) {
         position.second = targetPosition.second;
         boxCollision.y = targetPosition.second;
         vSpeed = 0.0f;
@@ -174,7 +170,7 @@ void Player::setMapSpeed(float mapSpeed) {
 void Player::draw() {
     // DrawRectangleRec(boxCollision, RED);
     if (position == targetPosition || (vSpeed == 0.0f && hSpeed == 0.0f) || !isMoving) {
-        DrawTexturePro(*atlas, frame[0], { boxCollision.x, boxCollision.y, 82.0f, 82.0f }, { 0, 0 }, 0, WHITE);
+        DrawTexturePro(*atlas, frame[0], {boxCollision.x, boxCollision.y, 82.0f, 82.0f}, {0, 0}, 0, WHITE);
         DrawRectangleLinesEx(boxCollision, 1, RED);
         return;
     }
@@ -189,7 +185,7 @@ void Player::draw() {
         elapsedTime = 0.0f;
     }
 
-    DrawTexturePro(*atlas, frame[frameCount], { boxCollision.x, boxCollision.y, 82.0f, 82.0f }, { 0, 0 }, 0, WHITE);
+    DrawTexturePro(*atlas, frame[frameCount], {boxCollision.x, boxCollision.y, 82.0f, 82.0f}, {0, 0}, 0, WHITE);
     // std::cout << boxCollision.x << " " << boxCollision.y << std::endl;
     DrawRectangleLinesEx(boxCollision, 1, RED);
 }
@@ -240,7 +236,7 @@ void Player::loadSerializedData(std::string serialized_data) {
 
     // Set player skin
     TextureHolder::getHolder().load(Textures::SKIN_FULL,
-        "image/skin/" + std::to_string(settings::CURRENT_SKIN) + "/full.png");
+                                    "image/skin/" + std::to_string(settings::CURRENT_SKIN) + "/full.png");
 
     targetPosition = position;
     boxCollision.x = position.first;

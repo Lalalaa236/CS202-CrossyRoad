@@ -8,12 +8,12 @@ Map::Map(float speed) : speed(speed) {
     int i = 0;
 
     for (; i < 13 - j; ++i) {
-        Lane* lane = new Lane(-253.0f + i * 95.0f, speed);
+        Lane *lane = new Lane(-253.0f + i * 95.0f, speed);
         lanes.push_back(lane);
     }
 
     for (int k = 1; k <= j; ++k, ++i) {
-        Lane* lane = new Lane(-253.0f + i * 95.0f, speed, Lane::LaneType::GRASS, 0, Lane::ObstacleType::None);
+        Lane *lane = new Lane(-253.0f + i * 95.0f, speed, Lane::LaneType::GRASS, 0, Lane::ObstacleType::None);
         lanes.push_back(lane);
     }
 }
@@ -31,7 +31,7 @@ void Map::update(int score) {
     if (lanes.back()->getY() > 1072.0f) {
         delete lanes.back();
         lanes.pop_back();
-        Lane* lane = new Lane(lanes.front()->getY() - 95.0f, 0, score);
+        Lane *lane = new Lane(lanes.front()->getY() - 95.0f, 0, score);
         lanes.push_front(lane);
     }
 
@@ -44,7 +44,7 @@ void Map::setSpeed(float speed) {
     this->speed = speed;
 }
 
-float Map::getSpeed() const{
+float Map::getSpeed() const {
     return this->speed;
 }
 
@@ -75,7 +75,7 @@ std::string Map::serializeData() {
     return serialized_data;
 }
 
-void Map::loadSerializedData(const std::string& serialized_data) {
+void Map::loadSerializedData(const std::string &serialized_data) {
     std::istringstream iss(serialized_data);
     int numLane, laneType = 0;
 
@@ -89,7 +89,7 @@ void Map::loadSerializedData(const std::string& serialized_data) {
 
         laneType = laneData[0] - '0';
 
-        Lane* lane = new Lane(0, 0, static_cast<Lane::LaneType>(laneType), 0);
+        Lane *lane = new Lane(0, 0, static_cast<Lane::LaneType>(laneType), 0, Lane::ObstacleType::None);
         lane->loadSerializedData(laneData);
         lanes.push_back(lane);
     }

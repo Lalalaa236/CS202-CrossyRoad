@@ -1,7 +1,7 @@
 #include "State.h"
 #include "StateStack.h"
 
-State::State(StateStack& stack) : stack(&stack) {
+State::State(StateStack &stack) : stack(&stack) {
 }
 
 void State::requestStackPush(States::ID stateID) {
@@ -16,10 +16,10 @@ void State::requestStackClear() {
     stack->clearState();
 }
 
-State* State::getState(int index) {
+State *State::getState(int index) {
     return stack->getState(index);
 }
 
-StateStack* State::getStack() {
+StateStack *State::getStack() {
     return stack;
 }

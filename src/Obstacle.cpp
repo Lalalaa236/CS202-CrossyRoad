@@ -61,5 +61,5 @@ void Obstacle::setSpeed(float speed) {
 }
 
 unsigned Obstacle::getUSpeed() const {
-    return *(unsigned*)&speed;
+    return *(unsigned *)&speed;
 }

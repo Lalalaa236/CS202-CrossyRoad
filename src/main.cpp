@@ -6,7 +6,7 @@ using namespace std;
 #include <thread>
 
 int main() {
-    Game* game = new Game();
+    Game *game = new Game();
     game->run();
 
     delete game;

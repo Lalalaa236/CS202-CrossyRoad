@@ -30,14 +30,14 @@ void StateStack::update() {
 void StateStack::draw() {
     if (states.size() > 0) {
         BeginDrawing();
-        for (auto& state : states)
+        for (auto &state : states)
             state->draw();
         EndDrawing();
     }
 }
 
 void StateStack::applyPendingChanges() {
-    for (auto& change : pendingList) {
+    for (auto &change : pendingList) {
         switch (change.action) {
         case Action::Push:
             states.push_back(createState(change.state));
@@ -62,18 +62,18 @@ StateStack::~StateStack() {
 }
 
 void StateStack::pushState(States::ID id) {
-    pendingList.push_back(PendingChange{ Action::Push, id });
+    pendingList.push_back(PendingChange{Action::Push, id});
 }
 
 void StateStack::popState() {
-    pendingList.push_back(PendingChange{ Action::Pop });
+    pendingList.push_back(PendingChange{Action::Pop});
 }
 
 void StateStack::clearState() {
-    pendingList.push_back(PendingChange{ Action::Clear });
+    pendingList.push_back(PendingChange{Action::Clear});
 }
 
-State* StateStack::getState(int index) {
+State *StateStack::getState(int index) {
     return states[states.size() - index].get();
 }
 

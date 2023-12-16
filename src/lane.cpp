@@ -1,16 +1,8 @@
 #include "lane.h"
+#include "Animal.h"
 #include "GameSettings.h"
-#include "Bird.h"
-#include "Cat.h"
-#include "Dog.h"
-#include "Rabbit.h"
-#include "Tiger.h"
-#include "Bike.h"
-#include "Cab.h"
-#include "Car.h"
-#include "Truck.h"
-#include "Taxi.h"
-#include "Train.h"
+#include "Vehicle.h"
+#include "random.h"
 
 #include <algorithm>
 #include <iostream>
@@ -93,7 +85,8 @@ Lane::~Lane() {
     delete trafficLight;
 }
 
-Lane::Lane(float y, float mapSpeed, LaneType laneType, int numObstacles, ObstacleType ObstacleType) : y(y), mapSpeed(mapSpeed), laneType(laneType), obstacleType(ObstacleType) {
+Lane::Lane(float y, float mapSpeed, LaneType laneType, int numObstacles, ObstacleType ObstacleType)
+    : y(y), mapSpeed(mapSpeed), laneType(laneType), obstacleType(ObstacleType) {
     float trafficLight_x = 5;
     randomSpeed = Random::getInstance().nextDouble(3.0f, 5.0f);
     direction = rand() % 2;
@@ -148,7 +141,7 @@ void Lane::addObstacle(int numObstacle, float speedScale) {
     // Generate random obstacles
     for (i = 1; i <= numObstacle; i++) {
         x = distances[i - 1];
-        obstacles.push_back(createObstacle(x, this->y, randomSpeed * speedScale));
+        obstacles.push_back(createObstacle(obstacleType, x, this->y, randomSpeed * speedScale));
     }
 }
 
@@ -160,42 +153,17 @@ void Lane::addObstacleByScore(int laneScore) {
     speedScale = speedScale + std::min(1.5f, laneScore / 50.0f); // Max speedScale = 2.5f
     maxObstacles = std::min(laneScore / 30 + 2, 6);
     minObstacles = std::min(laneScore / 60, 2);
-
     numObstacles = Random::getInstance().nextInt(minObstacles, maxObstacles);
+
+    if (laneType == LaneType::RAILWAY) {
+        numObstacles = 1;
+        speedScale = 5.0f;
+        randomSpeed *= speedScale;
+    }
 
     // Generate random obstacles
     addObstacle(numObstacles, speedScale);
 }
-
-int Lane::obstacleType(Obstacle* obstacle) {
-    if (dynamic_cast<Bike*>(obstacle))
-        return 0;
-    if (dynamic_cast<Cab*>(obstacle))
-        return 1;
-    if (dynamic_cast<Car*>(obstacle))
-        return 2;
-    if (dynamic_cast<Truck*>(obstacle))
-        return 3;
-    if (dynamic_cast<Taxi*>(obstacle))
-        return 4;
-
-    if (dynamic_cast<Bird*>(obstacle))
-        return 5;
-    if (dynamic_cast<Cat*>(obstacle))
-        return 6;
-    if (dynamic_cast<Dog*>(obstacle))
-        return 7;
-    if (dynamic_cast<Tiger*>(obstacle))
-        return 8;
-    if (dynamic_cast<Rabbit*>(obstacle))
-        return 9;
-
-    if (dynamic_cast<Train*>(obstacle))
-        return 10;
-
-    return -1;
-}
-
 
 void Lane::draw() {
     DrawTextureEx(*texture, { 0, y }, 0, 1, WHITE);
@@ -208,9 +176,8 @@ void Lane::draw() {
     for (auto obstacle : obstacles) {
         obstacle->draw();
     }
-
-    // static int i = 0;
 }
+
 void Lane::setY(float y) {
     this->y = y;
 }
@@ -226,44 +193,39 @@ void Lane::update() {
     for (auto obstacle : obstacles)
         obstacle->update(this->getY());
 
-    if (obstacles.size() > 0 && trafficLight)
-    {
-        if (trafficLight->getIsChanged())
-        {
-            if (!trafficLight->getLightState())
-            {
-                if (laneType == LaneType::ROAD)
-                {
-                    if (obstacles.front()->getUSpeed() & 0x80000000)
-                        for (auto obstacle : obstacles)
-                            obstacle->setSpeed(-0.0f);
-                    else
-                        for (auto obstacle : obstacles)
-                            obstacle->setSpeed(+0.0f);
-                }
-                else if (laneType == LaneType::RAILWAY)
-                {
-                    for (auto obstacle : obstacles)
-                        obstacle->setSpeed(randomSpeed);
-                }
-            }
+    if (!(obstacles.size() > 0 && trafficLight))
+        return;
+
+    if (!trafficLight->getIsChanged())
+        return;
+
+    if (!trafficLight->getLightState()) {
+        if (laneType == LaneType::ROAD) {
+            if (obstacles.front()->getUSpeed() & 0x80000000)
+                for (auto obstacle : obstacles)
+                    obstacle->setSpeed(-0.0f);
             else
-            {
-                if (laneType == LaneType::ROAD)
-                {
-                    for (auto obstacle : obstacles)
-                        obstacle->setSpeed(randomSpeed);
-                }
-                else if (laneType == LaneType::RAILWAY)
-                {
-                    if (obstacles.front()->getUSpeed() & 0x80000000)
-                        for (auto obstacle : obstacles)
-                            obstacle->setSpeed(-0.0f);
-                    else
-                        for (auto obstacle : obstacles)
-                            obstacle->setSpeed(+0.0f);
-                }
-            }
+                for (auto obstacle : obstacles)
+                    obstacle->setSpeed(+0.0f);
+        }
+        else if (laneType == LaneType::RAILWAY) {
+            if (obstacles.front()->getUSpeed() & 0x80000000)
+                for (auto obstacle : obstacles)
+                    obstacle->setSpeed(-0.0f);
+            else
+                for (auto obstacle : obstacles)
+                    obstacle->setSpeed(+0.0f);
+
+        }
+    }
+    else {
+        if (laneType == LaneType::ROAD) {
+            for (auto obstacle : obstacles)
+                obstacle->setSpeed(randomSpeed);
+        }
+        else if (laneType == LaneType::RAILWAY) {
+            for (auto obstacle : obstacles)
+                obstacle->setSpeed(randomSpeed);
         }
     }
 }
@@ -286,7 +248,7 @@ bool Lane::CheckCollisionPlayer(Rectangle playerBoxCollision) {
 std::string Lane::serializeData() {
     std::string serialized_data = "";
 
-    serialized_data += std::to_string(static_cast<int>(isSafe)) + " ";
+    serialized_data += std::to_string(int(laneType)) + " ";
     serialized_data += std::to_string(randomSpeed) + " ";
     serialized_data += std::to_string(y) + " ";
     serialized_data += std::to_string(direction) + " ";
@@ -295,7 +257,7 @@ std::string Lane::serializeData() {
     for (auto obstacle : obstacles) {
         std::string obstacleData = "";
 
-        obstacleData += std::to_string(obstacleType(obstacle)) + " ";
+        obstacleData += std::to_string(int(obstacleType)) + " ";
         obstacleData += std::to_string(obstacle->getPos().x) + " ";
 
         serialized_data += obstacleData;
@@ -307,109 +269,44 @@ std::string Lane::serializeData() {
 void Lane::loadSerializedData(const std::string& serialized_data) {
     std::istringstream iss(serialized_data);
     std::string tmp;
-    int numObstacle, obstacleType;
+    int numObstacle, oType, lType;
     float x;
 
-    iss >> isSafe >> randomSpeed >> y >> direction >> numObstacle;
+    iss >> lType >> randomSpeed >> y >> direction >> numObstacle;
+    laneType = LaneType(lType);
 
     for (int i = 0; i < numObstacle; i++) {
-        iss >> obstacleType >> x;
+        iss >> oType >> x;
+        obstacleType = ObstacleType(oType);
         obstacles.push_back(createObstacle(obstacleType, x, y, randomSpeed));
     }
 }
 
-Obstacle* createObstacle(int obstacleType, float x, float y, float speed) {
-    Obstacle* tmp = nullptr;
-
-    switch (obstacleType) {
-    case 0:
-        tmp = new Bike({ x, y - 15 }, speed);
-        break;
-    case 1:
-        tmp = new Cab({ x, y }, speed);
-        break;
-    case 2:
-        tmp = new Car({ x, y + 10 }, speed);
-        break;
-    case 3:
-        tmp = new Truck({ x, y - 6 }, speed);
-        break;
-    case 4:
-        tmp = new Taxi({ x, y + 20 }, speed);
-        break;
-    case 5:
-        tmp = new Bird({ x, y }, speed);
-        break;
-    case 6:
-        tmp = new Cat({ x, y }, speed);
-        break;
-    case 7:
-        tmp = new Dog({ x, y }, speed);
-        break;
-    case 8:
-        tmp = new Tiger({ x, y }, speed);
-        break;
-    case 9:
-        tmp = new Rabbit({ x, y }, speed);
-        break;
-    case 10:
-        tmp = new Train({ 0, y }, speed);
-        break;
+Obstacle* Lane::createObstacle(ObstacleType id, float x, float y, float speed) {
+    switch (id) {
+    case ObstacleType::Bird:
+        return new Bird({ x, y }, speed);
+    case ObstacleType::Cat:
+        return new Cat({ x, y }, speed);
+    case ObstacleType::Dog:
+        return new Dog({ x, y }, speed);
+    case ObstacleType::Rabbit:
+        return new Rabbit({ x, y }, speed);
+    case ObstacleType::Tiger:
+        return new Tiger({ x, y }, speed);
+    case ObstacleType::Bike:
+        return new Bike({ x, y }, speed);
+    case ObstacleType::Cab:
+        return new Cab({ x, y }, speed);
+    case ObstacleType::Car:
+        return new Car({ x, y }, speed);
+    case ObstacleType::Truck:
+        return new Truck({ x, y }, speed);
+    case ObstacleType::Taxi:
+        return new Taxi({ x, y }, speed);
+    case ObstacleType::Train:
+        return new Train({ x, y }, speed);
     default:
         throw std::runtime_error("Invalid obstacle type");
-        break;
     }
-
-    return tmp;
-}
-
-/// @brief Return a pointer to a randomly generated obstacle
-/// @param safeLane
-/// @param x
-/// @param y
-/// @param speed
-/// @return Obstacle*
-Obstacle* Lane::createObstacle(float x, float y, float speed) {
-    int randomType;
-    Obstacle* tmp = nullptr;
-
-    switch (obstacleType) {
-    case(ObstacleType::Bird):
-        tmp = new Bird({ x, y }, speed);
-        break;
-    case(ObstacleType::Cat):
-        tmp = new Cat({ x, y }, speed);
-        break;
-    case(ObstacleType::Dog):
-        tmp = new Dog({ x, y }, speed);
-        break;
-    case(ObstacleType::Rabbit):
-        tmp = new Rabbit({ x, y }, speed);
-        break;
-    case(ObstacleType::Tiger):
-        tmp = new Tiger({ x, y }, speed);
-        break;
-    case(ObstacleType::Bike):
-        tmp = new Bike({ x, y }, speed);
-        break;
-    case(ObstacleType::Cab):
-        tmp = new Cab({ x, y }, speed);
-        break;
-    case(ObstacleType::Car):
-        tmp = new Car({ x, y }, speed);
-        break;
-    case(ObstacleType::Truck):
-        tmp = new Truck({ x, y }, speed);
-        break;
-    case(ObstacleType::Taxi):
-        tmp = new Taxi({ x, y }, speed);
-        break;
-    case(ObstacleType::Train):
-        tmp = new Train({ x, y }, speed);
-        break;
-    default:
-        break;
-    }
-
-    return tmp;
 }

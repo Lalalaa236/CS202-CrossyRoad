@@ -2,7 +2,7 @@
 #include "Train.h"
 
 
-Train::Train(const Vector2 &pos, float speed) : Obstacle(pos, speed), numsFrame(1), curFrame(0), frameTime(0.0f) {
+Train::Train(const Vector2& pos, float speed) : Obstacle(pos, speed), numsFrame(1), curFrame(0), frameTime(0.0f) {
     // Load Train frames
     txt.push_back(&TextureHolder::getHolder().get((Textures::ID)(Textures::TRAIN_RIGHT)));
 }
@@ -26,7 +26,7 @@ void Train::update(float k) {
     setPos(tmp.x, tmp.y);
 
     // If the obstacle is out of screen, move it to the other side
-    float width = 50;
+    float width = txt[curFrame]->width;
     if (checkOutOfScreen(width)) {
         if (this->getSpeed() > 0)
             setPos(-width, tmp.y);
@@ -40,14 +40,14 @@ void Train::draw() {
     float scale = 0.7f;
     Vector2 tmp = this->getPos();
 
-    Rectangle srcRect = {0.0f, 0.0f, (float)txt[curFrame]->width, (float)txt[curFrame]->height};
-    Rectangle destRect = {tmp.x, tmp.y, (float)txt[curFrame]->width * scale, (float)txt[curFrame]->height * scale};
+    Rectangle srcRect = { 0.0f, 0.0f, (float)txt[curFrame]->width, (float)txt[curFrame]->height };
+    Rectangle destRect = { tmp.x, tmp.y, (float)txt[curFrame]->width * scale, (float)txt[curFrame]->height * scale };
 
     // Flip the sprite based on the direction
     if (!(this->getUSpeed() & 0x80000000))
         srcRect.width = -srcRect.width;
 
-    DrawTexturePro(*txt[curFrame], srcRect, destRect, {0, 0}, 0.0f, WHITE);
+    DrawTexturePro(*txt[curFrame], srcRect, destRect, { 0, 0 }, 0.0f, WHITE);
 
     setBoxCollision(this->getPos().x, this->getPos().y, txt[curFrame], scale);
 

@@ -1,14 +1,12 @@
 #include "highScoreState.h"
 #include "TextureHolder.h"
 #include "score.h"
-highScoreState::highScoreState(StateStack& stack) 
-: State(stack)
-{
+highScoreState::highScoreState(StateStack &stack) : State(stack) {
     background = &TextureHolder::getHolder().get(Textures::BACKGROUND_MENU);
     highScoreBoard = &TextureHolder::getHolder().get(Textures::TABLE_HIGHSCORE);
     closeButton = &TextureHolder::getHolder().get(Textures::CLOSE_BUTTON);
     leaderBoard = &TextureHolder::getHolder().get(Textures::LEADER_BOARD);
-    for (int i = 1; i <= 3; i++){
+    for (int i = 1; i <= 3; i++) {
         score[i - 1] = HighScore::getHighScoreManager().getHighestScore(i);
     }
     customFont = LoadFont("font/JambuKristal-1G01M.otf");
@@ -43,15 +41,15 @@ void highScoreState::draw() {
     DrawTexture(*highScoreBoard, 413, 91, WHITE);
     DrawTexture(*closeButton, 1000, 143, WHITE);
     DrawTexture(*leaderBoard, 530, 300, WHITE);
-    for (int i = 0; i < 3; i++){
-        const char* Score = std::to_string(score[i]).c_str();
-        DrawTextEx(customFont, Score,
-            Vector2{844,float(370 + i * 160)}, // Centered position
-            40,
-            2,
-            BLACK);
+    for (int i = 0; i < 3; i++) {
+        const char *Score = std::to_string(score[i]).c_str();
+        DrawTextEx(customFont,
+                   Score,
+                   Vector2{844, float(370 + i * 160)}, // Centered position
+                   40,
+                   2,
+                   BLACK);
     }
-
 }
 
 highScoreState::~highScoreState() {
