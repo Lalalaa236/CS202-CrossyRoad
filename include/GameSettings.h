@@ -15,7 +15,7 @@ namespace settings {
     constexpr int SCREEN_WIDTH = 1512;
     constexpr int SCREEN_HEIGHT = 982;
     constexpr int SCREEN_FPS = 60;
-    constexpr float BOXCOLLISION_SCALE = 0.2f;
+    constexpr float BOXCOLLISION_SCALE = 0.9f;
     constexpr std::pair<float, float> GRID_SIZE = { 89.375f, 95.0f }; // 17 wide, 11 tall
     constexpr std::pair<float, float> PLAYER_SIZE = { 82.0f, 82.0f };
     constexpr std::pair<float, float> BIKE_SIZE = { 314.0f, 284.0f };
@@ -27,7 +27,7 @@ namespace settings {
     constexpr std::pair<float, float> RABBIT_SIZE = { 219.0f, 87.0f };
     constexpr std::pair<float, float> TAXI_SIZE = { 540.0f, 149.0f };
     constexpr std::pair<float, float> TIGER_SIZE = { 223.0f, 104.0f };
-    constexpr std::pair<float, float> TRAIN_SIZE = { 1512.0f, 96.0f };
+    constexpr std::pair<float, float> TRAIN_SIZE = { 1497.0f, 96.0f };
     constexpr std::pair<float, float> TRUCK_SIZE = { 495.0f, 194.0f };
 
     extern int CURRENT_SKIN;

@@ -9,7 +9,7 @@ Truck::Truck(const Vector2 &pos, float speed) : Obstacle(pos, speed), numsFrame(
     scale = 0.38f;
     size.first = settings::TRUCK_SIZE.first * scale;
     size.second = settings::TRUCK_SIZE.second * scale;
-    setBoxCollision(pos.x, pos.y);
+    setBoxCollision();
 }
 
 Truck::~Truck() {
@@ -46,8 +46,8 @@ void Truck::draw() {
 
     DrawTexturePro(*txt[curFrame], srcRect, destRect, {0, 0}, 0.0f, WHITE);
 
-    setBoxCollision(position.x, position.y);
+    setBoxCollision();
 
     // For debugging
-    // DrawRectangleLines(boxCollision.x, boxCollision.y, boxCollision.width, boxCollision.height, RED);
+    DrawRectangleLines(boxCollision.x, boxCollision.y, boxCollision.width, boxCollision.height, RED);
 }

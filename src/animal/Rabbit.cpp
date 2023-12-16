@@ -9,7 +9,7 @@ Rabbit::Rabbit(const Vector2 &pos, float speed) : Obstacle(pos, speed), numsFram
     scale = 0.5f;
     size.first = settings::RABBIT_SIZE.first * scale;
     size.second = settings::RABBIT_SIZE.second * scale;
-    setBoxCollision(pos.x, pos.y);
+    setBoxCollision();
 }
 
 Rabbit::~Rabbit() {
@@ -50,5 +50,8 @@ void Rabbit::draw() {
 
     DrawTexturePro(*txt[curFrame], srcRect, destRect, {0, 0}, 0.0f, WHITE);
 
-    setBoxCollision(position.x, position.y);
+    setBoxCollision();
+
+    // For debugging
+    DrawRectangleLines(boxCollision.x, boxCollision.y, boxCollision.width, boxCollision.height, RED);
 }

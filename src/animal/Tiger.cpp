@@ -9,7 +9,7 @@ Tiger::Tiger(const Vector2 &pos, float speed) : Obstacle(pos, speed), numsFrame(
     scale = 0.5f;
     size.first = settings::TIGER_SIZE.first * scale;
     size.second = settings::TIGER_SIZE.second * scale;
-    setBoxCollision(pos.x, pos.y);
+    setBoxCollision();
 }
 
 Tiger::~Tiger() {
@@ -46,5 +46,8 @@ void Tiger::draw() {
 
     DrawTexturePro(*txt[curFrame], srcRect, destRect, {0, 0}, 0.0f, WHITE);
 
-    setBoxCollision(position.x, position.y);
+    setBoxCollision();
+
+    // For debugging
+    DrawRectangleLines(boxCollision.x, boxCollision.y, boxCollision.width, boxCollision.height, RED);
 }

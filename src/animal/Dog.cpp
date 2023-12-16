@@ -9,7 +9,7 @@ Dog::Dog(const Vector2 &pos, float speed) : Obstacle(pos, speed), numsFrame(20),
     scale = 0.35f;
     size.first = settings::DOG_SIZE.first * scale;
     size.second = settings::DOG_SIZE.second * scale;
-    setBoxCollision(pos.x, pos.y);
+    setBoxCollision();
 }
 
 Dog::~Dog() {
@@ -47,5 +47,8 @@ void Dog::draw() {
 
     DrawTexturePro(*txt[curFrame], srcRect, destRect, {0, 0}, 0.0f, WHITE);
 
-    setBoxCollision(position.x, position.y);
+    setBoxCollision();
+
+    // For debugging
+    DrawRectangleLines(boxCollision.x, boxCollision.y, boxCollision.width, boxCollision.height, RED);
 }

@@ -211,11 +211,13 @@ void Lane::update() {
             trafficLight->setLightState(true);
     }
 
-    if (!trafficLight->getIsChanged())
-        return;
+    // if (!trafficLight->getIsChanged())
+    //     return;
 
     if (!trafficLight->getLightState()) {
         if (laneType == LaneType::ROAD) {
+            if (obstacles.front()->getSpeed() == +0.0f || obstacles.front()->getSpeed() == -0.0f)
+                return;
             if (obstacles.front()->getUSpeed() & 0x80000000)
                 for (auto obstacle : obstacles)
                     obstacle->setSpeed(-0.0f);
@@ -224,16 +226,22 @@ void Lane::update() {
                     obstacle->setSpeed(+0.0f);
         }
         else if (laneType == LaneType::RAILWAY) {
+            if (obstacles.front()->getSpeed() == randomSpeed)
+                return;
             for (auto obstacle : obstacles)
                 obstacle->setSpeed(randomSpeed);
         }
     }
     else {
         if (laneType == LaneType::ROAD) {
+            if (obstacles.front()->getSpeed() == randomSpeed)
+                return;
             for (auto obstacle : obstacles)
                 obstacle->setSpeed(randomSpeed);
         }
         else if (laneType == LaneType::RAILWAY) {
+            if (obstacles.front()->getSpeed() == +0.0f || obstacles.front()->getSpeed() == -0.0f)
+                return;
             if (obstacles.front()->getUSpeed() & 0x80000000)
                 for (auto obstacle : obstacles)
                     obstacle->setSpeed(-0.0f);

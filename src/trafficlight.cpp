@@ -62,9 +62,10 @@ bool TrafficLight::getLightState() const {
 }
 
 void TrafficLight::setLightState(bool state) {
+    if(this->lightState != state)
+        isChanged = true;
     this->lightState = state;
     timer = 0.0f;
-    isChanged = true;
 }
 
 double TrafficLight::getTimer() const {

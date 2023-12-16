@@ -12,7 +12,7 @@ Bike::Bike(const Vector2 &pos, float speed) : Obstacle(pos, speed), numsFrame(10
     scale = 0.32f;
     size.first = settings::BIKE_SIZE.first * scale;
     size.second = settings::BIKE_SIZE.second * scale;
-    setBoxCollision(pos.x, pos.y);
+    setBoxCollision();
 }
 
 Bike::~Bike() {
@@ -49,8 +49,8 @@ void Bike::draw() {
 
     DrawTexturePro(*txt[curFrame], srcRect, destRect, {0, 0}, 0.0f, WHITE);
 
-    setBoxCollision(position.x, position.y);
+    setBoxCollision();
 
     // For debugging
-    // DrawRectangleLines(boxCollision.x, boxCollision.y, boxCollision.width, boxCollision.height, RED);
+    DrawRectangleLines(boxCollision.x, boxCollision.y, boxCollision.width, boxCollision.height, RED);
 }

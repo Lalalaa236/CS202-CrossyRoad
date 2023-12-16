@@ -28,5 +28,5 @@ protected:
     float scale;
     std::pair<float, float> size = {0, 0};
     Rectangle boxCollision;
-    void setBoxCollision(float x, float y);
+    void setBoxCollision();
 };

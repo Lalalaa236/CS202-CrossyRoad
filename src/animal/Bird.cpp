@@ -9,7 +9,7 @@ Bird::Bird(const Vector2 &pos, float speed) : Obstacle(pos, speed), numsFrame(8)
     scale = 0.1f;
     size.first = settings::BIRD_SIZE.first * scale;
     size.second = settings::BIRD_SIZE.second * scale;
-    setBoxCollision(pos.x, pos.y);
+    setBoxCollision();
 }
 
 Bird::~Bird() {
@@ -46,8 +46,8 @@ void Bird::draw() {
 
     DrawTexturePro(*txt[curFrame], srcRect, destRect, {0, 0}, 0.0f, WHITE);
 
-    setBoxCollision(position.x, position.y);
+    setBoxCollision();
 
     // For debugging
-    // DrawRectangleLines(boxCollision.x, boxCollision.y, boxCollision.width, boxCollision.height, RED);
+    DrawRectangleLines(boxCollision.x, boxCollision.y, boxCollision.width, boxCollision.height, RED);
 }

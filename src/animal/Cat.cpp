@@ -9,7 +9,7 @@ Cat::Cat(const Vector2 &pos, float speed) : Obstacle(pos, speed), numsFrame(8), 
     scale = 0.2f;
     size.first = settings::CAT_SIZE.first * scale;
     size.second = settings::CAT_SIZE.second * scale;
-    setBoxCollision(pos.x, pos.y);
+    setBoxCollision();
 }
 
 Cat::~Cat() {
@@ -47,5 +47,8 @@ void Cat::draw() {
 
     DrawTexturePro(*txt[curFrame], srcRect, destRect, {0, 0}, 0.0f, WHITE);
 
-    setBoxCollision(position.x, position.y);
+    setBoxCollision();
+
+    // For debugging
+    DrawRectangleLines(boxCollision.x, boxCollision.y, boxCollision.width, boxCollision.height, RED);
 }

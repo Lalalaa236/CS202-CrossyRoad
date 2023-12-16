@@ -10,7 +10,7 @@ Cab::Cab(const Vector2 &pos, float speed) : Obstacle(pos, speed), numsFrame(5), 
     scale = 0.3f;
     size.first = settings::CAB_SIZE.first * scale;
     size.second = settings::CAB_SIZE.second * scale;
-    setBoxCollision(pos.x, pos.y);
+    setBoxCollision();
 }
 
 Cab::~Cab() {
@@ -47,8 +47,8 @@ void Cab::draw() {
 
     DrawTexturePro(*txt[curFrame], srcRect, destRect, {0, 0}, 0.0f, WHITE);
 
-    setBoxCollision(position.x, position.y);
+    setBoxCollision();
 
     // For debugging
-    // DrawRectangleLines(boxCollision.x, boxCollision.y, boxCollision.width, boxCollision.height, RED);
+    DrawRectangleLines(boxCollision.x, boxCollision.y, boxCollision.width, boxCollision.height, RED);
 }

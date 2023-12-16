@@ -40,16 +40,18 @@ void Obstacle::setPos(float x, float y) {
 }
 
 bool Obstacle::checkOutOfScreen() const {
-    if (position.x < 0 - size.first || position.x > settings::SCREEN_WIDTH + size.first)
+    if (position.x < -size.first || position.x > settings::SCREEN_WIDTH)
         return true;
     return false;
 }
 
-void Obstacle::setBoxCollision(float x, float y) {
-    boxCollision.x = x;
-    boxCollision.y = y;
-    boxCollision.width = size.first - size.first * settings::BOXCOLLISION_SCALE;
-    boxCollision.height = size.second - size.second * settings::BOXCOLLISION_SCALE;
+void Obstacle::setBoxCollision() {
+    // boxCollision.x = x;
+    // boxCollision.y = y;
+    boxCollision.width = size.first * settings::BOXCOLLISION_SCALE;
+    boxCollision.height = size.second * settings::BOXCOLLISION_SCALE;
+    boxCollision.x = position.x + (size.first - boxCollision.width) / 2.0f;
+    boxCollision.y = position.y + (size.second - boxCollision.height) / 2;
 }
 
 Rectangle Obstacle::getBoxCollision() const {
