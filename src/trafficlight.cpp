@@ -3,9 +3,9 @@
 
 // Constructor and Destructor
 
-TrafficLight::TrafficLight(float x, float y, Type type) : position({x, y}), type(type) {
+TrafficLight::TrafficLight(float x, float y, Type type) : position({ x, y }), type(type) {
     this->timer = 0.0f;
-    if(type == Type::ROAD) {
+    if (type == Type::ROAD) {
         this->redTimer = 5.0f;
         this->greenTimer = 7.0f;
         red = &TextureHolder::getHolder().get(Textures::RED_LIGHT);
@@ -13,7 +13,7 @@ TrafficLight::TrafficLight(float x, float y, Type type) : position({x, y}), type
         green = &TextureHolder::getHolder().get(Textures::GREEN_LIGHT);
         scale = 1.0f;
     }
-    else if(type == Type::RAILWAY) {
+    else if (type == Type::RAILWAY) {
         this->redTimer = 3.0f;
         this->greenTimer = 10.0f;
         red = &TextureHolder::getHolder().get(Textures::TRAIN_RED_LIGHT);
@@ -37,13 +37,13 @@ TrafficLight::TrafficLight(bool state, double redTimer, double greenTimer, Type 
     this->greenTimer = greenTimer;
     this->type = type;
 
-    if(type == Type::ROAD) {
+    if (type == Type::ROAD) {
         red = &TextureHolder::getHolder().get(Textures::RED_LIGHT);
         // yellow = &TextureHolder::getHolder().get(Textures::YELLOW_LIGHT);
         green = &TextureHolder::getHolder().get(Textures::GREEN_LIGHT);
         scale = 1.0f;
     }
-    else if(type == Type::RAILWAY) {
+    else if (type == Type::RAILWAY) {
         red = &TextureHolder::getHolder().get(Textures::TRAIN_RED_LIGHT);
         // yellow = &TextureHolder::getHolder().get(Textures::YELLOW_LIGHT);
         green = &TextureHolder::getHolder().get(Textures::TRAIN_GREEN_LIGHT);
@@ -77,25 +77,25 @@ std::pair<float, float> TrafficLight::getPosition() const {
 
 void TrafficLight::draw() {
     if (!lightState)
-        DrawTextureEx(*red, {position.first, position.second - 40}, 0, scale, WHITE);
+        DrawTextureEx(*red, { position.first, position.second - 40 }, 0, scale, WHITE);
     else
-        DrawTextureEx(*green, {position.first, position.second - 40}, 0, scale, WHITE);
+        DrawTextureEx(*green, { position.first, position.second - 40 }, 0, scale, WHITE);
 }
 
 void TrafficLight::update() {
     this->timer += GetFrameTime();
-    if(this->timer != GetFrameTime() && this->isChanged)
+    if (this->timer != GetFrameTime() && this->isChanged)
         this->isChanged = false;
 
-    if(!lightState) {
-        if(timer >= redTimer) {
+    if (!lightState) {
+        if (timer >= redTimer) {
             lightState = true;
             isChanged = true;
             timer = 0.0f;
         }
-    } 
+    }
     else {
-        if(timer >= greenTimer) {
+        if (timer >= greenTimer) {
             lightState = false;
             isChanged = true;
             timer = 0.0f;

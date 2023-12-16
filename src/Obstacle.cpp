@@ -1,11 +1,11 @@
 #include "Obstacle.h"
 #include "GameSettings.h"
 
-Obstacle::Obstacle(const Vector2& pos, float spd) : position(pos), speed(spd) {
+Obstacle::Obstacle(const Vector2 &pos, float spd) : position(pos), speed(spd) {
 }
 
 // Copy constructor
-Obstacle::Obstacle(const Obstacle& obstacle) {
+Obstacle::Obstacle(const Obstacle &obstacle) {
     position = obstacle.position;
     speed = obstacle.speed;
 }
@@ -16,7 +16,7 @@ Obstacle::~Obstacle() {
 }
 
 // Assignment operator
-Obstacle& Obstacle::operator=(const Obstacle& obstacle) {
+Obstacle &Obstacle::operator=(const Obstacle &obstacle) {
     if (this == &obstacle)
         return *this;
 
@@ -45,7 +45,7 @@ bool Obstacle::checkOutOfScreen(float error) const {
     return false;
 }
 
-void Obstacle::setBoxCollision(float x, float y, Texture2D* txt, float scale) {
+void Obstacle::setBoxCollision(float x, float y, Texture2D *txt, float scale) {
     boxCollision.x = x;
     boxCollision.y = y;
     boxCollision.width = txt->width * scale;
@@ -61,5 +61,5 @@ void Obstacle::setSpeed(float speed) {
 }
 
 unsigned Obstacle::getUSpeed() const {
-    return *(unsigned*)&speed;
+    return *(unsigned *)&speed;
 }

@@ -1,24 +1,17 @@
 #include "lane.h"
+#include "Animal.h"
 #include "GameSettings.h"
-#include "Bird.h"
-#include "Cat.h"
-#include "Dog.h"
-#include "Rabbit.h"
-#include "Tiger.h"
-#include "Bike.h"
-#include "Cab.h"
-#include "Car.h"
-#include "Truck.h"
-#include "Taxi.h"
-#include "Train.h"
+#include "Vehicle.h"
+#include "random.h"
 
 #include <algorithm>
 #include <iostream>
+#include <sstream>
 #include <vector>
 
 Lane::Lane(float y, float mapSpeed, int currentScore) : y(y), mapSpeed(mapSpeed) {
     float trafficLight_x = settings::SCREEN_WIDTH - 5 - 50;
-    randomSpeed = GetRandomValue(3.5f, 6.5f);
+    randomSpeed = Random::getInstance().nextDouble(3.0f, 5.0f);
     direction = rand() % 2;
 
     // From right to left direction
@@ -92,9 +85,10 @@ Lane::~Lane() {
     delete trafficLight;
 }
 
-Lane::Lane(float y, float mapSpeed, LaneType laneType, int numObstacles, ObstacleType ObstacleType) : y(y), mapSpeed(mapSpeed), laneType(laneType), obstacleType(ObstacleType) {
+Lane::Lane(float y, float mapSpeed, LaneType laneType, int numObstacles, ObstacleType ObstacleType)
+    : y(y), mapSpeed(mapSpeed), laneType(laneType), obstacleType(ObstacleType) {
     float trafficLight_x = 5;
-    randomSpeed = GetRandomValue(3.5f, 6.5f);
+    randomSpeed = Random::getInstance().nextDouble(3.0f, 5.0f);
     direction = rand() % 2;
 
     if (direction == 0) {
@@ -130,10 +124,10 @@ void Lane::addObstacle() {
 }
 
 void Lane::addObstacle(int numObstacle, float speedScale) {
-    if (numObstacle <= 0) return;
+    if (numObstacle <= 0)
+        return;
 
     const int numPosition = numObstacle << 1; // numObstacle * 2
-    Obstacle* tmp = nullptr;
     int i;
     float x;
     float distance = (1.0 * settings::SCREEN_WIDTH / numPosition);
@@ -147,9 +141,8 @@ void Lane::addObstacle(int numObstacle, float speedScale) {
     // Generate random obstacles
     for (i = 1; i <= numObstacle; i++) {
         x = distances[i - 1];
-        obstacles.push_back(createObstacle(x, this->y, randomSpeed * speedScale));
+        obstacles.push_back(createObstacle(obstacleType, x, this->y, randomSpeed * speedScale));
     }
-
 }
 
 void Lane::addObstacleByScore(int laneScore) {
@@ -158,14 +151,19 @@ void Lane::addObstacleByScore(int laneScore) {
 
     // Generate depends on laneScore
     speedScale = speedScale + std::min(1.5f, laneScore / 50.0f); // Max speedScale = 2.5f
-    maxObstacles = std::min(laneScore / 35 + 1, 6);
-    minObstacles = std::min(laneScore / 75, 2);
-    numObstacles = (rand() % (maxObstacles - minObstacles + 1)) + minObstacles;
+    maxObstacles = std::min(laneScore / 30 + 2, 6);
+    minObstacles = std::min(laneScore / 60, 2);
+    numObstacles = Random::getInstance().nextInt(minObstacles, maxObstacles);
+
+    if (laneType == LaneType::RAILWAY) {
+        numObstacles = 1;
+        speedScale = 5.0f;
+        randomSpeed *= speedScale;
+    }
 
     // Generate random obstacles
     addObstacle(numObstacles, speedScale);
 }
-
 
 void Lane::draw() {
     DrawTextureEx(*texture, { 0, y }, 0, 1, WHITE);
@@ -178,9 +176,8 @@ void Lane::draw() {
     for (auto obstacle : obstacles) {
         obstacle->draw();
     }
-
-    // static int i = 0;
 }
+
 void Lane::setY(float y) {
     this->y = y;
 }
@@ -196,44 +193,39 @@ void Lane::update() {
     for (auto obstacle : obstacles)
         obstacle->update(this->getY());
 
-    if (obstacles.size() > 0 && trafficLight)
-    {
-        if (trafficLight->getIsChanged())
-        {
-            if (!trafficLight->getLightState())
-            {
-                if (laneType == LaneType::ROAD)
-                {
-                    if (obstacles.front()->getUSpeed() & 0x80000000)
-                        for (auto obstacle : obstacles)
-                            obstacle->setSpeed(-0.0f);
-                    else
-                        for (auto obstacle : obstacles)
-                            obstacle->setSpeed(+0.0f);
-                }
-                else if (laneType == LaneType::RAILWAY)
-                {
-                    for (auto obstacle : obstacles)
-                        obstacle->setSpeed(randomSpeed);
-                }
-            }
+    if (!(obstacles.size() > 0 && trafficLight))
+        return;
+
+    if (!trafficLight->getIsChanged())
+        return;
+
+    if (!trafficLight->getLightState()) {
+        if (laneType == LaneType::ROAD) {
+            if (obstacles.front()->getUSpeed() & 0x80000000)
+                for (auto obstacle : obstacles)
+                    obstacle->setSpeed(-0.0f);
             else
-            {
-                if (laneType == LaneType::ROAD)
-                {
-                    for (auto obstacle : obstacles)
-                        obstacle->setSpeed(randomSpeed);
-                }
-                else if (laneType == LaneType::RAILWAY)
-                {
-                    if (obstacles.front()->getUSpeed() & 0x80000000)
-                        for (auto obstacle : obstacles)
-                            obstacle->setSpeed(-0.0f);
-                    else
-                        for (auto obstacle : obstacles)
-                            obstacle->setSpeed(+0.0f);
-                }
-            }
+                for (auto obstacle : obstacles)
+                    obstacle->setSpeed(+0.0f);
+        }
+        else if (laneType == LaneType::RAILWAY) {
+            if (obstacles.front()->getUSpeed() & 0x80000000)
+                for (auto obstacle : obstacles)
+                    obstacle->setSpeed(-0.0f);
+            else
+                for (auto obstacle : obstacles)
+                    obstacle->setSpeed(+0.0f);
+
+        }
+    }
+    else {
+        if (laneType == LaneType::ROAD) {
+            for (auto obstacle : obstacles)
+                obstacle->setSpeed(randomSpeed);
+        }
+        else if (laneType == LaneType::RAILWAY) {
+            for (auto obstacle : obstacles)
+                obstacle->setSpeed(randomSpeed);
         }
     }
 }
@@ -251,53 +243,70 @@ bool Lane::CheckCollisionPlayer(Rectangle playerBoxCollision) {
     return false;
 }
 
-/// @brief Return a pointer to a randomly generated obstacle
-/// @param safeLane 
-/// @param x 
-/// @param y 
-/// @param speed 
-/// @return Obstacle*
-Obstacle* Lane::createObstacle(float x, float y, float speed) {
-    int randomType;
-    Obstacle* tmp = nullptr;
+// [laneData] = [laneType] [laneSpeed] [lane.y] [laneDirection] [numObstacle] [obstacleData1] [obstacleData2] ... [obstacleDataN]
+// [obstacleData] = [obstacleType] [obstacle.x]
+std::string Lane::serializeData() {
+    std::string serialized_data = "";
 
-    switch (obstacleType) {
-    case(ObstacleType::Bird):
-        tmp = new Bird({ x, y }, speed);
-        break;
-    case(ObstacleType::Cat):
-        tmp = new Cat({ x, y }, speed);
-        break;
-    case(ObstacleType::Dog):
-        tmp = new Dog({ x, y }, speed);
-        break;
-    case(ObstacleType::Rabbit):
-        tmp = new Rabbit({ x, y }, speed);
-        break;
-    case(ObstacleType::Tiger):
-        tmp = new Tiger({ x, y }, speed);
-        break;
-    case(ObstacleType::Bike):
-        tmp = new Bike({ x, y }, speed);
-        break;
-    case(ObstacleType::Cab):
-        tmp = new Cab({ x, y }, speed);
-        break;
-    case(ObstacleType::Car):
-        tmp = new Car({ x, y }, speed);
-        break;
-    case(ObstacleType::Truck):
-        tmp = new Truck({ x, y }, speed);
-        break;
-    case(ObstacleType::Taxi):
-        tmp = new Taxi({ x, y }, speed);
-        break;
-    case(ObstacleType::Train):
-        tmp = new Train({ x, y }, speed);
-        break;
-    default:
-        break;
+    serialized_data += std::to_string(int(laneType)) + " ";
+    serialized_data += std::to_string(randomSpeed) + " ";
+    serialized_data += std::to_string(y) + " ";
+    serialized_data += std::to_string(direction) + " ";
+    serialized_data += std::to_string(obstacles.size()) + " ";
+
+    for (auto obstacle : obstacles) {
+        std::string obstacleData = "";
+
+        obstacleData += std::to_string(int(obstacleType)) + " ";
+        obstacleData += std::to_string(obstacle->getPos().x) + " ";
+
+        serialized_data += obstacleData;
     }
 
-    return tmp;
+    return serialized_data;
+}
+
+void Lane::loadSerializedData(const std::string& serialized_data) {
+    std::istringstream iss(serialized_data);
+    std::string tmp;
+    int numObstacle, oType, lType;
+    float x;
+
+    iss >> lType >> randomSpeed >> y >> direction >> numObstacle;
+    laneType = LaneType(lType);
+
+    for (int i = 0; i < numObstacle; i++) {
+        iss >> oType >> x;
+        obstacleType = ObstacleType(oType);
+        obstacles.push_back(createObstacle(obstacleType, x, y, randomSpeed));
+    }
+}
+
+Obstacle* Lane::createObstacle(ObstacleType id, float x, float y, float speed) {
+    switch (id) {
+    case ObstacleType::Bird:
+        return new Bird({ x, y }, speed);
+    case ObstacleType::Cat:
+        return new Cat({ x, y }, speed);
+    case ObstacleType::Dog:
+        return new Dog({ x, y }, speed);
+    case ObstacleType::Rabbit:
+        return new Rabbit({ x, y }, speed);
+    case ObstacleType::Tiger:
+        return new Tiger({ x, y }, speed);
+    case ObstacleType::Bike:
+        return new Bike({ x, y }, speed);
+    case ObstacleType::Cab:
+        return new Cab({ x, y }, speed);
+    case ObstacleType::Car:
+        return new Car({ x, y }, speed);
+    case ObstacleType::Truck:
+        return new Truck({ x, y }, speed);
+    case ObstacleType::Taxi:
+        return new Taxi({ x, y }, speed);
+    case ObstacleType::Train:
+        return new Train({ x, y }, speed);
+    default:
+        throw std::runtime_error("Invalid obstacle type");
+    }
 }

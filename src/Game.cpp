@@ -2,19 +2,14 @@
 #include "GameSettings.h"
 #include "State.h"
 #include "TextureHolder.h"
-#include "menustate.h"
 #include <iostream>
-#include"LoseState.h"
 
 Game::Game() {
     if (GetWindowHandle())
         return;
-    // std::cout << "Game constructor called" << std::endl;
-    // soundEnabled = true;
-    // volume = 1.0f;
 
     // Initialization for raylib
-    SetTraceLogLevel(LOG_DEBUG);
+    SetTraceLogLevel(LOG_WARNING);
 
     // Initialization for window
     InitWindow(settings::SCREEN_WIDTH, settings::SCREEN_HEIGHT, "Crossing Road");
@@ -218,9 +213,8 @@ void Game::loadAllTexture() {
 
     TextureHolder::getHolder().load(Textures::RAILWAY, "image/gameState/railway.png");
     TextureHolder::getHolder().load(Textures::TRAIN_RIGHT, "image/train/Right.png");
-    
-    TextureHolder::getHolder().load(Textures::LOSE_BOARD, "image/LoseGame/Board.png");
 
+    TextureHolder::getHolder().load(Textures::LOSE_BOARD, "image/LoseGame/Board.png");
 }
 
 void Game::run() {
@@ -234,8 +228,7 @@ void Game::run() {
     }
 }
 
-void Game::registerState()
-{
+void Game::registerState() {
     stateStack.registerState<MenuState>(States::ID::Menu);
     stateStack.registerState<GameState>(States::ID::Game);
     stateStack.registerState<PauseState>(States::ID::Pause);
@@ -244,4 +237,6 @@ void Game::registerState()
     stateStack.registerState<highScoreState>(States::ID::Highscore);
     stateStack.registerState<SkinState>(States::ID::Skin);
     stateStack.registerState<LoseState>(States::ID::GameOver);
+    stateStack.registerState<SaveState>(States::ID::Save);
+    stateStack.registerState<LoadState>(States::ID::Load);
 }

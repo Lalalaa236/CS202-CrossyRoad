@@ -16,7 +16,7 @@ INSTALL_DIR := ~/Desktop/$(EXEC)
 SRC_DIR = src
 # SRCS := $(sort $(shell find $(SRC_DIR) -name '*.cpp'))
 SRCS := $(wildcard $(SRC_DIR)/*.cpp)
-SRCS +=$(wildcard $(SRC_DIR)/**/*.cpp)
+SRCS += $(wildcard $(SRC_DIR)/**/*.cpp)
 
 # Includes
 INCLUDE_DIR = include

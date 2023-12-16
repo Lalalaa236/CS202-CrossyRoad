@@ -1,10 +1,13 @@
 #pragma once
+#include "GameSettings.h"
 #include "Obstacle.h"
+#include "TextureHolder.h"
 #include "raylib.h"
+#include <iostream>
 #include <string>
 #include <vector>
 
-class Train: public Obstacle {
+class Train : public Obstacle {
 private:
     std::vector<Texture2D *> txt; // Vector of Texture2D (frames)
 

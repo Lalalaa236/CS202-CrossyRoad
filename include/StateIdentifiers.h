@@ -13,7 +13,9 @@ namespace States
         Instructions,
         Highscore,
         Skin,
-        GameOver
+        GameOver,
+        Save,
+        Load
     };
 }
 

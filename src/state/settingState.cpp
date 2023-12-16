@@ -2,9 +2,7 @@
 #include "TextureHolder.h"
 #include <iostream>
 
-settingState::settingState(StateStack &stack)
-: State(stack)
-{
+settingState::settingState(StateStack &stack) : State(stack) {
     background = &TextureHolder::getHolder().get(Textures::BACKGROUND_MENU);
     settingBoard = &TextureHolder::getHolder().get(Textures::TABLE_SETTING);
     sound[0] = &TextureHolder::getHolder().get(Textures::SOUND_ON);
@@ -27,7 +25,7 @@ settingState::settingState(StateStack &stack)
 void settingState::handleEvents() {
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         Vector2 mousePosition = GetMousePosition();
-        if (CheckCollisionPointRec(mousePosition, { 1113, 202, closeButton->width * 1.0f, closeButton->height * 1.0f })) {
+        if (CheckCollisionPointRec(mousePosition, {1113, 202, closeButton->width * 1.0f, closeButton->height * 1.0f})) {
             requestStackPop();
             requestStackPush(States::ID::Menu);
         }
@@ -44,7 +42,7 @@ void settingState::handleEvents() {
         Vector2 mousePosition = GetMousePosition();
 
         // Check if the mouse is pressed on the slider
-        if (CheckCollisionPointRec(mousePosition, { 613, 500, sound[2]->width * 1.0f, sound[2]->height * 1.0f })) {
+        if (CheckCollisionPointRec(mousePosition, {613, 500, sound[2]->width * 1.0f, sound[2]->height * 1.0f})) {
             isDragging = true;
             dragOffset.x = mousePosition.x - dotPosition.x;
             dragOffset.y = mousePosition.y - dotPosition.y;
@@ -73,8 +71,7 @@ void settingState::handleEvents() {
         // Ensure the dot stays within the bounds of the slider
         if (dotPosition.x < 615) {
             dotPosition.x = 615;
-        }
-        else if (dotPosition.x > 613 + sound[2]->width - 27) {
+        } else if (dotPosition.x > 613 + sound[2]->width - 27) {
             dotPosition.x = 613 + sound[2]->width - 27;
         }
 
@@ -105,11 +102,11 @@ void settingState::draw() {
 
     // Draw background image
     DrawTexturePro(*background,
-        { 0, 0, float(background->width), float(background->height) },
-        { 0, 0, background->width * scaleWidth, background->height * scaleHeight },
-        { 0, 0 },
-        0,
-        WHITE);
+                   {0, 0, float(background->width), float(background->height)},
+                   {0, 0, background->width * scaleWidth, background->height * scaleHeight},
+                   {0, 0},
+                   0,
+                   WHITE);
 
     DrawTexture(*settingBoard, 319, 81, WHITE);
     DrawTexture(*closeButton, 1113, 202, WHITE);
@@ -124,9 +121,9 @@ void settingState::draw() {
     }
 
     DrawTexture(*sound[2], 613, 500, WHITE);
-    Rectangle sourceRec = { 0, 0, static_cast<float>(dotPosition.x - 613), static_cast<float>(sound[3]->height) };
-    Rectangle destRec = { 613, 500, static_cast<float>(dotPosition.x - 613), static_cast<float>(sound[3]->height) };
-    DrawTexturePro(*sound[3], sourceRec, destRec, { 0, 0 }, 0, WHITE);
+    Rectangle sourceRec = {0, 0, static_cast<float>(dotPosition.x - 613), static_cast<float>(sound[3]->height)};
+    Rectangle destRec = {613, 500, static_cast<float>(dotPosition.x - 613), static_cast<float>(sound[3]->height)};
+    DrawTexturePro(*sound[3], sourceRec, destRec, {0, 0}, 0, WHITE);
     DrawTexture(*sound[4], dotPosition.x, dotPosition.y, WHITE);
 }
 

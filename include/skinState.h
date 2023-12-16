@@ -11,7 +11,7 @@
 
 struct Animation {
     Texture2D spriteSheet;
-    Rectangle* frameRectangles = nullptr;
+    Rectangle *frameRectangles = nullptr;
     int numFrames;
     float frameRate;
     int currentFrame;
@@ -30,7 +30,7 @@ struct Animation {
         delete[] frameRectangles;
     }
 
-    Animation(const Animation& other) {
+    Animation(const Animation &other) {
         spriteSheet = other.spriteSheet;
         numFrames = other.numFrames;
         frameRate = other.frameRate;
@@ -43,7 +43,7 @@ struct Animation {
         }
     }
 
-    Animation& operator=(const Animation& other) {
+    Animation &operator=(const Animation &other) {
         if (this != &other) {
             delete[] frameRectangles;
 
@@ -61,15 +61,15 @@ struct Animation {
         return *this;
     }
 
-    void setAnimation(Texture2D* skin, int numFrames, float frameRate) {
-        Texture2D* skinSpriteSheet = skin;
+    void setAnimation(Texture2D *skin, int numFrames, float frameRate) {
+        Texture2D *skinSpriteSheet = skin;
 
         int frameWidth = skinSpriteSheet->width / 4;
         int frameHeight = skinSpriteSheet->height / 8;
 
         // std::cerr << frameWidth << " " << frameHeight << std::endl;
 
-        Rectangle* frames = new Rectangle[numFrames];
+        Rectangle *frames = new Rectangle[numFrames];
 
         for (int i = 0; i < numFrames; i++) {
             frames[i].x = frameWidth * i;
@@ -94,19 +94,19 @@ private:
     std::map<int, std::unique_ptr<Texture2D>> mTextureMap;
     std::vector<Animation> animation;
 
-    Texture2D* background;
-    Texture2D* skinBoard;
-    Texture2D* closeButton;
-    Texture2D* nextButton;
-    Texture2D* prevButton;
-    Texture2D* setButton;
+    Texture2D *background;
+    Texture2D *skinBoard;
+    Texture2D *closeButton;
+    Texture2D *nextButton;
+    Texture2D *prevButton;
+    Texture2D *setButton;
 
     int currentSkin = 0;
 
     void setAnimation(int skinIndex, int skinID);
 
 public:
-    SkinState(StateStack& stack);
+    SkinState(StateStack &stack);
     ~SkinState();
 
     void draw() override;

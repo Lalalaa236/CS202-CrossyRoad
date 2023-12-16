@@ -3,13 +3,14 @@
 
 #include "GameSettings.h"
 #include "TextureHolder.h"
+#include <sstream>
 
-class Player
-{
+class Player {
 private:
     bool isMoving;
     std::pair<float, float> position;
     std::pair<float, float> targetPosition;
+    std::pair<float, float> formerPosition;
     float mapSpeed;
     bool isAlive;
     Rectangle boxCollision;
@@ -26,33 +27,36 @@ private:
     void down();
     void left();
     void right();
+
 public:
-    enum class Direction
-    {
-        UP,
-        DOWN,
-        LEFT,
-        RIGHT
-    };
+    enum class Direction { UP, DOWN, LEFT, RIGHT };
 
     Player(float x, float y, float mapSpeed, Textures::ID skin);
     Player(float x, float y, float mapSpeed, Texture2D* atlas);
     Player(float x, float y, bool isAlive, Textures::ID skin);
 
-    std::pair<float, float> getPosition() const;
-    bool getIsAlive() const;
-    Rectangle getBoxCollision() const;
+    // Getter & Setter
+    void setPosition(float x, float y);
+    void setTargetPosition(float x, float y);
+    void setSpeed(float vSpeed, float hSpeed);
+    void setFrameCount(int frameCount);
     void setIsAlive(bool isAlive);
     void setMapSpeed(float mapSpeed);
     void setSkin(Textures::ID skin);
     void setMoving(bool isMoving);
+    Rectangle getBoxCollision() const;
+    std::pair<float, float> getPosition() const;
     std::pair<float, float> getTargetPosition() const;
+    std::pair<float, float> getSpeed() const;
+    bool getIsAlive() const;
     bool getMoving() const;
 
     void draw();
     void update();
     void move(Direction direction);
-    void setSpeed(float vSpeed, float hSpeed);
+
+    std::string serializeData();
+    void loadSerializedData(std::string serialize_data);
 };
 
 #endif

@@ -1,8 +1,6 @@
 // Train.cpp
 #include "Train.h"
-#include "GameSettings.h"
-#include "TextureHolder.h"
-#include <iostream>
+
 
 Train::Train(const Vector2& pos, float speed) : Obstacle(pos, speed), numsFrame(1), curFrame(0), frameTime(0.0f) {
     // Load Train frames
@@ -16,19 +14,19 @@ Train::~Train() {
 void Train::update(float k) {
     this->setPos(this->getPos().x, k + 10);
     frameTime += GetFrameTime();
-     if (frameTime >= 0.1f) { // Change this value to control the frame rate
+    if (frameTime >= 0.1f) { // Change this value to control the frame rate
         frameTime = 0.0f;
         curFrame = (curFrame + 1) % numsFrame;
     }
     Vector2 tmp = this->getPos();
 
     // Move horizontally based on some speed (adjust as needed)
-    
+
     tmp.x += this->getSpeed() * frameTime * 100;
     setPos(tmp.x, tmp.y);
 
     // If the obstacle is out of screen, move it to the other side
-    float width = 50;
+    float width = txt[curFrame]->width;
     if (checkOutOfScreen(width)) {
         if (this->getSpeed() > 0)
             setPos(-width, tmp.y);

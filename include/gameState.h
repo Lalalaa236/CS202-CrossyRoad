@@ -3,16 +3,19 @@
 
 #include "GameSettings.h"
 #include "Map.h"
-#include "Player.h"
-#include "State.h"
 #include "PauseState.h"
+#include "Player.h"
 #include "Rain.h"
+#include "saveState.h"
+#include "State.h"
+
 class GameState : public State {
 private:
     Texture2D* pauseButton;
     Player* player;
     Map* map;
 
+    unsigned long long seed;
     float speed;
     float count;
     bool start;
@@ -41,6 +44,9 @@ public:
     void draw() override;
     void update() override;
     void handleEvents() override;
+    
+    std::string serializeData();
+    void loadSerializedData(const std::string& gameData, const std::string& mapData, const std::string& playerData);
 };
 
 #endif

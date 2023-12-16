@@ -1,16 +1,19 @@
 #pragma once
 
-#include "raylib.h"
 #include "MusicManager.h"
 #include "StateStack.h"
+#include "raylib.h"
 
 #include "gameState.h"
+#include "highscoreState.h"
+#include "instructionState.h"
+#include "LoseState.h"
 #include "menuState.h"
 #include "pauseState.h"
-#include "highscoreState.h"
-#include "skinState.h"
-#include "instructionState.h"
 #include "settingState.h"
+#include "skinState.h"
+#include "saveState.h"
+#include "loadState.h"
 
 
 class State;
