@@ -16,6 +16,7 @@ namespace settings {
     constexpr int SCREEN_HEIGHT = 982;
     constexpr int SCREEN_FPS = 60;
     constexpr float BOXCOLLISION_SCALE = 0.9f;
+    constexpr std::pair<float, float> PLAYER_BOXCOLLISION_OFFSET = { 30.0f, 10.0f };
     constexpr std::pair<float, float> GRID_SIZE = { 89.375f, 95.0f }; // 17 wide, 11 tall
     constexpr std::pair<float, float> PLAYER_SIZE = { 82.0f, 82.0f };
     constexpr std::pair<float, float> BIKE_SIZE = { 314.0f, 284.0f };
