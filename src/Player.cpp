@@ -1,5 +1,5 @@
 #include "Player.h"
-// #include <iostream>
+#include <iostream>
 
 Player::Player(float x, float y, float mapSpeed, Textures::ID skin)
     : position({ x, y }), targetPosition({ x, y }), isAlive(true), mapSpeed(mapSpeed), vSpeed(0.0f), hSpeed(0.0f),
@@ -117,7 +117,6 @@ bool Player::getIsAlive() const {
     return isAlive;
 }
 
-
 void Player::setIsAlive(bool isAlive) {
     this->isAlive = isAlive;
 }
@@ -132,14 +131,18 @@ void Player::update() {
     position.second += mapSpeed;
     boxCollision.y += mapSpeed;
 
+    formerPosition = targetPosition;
+    formerPosition.first -= settings::GRID_SIZE.first * (hSpeed < 0 ? -1 : hSpeed > 0 ? +1 : 0);
+    formerPosition.second -= settings::GRID_SIZE.second * (vSpeed < 0 ? -1 : vSpeed > 0 ? +1 : 0);
+
     if (targetPosition.first < 0 || targetPosition.first > 1512 - 82)
         return;
 
-    if ((position.first + hSpeed >= targetPosition.first) && hSpeed < 0.0f) {
+    if ((position.first + hSpeed > targetPosition.first) && hSpeed < 0.0f) {
         position.first += hSpeed;
         boxCollision.x += hSpeed;
     }
-    else if ((position.first + hSpeed <= targetPosition.first) && hSpeed > 0.0f) {
+    else if ((position.first + hSpeed < targetPosition.first) && hSpeed > 0.0f) {
         position.first += hSpeed;
         boxCollision.x += hSpeed;
     }
@@ -149,11 +152,11 @@ void Player::update() {
         hSpeed = 0.0f;
     }
 
-    if ((position.second + vSpeed >= targetPosition.second) && vSpeed < 0.0f) {
+    if ((position.second + vSpeed > targetPosition.second) && vSpeed < 0.0f) {
         position.second += vSpeed;
         boxCollision.y += vSpeed;
     }
-    else if ((position.second + vSpeed <= targetPosition.second) && vSpeed > 0.0f) {
+    else if ((position.second + vSpeed < targetPosition.second) && vSpeed > 0.0f) {
         position.second += vSpeed;
         boxCollision.y += vSpeed;
     }
@@ -221,10 +224,7 @@ bool Player::getMoving() const {
 std::string Player::serializeData() {
     std::string serialized_data = "";
 
-    serialized_data += std::to_string(position.first) + " " + std::to_string(position.second) + " ";
-    serialized_data += std::to_string(targetPosition.first) + " " + std::to_string(targetPosition.second) + " ";
-    serialized_data += std::to_string(vSpeed) + " " + std::to_string(hSpeed) + " ";
-    serialized_data += std::to_string(frameCount) + " ";
+    serialized_data += std::to_string(formerPosition.first) + " " + std::to_string(formerPosition.second) + " ";
     serialized_data += std::to_string(settings::CURRENT_SKIN) + " ";
 
     return serialized_data;
@@ -234,14 +234,25 @@ void Player::loadSerializedData(std::string serialized_data) {
     std::stringstream ss(serialized_data);
 
     ss >> position.first >> position.second;
-    ss >> targetPosition.first >> targetPosition.second;
-    ss >> vSpeed >> hSpeed;
-    ss >> frameCount;
     ss >> settings::CURRENT_SKIN;
+
+    hSpeed = vSpeed = 0.0f;
 
     // Set player skin
     TextureHolder::getHolder().load(Textures::SKIN_FULL,
         "image/skin/" + std::to_string(settings::CURRENT_SKIN) + "/full.png");
 
-    Player(position.first, position.second, mapSpeed, Textures::ID::SKIN_FULL);
+    targetPosition = position;
+    boxCollision.x = position.first;
+    boxCollision.y = position.second;
+    boxCollision.width = settings::PLAYER_SIZE.first;
+    boxCollision.height = settings::PLAYER_SIZE.second;
+
+    atlas = &TextureHolder::getHolder().get(Textures::SKIN_FULL);
+    for (int i = 0; i < frames; ++i) {
+        frame[i].x = i * 64;
+        frame[i].y = 192;
+        frame[i].width = 64;
+        frame[i].height = 64;
+    }
 }

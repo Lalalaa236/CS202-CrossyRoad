@@ -16,6 +16,10 @@ void State::requestStackClear() {
     stack->clearState();
 }
 
-State* State::getState(States::ID stateID) {
-    return stack->getState(stateID);
+State* State::getState(int index) {
+    return stack->getState(index);
+}
+
+StateStack* State::getStack() {
+    return stack;
 }

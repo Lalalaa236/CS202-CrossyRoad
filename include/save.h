@@ -48,6 +48,9 @@ public:
     // Getter & Setter
     int getHighScore() const;
     std::string getSerializedData() const;
+    std::string getPlayerData() const;
+    std::string getMapData() const;
+    std::string getGameData() const;
     void setSerializedData(std::string serialized_data);
 
     // Method

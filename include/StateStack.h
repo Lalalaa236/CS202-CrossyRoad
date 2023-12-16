@@ -22,7 +22,7 @@ public:
     void popState();
     void clearState();
 
-    State* getState(States::ID id);
+    State* getState(int index = 1);
 
     void update();
     void draw();

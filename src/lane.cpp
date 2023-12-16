@@ -1,5 +1,6 @@
 #include "lane.h"
 #include "GameSettings.h"
+#include "random.h"
 #include "Animal.h"
 #include "Vehicle.h"
 
@@ -10,7 +11,7 @@
 
 Lane::Lane(float y, float mapSpeed, int currentScore) : y(y), mapSpeed(mapSpeed) {
     float trafficLight_x = settings::SCREEN_WIDTH - 5 - 50;
-    randomSpeed = GetRandomValue(300, 500) / 100.0f;
+    randomSpeed = Random::getInstance().nextDouble(3.0f, 5.0f);
     direction = rand() % 2;
 
     // From right to left direction
@@ -77,7 +78,7 @@ Lane::~Lane() {
 
 Lane::Lane(float y, float mapSpeed, LaneType laneType, int numObstacles) : y(y), mapSpeed(mapSpeed) {
     float trafficLight_x = 5;
-    randomSpeed = GetRandomValue(300, 500) / 100.0f;
+    randomSpeed = Random::getInstance().nextDouble(3.0f, 5.0f);
     direction = rand() % 2;
 
     if (direction == 0) {
@@ -146,7 +147,7 @@ void Lane::addObstacleByScore(int laneScore) {
     maxObstacles = std::min(laneScore / 30 + 2, 6);
     minObstacles = std::min(laneScore / 60, 2);
 
-    numObstacles = (rand() % (maxObstacles - minObstacles + 1)) + minObstacles;
+    numObstacles = Random::getInstance().nextInt(minObstacles, maxObstacles);
 
     // Generate random obstacles
     addObstacle(numObstacles, speedScale);
@@ -248,14 +249,13 @@ std::string Lane::serializeData() {
     return serialized_data;
 }
 
-void Lane::loadSerializedData(std::string serialized_data) {
+void Lane::loadSerializedData(const std::string& serialized_data) {
     std::istringstream iss(serialized_data);
     std::string tmp;
     int numObstacle, obstacleType;
     float x;
 
     iss >> isSafe >> randomSpeed >> y >> direction >> numObstacle;
-    Lane(y, mapSpeed, static_cast<LaneType>(isSafe), 0);
 
     for (int i = 0; i < numObstacle; i++) {
         iss >> obstacleType >> x;

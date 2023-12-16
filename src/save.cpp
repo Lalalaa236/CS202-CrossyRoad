@@ -37,6 +37,18 @@ std::string saveData::getSerializedData() const {
     return this->serialized_data;
 }
 
+std::string saveData::getPlayerData() const {
+    return this->playerData;
+}
+
+std::string saveData::getMapData() const {
+    return this->mapData;
+}
+
+std::string saveData::getGameData() const {
+    return this->gameData;
+}
+
 void saveData::setSerializedData(std::string serialized_data) {
     this->serialized_data = serialized_data;
     this->splitData();

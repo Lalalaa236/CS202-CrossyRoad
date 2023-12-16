@@ -10,6 +10,7 @@ private:
     bool isMoving;
     std::pair<float, float> position;
     std::pair<float, float> targetPosition;
+    std::pair<float, float> formerPosition;
     float mapSpeed;
     bool isAlive;
     Rectangle boxCollision;

@@ -7,12 +7,9 @@
 Game::Game() {
     if (GetWindowHandle())
         return;
-    // std::cout << "Game constructor called" << std::endl;
-    // soundEnabled = true;
-    // volume = 1.0f;
 
     // Initialization for raylib
-    SetTraceLogLevel(LOG_DEBUG);
+    SetTraceLogLevel(LOG_WARNING);
 
     // Initialization for window
     InitWindow(settings::SCREEN_WIDTH, settings::SCREEN_HEIGHT, "Crossing Road");

@@ -38,7 +38,7 @@ public:
     bool CheckCollisionPlayer(Rectangle playerBoxCollision);
 
     std::string serializeData();
-    void loadSerializedData(std::string serialized_data);
+    void loadSerializedData(const std::string& serialized_data);
 
 };
 

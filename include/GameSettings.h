@@ -8,16 +8,23 @@
 
 #include "raylib.h"
 
+#include <string>
 #include <utility>
 
 namespace settings {
-constexpr int SCREEN_WIDTH = 1512;
-constexpr int SCREEN_HEIGHT = 982;
-constexpr int SCREEN_FPS = 60;
-constexpr std::pair<float, float> GRID_SIZE = {89.375f, 95.0f}; // 17 wide, 11 tall
-constexpr std::pair<float, float> PLAYER_SIZE = {82.0f, 82.0f};
+    constexpr int SCREEN_WIDTH = 1512;
+    constexpr int SCREEN_HEIGHT = 982;
+    constexpr int SCREEN_FPS = 60;
+    constexpr std::pair<float, float> GRID_SIZE = { 89.375f, 95.0f }; // 17 wide, 11 tall
+    constexpr std::pair<float, float> PLAYER_SIZE = { 82.0f, 82.0f };
 
-static int CURRENT_SKIN = 1;
+    extern int CURRENT_SKIN;
 } // namespace settings
+
+namespace data {
+    extern std::string Game;
+    extern std::string Map;
+    extern std::string Player;
+} // namespace data
 
 #endif

@@ -4,6 +4,10 @@
 
 #include <iostream>
 
+namespace settings {
+    int CURRENT_SKIN = 1;
+} // namespace settings
+
 // Variable
 int skinBoardX = 0, skinBoardY = 0;
 
@@ -67,7 +71,6 @@ SkinState::SkinState(StateStack& stack) : State(stack) {
 }
 
 SkinState::~SkinState() {
-
     // Unload all texture
     for (auto& pair : this->mTextureMap)
         UnloadTexture(*pair.second);

@@ -73,8 +73,8 @@ void StateStack::clearState() {
     pendingList.push_back(PendingChange{ Action::Clear });
 }
 
-State* StateStack::getState(States::ID id) {
-    return states[states.size() - 2].get();
+State* StateStack::getState(int index) {
+    return states[states.size() - index].get();
 }
 
 bool StateStack::isEmpty() const {

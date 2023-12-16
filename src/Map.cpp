@@ -71,17 +71,21 @@ std::string Map::serializeData() {
     return serialized_data;
 }
 
-void Map::loadSerializedData(std::string serialized_data) {
+void Map::loadSerializedData(const std::string& serialized_data) {
     std::istringstream iss(serialized_data);
-    int n;
+    int numLane, laneType = 0;
 
-    iss >> speed >> n;
+    iss >> speed >> numLane;
+    iss.ignore();
 
-    for (int i = 0; i < n; ++i) {
+    lanes.clear();
+    for (int i = 0; i < numLane; ++i) {
         std::string laneData = "";
         std::getline(iss, laneData, '\n');
 
-        Lane* lane = new Lane(0, 0);
+        laneType = laneData[0] - '0';
+
+        Lane* lane = new Lane(0, 0, static_cast<Lane::LaneType>(laneType), 0);
         lane->loadSerializedData(laneData);
         lanes.push_back(lane);
     }

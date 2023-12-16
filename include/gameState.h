@@ -41,9 +41,7 @@ public:
     void handleEvents() override;
 
     std::string serializeData();
-    void loadSerializedData(std::string gameData, std::string mapData, std::string playerData);
-
-    friend class SaveState;
+    void loadSerializedData(const std::string& gameData, const std::string& mapData, const std::string& playerData);
 };
 
 #endif

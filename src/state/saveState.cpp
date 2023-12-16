@@ -2,14 +2,6 @@
 #include "save.h"
 #include <iostream>
 
-float scaleWidth = 1.0f;
-float scaleHeight = 1.0f;
-int boardX = 0, boardY = 0;
-int confirmSavePanelX = 0, confirmSavePanelY = 0;
-int saveButtonX = 0, saveButtonY = 0;
-int quitButtonX = 0, quitButtonY = 0;
-int saveSlotX = 0, saveSlotY = 0;
-
 saveData save[3];
 
 void SaveState::drawSaveSlot(int selectedSlot) {
@@ -34,7 +26,7 @@ void SaveState::drawSaveSlot(int selectedSlot) {
         }
 
         // Draw the save slot number
-        DrawText(std::to_string(i + 1).c_str(),
+        DrawText(("Slot " + std::to_string(i + 1)).c_str(),
             saveSlotX + 50 * scaleWidth,
             saveSlotY + i * 150 * scaleHeight + 10 * scaleHeight,
             40 * scaleHeight,
@@ -215,7 +207,7 @@ void SaveState::handleInput() {
                 return;
 
             // Save the data
-            State* gameState = getState(States::ID::Game);
+            State* gameState = getState(2); // States::ID::Game
             std::string serializedData = dynamic_cast<GameState*>(gameState)->serializeData();
 
             save[selectedSlot].setSerializedData(serializedData);
@@ -252,7 +244,7 @@ void SaveState::handleInput() {
             mousePos.y >= confirmSavePanelY + confirmSavePanel->height * scaleHeight - saveButton->height * scaleHeight - 20 * scaleHeight &&
             mousePos.y <= confirmSavePanelY + confirmSavePanel->height * scaleHeight - 20 * scaleHeight) {
             // Save the data
-            State* gameState = getState(States::ID::Game);
+            State* gameState = getState(2);
             std::string serializedData = dynamic_cast<GameState*>(gameState)->serializeData();
 
             save[selectedSlot].setSerializedData(serializedData);

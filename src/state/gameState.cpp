@@ -5,6 +5,12 @@
 #include <iostream>
 #include <sstream>
 
+namespace data {
+    std::string Game;
+    std::string Map;
+    std::string Player;
+} // namespace data
+
 GameState::GameState(StateStack& stack) : State(stack), speed(0.0f), count(0), start(false), over(false), score(0), highScore(0) {
     map = new Map(speed);
     player = new Player(1512.0 / 2 - 82 / 2, 982.0 - 2 * settings::GRID_SIZE.second, speed, Textures::ID::SKIN_FULL);
@@ -17,7 +23,13 @@ GameState::GameState(StateStack& stack) : State(stack), speed(0.0f), count(0), s
     rain.setState(false);
 
     HideCursor();
-    // std::cout << "GameState constructor called" << std::endl;
+
+    if (data::Game != "") {
+        this->loadSerializedData(data::Game, data::Map, data::Player);
+        data::Game = "";
+        data::Map = "";
+        data::Player = "";
+    }
 }
 
 GameState::~GameState() {
@@ -45,7 +57,7 @@ void GameState::update() {
     // static int i = 0;
     // if(i++ == 0)
     //     std::cout << "GameState update called" << std::endl;
-    if (!player->getMoving())
+    if (start || (!start && !player->getMoving()))
         player->setMoving(true);
 
     if (start && !over)
@@ -177,18 +189,21 @@ void GameState::checkEndOfGame() {
 
 // [gameData] = [seed] [highScore] [score]
 std::string GameState::serializeData() {
-    std::string gameData = std::to_string(seed) + " " + std::to_string(highScore) + " " + std::to_string(score);
+    std::string gameData = std::to_string(seed) + " " + std::to_string(highScore) + " " + std::to_string(score)
+        + " " + std::to_string(speed);
     std::string mapData = map->serializeData();
     std::string playerData = player->serializeData();
 
     return "[GAME]\n" + gameData + "\n[MAP]\n" + mapData + "\n[PLAYER]\n" + playerData;
 }
 
-void GameState::loadSerializedData(std::string gameData, std::string mapData, std::string playerData) {
+void GameState::loadSerializedData(const std::string& gameData, const std::string& mapData, const std::string& playerData) {
     std::stringstream ss(gameData);
 
-    ss >> seed >> highScore >> score;
+    ss >> seed >> highScore >> score >> speed;
+    speed = 0.0f;
 
     map->loadSerializedData(mapData);
     player->loadSerializedData(playerData);
+
 }

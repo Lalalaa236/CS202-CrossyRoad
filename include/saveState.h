@@ -18,6 +18,14 @@ private:
     Texture2D* saveSlot;                // Save slots
     Texture2D* saveSlotSelected;        // Save slots selected
 
+    float scaleWidth = 1.0f;
+    float scaleHeight = 1.0f;
+    int boardX = 0, boardY = 0;
+    int confirmSavePanelX = 0, confirmSavePanelY = 0;
+    int saveButtonX = 0, saveButtonY = 0;
+    int quitButtonX = 0, quitButtonY = 0;
+    int saveSlotX = 0, saveSlotY = 0;
+
     void handleInput();
     void drawSaveSlot(int selectedSlot = -1);
     void drawNormalSave();

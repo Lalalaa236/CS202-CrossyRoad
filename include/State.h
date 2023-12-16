@@ -21,7 +21,8 @@ protected:
     void requestStackPop();
     void requestStackClear();
 
-    State* getState(States::ID stateID);
+    State* getState(int index = 1);
+    StateStack* getStack();
 
 private:
     StateStack* stack = nullptr;
