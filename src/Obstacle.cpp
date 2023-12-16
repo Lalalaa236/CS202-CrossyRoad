@@ -46,12 +46,10 @@ bool Obstacle::checkOutOfScreen() const {
 }
 
 void Obstacle::setBoxCollision() {
-    // boxCollision.x = x;
-    // boxCollision.y = y;
     boxCollision.width = size.first * settings::BOXCOLLISION_SCALE;
     boxCollision.height = size.second * settings::BOXCOLLISION_SCALE;
     boxCollision.x = position.x + (size.first - boxCollision.width) / 2.0f;
-    boxCollision.y = position.y + (size.second - boxCollision.height) / 2;
+    boxCollision.y = position.y + (size.second - boxCollision.height) / 2.0f;
 }
 
 Rectangle Obstacle::getBoxCollision() const {
@@ -70,5 +68,5 @@ void Obstacle::resetPos() {
     if (!(getUSpeed() & 0x80000000))
         position.x = -size.first;
     else
-        position.x = settings::SCREEN_WIDTH + size.first;
+        position.x = settings::SCREEN_WIDTH;
 }

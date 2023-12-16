@@ -16,6 +16,8 @@ Train::~Train() {
 }
 
 void Train::update(float k) {
+    if (checkOutOfScreen())
+        resetPos();
     position.y = k;
     if (frameTime >= 0.1f) { // Change this value to control the frame rate
         frameTime = 0.0f;
@@ -26,8 +28,6 @@ void Train::update(float k) {
 
     position.x += speed * frameTime * 100;
     // If the obstacle is out of screen, move it to the other side
-    if (checkOutOfScreen())
-        resetPos();
     frameTime += GetFrameTime();
 }
 

@@ -205,11 +205,8 @@ void Lane::update() {
     if (!(obstacles.size() > 0 && trafficLight))
         return;
     
-    if(laneType == LaneType::RAILWAY)
-    {
-        if(obstacles.front()->checkOutOfScreen() && !trafficLight->getLightState())
+    if(laneType == LaneType::RAILWAY && obstacles.front()->checkOutOfScreen() && !trafficLight->getLightState())
             trafficLight->setLightState(true);
-    }
 
     // if (!trafficLight->getIsChanged())
     //     return;
