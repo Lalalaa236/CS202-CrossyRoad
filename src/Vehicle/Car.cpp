@@ -18,9 +18,8 @@ Car::~Car() {
 }
 
 void Car::update(float k) {
-    position.y = k + 10;
+    position.y = k;
 
-    frameTime += GetFrameTime();
     if (frameTime >= 0.1f) { // Change this value to control the frame rate
         frameTime = 0.0f;
         curFrame = (curFrame + 1) % numsFrame;
@@ -30,9 +29,10 @@ void Car::update(float k) {
     position.x += speed * frameTime * 10;
 
     // If the obstacle is out of screen, move it to the other side
-    if (checkOutOfScreen()) {
+    if (checkOutOfScreen())
         resetPos();
-    }
+
+    frameTime += GetFrameTime();
 }
 
 

@@ -128,10 +128,11 @@ void Lane::addObstacle(int numObstacle, float speedScale) {
         return;
     if(laneType == LaneType::RAILWAY)
     {
-        if(direction)
+        if(!direction)
             obstacles.push_back(createObstacle(obstacleType, settings::SCREEN_WIDTH, this->y, randomSpeed * speedScale));
         else
             obstacles.push_back(createObstacle(obstacleType, 0, this->y, randomSpeed * speedScale));
+        obstacles.front()->resetPos();
         return;
     }
 
@@ -206,7 +207,7 @@ void Lane::update() {
     
     if(laneType == LaneType::RAILWAY)
     {
-        if(obstacles.front()->checkOutOfScreen())
+        if(obstacles.front()->checkOutOfScreen() && !trafficLight->getLightState())
             trafficLight->setLightState(true);
     }
 

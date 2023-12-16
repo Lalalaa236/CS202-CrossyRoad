@@ -19,7 +19,6 @@ Rabbit::~Rabbit() {
 void Rabbit::update(float k) {
     position.y = k;
 
-    frameTime += GetFrameTime();
     if (frameTime >= 0.1f) { // Change this value to control the frame rate
         frameTime = 0.0f;
         curFrame = (curFrame + 1) % numsFrame;
@@ -29,9 +28,12 @@ void Rabbit::update(float k) {
     position.x += speed * frameTime * 10;
 
     // If the obstacle is out of screen, move it to the other side
-    float width = txt[curFrame]->width * 0.5f;
+
     if (checkOutOfScreen()) 
         resetPos();
+    
+    frameTime += GetFrameTime();
+
 }
 
 

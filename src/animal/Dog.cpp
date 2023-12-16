@@ -19,7 +19,6 @@ Dog::~Dog() {
 void Dog::update(float k) {
     position.y = k;
 
-    frameTime += GetFrameTime();
     if (frameTime >= 0.1f) { // Change this value to control the frame rate
         frameTime = 0.0f;
         curFrame = (curFrame + 1) % numsFrame;
@@ -31,6 +30,9 @@ void Dog::update(float k) {
     // If the obstacle is out of screen, move it to the other side
     if (checkOutOfScreen())
         resetPos();
+
+    frameTime += GetFrameTime();
+    
 }
 
 
