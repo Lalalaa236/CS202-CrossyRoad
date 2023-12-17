@@ -3,6 +3,8 @@
 #include "State.h"
 #include "TextureHolder.h"
 #include <iostream>
+#include<fstream>
+#include"score.h"
 
 Game::Game() {
     if (GetWindowHandle())
@@ -26,7 +28,7 @@ Game::Game() {
     // bgMusic = LoadMusicStream("image/Sound/whistle.mp3");
     // PlayMusicStream(bgMusic);
     MusicManager::getManager().setMusic("image/Sound/whistle.mp3");
-
+    //HighScore::getHighScoreManager().loadData();
     registerState();
     stateStack.pushState(States::ID::Menu);
 }
@@ -226,6 +228,7 @@ void Game::run() {
         stateStack.draw();
         stateStack.handleEvents();
     }
+    HighScore::getHighScoreManager().unloadData();
 }
 
 void Game::registerState() {

@@ -1,10 +1,8 @@
 #include "score.h"
 
 HighScore::HighScore() : currentScore(0) {
-    highScoreList.resize(4);
-    for (int i = 0; i < 4; i++) {
-        highScoreList[i] = 0;
-    }
+    highScoreList.resize(3);
+    loadData();
 }
 HighScore &HighScore::getHighScoreManager() {
     static HighScore instance;
@@ -38,4 +36,20 @@ void HighScore::updateHighestScore() {
             break;
         }
     }
+}
+
+void HighScore::loadData(){
+    std::ifstream fin("highScore.txt");
+    for (int i = 0; i < 3; i++){
+        fin >> highScoreList[i];
+    }
+    fin.close();
+}
+
+void HighScore::unloadData(){
+    std::ofstream fout("highScore.txt");
+    for (int i = 0; i < 3; i++){
+        fout << highScoreList[i] << "\n";
+    }
+    fout.close();
 }

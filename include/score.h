@@ -1,6 +1,7 @@
 #ifndef HIGHSCORE_H
 #define HIGHSCORE_H
 #include<vector>
+#include<fstream>
 class HighScore
 {
 private:
@@ -18,6 +19,8 @@ public:
 
     void setCurrentScore(int score);
     void updateHighestScore();
+    void loadData();
+    void unloadData();
 };
 
 #endif
