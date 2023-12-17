@@ -4,10 +4,10 @@
 Player::Player(float x, float y, float mapSpeed, Textures::ID skin)
     : position({x, y}), targetPosition({x, y}), isAlive(true), mapSpeed(mapSpeed), vSpeed(0.0f), hSpeed(0.0f),
       frameCount(0), elapsedTime(0.0f) {
-    boxCollision.x = x;
-    boxCollision.y = y;
-    boxCollision.width = settings::PLAYER_SIZE.first;
-    boxCollision.height = settings::PLAYER_SIZE.second;
+    boxCollision.width = settings::PLAYER_SIZE.first - settings::PLAYER_BOXCOLLISION_OFFSET.first;
+    boxCollision.height = settings::PLAYER_SIZE.second - settings::PLAYER_BOXCOLLISION_OFFSET.second;
+    boxCollision.x = position.first + (settings::PLAYER_SIZE.first - boxCollision.width) / 2.0f;
+    boxCollision.y = position.second + (settings::PLAYER_SIZE.second - boxCollision.height) / 2.0f;
 
     atlas = &TextureHolder::getHolder().get(skin);
     for (int i = 0; i < frames; ++i) {
@@ -21,10 +21,10 @@ Player::Player(float x, float y, float mapSpeed, Textures::ID skin)
 Player::Player(float x, float y, float mapSpeed, Texture2D *atlas)
     : position({x, y}), targetPosition({x, y}), isAlive(true), mapSpeed(mapSpeed), vSpeed(0.0f), hSpeed(0.0f),
       frameCount(0), elapsedTime(0.0f) {
-    boxCollision.x = x;
-    boxCollision.y = y;
-    boxCollision.width = settings::PLAYER_SIZE.first;
-    boxCollision.height = settings::PLAYER_SIZE.second;
+    boxCollision.width = settings::PLAYER_SIZE.first - settings::PLAYER_BOXCOLLISION_OFFSET.first;
+    boxCollision.height = settings::PLAYER_SIZE.second - settings::PLAYER_BOXCOLLISION_OFFSET.second;
+    boxCollision.x = position.first + (settings::PLAYER_SIZE.first - boxCollision.width) / 2.0f;
+    boxCollision.y = position.second + (settings::PLAYER_SIZE.second - boxCollision.height) / 2.0f;
 
     this->atlas = atlas;
     for (int i = 0; i < frames; ++i) {
@@ -38,10 +38,10 @@ Player::Player(float x, float y, float mapSpeed, Texture2D *atlas)
 Player::Player(float x, float y, bool isAlive, Textures::ID skin)
     : position({x, y}), targetPosition({x, y}), isAlive(isAlive), vSpeed(0.0f), hSpeed(0.0f), frameCount(0),
       elapsedTime(0.0f) {
-    boxCollision.x = x;
-    boxCollision.y = y;
-    boxCollision.width = settings::PLAYER_SIZE.first;
-    boxCollision.height = settings::PLAYER_SIZE.second;
+    boxCollision.width = settings::PLAYER_SIZE.first - settings::PLAYER_BOXCOLLISION_OFFSET.first;
+    boxCollision.height = settings::PLAYER_SIZE.second - settings::PLAYER_BOXCOLLISION_OFFSET.second;
+    boxCollision.x = position.first + (settings::PLAYER_SIZE.first - boxCollision.width) / 2.0f;
+    boxCollision.y = position.second + (settings::PLAYER_SIZE.second - boxCollision.height) / 2.0f;
 
     atlas = &TextureHolder::getHolder().get(skin);
     for (int i = 0; i < frames; ++i) {
@@ -146,7 +146,7 @@ void Player::update() {
         boxCollision.x += hSpeed;
     } else if (hSpeed != 0.0f) {
         position.first = targetPosition.first;
-        boxCollision.x = targetPosition.first;
+        boxCollision.x = targetPosition.first + (settings::PLAYER_SIZE.first - boxCollision.width) / 2.0f;
         hSpeed = 0.0f;
     }
 
@@ -158,7 +158,7 @@ void Player::update() {
         boxCollision.y += vSpeed;
     } else if (vSpeed != 0.0f) {
         position.second = targetPosition.second;
-        boxCollision.y = targetPosition.second;
+        boxCollision.y = targetPosition.second + (settings::PLAYER_SIZE.second - boxCollision.height) / 2.0f;
         vSpeed = 0.0f;
     }
 }
@@ -170,7 +170,7 @@ void Player::setMapSpeed(float mapSpeed) {
 void Player::draw() {
     // DrawRectangleRec(boxCollision, RED);
     if (position == targetPosition || (vSpeed == 0.0f && hSpeed == 0.0f) || !isMoving) {
-        DrawTexturePro(*atlas, frame[0], {boxCollision.x, boxCollision.y, 82.0f, 82.0f}, {0, 0}, 0, WHITE);
+        DrawTexturePro(*atlas, frame[0], {position.first, position.second, settings::PLAYER_SIZE.first, settings::PLAYER_SIZE.second}, {0, 0}, 0, WHITE);
         DrawRectangleLinesEx(boxCollision, 1, RED);
         return;
     }
@@ -185,7 +185,7 @@ void Player::draw() {
         elapsedTime = 0.0f;
     }
 
-    DrawTexturePro(*atlas, frame[frameCount], {boxCollision.x, boxCollision.y, 82.0f, 82.0f}, {0, 0}, 0, WHITE);
+    DrawTexturePro(*atlas, frame[frameCount], {position.first, position.second, settings::PLAYER_SIZE.first, settings::PLAYER_SIZE.second}, {0, 0}, 0, WHITE);
     // std::cout << boxCollision.x << " " << boxCollision.y << std::endl;
     DrawRectangleLinesEx(boxCollision, 1, RED);
 }

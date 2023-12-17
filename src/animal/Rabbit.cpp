@@ -6,6 +6,10 @@ Rabbit::Rabbit(const Vector2 &pos, float speed) : Obstacle(pos, speed), numsFram
     for (int i = 0; i < numsFrame; i++) {
         txt.push_back(&TextureHolder::getHolder().get((Textures::ID)(Textures::RABBIT_1 + i)));
     }
+    scale = 0.5f;
+    size.first = settings::RABBIT_SIZE.first * scale;
+    size.second = settings::RABBIT_SIZE.second * scale;
+    setBoxCollision();
 }
 
 Rabbit::~Rabbit() {
@@ -13,28 +17,23 @@ Rabbit::~Rabbit() {
 }
 
 void Rabbit::update(float k) {
-    this->setPos(this->getPos().x, k);
+    position.y = k;
 
-    frameTime += GetFrameTime();
     if (frameTime >= 0.1f) { // Change this value to control the frame rate
         frameTime = 0.0f;
         curFrame = (curFrame + 1) % numsFrame;
     }
 
-    Vector2 tmp = this->getPos();
-
     // Move horizontally based on some speed (adjust as needed)
-    tmp.x += this->getSpeed() * frameTime * 10;
-    setPos(tmp.x, tmp.y);
+    position.x += speed * frameTime * 10;
 
     // If the obstacle is out of screen, move it to the other side
-    float width = txt[curFrame]->width * 0.5f;
-    if (checkOutOfScreen(width)) {
-        if (this->getSpeed() > 0)
-            setPos(-width, tmp.y);
-        else
-            setPos(settings::SCREEN_WIDTH + width, tmp.y);
-    }
+
+    if (checkOutOfScreen()) 
+        resetPos();
+    
+    frameTime += GetFrameTime();
+
 }
 
 
@@ -51,5 +50,8 @@ void Rabbit::draw() {
 
     DrawTexturePro(*txt[curFrame], srcRect, destRect, {0, 0}, 0.0f, WHITE);
 
-    setBoxCollision(this->getPos().x, this->getPos().y, txt[curFrame], scale);
+    setBoxCollision();
+
+    // For debugging
+    DrawRectangleLines(boxCollision.x, boxCollision.y, boxCollision.width, boxCollision.height, RED);
 }

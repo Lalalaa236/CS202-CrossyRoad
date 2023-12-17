@@ -1,5 +1,6 @@
 #pragma once
 #include "raylib.h"
+#include <utility>
 
 class Obstacle {
 public:
@@ -13,18 +14,19 @@ public:
     float getSpeed() const;
     void setPos(float x, float y);
     void setSpeed(float speed);
-    bool checkOutOfScreen(float error = 0) const;
+    bool checkOutOfScreen() const;
     Rectangle getBoxCollision() const;
     unsigned getUSpeed() const;
 
     virtual void draw() = 0;
     virtual void update(float y) = 0;
-
-private:
-    float speed;
-    Vector2 position;
+    void resetPos();
 
 protected:
+    Vector2 position;
+    float speed;
+    float scale;
+    std::pair<float, float> size = {0, 0};
     Rectangle boxCollision;
-    void setBoxCollision(float x, float y, Texture2D* txt, float scale);
+    void setBoxCollision();
 };

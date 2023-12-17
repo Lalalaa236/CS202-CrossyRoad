@@ -13,6 +13,7 @@ private:
 
     int numsFrame, curFrame; // Store frames to draw
     float frameTime;
+    float width;
 
 public:
     //Constructor

@@ -126,6 +126,15 @@ void Lane::addObstacle() {
 void Lane::addObstacle(int numObstacle, float speedScale) {
     if (numObstacle <= 0)
         return;
+    if(laneType == LaneType::RAILWAY)
+    {
+        if(!direction)
+            obstacles.push_back(createObstacle(obstacleType, settings::SCREEN_WIDTH, this->y, randomSpeed * speedScale));
+        else
+            obstacles.push_back(createObstacle(obstacleType, 0, this->y, randomSpeed * speedScale));
+        obstacles.front()->resetPos();
+        return;
+    }
 
     const int numPosition = numObstacle << 1; // numObstacle * 2
     int i;
@@ -195,12 +204,17 @@ void Lane::update() {
 
     if (!(obstacles.size() > 0 && trafficLight))
         return;
+    
+    if(laneType == LaneType::RAILWAY && obstacles.front()->checkOutOfScreen() && !trafficLight->getLightState())
+            trafficLight->setLightState(true);
 
-    if (!trafficLight->getIsChanged())
-        return;
+    // if (!trafficLight->getIsChanged())
+    //     return;
 
     if (!trafficLight->getLightState()) {
         if (laneType == LaneType::ROAD) {
+            if (obstacles.front()->getSpeed() == +0.0f || obstacles.front()->getSpeed() == -0.0f)
+                return;
             if (obstacles.front()->getUSpeed() & 0x80000000)
                 for (auto obstacle : obstacles)
                     obstacle->setSpeed(-0.0f);
@@ -209,23 +223,28 @@ void Lane::update() {
                     obstacle->setSpeed(+0.0f);
         }
         else if (laneType == LaneType::RAILWAY) {
-            if (obstacles.front()->getUSpeed() & 0x80000000)
-                for (auto obstacle : obstacles)
-                    obstacle->setSpeed(-0.0f);
-            else
-                for (auto obstacle : obstacles)
-                    obstacle->setSpeed(+0.0f);
-
+            if (obstacles.front()->getSpeed() == randomSpeed)
+                return;
+            for (auto obstacle : obstacles)
+                obstacle->setSpeed(randomSpeed);
         }
     }
     else {
         if (laneType == LaneType::ROAD) {
+            if (obstacles.front()->getSpeed() == randomSpeed)
+                return;
             for (auto obstacle : obstacles)
                 obstacle->setSpeed(randomSpeed);
         }
         else if (laneType == LaneType::RAILWAY) {
-            for (auto obstacle : obstacles)
-                obstacle->setSpeed(randomSpeed);
+            if (obstacles.front()->getSpeed() == +0.0f || obstacles.front()->getSpeed() == -0.0f)
+                return;
+            if (obstacles.front()->getUSpeed() & 0x80000000)
+                for (auto obstacle : obstacles)
+                    obstacle->setSpeed(-0.0f);
+            else
+                for (auto obstacle : obstacles)
+                    obstacle->setSpeed(+0.0f);
         }
     }
 }
