@@ -12,7 +12,7 @@ std::string Player;
 
 GameState::GameState(StateStack &stack)
     : State(stack), speed(0.0f), count(0), start(false), over(false), virtualScore(0), isHighScore(0),
-      highScoreTimer(0.0f), HighScoreTrigger(3), timeSinceLastRain(0.0f) {
+      highScoreTimer(0.0f), HighScoreTrigger(3), timeRain(0.0f) {
     map = new Map(speed);
     player = new Player(1512.0 / 2 - 82 / 2, 982.0 - 2 * settings::GRID_SIZE.second, speed, Textures::ID::SKIN_FULL);
     pauseButton = &TextureHolder::getHolder().get(Textures::PAUSE_BUTTON);
@@ -52,6 +52,7 @@ void GameState::draw() {
         rain.update(settings::SCREEN_WIDTH, settings::SCREEN_HEIGHT);
         rain.drawTo();
     }
+    std::cout << map->getSpeed() << std::endl;
     // Draw the regular score
     if (highScoreTimer >= 1.0f) {
         // Get the width of the existing high score text
@@ -100,30 +101,30 @@ void GameState::update() {
     if (over)
         player->setSpeed(0.0f, 0.0f);
     player->update();
-    timeSinceLastRain += GetFrameTime();
+    timeRain += GetFrameTime();
 
-    // Check if it's time to trigger rain
-    if (timeSinceLastRain >= 10.0f) {
-        // Reset the timer
-        timeSinceLastRain = 0.0f;
-        float tmp = map->getSpeed();
-        // map->setSpeed(tmp * 3); // Jesus Christ please fix this code
-        // player->setMapSpeed(tmp * 3);
-
-        // Trigger random rain effect
-        rainSetupFunction();
+    if (timeRain > 10.0f){
+        timeRain = 0.0f;
+        if (!rain.getState()){
+            rainSetupFunction();
+        }else{
+            rain.setState(false);
+            float tmp = map->getSpeed();
+            map->setSpeed(tmp / 3);
+            player->setMapSpeed(tmp / 3);
+        }
     }
 }
 void GameState::rainSetupFunction() {
-    // bool generateRain = (rand() % 10) < 3;
-    // if (generateRain) {
-    //     rain.setState(true);
-    //     float tmp = map->getSpeed();
-    //     map->setSpeed(tmp / 3);
-    //     player->setMapSpeed(tmp / 3);
-    // } else {
-    //     rain.setState(false);
-    // }
+    bool generateRain = (rand() % 10) < 3;
+    if (generateRain) {
+        rain.setState(true);
+        float tmp = map->getSpeed();
+        map->setSpeed(tmp * 3);
+        player->setMapSpeed(tmp * 3);
+    } else {
+        rain.setState(false);
+    }
 }
 
 

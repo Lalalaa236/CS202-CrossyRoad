@@ -6,7 +6,7 @@ LoseState::LoseState(StateStack &stack) : State(stack) {
     board = &TextureHolder::getHolder().get(Textures::ID::LOSE_BOARD);
     restartButton = &TextureHolder::getHolder().get(Textures::ID::RESTART_BUTTON);
     quitButton = &TextureHolder::getHolder().get(Textures::ID::QUIT_BUTTON);
-    customFont = LoadFontEx("font/River Adventurer.ttf", 110, 0, 250);
+    customFont = LoadFontEx("font/JambuKristal-1G01M.otf", 110, 0, 250);
     //SetTextureFilter(customFont.texture, FILTER_BILINEAR);
     ShowCursor();
 }
@@ -21,7 +21,7 @@ void LoseState::draw() {
     DrawTexture(*restartButton, 494.81f, 623.0f, WHITE);
     DrawTexture(*quitButton, 878, 623, WHITE);
 
-    const char *scoreText = "Score";
+    const char *scoreText = "SCORE";
     const char *actualScore = std::to_string(HighScore::getHighScoreManager().getCurrentScore()).c_str();
 
     // Measure the width of the "Score:" text
@@ -34,7 +34,7 @@ void LoseState::draw() {
     };
 
     // Draw "Score:"
-    Color textColor = Color{0xF3, 0x96, 0x44, 0xFF};
+    Color textColor = Color{0x1E,0x51,0x28,0xFF};
     DrawTextEx(customFont, scoreText, scoreTextPos, 110, 2, textColor);
 
     // Draw the actual score centered with respect to "Score"

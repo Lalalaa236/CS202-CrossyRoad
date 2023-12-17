@@ -27,7 +27,7 @@ private:
     int isHighScore;
     float highScoreTimer; 
     int HighScoreTrigger; 
-    float timeSinceLastRain;
+    float timeRain;
     
     void checkOutOfScreen();
     void checkCollision();
