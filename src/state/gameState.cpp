@@ -22,6 +22,9 @@ GameState::GameState(StateStack &stack)
 
     customFont = LoadFont("./font/River Adventurer.ttf");
     customFont1 = LoadFont("font/Noot Regular.woff.ttf");
+    collisionSound = LoadSound("image/Sound/hitbox.wav");
+    jumpSound = LoadSound("image/Sound/jump.wav");
+    SetSoundVolume(collisionSound, 0.5f);
 
     if (data::Game != "") {
         this->loadSerializedData(data::Game, data::Map, data::Player);
@@ -36,7 +39,8 @@ GameState::~GameState() {
     delete player;
     UnloadFont(customFont);
     UnloadFont(customFont1);
-
+    UnloadSound(collisionSound);
+    UnloadSound(jumpSound);
     ShowCursor();
 }
 
@@ -120,12 +124,12 @@ void GameState::update() {
 void GameState::rainSetupFunction() {
     bool generateRain = (rand() % 10) < 4;
     if (generateRain) {
-        rain.setState(true);
+        rain.setState(1);
         float tmp = map->getSpeed();
         map->setSpeed(tmp * 3);
         player->setMapSpeed(tmp * 3);
     } else {
-        rain.setState(false);
+        rain.setState(0);
     }
 }
 
@@ -137,7 +141,7 @@ void GameState::rainSetupFunction() {
 void GameState::handleEvents() {
     if (over) {
         requestStackPush(States::ID::GameOver);
-        rain.setState(false);
+        rain.setState(0);
         HighScore::getHighScoreManager().updateHighestScore();
         // for (int i = 1; i <= 3; i++)
         // std::cout << HighScore::getHighScoreManager().getHighestScore(i) << std::endl;
@@ -154,13 +158,17 @@ void GameState::handleEvents() {
 }
 
 void GameState::checkOutOfScreen() {
-    if (player->getPosition().second > 982.0f)
+    if (player->getPosition().second > 982.0f){
         player->setIsAlive(false);
+        PlaySound(collisionSound);
+    }
 }
 
 void GameState::checkCollision() {
-    if (map->CheckCollisionPlayer(player->getBoxCollision()))
+    if (map->CheckCollisionPlayer(player->getBoxCollision())){
         player->setIsAlive(false);
+        PlaySound(collisionSound);
+    }
 }
 
 void GameState::setMapSpeed() {
@@ -206,7 +214,7 @@ void GameState::handleInput() {
         if (IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_W)) {
             count = GetTime();
             player->move(Player::Direction::UP);
-
+            PlaySound(jumpSound);
             virtualScore++;
             if (virtualScore > HighScore::getHighScoreManager().getCurrentScore()) {
                 HighScore::getHighScoreManager().setCurrentScore(virtualScore);
@@ -215,16 +223,18 @@ void GameState::handleInput() {
         } else if (IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S)) {
             count = GetTime();
             player->move(Player::Direction::DOWN);
-
+            PlaySound(jumpSound);
             virtualScore--;
             if (virtualScore > HighScore::getHighScoreManager().getCurrentScore()) {
                 HighScore::getHighScoreManager().setCurrentScore(virtualScore);
             }
         } else if (IsKeyPressed(KEY_LEFT) || IsKeyPressed(KEY_A)) {
             count = GetTime();
+            PlaySound(jumpSound);
             player->move(Player::Direction::LEFT);
         } else if (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D)) {
             count = GetTime();
+            PlaySound(jumpSound);
             player->move(Player::Direction::RIGHT);
         }
 

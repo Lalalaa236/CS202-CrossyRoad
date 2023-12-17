@@ -28,7 +28,8 @@ private:
     float highScoreTimer; 
     int HighScoreTrigger; 
     float timeRain;
-    
+    Sound collisionSound;
+    Sound jumpSound;
     void checkOutOfScreen();
     void checkCollision();
     void setMapSpeed();
