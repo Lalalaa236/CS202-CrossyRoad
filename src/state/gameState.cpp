@@ -122,7 +122,7 @@ void GameState::update() {
     }
 }
 void GameState::rainSetupFunction() {
-    bool generateRain = (rand() % 10) < 4;
+    bool generateRain = (rand() % 10) < (3 + HighScore::getHighScoreManager().getCurrentScore() / 100) ;
     if (generateRain) {
         rain.setState(1);
         float tmp = map->getSpeed();
