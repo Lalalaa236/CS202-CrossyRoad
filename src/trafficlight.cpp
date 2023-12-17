@@ -77,7 +77,6 @@ std::pair<float, float> TrafficLight::getPosition() const {
 // Methods
 
 void TrafficLight::draw() {
-    drawTimer += GetFrameTime();
     if (!lightState)
     {
         if(type == Type::ROAD)
@@ -125,7 +124,8 @@ void TrafficLight::draw() {
 }
 
 void TrafficLight::update() {
-    this->timer += GetFrameTime();
+    timer += GetFrameTime();
+    drawTimer += GetFrameTime();
 
     if (!lightState) {
         if (timer >= redTimer) {

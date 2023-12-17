@@ -197,8 +197,8 @@ void GameState::checkPlayerAlive() {
 }
 
 void GameState::handleInput() {
-    if (GetTime() - count >= 0.2f &&
-        player->getPosition() == player->getTargetPosition()) // Set delay between key presses and movement
+    if (GetTime() - count >= 0.1f &&
+        !(player->getPosition() != player->getTargetPosition())) // Set delay between key presses and movement
     {
         if (IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_W)) {
             count = GetTime();

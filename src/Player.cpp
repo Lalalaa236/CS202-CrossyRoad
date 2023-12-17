@@ -73,21 +73,25 @@ void Player::down() {
 }
 
 void Player::left() {
-    targetPosition.first -= settings::GRID_SIZE.first;
-    hSpeed = -5.0f;
     for (int i = 0; i < frames; ++i) {
         frame[i].y = 64;
     }
+    if(targetPosition.first - settings::GRID_SIZE.first < 0)
+        return;
+    targetPosition.first -= settings::GRID_SIZE.first;
+    hSpeed = -5.0f;
     // position.first -= settings::GRID_SIZE.first;
     // boxCollision.x -= settings::GRID_SIZE.first;
 }
 
 void Player::right() {
-    targetPosition.first += settings::GRID_SIZE.first;
-    hSpeed = 5.0f;
     for (int i = 0; i < frames; ++i) {
         frame[i].y = 128;
     }
+    if(targetPosition.first + settings::GRID_SIZE.first > settings::SCREEN_WIDTH - settings::PLAYER_SIZE.first)
+        return;
+    targetPosition.first += settings::GRID_SIZE.first;
+    hSpeed = 5.0f;
     // position.first += settings::GRID_SIZE.first;
     // boxCollision.x += settings::GRID_SIZE.first;
 }
