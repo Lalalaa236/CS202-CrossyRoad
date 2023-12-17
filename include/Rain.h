@@ -15,14 +15,14 @@ private:
 
     std::vector<Raindrop> raindrops;
     Rectangle raindropShape;
-    bool state;
+    int state;
     Sound rainSound;
     bool isToggleSound;
 
 public:
     Rain();
-    void setState(bool st);
-    bool getState();
+    void setState(int st);
+    int getState();
     void update(int screenWidth, int screenHeight);
     void drawTo();
 };

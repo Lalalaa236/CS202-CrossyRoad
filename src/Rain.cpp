@@ -5,19 +5,20 @@ Rain::Rain() {
     isToggleSound = false;
     raindropShape.width = 4;
     raindropShape.height = 7;
-    state = false;
+    state = 0;
     rainSound = LoadSound("image/Sound/rain.wav");
 }
 
-void Rain::setState(bool st) {
+void Rain::setState(int st) {
     state = st;
-    if (state) {
+    if (state == 1) {
         PlaySound(rainSound);
         if (MusicManager::getManager().getIsSoundOn()) {
             MusicManager::getManager().toggleSound();
             isToggleSound = true;
         }
-    } else {
+    } 
+    if (state == -1 || state == 0){
         if (isToggleSound) {
             MusicManager::getManager().toggleSound();
             isToggleSound = false;
@@ -27,7 +28,7 @@ void Rain::setState(bool st) {
 }
 
 
-bool Rain::getState() {
+int Rain::getState() {
     return state;
 }
 

@@ -48,11 +48,11 @@ void GameState::draw() {
     map->draw();
     player->draw();
 
-    if (rain.getState()) {
+    if (rain.getState() == 1) {
         rain.update(settings::SCREEN_WIDTH, settings::SCREEN_HEIGHT);
         rain.drawTo();
     }
-    std::cout << map->getSpeed() << std::endl;
+    //std::cout << map->getSpeed() << std::endl;
     // Draw the regular score
     if (highScoreTimer >= 1.0f) {
         // Get the width of the existing high score text
@@ -101,14 +101,16 @@ void GameState::update() {
     if (over)
         player->setSpeed(0.0f, 0.0f);
     player->update();
+    if (rain.getState() == -1){
+        rain.setState(1);
+    }
     timeRain += GetFrameTime();
-
     if (timeRain > 10.0f){
         timeRain = 0.0f;
-        if (!rain.getState()){
+        if (rain.getState() == 0){
             rainSetupFunction();
         }else{
-            rain.setState(false);
+            rain.setState(0);
             float tmp = map->getSpeed();
             map->setSpeed(tmp / 3);
             player->setMapSpeed(tmp / 3);
@@ -116,7 +118,7 @@ void GameState::update() {
     }
 }
 void GameState::rainSetupFunction() {
-    bool generateRain = (rand() % 10) < 3;
+    bool generateRain = (rand() % 10) < 4;
     if (generateRain) {
         rain.setState(true);
         float tmp = map->getSpeed();
@@ -237,11 +239,13 @@ void GameState::handleInput() {
 
     if (IsKeyPressed(KEY_P)) {
         requestStackPush(States::ID::Pause);
+        if (rain.getState() == 1) rain.setState(-1);
         player->setMoving(false);
     }
 
     if (IsKeyPressed(KEY_B)) {
         requestStackPop();
+        if (rain.getState() == 1) rain.setState(0);
         requestStackPush(States::ID::Menu);
     }
 }
