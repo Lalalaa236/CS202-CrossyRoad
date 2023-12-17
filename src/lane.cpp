@@ -22,41 +22,68 @@ Lane::Lane(float y, float mapSpeed, int currentScore) : y(y), mapSpeed(mapSpeed)
     }
 
     static int cnt = 0;
-    int random = rand() % 3;
-
+    static int consecutiveRailways = 0; 
+    int random = rand() % 5;
+    if (currentScore >= 100){
+        random = rand() % 6;
+    }
+    if (currentScore >= 200){
+        random = rand() % 7;
+    }
+    if (currentScore >= 200){
+        random = rand() % 8;
+    }
     switch (random) {
     case 0:
+    case 1:
         if (cnt == 5) {
             texture = &TextureHolder::getHolder().get(Textures::GRASS);
             trafficLight = nullptr;
             cnt = 0;
             laneType = LaneType::GRASS;
+            consecutiveRailways = 0;
         }
         else {
             texture = &TextureHolder::getHolder().get(Textures::ROAD);
             trafficLight = new TrafficLight(trafficLight_x, this->y - 25, TrafficLight::Type::ROAD);
             cnt++;
             laneType = LaneType::ROAD;
+            consecutiveRailways = 0;
         }
         break;
-    case 1:
+    case 2:
+    case 3:
         if (cnt == 3) {
             texture = &TextureHolder::getHolder().get(Textures::ROAD);
             trafficLight = new TrafficLight(trafficLight_x, this->y - 25, TrafficLight::Type::ROAD);
             cnt = 0;
             laneType = LaneType::ROAD;
+            consecutiveRailways = 0;
         }
         else {
             texture = &TextureHolder::getHolder().get(Textures::GRASS);
             trafficLight = nullptr;
             cnt++;
             laneType = LaneType::GRASS;
+            consecutiveRailways = 0;
         }
         break;
-    case 2:
-        texture = &TextureHolder::getHolder().get(Textures::RAILWAY);
-        trafficLight = new TrafficLight(trafficLight_x, this->y - 25, TrafficLight::Type::RAILWAY);
-        laneType = LaneType::RAILWAY;
+    case 4:
+    case 5:
+    case 6:
+        if (consecutiveRailways >= 2) { // Limit consecutive railway lanes
+            texture = &TextureHolder::getHolder().get(Textures::GRASS);
+            trafficLight = nullptr;
+            cnt = 0;
+            laneType = LaneType::GRASS;
+            consecutiveRailways = 0; 
+        } else {
+            texture = &TextureHolder::getHolder().get(Textures::RAILWAY);
+            trafficLight = new TrafficLight(trafficLight_x, this->y - 25, TrafficLight::Type::RAILWAY);
+            laneType = LaneType::RAILWAY;
+            cnt = 0;
+            consecutiveRailways++;
+        }
         break;
     default:
         texture = nullptr;
