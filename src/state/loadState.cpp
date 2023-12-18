@@ -12,6 +12,7 @@ LoadState::LoadState(StateStack &stack) : State(stack) {
     board = new Texture2D(LoadTexture("image/loadState/board.png"));
     saveSlot = new Texture2D(LoadTexture("image/saveState/saveSlot.png"));
     saveSlotSelected = new Texture2D(LoadTexture("image/saveState/selectedSlot.png"));
+    customFont = LoadFont("font/JambuKristal-1G01M.otf");
 
     // Calculate scale
     scaleWidth = (float)GetScreenWidth() / settings::SCREEN_WIDTH;
@@ -74,25 +75,28 @@ void LoadState::drawSaveSlot(int selectedSlot) {
         }
 
         // Draw the save slot number
-        DrawText(("Slot " + std::to_string(i + 1)).c_str(),
-                 saveSlotX + 50 * scaleWidth,
-                 saveSlotY + i * 150 * scaleHeight + 10 * scaleHeight,
-                 40 * scaleHeight,
-                 WHITE);
+        DrawTextEx(customFont,("Slot " + std::to_string(i + 1)).c_str(),
+                Vector2{saveSlotX + 50 * scaleWidth,
+                saveSlotY + i * 150 * scaleHeight + 10 * scaleHeight},
+                40 * scaleHeight,
+                2,
+                WHITE);
 
         // Draw the save slot data
         if (saveDatas[i].getSerializedData() != "") {
-            DrawText(("Score: " + std::to_string(saveDatas[i].getHighScore())).c_str(),
-                     saveSlotX + 50 * scaleWidth,
-                     saveSlotY + i * 150 * scaleHeight + 60 * scaleHeight,
-                     40 * scaleHeight,
-                     WHITE);
+            DrawTextEx(customFont,("Score: " + std::to_string(saveDatas[i].getHighScore())).c_str(),
+                    Vector2{saveSlotX + 50 * scaleWidth,
+                    saveSlotY + i * 150 * scaleHeight + 60 * scaleHeight},
+                    40 * scaleHeight,
+                    2,
+                    WHITE);
         } else {
-            DrawText("Empty",
-                     saveSlotX + 50 * scaleWidth,
-                     saveSlotY + i * 150 * scaleHeight + 60 * scaleHeight,
-                     40 * scaleHeight,
-                     WHITE);
+            DrawTextEx(customFont,"Empty",
+                    Vector2{saveSlotX + 50 * scaleWidth,
+                    saveSlotY + i * 150 * scaleHeight + 60 * scaleHeight},
+                    40 * scaleHeight,
+                    2,
+                    WHITE);
         }
     }
 }

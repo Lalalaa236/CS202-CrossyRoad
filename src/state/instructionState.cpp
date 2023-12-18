@@ -32,7 +32,7 @@ void InstructionState::handleEvents() {
     // Close button
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
         Vector2 mousePosition = GetMousePosition();
-        if (CheckCollisionPointRec(mousePosition, {1113, 202, closeButton->width * 1.0f, closeButton->height * 1.0f})) {
+        if (CheckCollisionPointRec(mousePosition, {1080, 202, closeButton->width * 1.0f, closeButton->height * 1.0f})) {
             // shouldPopState = true;
             requestStackPop();
             requestStackPush(States::ID::Menu);
@@ -58,10 +58,10 @@ void InstructionState::draw() {
     if (currentImage == 0) {
         DrawTexture(*instructionImages[0], 319, 81, WHITE);
         DrawTexture(*nextButton, 1090, 500, WHITE);
-        DrawTexture(*closeButton, 1113, 202, WHITE);
+        DrawTexture(*closeButton, 1080, 202, WHITE);
     } else {
         DrawTexture(*instructionImages[1], 319, 81, WHITE);
         DrawTexture(*prevButton, 300, 500, WHITE);
-        DrawTexture(*closeButton, 1113, 202, WHITE);
+        DrawTexture(*closeButton, 1080, 202, WHITE);
     }
 }

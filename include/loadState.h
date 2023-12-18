@@ -16,7 +16,7 @@ private:
     Texture2D* quitButton;              // Button to quit load state
     Texture2D* saveSlot;                // Save slots
     Texture2D* saveSlotSelected;        // Save slots selected
-
+    Font customFont;
     float scaleWidth = 1.0f;
     float scaleHeight = 1.0f;
     int boardX = 0, boardY = 0;

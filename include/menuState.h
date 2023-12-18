@@ -17,4 +17,5 @@ private:
     Texture2D *background;
     Texture2D *button[6];
     Texture2D *name;
+    Font customFont;
 };

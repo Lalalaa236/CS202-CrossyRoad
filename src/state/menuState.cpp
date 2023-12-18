@@ -8,6 +8,7 @@
 #include "skinState.h"
 #include <iostream>
 #include <utility>
+#include"GameSettings.h"
 
 MenuState::MenuState(StateStack &stack) : State(stack) {
     background = &TextureHolder::getHolder().get(Textures::BACKGROUND_MENU);
@@ -17,6 +18,7 @@ MenuState::MenuState(StateStack &stack) : State(stack) {
     button[3] = &TextureHolder::getHolder().get(Textures::BUTTON_3);
     button[4] = &TextureHolder::getHolder().get(Textures::BUTTON_4);
     name = &TextureHolder::getHolder().get(Textures::NAME_LOGO);
+    customFont = LoadFont("font/River Adventurer.ttf");
 }
 
 // void MenuState::init() {
@@ -104,6 +106,14 @@ void MenuState::draw() {
                       0.3,    // Scale
                       WHITE); // Tint color
     DrawTexture(*name, 244, 191, WHITE);
+    const char *text = "Nhat Vy    Nhan Kiet    Hoang Tuan    Cao Tin";
+    int fontSize = 40;
+    int textWidth = MeasureTextEx(customFont, text, fontSize, 2).x;
+    // Calculate the position to center the text horizontally
+    Vector2 position = {(float)(settings::SCREEN_WIDTH - textWidth) / 2, 27};
+    // Set the custom font and draw text
+    DrawTextEx(customFont, text, position, fontSize, 2, BLACK);
+
 }
 
 MenuState::~MenuState() {
