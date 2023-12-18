@@ -8,6 +8,9 @@ Rain::Rain() {
     state = 0;
     rainSound = LoadSound("image/Sound/rain.wav");
 }
+Rain::~Rain(){
+    UnloadSound(rainSound);
+}
 
 void Rain::setState(int st) {
     state = st;

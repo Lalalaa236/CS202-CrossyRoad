@@ -25,4 +25,5 @@ public:
     int getState();
     void update(int screenWidth, int screenHeight);
     void drawTo();
+    ~Rain();
 };

@@ -42,7 +42,8 @@ public:
     bool CheckCollisionPlayer(Rectangle playerBoxCollision);
 
     std::string serializeData();
-    void loadSerializedData(const std::string& serialized_data);
+    void loadSerializedData(const std::string& serialized_data);\
+    LaneType getType() const;
 private:
     float randomSpeed;
     float mapSpeed;
@@ -56,7 +57,6 @@ private:
     bool direction; // true = right, false = left
 
     Obstacle* createObstacle(ObstacleType id, float x, float y, float speed);
-    Sound dieSound;
 };
 
 #endif

@@ -7,7 +7,8 @@ class Map {
 private:
     std::deque<Lane*> lanes;
     float speed;
-
+    Sound hitVehicle;
+    Sound hitAnimal;
 public:
     Map(float speed);
     ~Map();

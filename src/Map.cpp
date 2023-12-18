@@ -16,6 +16,8 @@ Map::Map(float speed) : speed(speed) {
         Lane *lane = new Lane(-253.0f + i * 95.0f, speed, Lane::LaneType::GRASS, 0, Lane::ObstacleType::None);
         lanes.push_back(lane);
     }
+    hitVehicle =  LoadSound("image/Sound/vehicle.mp3");
+    hitAnimal = LoadSound("image/Sound/animal.wav");
 }
 
 void Map::draw() {
@@ -52,12 +54,18 @@ Map::~Map() {
     for (auto lane : lanes)
         delete lane;
     lanes.clear();
+    UnloadSound(hitAnimal);
+    UnloadSound(hitVehicle);
 }
 
 bool Map::CheckCollisionPlayer(Rectangle playerBoxCollision) {
     for (auto lane : lanes) {
-        if (lane->CheckCollisionPlayer(playerBoxCollision))
+        if (lane->CheckCollisionPlayer(playerBoxCollision)){
+            if (lane->getType() == Lane::LaneType::ROAD)
+                PlaySound(hitVehicle);
+            else PlaySound(hitAnimal);
             return true;
+        }
     }
     return false;
 }

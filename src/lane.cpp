@@ -286,17 +286,6 @@ void Lane::setSpeed(float mapSpeed) {
 bool Lane::CheckCollisionPlayer(Rectangle playerBoxCollision) {
     for (auto obstacle : obstacles) {
         if (CheckCollisionRecs(obstacle->getBoxCollision(), playerBoxCollision)){
-            if (typeid(*obstacle) == typeid(Train) || typeid(*obstacle) == typeid(Car)
-            || typeid(*obstacle) == typeid(Bike) || typeid(*obstacle) == typeid(Cab) 
-            || typeid(*obstacle) == typeid(Taxi) || typeid(*obstacle) == typeid(Truck)){
-                dieSound =  LoadSound("image/Sound/vehicle.mp3");
-                //std::cout <<"Vy";
-            }else{
-                dieSound = LoadSound("image/Sound/animal.wav");
-                //std::cout <<"huynh";
-            }
-            PlaySound(dieSound);
-            //UnloadSound(dieSound);
             return true;
         }
     }
@@ -370,4 +359,8 @@ Obstacle* Lane::createObstacle(ObstacleType id, float x, float y, float speed) {
     default:
         throw std::runtime_error("Invalid obstacle type");
     }
+}
+
+Lane::LaneType Lane::getType() const{
+    return laneType;
 }
