@@ -9,6 +9,9 @@
 #include <sstream>
 #include <vector>
 
+
+
+
 Lane::Lane(float y, float mapSpeed, int currentScore) : y(y), mapSpeed(mapSpeed) {
     float trafficLight_x = settings::SCREEN_WIDTH - 5 - 50;
     randomSpeed = Random::getInstance().nextDouble(3.0f, 5.0f);
@@ -282,8 +285,20 @@ void Lane::setSpeed(float mapSpeed) {
 
 bool Lane::CheckCollisionPlayer(Rectangle playerBoxCollision) {
     for (auto obstacle : obstacles) {
-        if (CheckCollisionRecs(obstacle->getBoxCollision(), playerBoxCollision))
+        if (CheckCollisionRecs(obstacle->getBoxCollision(), playerBoxCollision)){
+            if (typeid(*obstacle) == typeid(Train) || typeid(*obstacle) == typeid(Car)
+            || typeid(*obstacle) == typeid(Bike) || typeid(*obstacle) == typeid(Cab) 
+            || typeid(*obstacle) == typeid(Taxi) || typeid(*obstacle) == typeid(Truck)){
+                dieSound =  LoadSound("image/Sound/vehicle.mp3");
+                //std::cout <<"Vy";
+            }else{
+                dieSound = LoadSound("image/Sound/animal.wav");
+                //std::cout <<"huynh";
+            }
+            PlaySound(dieSound);
+            //UnloadSound(dieSound);
             return true;
+        }
     }
 
     return false;

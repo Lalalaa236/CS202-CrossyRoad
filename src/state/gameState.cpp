@@ -167,7 +167,7 @@ void GameState::checkOutOfScreen() {
 void GameState::checkCollision() {
     if (map->CheckCollisionPlayer(player->getBoxCollision())){
         player->setIsAlive(false);
-        PlaySound(collisionSound);
+        //PlaySound(collisionSound);
     }
 }
 
