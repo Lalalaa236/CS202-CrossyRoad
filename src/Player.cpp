@@ -243,10 +243,10 @@ void Player::loadSerializedData(std::string serialized_data) {
                                     "image/skin/" + std::to_string(settings::CURRENT_SKIN) + "/full.png");
 
     targetPosition = position;
-    boxCollision.x = position.first;
-    boxCollision.y = position.second;
-    boxCollision.width = settings::PLAYER_SIZE.first;
-    boxCollision.height = settings::PLAYER_SIZE.second;
+    boxCollision.width = settings::PLAYER_SIZE.first - settings::PLAYER_BOXCOLLISION_OFFSET.first;
+    boxCollision.height = settings::PLAYER_SIZE.second - settings::PLAYER_BOXCOLLISION_OFFSET.second;
+    boxCollision.x = position.first + (settings::PLAYER_SIZE.first - boxCollision.width) / 2.0f;
+    boxCollision.y = position.second + (settings::PLAYER_SIZE.second - boxCollision.height) / 2.0f;
 
     atlas = &TextureHolder::getHolder().get(Textures::SKIN_FULL);
     for (int i = 0; i < frames; ++i) {
