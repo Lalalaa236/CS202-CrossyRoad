@@ -3,6 +3,9 @@
 #include "score.h"
 #include <chrono>
 #include <iostream>
+#include"Snow.h"
+#include"Rain.h"
+#include"MusicManager.h"
 
 namespace data {
 std::string Game;
@@ -18,7 +21,6 @@ GameState::GameState(StateStack &stack)
     pauseButton = &TextureHolder::getHolder().get(Textures::PAUSE_BUTTON);
 
     HideCursor();
-    rain.setState(false);
 
     customFont = LoadFont("./font/River Adventurer.ttf");
     customFont1 = LoadFont("font/Noot Regular.woff.ttf");
@@ -52,9 +54,9 @@ void GameState::draw() {
     map->draw();
     player->draw();
 
-    if (rain.getState() == 1) {
-        rain.update(settings::SCREEN_WIDTH, settings::SCREEN_HEIGHT);
-        rain.drawTo();
+    if (effect) {
+        effect->update(settings::SCREEN_WIDTH, settings::SCREEN_HEIGHT);
+        effect->drawTo();
     }
     //std::cout << map->getSpeed() << std::endl;
     // Draw the regular score
@@ -105,31 +107,35 @@ void GameState::update() {
     if (over)
         player->setSpeed(0.0f, 0.0f);
     player->update();
-    if (rain.getState() == -1){
-        rain.setState(1);
+    
+    if (effect && effect->getState() == -1){
+        effect->setState(1);
     }
     timeRain += GetFrameTime();
     if (timeRain > 10.0f){
         timeRain = 0.0f;
-        if (rain.getState() == 0){
-            rainSetupFunction();
-        }else{
-            rain.setState(0);
+        if (effect){
             float tmp = map->getSpeed();
             map->setSpeed(tmp / 3);
             player->setMapSpeed(tmp / 3);
+            effect.reset();
+            MusicManager::getManager().toggleSound();
+        }else{
+            rainSetupFunction();
         }
     }
 }
 void GameState::rainSetupFunction() {
-    bool generateRain = (rand() % 10) < (4 + HighScore::getHighScoreManager().getCurrentScore() / 100) ;
+    //bool generateRain = (rand() % 10) < (5 + HighScore::getHighScoreManager().getCurrentScore() / 100) ;
+    bool generateRain = true;
+    bool Style = rand() % 2;
     if (generateRain) {
-        rain.setState(1);
+        if (Style == 0) effect = std::make_unique<Snow>();
+            else effect = std::make_unique<Rain>();
+        effect->setState(1);
         float tmp = map->getSpeed();
         map->setSpeed(tmp * 3);
         player->setMapSpeed(tmp * 3);
-    } else {
-        rain.setState(0);
     }
 }
 
@@ -141,7 +147,7 @@ void GameState::rainSetupFunction() {
 void GameState::handleEvents() {
     if (over) {
         requestStackPush(States::ID::GameOver);
-        rain.setState(0);
+        effect.reset();
         HighScore::getHighScoreManager().updateHighestScore();
         // for (int i = 1; i <= 3; i++)
         // std::cout << HighScore::getHighScoreManager().getHighestScore(i) << std::endl;
@@ -249,13 +255,13 @@ void GameState::handleInput() {
 
     if (IsKeyPressed(KEY_P)) {
         requestStackPush(States::ID::Pause);
-        if (rain.getState() == 1) rain.setState(-1);
+        if (effect) effect->setState(-1);
         player->setMoving(false);
     }
 
     if (IsKeyPressed(KEY_B)) {
         requestStackPop();
-        if (rain.getState() == 1) rain.setState(0);
+        if (effect) effect.reset();
         requestStackPush(States::ID::Menu);
     }
 }

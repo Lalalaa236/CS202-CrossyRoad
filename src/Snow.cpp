@@ -1,24 +1,24 @@
-#include "Rain.h"
+#include "Snow.h"
 
-Rain::Rain() {
-    effectSound = LoadSound("image/Sound/rain.wav");
+Snow::Snow() {
+    effectSound = LoadSound("image/Sound/snow.mp3");
 }
 
-Rain::~Rain() {
+Snow::~Snow() {
     UnloadSound(effectSound);
 }
 
-void Rain::update(int screenWidth, int screenHeight) {
+void Snow::update(int screenWidth, int screenHeight) {
     for (int i = 0; i < 20; ++i) {
         if (GetRandomValue(0, 200) < 10) {
             float x = static_cast<float>(GetRandomValue(0, screenWidth + 200));
-            Color randomColor = BLUE;
+            Color randomColor = WHITE;
             particles.push_back({Vector2{x, 0}, randomColor, static_cast<float>(GetRandomValue(-45, 45))});
         }
     }
 }
 
-void Rain::drawTo() {
+void Snow::drawTo() {
     for (auto &particle : particles) {
         particle.position.x -= 4;
         particle.position.y += 7;

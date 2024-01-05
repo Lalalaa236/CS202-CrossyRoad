@@ -2,11 +2,11 @@
 
 #include "SpecialEffect.h"
 
-class Rain : public SpecialEffect
+class Snow : public SpecialEffect
 {
 public:
-    Rain();
+    Snow();
     void update(int screenWidth, int screenHeight) override;
     void drawTo() override;
-    ~Rain() override;
+    ~Snow() override;
 };

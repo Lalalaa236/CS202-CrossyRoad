@@ -5,7 +5,7 @@
 #include "Map.h"
 #include "PauseState.h"
 #include "Player.h"
-#include "Rain.h"
+#include "SpecialEffect.h"
 #include "saveState.h"
 #include "State.h"
 
@@ -21,7 +21,7 @@ private:
     bool start;
     bool over;
     int virtualScore;
-    Rain rain;
+    std::unique_ptr<SpecialEffect> effect;
     Font customFont;
     Font customFont1;
     int isHighScore;
