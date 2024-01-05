@@ -41,16 +41,16 @@ Lane::Lane(float y, float mapSpeed, int currentScore) : y(y), mapSpeed(mapSpeed)
     case 1:
         if (cnt == 5) {
             texture = &TextureHolder::getHolder().get(Textures::GRASS);
+            laneType = LaneType::GRASS;
             trafficLight = nullptr;
             cnt = 0;
-            laneType = LaneType::GRASS;
             consecutiveRailways = 0;
         }
         else {
             texture = &TextureHolder::getHolder().get(Textures::ROAD);
+            laneType = LaneType::ROAD;
             trafficLight = new TrafficLight(trafficLight_x, this->y - 25, TrafficLight::Type::ROAD);
             cnt++;
-            laneType = LaneType::ROAD;
             consecutiveRailways = 0;
         }
         break;
@@ -58,13 +58,14 @@ Lane::Lane(float y, float mapSpeed, int currentScore) : y(y), mapSpeed(mapSpeed)
     case 3:
         if (cnt == 3) {
             texture = &TextureHolder::getHolder().get(Textures::ROAD);
+            laneType = LaneType::DESERT_2;
             trafficLight = new TrafficLight(trafficLight_x, this->y - 25, TrafficLight::Type::ROAD);
             cnt = 0;
-            laneType = LaneType::ROAD;
             consecutiveRailways = 0;
         }
         else {
             texture = &TextureHolder::getHolder().get(Textures::GRASS);
+            laneType = LaneType::GRASS;
             trafficLight = nullptr;
             cnt++;
             laneType = LaneType::GRASS;
@@ -76,6 +77,7 @@ Lane::Lane(float y, float mapSpeed, int currentScore) : y(y), mapSpeed(mapSpeed)
     case 6:
         if (consecutiveRailways >= 2) { // Limit consecutive railway lanes
             texture = &TextureHolder::getHolder().get(Textures::GRASS);
+            laneType = LaneType::GRASS;
             trafficLight = nullptr;
             cnt = 0;
             laneType = LaneType::GRASS;
@@ -138,6 +140,14 @@ Lane::Lane(float y, float mapSpeed, LaneType laneType, int numObstacles, Obstacl
     case LaneType::RAILWAY:
         texture = &TextureHolder::getHolder().get(Textures::RAILWAY);
         trafficLight = new TrafficLight(trafficLight_x, this->y - 25, TrafficLight::Type::RAILWAY);
+        break;
+    case LaneType::DESERT_1:
+        texture = &TextureHolder::getHolder().get(Textures::DESERT_1);
+        trafficLight = nullptr;
+        break;
+    case LaneType::DESERT_2:
+        texture = &TextureHolder::getHolder().get(Textures::DESERT_2);
+        trafficLight = nullptr;
         break;
     default:
         texture = nullptr;
@@ -242,7 +252,7 @@ void Lane::update() {
     //     return;
 
     if (!trafficLight->getLightState()) {
-        if (laneType == LaneType::ROAD) {
+        if (laneType == LaneType::ROAD || laneType == LaneType::DESERT_2) {
             if (obstacles.front()->getSpeed() == +0.0f || obstacles.front()->getSpeed() == -0.0f)
                 return;
             if (obstacles.front()->getUSpeed() & 0x80000000)
@@ -260,7 +270,7 @@ void Lane::update() {
         }
     }
     else {
-        if (laneType == LaneType::ROAD) {
+        if (laneType == LaneType::ROAD || laneType == LaneType::DESERT_2) {
             if (obstacles.front()->getSpeed() == randomSpeed)
                 return;
             for (auto obstacle : obstacles)

@@ -102,6 +102,8 @@ void Game::loadAllTexture() {
 
     TextureHolder::getHolder().load(Textures::GRASS, "image/gamestate/grass.png");
     TextureHolder::getHolder().load(Textures::ROAD, "image/gamestate/line.png");
+    TextureHolder::getHolder().load(Textures::DESERT_1, "image/gamestate/desert1.png");
+    TextureHolder::getHolder().load(Textures::DESERT_2, "image/gamestate/desert2.png");
 
     TextureHolder::getHolder().load(Textures::RED_LIGHT, "image/gamestate/RedLight.png");
     TextureHolder::getHolder().load(Textures::YELLOW_LIGHT, "image/gamestate/YellowLight.png");
@@ -217,6 +219,11 @@ void Game::loadAllTexture() {
     TextureHolder::getHolder().load(Textures::TRAIN_RIGHT, "image/train/Right.png");
 
     TextureHolder::getHolder().load(Textures::LOSE_BOARD, "image/LoseGame/Board.png");
+
+    TextureHolder::getHolder().load(Textures::CAMEL_2, "image/Camel/frame-1.png");
+    TextureHolder::getHolder().load(Textures::CAMEL_1, "image/Camel/frame-2.png");
+
+
 }
 
 void Game::run() {

@@ -45,6 +45,8 @@ namespace Textures {
         GRASS,
         ROAD,
         RAILWAY,
+        DESERT_1,
+        DESERT_2,
 
         // Lights
         RED_LIGHT,
@@ -175,7 +177,8 @@ namespace Textures {
         TRAIN_LEFT,
         TRAIN_RIGHT,
 
-
+        CAMEL_1,
+        CAMEL_2,
 
     };
 };

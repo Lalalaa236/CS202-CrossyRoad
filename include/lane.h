@@ -23,7 +23,7 @@ public:
         Train,
         None
     };
-    enum class LaneType { ROAD, GRASS, RAILWAY };
+    enum class LaneType { ROAD, GRASS, RAILWAY,DESERT_1,DESERT_2};
     Lane(float y, float mapSpeed, int currentScore = 0);
 
     Lane(float y, float mapSpeed, LaneType laneType, int numObstacles, ObstacleType obstacleType);

@@ -30,6 +30,7 @@ namespace settings {
     constexpr std::pair<float, float> TIGER_SIZE = { 223.0f, 104.0f };
     constexpr std::pair<float, float> TRAIN_SIZE = { 1497.0f, 96.0f };
     constexpr std::pair<float, float> TRUCK_SIZE = { 495.0f, 194.0f };
+    constexpr std::pair<float, float> CAMEL_SIZE = { 1897.0f, 1447.0f };
 
     extern int CURRENT_SKIN;
 } // namespace settings
