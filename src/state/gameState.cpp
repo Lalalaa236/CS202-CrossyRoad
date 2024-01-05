@@ -54,7 +54,7 @@ void GameState::draw() {
     map->draw();
     player->draw();
 
-    if (effect) {
+    if (effect && effect->getState() == 1) {
         effect->update(settings::SCREEN_WIDTH, settings::SCREEN_HEIGHT);
         effect->drawTo();
     }
