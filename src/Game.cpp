@@ -223,6 +223,9 @@ void Game::loadAllTexture() {
     TextureHolder::getHolder().load(Textures::CAMEL_2, "image/Camel/frame-1.png");
     TextureHolder::getHolder().load(Textures::CAMEL_1, "image/Camel/frame-2.png");
 
+    TextureHolder::getHolder().load(Textures::WIND_1, "image/Wind/frame-1.png");
+    TextureHolder::getHolder().load(Textures::WIND_2, "image/Wind/frame-2.png");
+
 
 }
 

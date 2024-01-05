@@ -5,7 +5,6 @@
 #include <iostream>
 #include"Snow.h"
 #include"Rain.h"
-#include"Wind.h"
 #include"MusicManager.h"
 
 namespace data {
@@ -127,13 +126,12 @@ void GameState::update() {
     }
 }
 void GameState::rainSetupFunction() {
-    bool generateRain = (rand() % 10) < (5 + HighScore::getHighScoreManager().getCurrentScore() / 100) ;
-    //bool generateRain = true;
-    bool Style = rand() % 3;
+    //bool generateRain = (rand() % 10) < (5 + HighScore::getHighScoreManager().getCurrentScore() / 100) ;
+    bool generateRain = true;
+    bool Style = rand() % 2;
     if (generateRain) {
         if (Style == 0) effect = std::make_unique<Rain>();
-        else if (Style == 1) effect = std::make_unique<Snow>();else
-        effect = std::make_unique<Wind>();
+        else if (Style == 1) effect = std::make_unique<Snow>();
         effect->setState(1);
         float tmp = map->getSpeed();
         map->setSpeed(tmp * 3);
