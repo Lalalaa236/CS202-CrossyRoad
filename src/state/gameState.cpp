@@ -147,8 +147,12 @@ void GameState::rainSetupFunction() {
 void GameState::handleEvents() {
     if (over) {
         requestStackPush(States::ID::GameOver);
-        effect.reset();
+        if (effect){
+            effect.reset();
+            MusicManager::getManager().toggleSound();
+        }
         HighScore::getHighScoreManager().updateHighestScore();
+
         // for (int i = 1; i <= 3; i++)
         // std::cout << HighScore::getHighScoreManager().getHighestScore(i) << std::endl;
     } else if (!over) {
