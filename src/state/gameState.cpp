@@ -131,8 +131,7 @@ void GameState::update() {
 }
 
 void GameState::rainSetupFunction() {
-    //bool generateRain = (rand() % 10) < (5 + HighScore::getHighScoreManager().getCurrentScore() / 100) ;
-    bool generateRain = true;
+    bool generateRain = (Random::getInstance().nextInt() % 10) < (5 + HighScore::getHighScoreManager().getCurrentScore() / 100) ;
     bool Style = Random::getInstance().nextInt(0, 1);
 
     if (generateRain) {

@@ -9,16 +9,34 @@ Train::Train(const Vector2& pos, float speed) : Obstacle(pos, speed), numsFrame(
     size.first = settings::TRAIN_SIZE.first * scale;
     size.second = settings::TRAIN_SIZE.second * scale;
     setBoxCollision();
+    sound = LoadSound("image/Sound/train.mp3");
+    //PlaySound(sound);
 }
 
 Train::~Train() {
     txt.clear();
+    UnloadSound(sound);
 }
 
 void Train::update(float k) {
     if (checkOutOfScreen())
         resetPos();
     position.y = k;
+    static float elapsedTime = 0.0f;
+    
+    // Change this value to control the interval between sounds
+    const float soundInterval = 7.0f;
+
+    // Update the elapsed time
+    elapsedTime += GetFrameTime();
+
+    if (elapsedTime >= soundInterval) {
+        // Play the sound
+        PlaySound(sound);
+
+        // Reset the elapsed time
+        elapsedTime = 0.0f;
+    }
     if (frameTime >= 0.1f) { // Change this value to control the frame rate
         frameTime = 0.0f;
         curFrame = (curFrame + 1) % numsFrame;

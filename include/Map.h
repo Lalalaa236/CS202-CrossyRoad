@@ -9,6 +9,7 @@ private:
     float speed;
     Sound hitVehicle;
     Sound hitAnimal;
+
 public:
     Map(float speed);
     ~Map();

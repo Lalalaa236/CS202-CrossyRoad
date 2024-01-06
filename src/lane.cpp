@@ -9,6 +9,8 @@
 #include <sstream>
 #include <vector>
 
+static int preLane = 0;
+
 Lane::Lane(float y, float mapSpeed, int currentScore) : y(y), mapSpeed(mapSpeed) {
     float trafficLight_x = settings::SCREEN_WIDTH - 5 - 50;
     randomSpeed = Random::getInstance().nextDouble(3.0f, 5.0f);
@@ -21,21 +23,22 @@ Lane::Lane(float y, float mapSpeed, int currentScore) : y(y), mapSpeed(mapSpeed)
         trafficLight_x = 5;
     }
 
-    static int cnt = 0;
+    static int cnt;
     static int consecutiveRailways = 0;
     int random = Random::getInstance().nextInt() % 4; //just road and grass
 
     if (currentScore >= 30) {
         random = Random::getInstance().nextInt() % 5;
     }
-    else if (currentScore >= 40) {
+    else if (currentScore >= 60) {
         random = Random::getInstance().nextInt() % 6;
-    }else if (currentScore >= 50) random = Random::getInstance().nextInt() % 7;
+    }else if (currentScore >= 90) random = Random::getInstance().nextInt() % 7;
     //std::cout << "Random: " << random << std::endl;
 
     switch (random) {
     case 0:
     case 1:
+        if (preLane == 1) cnt = 0; //if preLane is grass
         if (cnt == 5) {
             texture = &TextureHolder::getHolder().get(Textures::GRASS);
             laneType = LaneType::GRASS;
@@ -53,6 +56,7 @@ Lane::Lane(float y, float mapSpeed, int currentScore) : y(y), mapSpeed(mapSpeed)
         break;
     case 2:
     case 3:
+        if (preLane == 2) cnt = 0;//if preLane is Road
         if (cnt == 3) {
             texture = &TextureHolder::getHolder().get(Textures::ROAD);
             laneType = LaneType::ROAD;
@@ -91,7 +95,12 @@ Lane::Lane(float y, float mapSpeed, int currentScore) : y(y), mapSpeed(mapSpeed)
         trafficLight = nullptr;
         break;
     }
-
+    if (laneType == LaneType::ROAD){
+        preLane = 2;
+    }
+    if (laneType == LaneType::GRASS){
+        preLane = 1;
+    }
     int randomObstacle = Random::getInstance().nextInt() % 5;
 
     if (laneType == LaneType::RAILWAY)

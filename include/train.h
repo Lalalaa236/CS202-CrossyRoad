@@ -14,7 +14,7 @@ private:
     int numsFrame, curFrame; // Store frames to draw
     float frameTime;
     float width;
-
+    Sound sound;
 public:
     //Constructor
     Train(const Vector2 &pos, float Speed);
