@@ -63,5 +63,5 @@ void Train::draw() {
     setBoxCollision();
 
     // For debugging
-    DrawRectangleLines(boxCollision.x, boxCollision.y, boxCollision.width, boxCollision.height, RED);
+    //DrawRectangleLines(boxCollision.x, boxCollision.y, boxCollision.width, boxCollision.height, RED);
 }

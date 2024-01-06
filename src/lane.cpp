@@ -27,12 +27,12 @@ Lane::Lane(float y, float mapSpeed, int currentScore) : y(y), mapSpeed(mapSpeed)
     static int consecutiveRailways = 0;
     int random = Random::getInstance().nextInt() % 4; //just road and grass
 
-    if (currentScore >= 30) {
+    if (currentScore >= 40) {
         random = Random::getInstance().nextInt() % 5;
     }
-    else if (currentScore >= 60) {
+    else if (currentScore >= 80) {
         random = Random::getInstance().nextInt() % 6;
-    }else if (currentScore >= 90) random = Random::getInstance().nextInt() % 7;
+    }else if (currentScore >= 120) random = Random::getInstance().nextInt() % 7;
     //std::cout << "Random: " << random << std::endl;
 
     switch (random) {

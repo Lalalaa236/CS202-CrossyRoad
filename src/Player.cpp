@@ -175,7 +175,7 @@ void Player::draw() {
     // DrawRectangleRec(boxCollision, RED);
     if (position == targetPosition || (vSpeed == 0.0f && hSpeed == 0.0f) || !isMoving) {
         DrawTexturePro(*atlas, frame[0], {position.first, position.second, settings::PLAYER_SIZE.first, settings::PLAYER_SIZE.second}, {0, 0}, 0, WHITE);
-        DrawRectangleLinesEx(boxCollision, 1, RED);
+        //DrawRectangleLinesEx(boxCollision, 1, RED);
         return;
     }
 
@@ -191,7 +191,7 @@ void Player::draw() {
 
     DrawTexturePro(*atlas, frame[frameCount], {position.first, position.second, settings::PLAYER_SIZE.first, settings::PLAYER_SIZE.second}, {0, 0}, 0, WHITE);
     // std::cout << boxCollision.x << " " << boxCollision.y << std::endl;
-    DrawRectangleLinesEx(boxCollision, 1, RED);
+    //DrawRectangleLinesEx(boxCollision, 1, RED);
 }
 
 // void Player::setTargetPosition(std::pair<float, float> targetPosition)
