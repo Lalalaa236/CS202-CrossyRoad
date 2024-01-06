@@ -8,14 +8,14 @@
 #include"MusicManager.h"
 
 namespace data {
-std::string Game;
-std::string Map;
-std::string Player;
+    std::string Game;
+    std::string Map;
+    std::string Player;
 } // namespace data
 
-GameState::GameState(StateStack &stack)
+GameState::GameState(StateStack& stack)
     : State(stack), speed(0.0f), count(0), start(false), over(false), virtualScore(0), isHighScore(0),
-      highScoreTimer(0.0f), HighScoreTrigger(3), timeRain(0.0f) {
+    highScoreTimer(0.0f), HighScoreTrigger(3), timeRain(0.0f) {
     map = new Map(speed);
     player = new Player(1512.0 / 2 - 82 / 2, 982.0 - 2 * settings::GRID_SIZE.second, speed, Textures::ID::SKIN_FULL);
     pauseButton = &TextureHolder::getHolder().get(Textures::PAUSE_BUTTON);
@@ -64,33 +64,34 @@ void GameState::draw() {
         // Get the width of the existing high score text
         float highScoreTextWidth =
             MeasureTextEx(customFont,
-                          ("High Score: " + std::to_string(HighScore::getHighScoreManager().getCurrentScore())).c_str(),
-                          40,
-                          2)
-                .x;
+                ("High Score: " + std::to_string(HighScore::getHighScoreManager().getCurrentScore())).c_str(),
+                40,
+                2)
+            .x;
 
         // Calculate the position to center "New High Score!!!" under the existing high score
         float newX = 650 + (highScoreTextWidth / 2) - (MeasureTextEx(customFont1, "New High Score!!!", 40, 2).x / 2);
         float newY = 55;
         // Draw "New High Score!!!" centered under the existing high score
-        DrawTextEx(customFont1, "New High Score!!!", Vector2{newX, newY}, 40, 2, WHITE);
+        DrawTextEx(customFont1, "New High Score!!!", Vector2{ newX, newY }, 40, 2, WHITE);
 
         highScoreTimer -= 0.05f;
     }
     if (HighScoreTrigger >= 3) {
         DrawTextEx(customFont,
-                   ("Score: " + std::to_string(HighScore::getHighScoreManager().getCurrentScore())).c_str(),
-                   Vector2{650, 10},
-                   40,
-                   2,
-                   YELLOW);
-    } else {
+            ("Score: " + std::to_string(HighScore::getHighScoreManager().getCurrentScore())).c_str(),
+            Vector2{ 650, 10 },
+            40,
+            2,
+            YELLOW);
+    }
+    else {
         DrawTextEx(customFont,
-                   ("High Score: " + std::to_string(HighScore::getHighScoreManager().getCurrentScore())).c_str(),
-                   Vector2{650, 10},
-                   40,
-                   2,
-                   YELLOW);
+            ("High Score: " + std::to_string(HighScore::getHighScoreManager().getCurrentScore())).c_str(),
+            Vector2{ 650, 10 },
+            40,
+            2,
+            YELLOW);
     }
 }
 
@@ -103,36 +104,43 @@ void GameState::update() {
         player->setMoving(true);
 
     if (start && !over)
-        map->update();
+        map->update(HighScore::getHighScoreManager().getCurrentScore());
     if (over)
         player->setSpeed(0.0f, 0.0f);
     player->update();
-    
-    if (effect && effect->getState() == -1){
+
+    if (effect && effect->getState() == -1)
         effect->setState(1);
-    }
+
     timeRain += GetFrameTime();
-    if (timeRain > 10.0f){
+    if (timeRain > 10.0f) {
         timeRain = 0.0f;
-        if (effect){
+
+        if (effect) {   // Revert the effect
             float tmp = map->getSpeed();
             map->setSpeed(tmp / 3);
             player->setMapSpeed(tmp / 3);
             effect.reset();
+            effect = nullptr;
+
             MusicManager::getManager().toggleSound();
-        }else{
+        }
+        else {          // Apply the effect  
             rainSetupFunction();
         }
     }
 }
+
 void GameState::rainSetupFunction() {
     //bool generateRain = (rand() % 10) < (5 + HighScore::getHighScoreManager().getCurrentScore() / 100) ;
     bool generateRain = true;
     bool Style = rand() % 2;
+
     if (generateRain) {
         if (Style == 0) effect = std::make_unique<Rain>();
         else if (Style == 1) effect = std::make_unique<Snow>();
         effect->setState(1);
+
         float tmp = map->getSpeed();
         map->setSpeed(tmp * 3);
         player->setMapSpeed(tmp * 3);
@@ -147,7 +155,7 @@ void GameState::rainSetupFunction() {
 void GameState::handleEvents() {
     if (over) {
         requestStackPush(States::ID::GameOver);
-        if (effect){
+        if (effect) {
             effect.reset();
             MusicManager::getManager().toggleSound();
         }
@@ -155,7 +163,8 @@ void GameState::handleEvents() {
 
         // for (int i = 1; i <= 3; i++)
         // std::cout << HighScore::getHighScoreManager().getHighestScore(i) << std::endl;
-    } else if (!over) {
+    }
+    else if (!over) {
         setMapSpeed();
         if (start) {
             checkOutOfScreen();
@@ -163,19 +172,20 @@ void GameState::handleEvents() {
             checkPlayerAlive();
             handleInput();
         }
-    } else
+    }
+    else
         checkEndOfGame();
 }
 
 void GameState::checkOutOfScreen() {
-    if (player->getPosition().second > 982.0f){
+    if (player->getPosition().second > 982.0f) {
         player->setIsAlive(false);
         PlaySound(collisionSound);
     }
 }
 
 void GameState::checkCollision() {
-    if (map->CheckCollisionPlayer(player->getBoxCollision())){
+    if (map->CheckCollisionPlayer(player->getBoxCollision())) {
         player->setIsAlive(false);
         //PlaySound(collisionSound);
     }
@@ -188,7 +198,8 @@ void GameState::setMapSpeed() {
         map->setSpeed(speed);
         player->setMapSpeed(speed);
         // player->setSkin(Textures::ID::SKIN_2);
-    } else {
+    }
+    else {
         if (speed != 0.0f && speed != 1.2f) {
             speed = 1.2f;
             map->setSpeed(speed);
@@ -199,7 +210,7 @@ void GameState::setMapSpeed() {
 
     if (speed == 0.0f &&
         (IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_W) || IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S) ||
-         IsKeyPressed(KEY_LEFT) || IsKeyPressed(KEY_A) || IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D))) {
+            IsKeyPressed(KEY_LEFT) || IsKeyPressed(KEY_A) || IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D))) {
         speed = 1.2f;
         map->setSpeed(speed);
         player->setMapSpeed(speed);
@@ -230,7 +241,8 @@ void GameState::handleInput() {
                 HighScore::getHighScoreManager().setCurrentScore(virtualScore);
             }
             // std::cerr << highScore << std::endl;
-        } else if (IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S)) {
+        }
+        else if (IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S)) {
             count = GetTime();
             player->move(Player::Direction::DOWN);
             PlaySound(jumpSound);
@@ -238,18 +250,20 @@ void GameState::handleInput() {
             if (virtualScore > HighScore::getHighScoreManager().getCurrentScore()) {
                 HighScore::getHighScoreManager().setCurrentScore(virtualScore);
             }
-        } else if (IsKeyPressed(KEY_LEFT) || IsKeyPressed(KEY_A)) {
+        }
+        else if (IsKeyPressed(KEY_LEFT) || IsKeyPressed(KEY_A)) {
             count = GetTime();
             PlaySound(jumpSound);
             player->move(Player::Direction::LEFT);
-        } else if (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D)) {
+        }
+        else if (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D)) {
             count = GetTime();
             PlaySound(jumpSound);
             player->move(Player::Direction::RIGHT);
         }
 
         if (HighScoreTrigger > 0 && HighScore::getHighScoreManager().getCurrentScore() >
-                                        HighScore::getHighScoreManager().getHighestScore(HighScoreTrigger)) {
+            HighScore::getHighScoreManager().getHighestScore(HighScoreTrigger)) {
             HighScoreTrigger--;
             highScoreTimer = 4.0f;
             //std::cout << HighScoreTrigger << std::endl;
@@ -284,9 +298,23 @@ void GameState::checkEndOfGame() {
 
 // [gameData] = [seed] [highScore] [score]
 std::string GameState::serializeData() {
+    // Map data
     std::string gameData = std::to_string(seed) + " " +
-                           std::to_string(HighScore::getHighScoreManager().getCurrentScore()) + " " +
-                           std::to_string(speed);
+        std::to_string(HighScore::getHighScoreManager().getCurrentScore()) + " " +
+        std::to_string(speed);
+
+    // Weather data
+    if (effect) { // Rain or snow is active
+        gameData += " " + std::to_string(1) + " ";
+        // Get if it is rain or snow
+        if (dynamic_cast<Rain*>(effect.get()))
+            gameData += std::to_string(0);
+        else
+            gameData += std::to_string(1);
+    }
+    else { // No weather is active
+        gameData += " " + std::to_string(0);
+    }
 
     std::string mapData = map->serializeData();
     std::string playerData = player->serializeData();
@@ -294,15 +322,31 @@ std::string GameState::serializeData() {
     return "[GAME]\n" + gameData + "\n[MAP]\n" + mapData + "\n[PLAYER]\n" + playerData;
 }
 
-void GameState::loadSerializedData(const std::string &gameData,
-                                   const std::string &mapData,
-                                   const std::string &playerData) {
+void GameState::loadSerializedData(const std::string& gameData,
+    const std::string& mapData,
+    const std::string& playerData) {
     std::stringstream ss(gameData);
     int highScore;
+    int effectActive;
+    int effectType;
 
-    ss >> seed >> highScore >> speed;
+    ss >> seed >> highScore >> speed >> effectActive;
     speed = 0.0f;
     HighScore::getHighScoreManager().setCurrentScore(highScore);
+
+    if (effectActive) {
+        ss >> effectType;
+
+        if (effectType == 0)
+            effect = std::make_unique<Rain>();
+        else
+            effect = std::make_unique<Snow>();
+        effect->setState(1);
+
+        float tmp = map->getSpeed();
+        map->setSpeed(tmp * 3);
+        player->setMapSpeed(tmp * 3);
+    }
 
     map->loadSerializedData(mapData);
     player->loadSerializedData(playerData);

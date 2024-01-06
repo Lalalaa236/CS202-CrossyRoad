@@ -10,7 +10,7 @@
 #include <utility>
 #include"GameSettings.h"
 
-MenuState::MenuState(StateStack &stack) : State(stack) {
+MenuState::MenuState(StateStack& stack) : State(stack) {
     background = &TextureHolder::getHolder().get(Textures::BACKGROUND_MENU);
     button[0] = &TextureHolder::getHolder().get(Textures::BUTTON_0);
     button[1] = &TextureHolder::getHolder().get(Textures::BUTTON_1);
@@ -29,11 +29,11 @@ void MenuState::handleEvents() {
         // Get mouse position
         Vector2 mousePosition = GetMousePosition();
 
-        Vector2 a[6] = {{33, 24}, {1352, 28}, {63, 802}, {1352, 804}, {660, 647}, {244, 191}};
+        Vector2 a[6] = { {33, 24}, {1352, 28}, {63, 802}, {1352, 804}, {660, 647}, {244, 191} };
 
         for (int i = 0; i < 5; i++) {
             if (CheckCollisionPointRec(mousePosition,
-                                       {a[i].x, a[i].y, button[i]->width * 0.3f, button[i]->height * 0.3f})) {
+                { a[i].x, a[i].y, button[i]->width * 0.3f, button[i]->height * 0.3f })) {
                 switch (i) {
 
                     /// Intruction button (top left)
@@ -78,7 +78,7 @@ void MenuState::handleEvents() {
             }
         }
 
-        if (CheckCollisionPointRec(mousePosition, {a[5].x, a[5].y, name->width * 1.0f, name->height * 1.0f})) {
+        if (CheckCollisionPointRec(mousePosition, { a[5].x, a[5].y, name->width * 1.0f, name->height * 1.0f })) {
         }
     }
 }
@@ -91,26 +91,31 @@ void MenuState::draw() {
     float scaleWidth = (float)GetScreenWidth() / background->width;
     float scaleHeight = (float)GetScreenHeight() / background->height;
     ClearBackground(RAYWHITE);
+
     // Draw background image
     DrawTexturePro(*background,
-                   {0, 0, float(background->width), float(background->height)},
-                   {0, 0, background->width * scaleWidth, background->height * scaleHeight},
-                   {0, 0},
-                   0,
-                   WHITE);
-    Vector2 a[5] = {{33, 24}, {1352, 28}, {63, 802}, {1352, 804}, {660, 647}};
+        { 0, 0, float(background->width), float(background->height) },
+        { 0, 0, background->width * scaleWidth, background->height * scaleHeight },
+        { 0, 0 },
+        0,
+        WHITE);
+
+    Vector2 a[5] = { {33, 24}, {1352, 28}, {63, 802}, {1352, 804}, {660, 647} };
     for (int i = 0; i < 5; i++)
         DrawTextureEx(*button[i],
-                      a[i],   // Position
-                      0,      // Rotation angle
-                      0.3,    // Scale
-                      WHITE); // Tint color
+            a[i],   // Position
+            0,      // Rotation angle
+            0.3,    // Scale
+            WHITE); // Tint color
+
     DrawTexture(*name, 244, 191, WHITE);
-    const char *text = "Nhat Vy    Nhan Kiet    Hoang Tuan    Cao Tin";
+    const char* text = "Nhat Vy    Nhan Kiet    Hoang Tuan    Cao Tin";
     int fontSize = 40;
     int textWidth = MeasureTextEx(customFont, text, fontSize, 2).x;
+
     // Calculate the position to center the text horizontally
-    Vector2 position = {(float)(settings::SCREEN_WIDTH - textWidth) / 2, 27};
+    Vector2 position = { (float)(settings::SCREEN_WIDTH - textWidth) / 2, 27 };
+
     // Set the custom font and draw text
     DrawTextEx(customFont, text, position, fontSize, 2, BLACK);
 

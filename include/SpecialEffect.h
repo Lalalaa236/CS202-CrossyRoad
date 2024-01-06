@@ -25,6 +25,7 @@ public:
 
     void setState(int st);
     int getState();
+
     virtual void update(int screenWidth, int screenHeight) = 0;
     virtual void drawTo() = 0;
 };
