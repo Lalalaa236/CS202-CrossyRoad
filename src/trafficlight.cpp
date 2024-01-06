@@ -1,4 +1,5 @@
 #include "trafficlight.h"
+#include "random.h"
 #include <iostream>
 
 // Constructor and Destructor
@@ -22,9 +23,9 @@ TrafficLight::TrafficLight(float x, float y, Type type) : position({ x, y }), ty
         scale = 0.15f;
     }
 
-    int random = rand() % 2;
-    random == 0 ? this->lightState = false : this->lightState = true;
-    this->timer = (rand() % 100) / 10.0;
+    int random = Random::getInstance().nextInt(0, 100);
+    random <= 50 ? this->lightState = false : this->lightState = true;
+    this->timer = (Random::getInstance().nextInt(0, 100)) / 10.0;
 }
 
 TrafficLight::TrafficLight(bool state, double redTimer, double greenTimer, Type type) {

@@ -12,7 +12,7 @@
 Lane::Lane(float y, float mapSpeed, int currentScore) : y(y), mapSpeed(mapSpeed) {
     float trafficLight_x = settings::SCREEN_WIDTH - 5 - 50;
     randomSpeed = Random::getInstance().nextDouble(3.0f, 5.0f);
-    direction = rand() % 2;
+    direction = Random::getInstance().nextInt() % 2;
 
     // From right to left direction
     // Changing the speed and the position of the traffic light
@@ -23,16 +23,15 @@ Lane::Lane(float y, float mapSpeed, int currentScore) : y(y), mapSpeed(mapSpeed)
 
     static int cnt = 0;
     static int consecutiveRailways = 0;
-    int random = rand() % 5;
+    int random = Random::getInstance().nextInt() % 5;
+
     if (currentScore >= 100) {
-        random = rand() % 6;
+        random = Random::getInstance().nextInt() % 6;
     }
-    if (currentScore >= 200) {
-        random = rand() % 7;
+    else if (currentScore >= 250) {
+        random = Random::getInstance().nextInt() % 7;
     }
-    if (currentScore >= 200) {
-        random = rand() % 8;
-    }
+
     switch (random) {
     case 0:
     case 1:
@@ -94,7 +93,7 @@ Lane::Lane(float y, float mapSpeed, int currentScore) : y(y), mapSpeed(mapSpeed)
         break;
     }
 
-    int randomObstacle = rand() % 5;
+    int randomObstacle = Random::getInstance().nextInt() % 5;
 
     if (laneType == LaneType::RAILWAY)
         obstacleType = ObstacleType::Train;
@@ -119,7 +118,7 @@ Lane::Lane(float y, float mapSpeed, LaneType laneType, int numObstacles, Obstacl
     : y(y), mapSpeed(mapSpeed), laneType(laneType), obstacleType(ObstacleType) {
     float trafficLight_x = 5;
     randomSpeed = Random::getInstance().nextDouble(3.0f, 5.0f);
-    direction = rand() % 2;
+    direction = Random::getInstance().nextInt() % 2;
 
     if (direction == 0) {
         randomSpeed = -randomSpeed;
@@ -157,7 +156,7 @@ Lane::Lane(float y, float mapSpeed, LaneType laneType, int numObstacles, Obstacl
 }
 
 void Lane::addObstacle() {
-    int r = rand() % 4;
+    int r = Random::getInstance().nextInt(0, 3);
     addObstacle(r);
 }
 
@@ -194,15 +193,18 @@ void Lane::addObstacle(int numObstacle, float speedScale) {
 
 void Lane::addObstacleByScore(int laneScore) {
     int maxObstacles, minObstacles, numObstacles;
-    float speedScale = 0.8f;
+    float speedScale = 1.0f;
 
     // Generate depends on laneScore
-    speedScale = speedScale + std::min((2.5f - speedScale), laneScore / 150.0f); // Max speedScale = 2.5f
+    speedScale = std::min(2.5f, 0.8f + laneScore / 150.0f); // Max speedScale = 2.5f
     minObstacles = 0;
-    maxObstacles = std::min(laneScore / 30 + 2, 6);
+    maxObstacles = std::min(laneScore / 30 + 2, 4);
     // nextInt max
     numObstacles = Random::getInstance().nextInt(minObstacles, maxObstacles);
     numObstacles = std::max(numObstacles, Random::getInstance().nextInt(minObstacles, maxObstacles));
+
+    if (numObstacles < 0 || numObstacles > 4)
+        throw std::runtime_error("Invalid number of obstacles");
 
     if (laneType == LaneType::RAILWAY) {
         numObstacles = 1;

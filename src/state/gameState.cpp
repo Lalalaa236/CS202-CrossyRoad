@@ -51,9 +51,6 @@ GameState::~GameState() {
 }
 
 void GameState::draw() {
-    // static int i = 0;
-    // if(i++ == 0)
-    //     std::cout << "GameState draw called" << std::endl;
     ClearBackground(WHITE);
     map->draw();
     player->draw();
@@ -62,7 +59,7 @@ void GameState::draw() {
         effect->update(settings::SCREEN_WIDTH, settings::SCREEN_HEIGHT);
         effect->drawTo();
     }
-    //std::cout << map->getSpeed() << std::endl;
+
     // Draw the regular score
     if (highScoreTimer >= 1.0f) {
         // Get the width of the existing high score text
@@ -81,6 +78,7 @@ void GameState::draw() {
 
         highScoreTimer -= 0.05f;
     }
+
     if (HighScoreTrigger >= 3) {
         DrawTextEx(customFont,
             ("Score: " + std::to_string(HighScore::getHighScoreManager().getCurrentScore())).c_str(),
@@ -101,14 +99,11 @@ void GameState::draw() {
 
 
 void GameState::update() {
-    // static int i = 0;
-    // if(i++ == 0)
-    //     std::cout << "GameState update called" << std::endl;
     if (!player->getMoving())
         player->setMoving(true);
 
     if (start && !over)
-        map->update(HighScore::getHighScoreManager().getCurrentScore());
+        map->update(virtualScore);
     if (over)
         player->setSpeed(0.0f, 0.0f);
     player->update();
@@ -120,7 +115,6 @@ void GameState::update() {
     if (timeRain >= rainTimer) {
         timeRain = 0.0f;
         rainTimer = Random::getInstance().nextDouble(5.0, 30.0);
-        std::cout << rainTimer << std::endl;
 
         if (effect) {   // Revert the effect
             float tmp = map->getSpeed();
@@ -139,7 +133,7 @@ void GameState::update() {
 void GameState::rainSetupFunction() {
     //bool generateRain = (rand() % 10) < (5 + HighScore::getHighScoreManager().getCurrentScore() / 100) ;
     bool generateRain = true;
-    bool Style = rand() % 2;
+    bool Style = Random::getInstance().nextInt(0, 1);
 
     if (generateRain) {
         if (Style == 0) effect = std::make_unique<Rain>();
@@ -165,9 +159,6 @@ void GameState::handleEvents() {
             MusicManager::getManager().toggleSound();
         }
         HighScore::getHighScoreManager().updateHighestScore();
-
-        // for (int i = 1; i <= 3; i++)
-        // std::cout << HighScore::getHighScoreManager().getHighestScore(i) << std::endl;
     }
     else if (!over) {
         setMapSpeed();
@@ -204,14 +195,12 @@ void GameState::setMapSpeed() {
         speed += deltaSpeed;
         map->setSpeed(speed);
         player->setMapSpeed(speed);
-        // player->setSkin(Textures::ID::SKIN_2);
     }
     else {
         if (speed != 0.0f && speed != 1.2f) {
             speed = 1.2f;
             map->setSpeed(speed);
             player->setMapSpeed(speed);
-            // player->setSkin(Textures::ID::SKIN_1);
         }
     }
 
@@ -273,8 +262,6 @@ void GameState::handleInput() {
             HighScore::getHighScoreManager().getHighestScore(HighScoreTrigger)) {
             HighScoreTrigger--;
             highScoreTimer = 4.0f;
-            //std::cout << HighScoreTrigger << std::endl;
-            //HighScore::getHighScoreManager().updateHighestScore();
         }
     }
 

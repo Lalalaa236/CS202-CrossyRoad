@@ -41,8 +41,9 @@ public:
     bool CheckCollisionPlayer(Rectangle playerBoxCollision);
 
     std::string serializeData();
-    void loadSerializedData(const std::string& serialized_data);\
-        LaneType getType() const;
+    void loadSerializedData(const std::string& serialized_data);
+    LaneType getType() const;
+
 private:
     float randomSpeed;
     float mapSpeed;

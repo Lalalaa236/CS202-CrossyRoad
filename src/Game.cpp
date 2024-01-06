@@ -228,7 +228,6 @@ void Game::loadAllTexture() {
 
 void Game::run() {
     while (!WindowShouldClose()) {
-        // UpdateMusicStream(bgMusic);
         MusicManager::getManager().play();
 
         stateStack.update();
