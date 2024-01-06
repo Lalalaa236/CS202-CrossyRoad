@@ -9,9 +9,6 @@
 #include <sstream>
 #include <vector>
 
-
-
-
 Lane::Lane(float y, float mapSpeed, int currentScore) : y(y), mapSpeed(mapSpeed) {
     float trafficLight_x = settings::SCREEN_WIDTH - 5 - 50;
     randomSpeed = Random::getInstance().nextDouble(3.0f, 5.0f);
@@ -25,15 +22,15 @@ Lane::Lane(float y, float mapSpeed, int currentScore) : y(y), mapSpeed(mapSpeed)
     }
 
     static int cnt = 0;
-    static int consecutiveRailways = 0; 
+    static int consecutiveRailways = 0;
     int random = rand() % 5;
-    if (currentScore >= 100){
+    if (currentScore >= 100) {
         random = rand() % 6;
     }
-    if (currentScore >= 200){
+    if (currentScore >= 200) {
         random = rand() % 7;
     }
-    if (currentScore >= 200){
+    if (currentScore >= 200) {
         random = rand() % 8;
     }
     switch (random) {
@@ -81,8 +78,9 @@ Lane::Lane(float y, float mapSpeed, int currentScore) : y(y), mapSpeed(mapSpeed)
             trafficLight = nullptr;
             cnt = 0;
             laneType = LaneType::GRASS;
-            consecutiveRailways = 0; 
-        } else {
+            consecutiveRailways = 0;
+        }
+        else {
             texture = &TextureHolder::getHolder().get(Textures::RAILWAY);
             trafficLight = new TrafficLight(trafficLight_x, this->y - 25, TrafficLight::Type::RAILWAY);
             laneType = LaneType::RAILWAY;
@@ -166,9 +164,9 @@ void Lane::addObstacle() {
 void Lane::addObstacle(int numObstacle, float speedScale) {
     if (numObstacle <= 0)
         return;
-    if(laneType == LaneType::RAILWAY)
-    {
-        if(!direction)
+
+    if (laneType == LaneType::RAILWAY) {
+        if (!direction)
             obstacles.push_back(createObstacle(obstacleType, settings::SCREEN_WIDTH, this->y, randomSpeed * speedScale));
         else
             obstacles.push_back(createObstacle(obstacleType, 0, this->y, randomSpeed * speedScale));
@@ -196,18 +194,27 @@ void Lane::addObstacle(int numObstacle, float speedScale) {
 
 void Lane::addObstacleByScore(int laneScore) {
     int maxObstacles, minObstacles, numObstacles;
-    float speedScale = 0.75f;
+    float speedScale = 0.8f;
 
     // Generate depends on laneScore
-    speedScale = speedScale + std::min(1.5f, laneScore / 50.0f); // Max speedScale = 2.5f
+    speedScale = speedScale + std::min((2.5f - speedScale), laneScore / 150.0f); // Max speedScale = 2.5f
+    minObstacles = 0;
     maxObstacles = std::min(laneScore / 30 + 2, 6);
-    minObstacles = std::min(laneScore / 60, 2);
+    // nextInt max
     numObstacles = Random::getInstance().nextInt(minObstacles, maxObstacles);
+    numObstacles = std::max(numObstacles, Random::getInstance().nextInt(minObstacles, maxObstacles));
 
     if (laneType == LaneType::RAILWAY) {
         numObstacles = 1;
         speedScale = 5.0f;
         randomSpeed *= speedScale;
+    }
+    else if (trafficLight && laneType == LaneType::ROAD) {
+        double redTimer = trafficLight->getRedTimer();
+        double greenTimer = trafficLight->getGreenTimer();
+        double scaling = std::max(1.0f, std::min(speedScale, 1.5f));
+
+        trafficLight->setTimer(redTimer / scaling, greenTimer * scaling);
     }
 
     // Generate random obstacles
@@ -244,9 +251,9 @@ void Lane::update() {
 
     if (!(obstacles.size() > 0 && trafficLight))
         return;
-    
-    if(laneType == LaneType::RAILWAY && obstacles.front()->checkOutOfScreen() && !trafficLight->getLightState())
-            trafficLight->setLightState(true);
+
+    if (laneType == LaneType::RAILWAY && obstacles.front()->checkOutOfScreen() && !trafficLight->getLightState())
+        trafficLight->setLightState(true);
 
     // if (!trafficLight->getIsChanged())
     //     return;
@@ -295,7 +302,7 @@ void Lane::setSpeed(float mapSpeed) {
 
 bool Lane::CheckCollisionPlayer(Rectangle playerBoxCollision) {
     for (auto obstacle : obstacles) {
-        if (CheckCollisionRecs(obstacle->getBoxCollision(), playerBoxCollision)){
+        if (CheckCollisionRecs(obstacle->getBoxCollision(), playerBoxCollision)) {
             return true;
         }
     }
@@ -371,6 +378,6 @@ Obstacle* Lane::createObstacle(ObstacleType id, float x, float y, float speed) {
     }
 }
 
-Lane::LaneType Lane::getType() const{
+Lane::LaneType Lane::getType() const {
     return laneType;
 }

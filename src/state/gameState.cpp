@@ -1,11 +1,14 @@
-#include "gameState.h"
-#include "GameSettings.h"
-#include "score.h"
 #include <chrono>
 #include <iostream>
-#include"Snow.h"
-#include"Rain.h"
-#include"MusicManager.h"
+
+#include "gameState.h"
+#include "GameSettings.h"
+
+#include "random.h"
+#include "score.h"
+#include "Snow.h"
+#include "Rain.h"
+#include "MusicManager.h"
 
 namespace data {
     std::string Game;
@@ -19,6 +22,7 @@ GameState::GameState(StateStack& stack)
     map = new Map(speed);
     player = new Player(1512.0 / 2 - 82 / 2, 982.0 - 2 * settings::GRID_SIZE.second, speed, Textures::ID::SKIN_FULL);
     pauseButton = &TextureHolder::getHolder().get(Textures::PAUSE_BUTTON);
+    rainTimer = Random::getInstance().nextDouble(10.0, 30.0);
 
     HideCursor();
 
@@ -113,13 +117,14 @@ void GameState::update() {
         effect->setState(1);
 
     timeRain += GetFrameTime();
-    if (timeRain > 10.0f) {
+    if (timeRain > rainTimer) {
         timeRain = 0.0f;
+        rainTimer = Random::getInstance().nextDouble(10.0, 30.0);
 
         if (effect) {   // Revert the effect
             float tmp = map->getSpeed();
-            map->setSpeed(tmp / 3);
-            player->setMapSpeed(tmp / 3);
+            map->setSpeed(tmp / 2);
+            player->setMapSpeed(tmp / 2);
             effect.reset();
             effect = nullptr;
 
@@ -142,8 +147,8 @@ void GameState::rainSetupFunction() {
         effect->setState(1);
 
         float tmp = map->getSpeed();
-        map->setSpeed(tmp * 3);
-        player->setMapSpeed(tmp * 3);
+        map->setSpeed(tmp * 2);
+        player->setMapSpeed(tmp * 2);
     }
 }
 
@@ -304,6 +309,7 @@ std::string GameState::serializeData() {
         std::to_string(speed);
 
     // Weather data
+    gameData += " " + std::to_string(rainTimer);
     if (effect) { // Rain or snow is active
         gameData += " " + std::to_string(1) + " ";
         // Get if it is rain or snow
@@ -330,7 +336,7 @@ void GameState::loadSerializedData(const std::string& gameData,
     int effectActive;
     int effectType;
 
-    ss >> seed >> highScore >> speed >> effectActive;
+    ss >> seed >> highScore >> speed >> rainTimer >> effectActive;
     speed = 0.0f;
     HighScore::getHighScoreManager().setCurrentScore(highScore);
 
@@ -344,8 +350,8 @@ void GameState::loadSerializedData(const std::string& gameData,
         effect->setState(1);
 
         float tmp = map->getSpeed();
-        map->setSpeed(tmp * 3);
-        player->setMapSpeed(tmp * 3);
+        map->setSpeed(tmp * 2);
+        player->setMapSpeed(tmp * 2);
     }
 
     map->loadSerializedData(mapData);

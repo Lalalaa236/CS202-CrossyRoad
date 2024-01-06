@@ -20,16 +20,22 @@ private:
     float count;
     bool start;
     bool over;
-    int virtualScore;
-    std::unique_ptr<SpecialEffect> effect;
+
     Font customFont;
     Font customFont1;
+
+    int virtualScore;
     int isHighScore;
-    float highScoreTimer; 
-    int HighScoreTrigger; 
+    float highScoreTimer;
+    int HighScoreTrigger;
+
+    float rainTimer;
     float timeRain;
+    std::unique_ptr<SpecialEffect> effect;
+
     Sound collisionSound;
     Sound jumpSound;
+
     void checkOutOfScreen();
     void checkCollision();
     void setMapSpeed();
@@ -45,7 +51,7 @@ public:
     void draw() override;
     void update() override;
     void handleEvents() override;
-    
+
     std::string serializeData();
     void loadSerializedData(const std::string& gameData, const std::string& mapData, const std::string& playerData);
 };

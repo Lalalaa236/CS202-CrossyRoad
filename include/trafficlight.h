@@ -20,8 +20,11 @@ public:
     bool getLightState() const;
     void setLightState(bool state);
     double getTimer() const;
+    double getRedTimer() const;
+    double getGreenTimer() const;
     std::pair<float, float> getPosition() const;
     void setY(float y);
+    void setTimer(double redTimer, double greenTimer);
 
     // Methods
     void draw();
@@ -32,10 +35,11 @@ private:
     bool lightState = false;                 // false = red, true = green
     float timer = 0.0f;                      // timer for light state
     float redTimer = 0.0f, greenTimer = 0.0f; // timers for red and green lights
+
     Type type;
-    Texture2D *red;
+    Texture2D* red;
     // Texture2D *yellow;
-    Texture2D *green;
+    Texture2D* green;
     float scale;
     float drawTimer = 0.0f;
 };

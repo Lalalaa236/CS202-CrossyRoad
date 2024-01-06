@@ -70,6 +70,14 @@ double TrafficLight::getTimer() const {
     return this->timer;
 }
 
+double TrafficLight::getRedTimer() const {
+    return this->redTimer;
+}
+
+double TrafficLight::getGreenTimer() const {
+    return this->greenTimer;
+}
+
 std::pair<float, float> TrafficLight::getPosition() const {
     return this->position;
 }
@@ -79,46 +87,46 @@ std::pair<float, float> TrafficLight::getPosition() const {
 void TrafficLight::draw() {
     if (!lightState)
     {
-        if(type == Type::ROAD)
+        if (type == Type::ROAD)
         {
-            if(timer >= redTimer * 5.0f / 8.0f)
+            if (timer >= redTimer * 5.0f / 8.0f)
             {
-                if(drawTimer >= 0.3f)
+                if (drawTimer >= 0.3f)
                 {
                     DrawTextureEx(*red, { position.first, position.second - 40 }, 0, scale, WHITE);
-                    if(drawTimer >= 0.6f)
+                    if (drawTimer >= 0.6f)
                         drawTimer = 0.0f;
                 }
                 else
                     DrawTextureEx(*green, { position.first, position.second - 40 }, 0, scale, WHITE);
-                
+
             }
             else
                 DrawTextureEx(*red, { position.first, position.second - 40 }, 0, scale, WHITE);
         }
-        else 
+        else
             DrawTextureEx(*red, { position.first, position.second - 40 }, 0, scale, WHITE);
     }
     else
     {
-        if(type == Type::RAILWAY)
+        if (type == Type::RAILWAY)
         {
-            if(timer >= greenTimer * 5.0f / 8.0f)
+            if (timer >= greenTimer * 5.0f / 8.0f)
             {
-                if(drawTimer >= 0.3f)
+                if (drawTimer >= 0.3f)
                 {
                     DrawTextureEx(*red, { position.first, position.second - 40 }, 0, scale, WHITE);
-                    if(drawTimer >= 0.6f)
+                    if (drawTimer >= 0.6f)
                         drawTimer = 0.0f;
                 }
                 else
                     DrawTextureEx(*green, { position.first, position.second - 40 }, 0, scale, WHITE);
-                
+
             }
             else
                 DrawTextureEx(*green, { position.first, position.second - 40 }, 0, scale, WHITE);
         }
-        else 
+        else
             DrawTextureEx(*green, { position.first, position.second - 40 }, 0, scale, WHITE);
     }
 }
@@ -143,4 +151,9 @@ void TrafficLight::update() {
 
 void TrafficLight::setY(float y) {
     this->position.second = y;
+}
+
+void TrafficLight::setTimer(double redTimer, double greenTimer) {
+    this->redTimer = redTimer;
+    this->greenTimer = greenTimer;
 }
