@@ -22,7 +22,7 @@ GameState::GameState(StateStack& stack)
     map = new Map(speed);
     player = new Player(1512.0 / 2 - 82 / 2, 982.0 - 2 * settings::GRID_SIZE.second, speed, Textures::ID::SKIN_FULL);
     pauseButton = &TextureHolder::getHolder().get(Textures::PAUSE_BUTTON);
-    rainTimer = Random::getInstance().nextDouble(10.0, 30.0);
+    rainTimer = Random::getInstance().nextDouble(0.0, 30.0);
 
     HideCursor();
 
@@ -117,16 +117,16 @@ void GameState::update() {
         effect->setState(1);
 
     timeRain += GetFrameTime();
-    if (timeRain > rainTimer) {
+    if (timeRain >= rainTimer) {
         timeRain = 0.0f;
-        rainTimer = Random::getInstance().nextDouble(10.0, 30.0);
+        rainTimer = Random::getInstance().nextDouble(5.0, 30.0);
+        std::cout << rainTimer << std::endl;
 
         if (effect) {   // Revert the effect
             float tmp = map->getSpeed();
             map->setSpeed(tmp / 2);
             player->setMapSpeed(tmp / 2);
             effect.reset();
-            effect = nullptr;
 
             MusicManager::getManager().toggleSound();
         }
@@ -176,8 +176,9 @@ void GameState::handleEvents() {
             checkOutOfScreen();
             checkCollision();
             checkPlayerAlive();
-            handleInput();
         }
+
+        handleInput();
     }
     else
         checkEndOfGame();
@@ -277,7 +278,7 @@ void GameState::handleInput() {
         }
     }
 
-    if (IsKeyPressed(KEY_P)) {
+    if (IsKeyPressed(KEY_P) || IsKeyPressed(KEY_ESCAPE)) {
         requestStackPush(States::ID::Pause);
         if (effect) effect->setState(-1);
         player->setMoving(false);
@@ -306,6 +307,7 @@ void GameState::checkEndOfGame() {
 std::string GameState::serializeData() {
     // Map data
     std::string gameData = std::to_string(seed) + " " +
+        std::to_string(virtualScore) + " " +
         std::to_string(HighScore::getHighScoreManager().getCurrentScore()) + " " +
         std::to_string(speed);
 
@@ -337,7 +339,7 @@ void GameState::loadSerializedData(const std::string& gameData,
     int effectActive;
     int effectType;
 
-    ss >> seed >> highScore >> speed >> rainTimer >> effectActive;
+    ss >> seed >> virtualScore >> highScore >> speed >> rainTimer >> effectActive;
     speed = 0.0f;
     HighScore::getHighScoreManager().setCurrentScore(highScore);
 

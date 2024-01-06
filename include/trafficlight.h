@@ -39,7 +39,7 @@ private:
 
     Type type;
     Texture2D* red;
-    // Texture2D *yellow;
+    Texture2D* yellow;
     Texture2D* green;
     float scale;
     float drawTimer = 0.0f;

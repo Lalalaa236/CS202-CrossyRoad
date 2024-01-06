@@ -9,7 +9,7 @@ TrafficLight::TrafficLight(float x, float y, Type type) : position({ x, y }), ty
         this->redTimer = 5.0f;
         this->greenTimer = 7.0f;
         red = &TextureHolder::getHolder().get(Textures::RED_LIGHT);
-        // yellow = &TextureHolder::getHolder().get(Textures::YELLOW_LIGHT);
+        yellow = &TextureHolder::getHolder().get(Textures::YELLOW_LIGHT);
         green = &TextureHolder::getHolder().get(Textures::GREEN_LIGHT);
         scale = 1.0f;
     }
@@ -40,7 +40,7 @@ TrafficLight::TrafficLight(bool state, double redTimer, double greenTimer, Type 
 
     if (type == Type::ROAD) {
         red = &TextureHolder::getHolder().get(Textures::RED_LIGHT);
-        // yellow = &TextureHolder::getHolder().get(Textures::YELLOW_LIGHT);
+        yellow = &TextureHolder::getHolder().get(Textures::YELLOW_LIGHT);
         green = &TextureHolder::getHolder().get(Textures::GREEN_LIGHT);
         scale = 1.0f;
     }
@@ -85,6 +85,8 @@ std::pair<float, float> TrafficLight::getPosition() const {
 
 // Methods
 
+// Texture2D* yellow = new Texture2D(LoadTexture("image/gameState/YellowLight.png"));
+
 void TrafficLight::draw() {
     if (!lightState)
     {
@@ -100,7 +102,6 @@ void TrafficLight::draw() {
                 }
                 else
                     DrawTextureEx(*green, { position.first, position.second - 40 }, 0, scale, WHITE);
-
             }
             else
                 DrawTextureEx(*red, { position.first, position.second - 40 }, 0, scale, WHITE);
