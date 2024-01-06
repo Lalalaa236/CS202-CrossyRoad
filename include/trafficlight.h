@@ -24,7 +24,8 @@ public:
     double getGreenTimer() const;
     std::pair<float, float> getPosition() const;
     void setY(float y);
-    void setTimer(double redTimer, double greenTimer);
+    void setTimer(float timer);
+    void setTimer(float redTimer, float greenTimer);
 
     // Methods
     void draw();

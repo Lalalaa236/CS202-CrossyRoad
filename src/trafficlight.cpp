@@ -153,7 +153,11 @@ void TrafficLight::setY(float y) {
     this->position.second = y;
 }
 
-void TrafficLight::setTimer(double redTimer, double greenTimer) {
+void TrafficLight::setTimer(float timer) {
+    this->timer = timer;
+}
+
+void TrafficLight::setTimer(float redTimer, float greenTimer) {
     this->redTimer = redTimer;
     this->greenTimer = greenTimer;
 }

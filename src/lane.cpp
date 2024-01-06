@@ -315,10 +315,20 @@ bool Lane::CheckCollisionPlayer(Rectangle playerBoxCollision) {
 std::string Lane::serializeData() {
     std::string serialized_data = "";
 
-    serialized_data += std::to_string(int(laneType)) + " ";
+    int lType = static_cast<std::underlying_type_t<LaneType>>(laneType);
+    std::cout << "Lane type: " << lType << std::endl;
+
+    serialized_data += std::to_string(lType) + " ";
     serialized_data += std::to_string(randomSpeed) + " ";
     serialized_data += std::to_string(y) + " ";
     serialized_data += std::to_string(direction) + " ";
+
+    if (laneType != LaneType::GRASS) { // Add traffic timer
+        serialized_data += std::to_string(trafficLight->getTimer()) + " ";
+        serialized_data += std::to_string(trafficLight->getRedTimer()) + " ";
+        serialized_data += std::to_string(trafficLight->getGreenTimer()) + " ";
+    }
+
     serialized_data += std::to_string(obstacles.size()) + " ";
 
     for (auto obstacle : obstacles) {
@@ -339,8 +349,20 @@ void Lane::loadSerializedData(const std::string& serialized_data) {
     int numObstacle, oType, lType;
     float x;
 
-    iss >> lType >> randomSpeed >> y >> direction >> numObstacle;
+    iss >> lType >> randomSpeed >> y >> direction;
     laneType = LaneType(lType);
+
+    if (laneType != LaneType::GRASS) { // Add traffic timer
+        float timer, redTimer, greenTimer;
+        iss >> timer >> redTimer >> greenTimer;
+
+        if (trafficLight) {
+            trafficLight->setTimer(timer);
+            trafficLight->setTimer(redTimer, greenTimer);
+        }
+    }
+
+    iss >> numObstacle;
 
     for (int i = 0; i < numObstacle; i++) {
         iss >> oType >> x;

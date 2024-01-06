@@ -23,7 +23,7 @@ public:
         Train,
         None
     };
-    enum class LaneType { ROAD, GRASS, RAILWAY,DESERT_1,DESERT_2};
+    enum class LaneType : int { ROAD = 0, GRASS = 1, RAILWAY = 2, DESERT_1 = 3, DESERT_2 = 4 };
     Lane(float y, float mapSpeed, int currentScore = 0);
 
     Lane(float y, float mapSpeed, LaneType laneType, int numObstacles, ObstacleType obstacleType);
@@ -43,7 +43,7 @@ public:
 
     std::string serializeData();
     void loadSerializedData(const std::string& serialized_data);\
-    LaneType getType() const;
+        LaneType getType() const;
 private:
     float randomSpeed;
     float mapSpeed;
