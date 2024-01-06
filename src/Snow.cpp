@@ -2,6 +2,7 @@
 
 Snow::Snow() {
     effectSound = LoadSound("image/Sound/snow.mp3");
+    //SetSoundVolume(effectSound, 1.0f);
 }
 
 Snow::~Snow() {
