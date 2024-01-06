@@ -55,7 +55,7 @@ Lane::Lane(float y, float mapSpeed, int currentScore) : y(y), mapSpeed(mapSpeed)
     case 3:
         if (cnt == 3) {
             texture = &TextureHolder::getHolder().get(Textures::ROAD);
-            laneType = LaneType::DESERT_2;
+            laneType = LaneType::ROAD;
             trafficLight = new TrafficLight(trafficLight_x, this->y - 25, TrafficLight::Type::ROAD);
             cnt = 0;
             consecutiveRailways = 0;
@@ -314,9 +314,7 @@ bool Lane::CheckCollisionPlayer(Rectangle playerBoxCollision) {
 // [obstacleData] = [obstacleType] [obstacle.x]
 std::string Lane::serializeData() {
     std::string serialized_data = "";
-
-    int lType = static_cast<std::underlying_type_t<LaneType>>(laneType);
-    std::cout << "Lane type: " << lType << std::endl;
+    int lType = static_cast<int>(laneType);
 
     serialized_data += std::to_string(lType) + " ";
     serialized_data += std::to_string(randomSpeed) + " ";
@@ -327,6 +325,7 @@ std::string Lane::serializeData() {
         serialized_data += std::to_string(trafficLight->getTimer()) + " ";
         serialized_data += std::to_string(trafficLight->getRedTimer()) + " ";
         serialized_data += std::to_string(trafficLight->getGreenTimer()) + " ";
+        serialized_data += std::to_string(trafficLight->getLightState()) + " ";
     }
 
     serialized_data += std::to_string(obstacles.size()) + " ";
@@ -354,11 +353,13 @@ void Lane::loadSerializedData(const std::string& serialized_data) {
 
     if (laneType != LaneType::GRASS) { // Add traffic timer
         float timer, redTimer, greenTimer;
-        iss >> timer >> redTimer >> greenTimer;
+        bool lightState;
+        iss >> timer >> redTimer >> greenTimer >> lightState;
 
         if (trafficLight) {
             trafficLight->setTimer(timer);
             trafficLight->setTimer(redTimer, greenTimer);
+            trafficLight->setLightState(lightState);
         }
     }
 
@@ -367,6 +368,7 @@ void Lane::loadSerializedData(const std::string& serialized_data) {
     for (int i = 0; i < numObstacle; i++) {
         iss >> oType >> x;
         obstacleType = ObstacleType(oType);
+
         obstacles.push_back(createObstacle(obstacleType, x, y, randomSpeed));
     }
 }

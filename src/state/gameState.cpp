@@ -171,6 +171,7 @@ void GameState::handleEvents() {
     }
     else if (!over) {
         setMapSpeed();
+
         if (start) {
             checkOutOfScreen();
             checkCollision();
@@ -197,7 +198,7 @@ void GameState::checkCollision() {
 }
 
 void GameState::setMapSpeed() {
-    if (player->getPosition().second < 982.0f / 2.0f) {
+    if (start && player->getPosition().second < 982.0f / 2.0f) {
         float deltaSpeed = (982.0f / 2.0f - player->getPosition().second) / 300 * 0.2f;
         speed += deltaSpeed;
         map->setSpeed(speed);

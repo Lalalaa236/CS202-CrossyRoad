@@ -33,7 +33,6 @@ void Train::update(float k) {
 
 
 void Train::draw() {
-
     Rectangle srcRect = { 0.0f, 0.0f, (float)txt[curFrame]->width, (float)txt[curFrame]->height };
     Rectangle destRect = { position.x, position.y, (float)txt[curFrame]->width * scale, (float)txt[curFrame]->height * scale };
 

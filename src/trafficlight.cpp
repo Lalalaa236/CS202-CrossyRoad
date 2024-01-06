@@ -24,6 +24,7 @@ TrafficLight::TrafficLight(float x, float y, Type type) : position({ x, y }), ty
 
     int random = rand() % 2;
     random == 0 ? this->lightState = false : this->lightState = true;
+    this->timer = (rand() % 100) / 10.0;
 }
 
 TrafficLight::TrafficLight(bool state, double redTimer, double greenTimer, Type type) {
