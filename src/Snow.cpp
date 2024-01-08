@@ -1,5 +1,5 @@
 #include "Snow.h"
-
+#include"GameSettings.h"
 Snow::Snow() {
     effectSound = LoadSound("image/Sound/snow.mp3");
     //SetSoundVolume(effectSound, 1.0f);
@@ -30,6 +30,10 @@ void Snow::drawTo() {
                          particle.color);
     }
     const float screenHeight = static_cast<float>(GetScreenHeight());
+    ClearBackground(Color{255, 255, 255, 0});
+
+    // Draw a white semi-transparent overlay
+    DrawRectangle(0, 0, settings::SCREEN_WIDTH, screenHeight, Fade(WHITE, 0.5f));
 
     for (auto it = particles.begin(); it != particles.end(); /* no increment here */) {
         if (it->position.y > screenHeight) {
