@@ -8,7 +8,7 @@
 #include "skinState.h"
 #include <iostream>
 #include <utility>
-#include"GameSettings.h"
+#include "GameSettings.h"
 
 MenuState::MenuState(StateStack& stack) : State(stack) {
     background = &TextureHolder::getHolder().get(Textures::BACKGROUND_MENU);

@@ -3,8 +3,8 @@
 #include "State.h"
 #include "TextureHolder.h"
 #include <iostream>
-#include<fstream>
-#include"score.h"
+#include <fstream>
+#include "score.h"
 
 Game::Game() {
     if (GetWindowHandle())
