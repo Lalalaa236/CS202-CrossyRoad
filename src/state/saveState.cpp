@@ -1,5 +1,5 @@
-#include "../../include/saveState.h"
-#include "../../include/save.h"
+#include "saveState.h"
+#include "save.h"
 #include <iostream>
 
 saveData save[3];

@@ -1,4 +1,4 @@
-#include "../include/TextureHolder.h"
+#include "TextureHolder.h"
 
 TextureHolder::TextureHolder() {
 }

@@ -1,5 +1,5 @@
 // Bird.cpp
-#include "../../include/Bird.h"
+#include "Bird.h"
 
 Bird::Bird(const Vector2 &pos, float speed) : Obstacle(pos, speed), numsFrame(8), curFrame(0), frameTime(0.0f) {
     // Load bird frames

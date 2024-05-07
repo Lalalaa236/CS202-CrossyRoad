@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION "3.22")
 
 project(CrossyRoad)
 
-FILE(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS src/*.cpp)
+FILE(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS src/*.cpp include/*.h)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS OFF)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
@@ -45,3 +45,4 @@ endif()
 add_executable(CrossyRoad ${SOURCES})
 target_link_libraries(CrossyRoad raylib)
 target_link_libraries(CrossyRoad raygui)
+target_include_directories(CrossyRoad PRIVATE include)

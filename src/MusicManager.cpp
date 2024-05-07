@@ -1,4 +1,4 @@
-#include "../include/MusicManager.h"
+#include "MusicManager.h"
 
 MusicManager::MusicManager()
     : isSoundOn(true), volume(1.0f) //, curVolume(1.0f)

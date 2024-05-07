@@ -1,14 +1,14 @@
-#include "../../include/menuState.h"
-#include "../../include/TextureHolder.h"
-#include "../../include/gamestate.h"
-#include "../../include/highscoreState.h"
-#include "../../include/instructionState.h"
-#include "../../include/raylib.h"
-#include "../../include/settingState.h"
-#include "../../include/skinState.h"
+#include "menuState.h"
+#include "TextureHolder.h"
+#include "gamestate.h"
+#include "highscoreState.h"
+#include "instructionState.h"
+#include "raylib.h"
+#include "settingState.h"
+#include "skinState.h"
 #include <iostream>
 #include <utility>
-#include "../../include/GameSettings.h"
+#include "GameSettings.h"
 
 MenuState::MenuState(StateStack& stack) : State(stack) {
     background = &TextureHolder::getHolder().get(Textures::BACKGROUND_MENU);

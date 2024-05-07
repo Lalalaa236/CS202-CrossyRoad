@@ -1,5 +1,5 @@
-#include "../include/SpecialEffect.h"
-#include "../include/MusicManager.h"
+#include "SpecialEffect.h"
+#include "MusicManager.h"
 #include <algorithm>
 
 SpecialEffect::SpecialEffect() {

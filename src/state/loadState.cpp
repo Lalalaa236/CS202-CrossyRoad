@@ -1,4 +1,4 @@
-#include "../../include/loadState.h"
+#include "loadState.h"
 #include <iostream>
 
 saveData saveDatas[3];

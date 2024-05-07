@@ -1,8 +1,8 @@
-#include "../include/lane.h"
-#include "../include/Animal.h"
-#include "../include/GameSettings.h"
-#include "../include/Vehicle.h"
-#include "../include/random.h"
+#include "lane.h"
+#include "Animal.h"
+#include "GameSettings.h"
+#include "Vehicle.h"
+#include "random.h"
 
 #include <algorithm>
 #include <iostream>

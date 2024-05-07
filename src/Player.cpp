@@ -1,4 +1,4 @@
-#include "../include/Player.h"
+#include "Player.h"
 #include <iostream>
 
 Player::Player(float x, float y, float mapSpeed, Textures::ID skin)

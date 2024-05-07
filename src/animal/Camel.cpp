@@ -1,5 +1,5 @@
 // Camel.cpp
-#include "../../include/Camel.h"
+#include "Camel.h"
 
 Camel::Camel(const Vector2 &pos, float speed) : Obstacle(pos, speed), numsFrame(2), curFrame(0), frameTime(0.0f) {
     // Load Camel frames

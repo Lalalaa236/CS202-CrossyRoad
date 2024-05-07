@@ -1,7 +1,7 @@
-#include "../../include/LoseState.h"
-#include "../../include/StateStack.h"
-#include "../../include/gameState.h"
-#include "../../include/score.h"
+#include "LoseState.h"
+#include "StateStack.h"
+#include "gameState.h"
+#include "score.h"
 LoseState::LoseState(StateStack &stack) : State(stack) {
     board = &TextureHolder::getHolder().get(Textures::ID::LOSE_BOARD);
     restartButton = &TextureHolder::getHolder().get(Textures::ID::RESTART_BUTTON);

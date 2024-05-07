@@ -1,4 +1,4 @@
-#include "../../include/instructionState.h"
+#include "instructionState.h"
 
 InstructionState::InstructionState(StateStack &stack) : State(stack) {
     background = &TextureHolder::getHolder().get(Textures::BACKGROUND_MENU);

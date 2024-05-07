@@ -1,4 +1,4 @@
-#include "../include/StateStack.h"
+#include "StateStack.h"
 #include <cassert>
 #include <iostream>
 

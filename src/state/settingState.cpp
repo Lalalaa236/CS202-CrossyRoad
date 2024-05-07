@@ -1,5 +1,5 @@
-#include "../../include/settingState.h"
-#include "../../include/TextureHolder.h"
+#include "settingState.h"
+#include "TextureHolder.h"
 #include <iostream>
 
 settingState::settingState(StateStack &stack) : State(stack) {

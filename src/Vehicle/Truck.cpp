@@ -1,5 +1,5 @@
 // Truck.cpp
-#include "../../include/Truck.h"
+#include "Truck.h"
 
 Truck::Truck(const Vector2 &pos, float speed) : Obstacle(pos, speed), numsFrame(5), curFrame(0), frameTime(0.0f) {
     // Load Truck frames

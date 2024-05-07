@@ -1,10 +1,10 @@
-#include "../include/Game.h"
-#include "../include/GameSettings.h"
-#include "../include/State.h"
-#include "../include/TextureHolder.h"
+#include "Game.h"
+#include "GameSettings.h"
+#include "State.h"
+#include "TextureHolder.h"
 #include <iostream>
 #include <fstream>
-#include "../include/score.h"
+#include "score.h"
 
 Game::Game() {
     if (GetWindowHandle())

@@ -1,7 +1,7 @@
-#include "../../include/skinState.h"
-#include "../../include/TextureHolder.h"
-#include "../../include/score.h"
-#include "../../include/settingState.h"
+#include "skinState.h"
+#include "TextureHolder.h"
+#include "score.h"
+#include "settingState.h"
 
 #include <iostream>
 

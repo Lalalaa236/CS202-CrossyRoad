@@ -1,14 +1,14 @@
 #include <chrono>
 #include <iostream>
 
-#include "../../include/gameState.h"
-#include "../../include/GameSettings.h"
+#include "gameState.h"
+#include "GameSettings.h"
 
-#include "../../include/random.h"
-#include "../../include/score.h"
-#include "../../include/Snow.h"
-#include "../../include/Rain.h"
-#include "../../include/MusicManager.h"
+#include "random.h"
+#include "score.h"
+#include "Snow.h"
+#include "Rain.h"
+#include "MusicManager.h"
 
 namespace data {
     std::string Game;
