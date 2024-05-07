@@ -1,4 +1,4 @@
-#include "Rain.h"
+#include "../include/Rain.h"
 
 Rain::Rain() {
     effectSound = LoadSound("image/Sound/rain.wav");

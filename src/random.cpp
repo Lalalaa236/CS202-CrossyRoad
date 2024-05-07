@@ -1,4 +1,4 @@
-#include "random.h"
+#include "../include/random.h"
 
 uint64 Random::generateSeed(uint64 seed) {
     long long hash = 0x811c9dc5;

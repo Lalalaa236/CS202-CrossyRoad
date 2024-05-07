@@ -1,4 +1,4 @@
-#include "score.h"
+#include "../include/score.h"
 
 HighScore::HighScore() : currentScore(0) {
     highScoreList.resize(3);

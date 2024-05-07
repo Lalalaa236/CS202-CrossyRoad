@@ -1,5 +1,5 @@
-#include "trafficlight.h"
-#include "random.h"
+#include "../include/trafficlight.h"
+#include "../include/random.h"
 #include <iostream>
 
 // Constructor and Destructor

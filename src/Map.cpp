@@ -1,5 +1,5 @@
-#include "Map.h"
-#include "Random.h"
+#include "../include/Map.h"
+#include "../include/Random.h"
 #include <iostream>
 #include <sstream>
 

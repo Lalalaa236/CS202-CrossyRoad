@@ -1,5 +1,5 @@
-#include "Snow.h"
-#include"GameSettings.h"
+#include "../include/Snow.h"
+#include "../include/GameSettings.h"
 Snow::Snow() {
     effectSound = LoadSound("image/Sound/snow.mp3");
     //SetSoundVolume(effectSound, 1.0f);

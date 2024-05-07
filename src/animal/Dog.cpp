@@ -1,5 +1,5 @@
 // Dog.cpp
-#include "Dog.h"
+#include "../../include/Dog.h"
 
 Dog::Dog(const Vector2 &pos, float speed) : Obstacle(pos, speed), numsFrame(20), curFrame(0), frameTime(0.0f) {
     // Load Dog frames

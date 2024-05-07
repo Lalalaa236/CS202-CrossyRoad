@@ -1,5 +1,5 @@
-#include "Obstacle.h"
-#include "GameSettings.h"
+#include "../include/Obstacle.h"
+#include "../include/GameSettings.h"
 
 Obstacle::Obstacle(const Vector2 &pos, float spd) : position(pos), speed(spd) {
 }

@@ -1,5 +1,5 @@
-#include "PauseState.h"
-#include "score.h"
+#include "../../include/PauseState.h"
+#include "../../include/score.h"
 PauseState::PauseState(StateStack& stack) : State(stack), timerCount(0.0f) {
     board = &TextureHolder::getHolder().get(Textures::ID::PAUSE_BOARD);
     resumeButton = &TextureHolder::getHolder().get(Textures::ID::RESUME_BUTTON);

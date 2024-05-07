@@ -1,5 +1,5 @@
-#include "Game.h"
-#include "raylib.h"
+#include "../include/Game.h"
+#include "../include/raylib.h"
 using namespace std;
 
 #include <chrono>

@@ -1,5 +1,5 @@
-#include "State.h"
-#include "StateStack.h"
+#include "../include/State.h"
+#include "../include/StateStack.h"
 
 State::State(StateStack &stack) : stack(&stack) {
 }

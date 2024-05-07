@@ -1,7 +1,7 @@
 // Bike.cpp
-#include "Bike.h"
-#include "GameSettings.h"
-#include "TextureHolder.h"
+#include "../../include/Bike.h"
+#include "../../include/GameSettings.h"
+#include "../../include/TextureHolder.h"
 #include <iostream>
 
 Bike::Bike(const Vector2 &pos, float speed) : Obstacle(pos, speed), numsFrame(10), curFrame(0), frameTime(0.0f) {
